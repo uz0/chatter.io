@@ -1,0 +1,42 @@
+.notification {
+  --height: 50px;
+  z-index: 4;
+  position: fixed;
+  overflow: hidden;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  width: 600px;
+  height: var(--height);
+  line-height: var(--height);
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  font-size: 15px;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transform: translateX(-50%) translateY(var(--translate));
+  opacity: var(--opacity);
+  transition-property: transform, opacity;
+}
+
+.notification:not(:global(._is-shown)) {
+  --translate: var(--height);
+  --opacity: 0;
+}
+
+.notification:global(._is-shown) {
+  --translate: 0;
+  --opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .notification {
+    --height: 50px;
+    width: calc(100% - 24px);
+    max-width: 400px;
+    font-size: 13px;
+  }
+}

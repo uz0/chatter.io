@@ -8,6 +8,7 @@
   },
   "author": "dcversus <dcversus@gmail.com>",
   "dependencies": {
+    "autoprefixer": "^6.3.7",
     "babel": "^6.23.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.0.0",

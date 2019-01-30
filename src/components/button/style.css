@@ -1,4 +1,6 @@
 .button {
+  --icon-size: 16px;
+  --icon-color: var(--color);
   position: relative;
   display: flex;
   align-items: center;

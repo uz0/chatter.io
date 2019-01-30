@@ -1,5 +1,6 @@
-import path from 'path'
-import webpack from 'webpack'
+import path from 'path';
+import webpack from 'webpack';
+import autoprefixer from 'autoprefixer';
 const ENV = process.env.NODE_ENV || 'development';
 const TOKEN = process.env.TOKEN || 'EiSTgKcDDtizc8Xr4Qy9fRZaOqMz3nvA9z6Kmtu0bOPwdpcp0HA';
 
@@ -50,6 +51,7 @@ let config = {
       }
     ]
   },
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
   plugins: ([
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV),

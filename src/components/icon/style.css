@@ -1,0 +1,20 @@
+.icon {
+  display: block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-color: var(--icon-color);
+  mask-image: var(--data);
+  mask-size: var(--icon-size) var(--icon-size);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  transition-property: background-color;
+  pointer-events: none;
+}
+
+.icon[data-icon="add-chat"] {
+  --data: url('/assets/icons/add-chat.svg');
+}
+
+.icon[data-icon="search"] {
+  --data: url('/assets/icons/search.svg');
+}

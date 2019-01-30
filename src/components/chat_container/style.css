@@ -54,6 +54,112 @@
   margin-left: 10px;
 }
 
+.chat .sidebar .search {
+  flex-shrink: 0;
+  margin-top: 8px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.chat .sidebar .search .search_container {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding-left: 12px;
+  padding-right: 12px;
+  background-color: var(--divider-color);
+  border-radius: 10px;
+}
+
+.chat .sidebar .search .search_container i {
+  --icon-size: 16px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.chat .sidebar .search .search_container input {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 10px;
+  border: 0;
+  color: var(--text-color);
+  background-color: transparent;
+  font-size: 15px;
+}
+
+.chat .sidebar .search .search_container input::placeholder {
+  color: var(--caption-color);
+}
+
+.chat .sidebar .navigation {
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 4px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  box-shadow: 0 -1px var(--divider-color) inset;
+}
+
+.chat .sidebar .navigation button {
+  flex-grow: 1;
+  position: relative;
+  height: 44px;
+  font-size: 16px;
+  font-weight: var(--font-weight);
+  color: var(--text-color);
+}
+
+.chat .sidebar .navigation button::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--text-color);
+  opacity: var(--line-opacity);
+  transition-property: opacity;
+}
+
+.chat .sidebar .navigation button:not(._is-active):not(:hover) {
+  --line-opacity: 0;
+  --font-weight: var(--font-weight-regular);
+}
+
+.chat .sidebar .navigation button:not(._is-active):hover {
+  --line-opacity: 1;
+  --font-weight: var(--font-weight-regular);
+}
+
+.chat .sidebar .navigation button._is-active {
+  --line-opacity: 1;
+  --font-weight: var(--font-weight-bold);
+}
+
+.chat .sidebar .list {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.chat .sidebar .list::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.chat .sidebar .list::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 2.5px;
+  cursor: move;
+}
+
+.chat .sidebar .list .subscription {
+  flex-shrink: 0;
+}
+
 .chat .content {
   flex-grow: 1;
   display: flex;

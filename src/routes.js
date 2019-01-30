@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 
-import Layout from '@/components/layout';
+import Layout from '@/layout';
 
 import SignIn from '@/components/sign-in_container';
 import SignUp from '@/components/sign-up_container';
@@ -16,6 +16,8 @@ export default () => <Provider store={store}>
     <Route path="/" component={Layout}>
       <IndexRedirect to="chat" />
       <Route component={Chat} path="chat" />
+      <Route component={Chat} path="chat/:chatId" />
+      <Route component={Chat} path="chat/user/:userId" />
       <Route component={SignIn} path="sign-in" />
       <Route component={SignIn} path="sign-in/:code" />
       <Route component={SignUp} path="sign-up" />

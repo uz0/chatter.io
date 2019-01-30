@@ -1,23 +1,44 @@
+/*@font-face {
+  font-family: 'SFProText';
+  font-weight: 100;
+  src: url("https://sf.abarba.me/SF-UI-Text-Ultrathin.otf");
+}*/
+
+/*@font-face {
+  font-family: 'SFProText';
+  font-weight: 200;
+  src: url("https://sf.abarba.me/SF-UI-Text-Light.otf");
+}*/
+
 @font-face {
   font-family: 'SFProText';
-  font-style: normal;
   font-weight: 400;
-  src: url('../assets/fonts/SF-Pro-Display-Regular.otf');
+  src: url("https://sf.abarba.me/SF-UI-Text-Regular.otf");
 }
+/*
+@font-face {
+  font-family: 'SFProText';
+  font-weight: 500;
+  src: url("https://sf.abarba.me/SF-UI-Text-Medium.otf");
+}*/
+/*
+@font-face {
+  font-family: 'SFProText';
+  font-weight: 600;
+  src: url("https://sf.abarba.me/SF-UI-Text-Semibold.otf");
+}*/
 
 @font-face {
   font-family: 'SFProText';
-  font-style: normal;
   font-weight: 700;
-  src: url('../assets/fonts/SF-Pro-Display-Bold.otf');
+  src: url("https://sf.abarba.me/SF-UI-Text-Bold.otf");
 }
-
+/*
 @font-face {
   font-family: 'SFProText';
-  font-style: normal;
-  font-weight: 900;
-  src: url('../assets/fonts/SF-Pro-Display-Black.otf');
-}
+  font-weight: 800;
+  src: url("https://sf.abarba.me/SF-UI-Text-Heavy.otf");
+}*/
 
 :root {
   --font-family-title: 'Ubuntu Mono';
@@ -25,7 +46,6 @@
 
   --font-weight-regular: 400;
   --font-weight-bold: 700;
-  --font-weight-ultrabold: 900;
 
   --text-color: #122033;
   --primary-color: #1873f2;
@@ -48,7 +68,7 @@
 
 html {
   font-size: 15px;
-  font-family: var(--font-family-regular), arial, sans-serif;
+  font-family: var(--font-family-regular), sans-serif;
   font-weight: var(--font-weight-regular);
   background-color: var(--white-color);
   color: var(--text-color);
@@ -80,16 +100,6 @@ b, strong, h1, h2 {
 
 a {
   text-decoration: none;
-  color: var(--color);
-  transition: 0.3s color;
-}
-
-a:not(:hover) {
-  --color: var(--primary-color);
-}
-
-a:hover {
-  --color: var(--accent-color);
 }
 
 ::selection {

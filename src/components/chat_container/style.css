@@ -1,4 +1,5 @@
 .chat {
+  --info-height: 50px;
   flex-grow: 1;
   display: flex;
   min-height: 0;
@@ -6,8 +7,51 @@
 
 .chat .sidebar {
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   width: 300px;
   box-shadow: -1px 0 var(--divider-color) inset;
+}
+
+.chat .sidebar .header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  height: var(--info-height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.chat .sidebar .header h1 {
+  --height: 40px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chat .sidebar .header .image {
+  --size: 40px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 12px;
+  background-image: var(--bg-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: calc(var(--size) / 2);
+}
+
+.chat .sidebar .header .button {
+  flex-shrink: 0;
+  margin-left: 10px;
 }
 
 .chat .content {
@@ -19,7 +63,7 @@
 
 .chat .content .header {
   flex-shrink: 0;
-  height: 50px;
+  height: var(--info-height);
   box-shadow: 0 -1px var(--divider-color) inset;
 }
 

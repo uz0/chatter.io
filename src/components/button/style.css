@@ -15,7 +15,7 @@
 }
 
 .button[appearance^="_fab"] {
-  --height: 48px;
+  --height: 40px;
   justify-content: center;
   width: var(--height);
   border-radius: calc(var(--height) / 2);
@@ -51,6 +51,16 @@
 .button[appearance$="primary"]:hover {
   --background-color: var(--primary-color-hover);
   --color: #fff;
+}
+
+.button[appearance$="divider"]:not(:hover) {
+  --background-color: var(--divider-color);
+  --color: var(--text-color);
+}
+
+.button[appearance$="divider"]:hover {
+  --background-color: var(--divider-color);
+  --color: var(--text-color);
 }
 /*********/
 

@@ -107,6 +107,17 @@ a {
   background-color: var(--primary-color);
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 2.5px;
+  cursor: move;
+}
+
 input:focus,
 textarea:focus,
 button:focus {

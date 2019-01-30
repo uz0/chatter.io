@@ -18,3 +18,12 @@
 .icon[data-icon="search"] {
   --data: url('/assets/icons/search.svg');
 }
+
+.icon[data-icon="arrow-right"] {
+  --data: url('/assets/icons/arrow.svg');
+}
+
+.icon[data-icon="arrow-left"] {
+  --data: url('/assets/icons/arrow.svg');
+  transform: rotate(180deg);
+}

@@ -63,12 +63,27 @@
 }
 
 .subscription .content .section .time {
+  position: relative;
   flex-shrink: 0;
   height: var(--section-height);
-  margin-left: 4px;
+  margin-left: 8px;
+  padding-left: 10px;
   line-height: var(--section-height);
   font-size: 14px;
   color: var(--caption-color);
+}
+
+.subscription .content .section .time::before {
+  --size: 4px;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--caption-color);
+  transform: translateY(-50%);
 }
 
 .subscription .last_photo {

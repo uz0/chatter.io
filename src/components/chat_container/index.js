@@ -13,9 +13,12 @@ const cx = classnames.bind(style);
 class Chat extends Component {
   state = {
     navigationActive: 'all',
+    isPanelShown: false,
   };
 
   chooseTabNavigation = tab => () => this.setState({ navigationActive: tab });
+  openPanel = () => this.setState({ isPanelShown: true });
+  closePanel = () => this.setState({ isPanelShown: false });
 
   componentWillMount() {
     if (!this.props.currentUser) {
@@ -64,12 +67,18 @@ class Chat extends Component {
       </div>
 
       <div className={style.content}>
-        <div className={style.header} />
+        <div className={style.header}>
+          <button onClick={this.openPanel}>Revolution Product</button>
+          <p className={style.count}>12 people</p>
+        </div>
+
         <div className={style.messages} />
         <div className={style.input_container} />
       </div>
 
-      <div className={style.panel} />
+      <div className={cx('panel', { '_is-shown': this.state.isPanelShown })}>
+        <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
+      </div>
     </div>;
   }
 }

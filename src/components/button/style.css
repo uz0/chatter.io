@@ -37,12 +37,12 @@
 /* theme */
 .button[appearance$="transparent"]:not(:hover) {
   --background-color: transparent;
-  --color: #555;
+  --color: var(--caption-color);
 }
 
 .button[appearance$="transparent"]:hover {
   --background-color: transparent;
-  --color: #000;
+  --color: var(--text-color)
 }
 
 .button[appearance$="primary"]:not(:hover) {

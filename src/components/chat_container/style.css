@@ -1,6 +1,6 @@
 .chat {
   --info-height: 50px;
-  --panel-width: 240px;
+  --panel-width: 250px;
   flex-grow: 1;
   display: flex;
   min-height: 0;
@@ -106,6 +106,7 @@
   position: relative;
   height: 44px;
   font-size: 16px;
+  text-align: center;
   font-weight: var(--font-weight);
   color: var(--text-color);
 }
@@ -206,24 +207,5 @@
 
 .chat .panel {
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
   width: var(--panel-width);
-  margin-right: var(--margin-right);
-  box-shadow: 1px 0 var(--divider-color) inset;
-  transition-property: margin-right;
-}
-
-.chat .panel:not(._is-shown) {
-  --margin-right: calc(var(--panel-width) * -1);
-}
-
-.chat .panel._is-shown {
-  --margin-right: 0;
-}
-
-.chat .panel .close {
-  --height: var(--info-height);
-  flex-shrink: 0;
-  margin-left: auto;
 }

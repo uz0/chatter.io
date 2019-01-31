@@ -1,0 +1,170 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  margin-right: var(--margin-right);
+  box-shadow: 1px 0 var(--divider-color) inset;
+  transition-property: margin-right;
+}
+
+.panel:not(._is-shown) {
+  --margin-right: calc(var(--panel-width) * -1);
+}
+
+.panel._is-shown {
+  --margin-right: 0;
+}
+
+.panel .close {
+  --height: var(--info-height);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.panel .header {
+  flex-shrink: 0;
+  padding: 22px var(--layout-padding);
+}
+
+.panel .header .image {
+  --size: 70px;
+  width: var(--size);
+  height: var(--size);
+  margin-left: auto;
+  margin-right: auto;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: calc(var(--size) / 2);
+}
+
+.panel .header .name {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--text-color);
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.panel .header .subcaption {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: var(--height);
+  font-size: 14px;
+  color: var(--caption-color);
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.panel .scroll {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.panel .scroll .button {
+  --icon-size: 24px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  text-align: left;
+}
+
+.panel .scroll .button i {
+  --icon-color: var(--primary-color);
+  flex-shrink: 0;
+  width: 24px;
+}
+
+.panel .scroll .button span {
+  --height: 18px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 18px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.panel .scroll .button + .collapse {
+  margin-top: 20px;
+}
+
+.panel .scroll .collapse {
+  box-shadow: 0 1px var(--divider-color) inset;
+}
+
+.panel .scroll .collapse:not(._is-open) {
+  --list-display: none;
+  --icon-transform: rotate(90deg);
+}
+
+.panel .scroll .collapse._is-open {
+  --list-display: block;
+  --icon-transform: rotate(-90deg);
+}
+
+.panel .scroll .collapse .collapse_button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.panel .scroll .collapse .collapse_button:not(:hover) {
+  --color: var(--caption-color);
+  --icon-color: #cfd1d4;
+}
+
+.panel .scroll .collapse .collapse_button:hover {
+  --icon-color: var(--primary-color);
+  --color: var(--primary-color);
+}
+
+.panel .scroll .collapse .collapse_button span {
+  --height: 16px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 14px;
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.panel .scroll .collapse .collapse_button i {
+  --icon-size: 14px;
+  flex-shrink: 0;
+  margin-left: 12px;
+  transform: var(--icon-transform);
+  transition-property: background-color, transform;
+}
+
+.panel .scroll .collapse .collapse_list {
+  display: var(--list-display);
+}

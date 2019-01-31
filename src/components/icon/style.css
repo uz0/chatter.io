@@ -27,3 +27,20 @@
   --data: url('/assets/icons/arrow.svg');
   transform: rotate(180deg);
 }
+
+.icon[data-icon="arrow-down"] {
+  --data: url('/assets/icons/arrow.svg');
+  transform: rotate(90deg);
+}
+
+.icon[data-icon="share"] {
+  --data: url('/assets/icons/share.svg');
+}
+
+.icon[data-icon="folder"] {
+  --data: url('/assets/icons/folder.svg');
+}
+
+.icon[data-icon="notification"] {
+  --data: url('/assets/icons/notification.svg');
+}

@@ -6,6 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import Subscription from '@/components/subscription';
 import Button from '@/components/button';
 import Icon from '@/components/icon';
+import Panel from './panel';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -13,11 +14,11 @@ const cx = classnames.bind(style);
 class Chat extends Component {
   state = {
     navigationActive: 'all',
-    isPanelShown: false,
+    isPanelShown: true,
   };
 
   chooseTabNavigation = tab => () => this.setState({ navigationActive: tab });
-  openPanel = () => this.setState({ isPanelShown: true });
+  togglePanel = () => this.setState({ isPanelShown: !this.state.isPanelShown });
   closePanel = () => this.setState({ isPanelShown: false });
 
   componentWillMount() {
@@ -68,7 +69,7 @@ class Chat extends Component {
 
       <div className={style.content}>
         <div className={style.header}>
-          <button onClick={this.openPanel}>Revolution Product</button>
+          <button onClick={this.togglePanel}>Revolution Product</button>
           <p className={style.count}>12 people</p>
         </div>
 
@@ -76,9 +77,7 @@ class Chat extends Component {
         <div className={style.input_container} />
       </div>
 
-      <div className={cx('panel', { '_is-shown': this.state.isPanelShown })}>
-        <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
-      </div>
+      <Panel isShown={this.state.isPanelShown} onClose={this.closePanel} className={style.panel} />
     </div>;
   }
 }

@@ -1,50 +1,49 @@
-/*@font-face {
-  font-family: 'SFProText';
-  font-weight: 100;
-  src: url("https://sf.abarba.me/SF-UI-Text-Ultrathin.otf");
-}*/
+/* !!!!! пути как http://localhost:8080 к шрифтам это временно!!! простите  */
 
-/*@font-face {
+@font-face {
   font-family: 'SFProText';
   font-weight: 200;
-  src: url("https://sf.abarba.me/SF-UI-Text-Light.otf");
-}*/
+  src: url("http://localhost:8080/assets/fonts/SF-Pro-Text-Light.otf");
+}
 
 @font-face {
   font-family: 'SFProText';
   font-weight: 400;
-  src: url("https://sf.abarba.me/SF-UI-Text-Regular.otf");
+  src: url("http://localhost:8080/assets/fonts/SF-Pro-Text-Regular.otf");
 }
-/*
+
 @font-face {
   font-family: 'SFProText';
   font-weight: 500;
-  src: url("https://sf.abarba.me/SF-UI-Text-Medium.otf");
-}*/
-/*
-@font-face {
+  src: url("http://localhost:8080/assets/fonts/SF-Pro-Text-Medium.otf");
+}
+
+/*@font-face {
   font-family: 'SFProText';
   font-weight: 600;
-  src: url("https://sf.abarba.me/SF-UI-Text-Semibold.otf");
+  src: url("http://localhost:8080/assets/fonts/SF-Pro-Text-Semibold.otf");
 }*/
 
 @font-face {
   font-family: 'SFProText';
   font-weight: 700;
-  src: url("https://sf.abarba.me/SF-UI-Text-Bold.otf");
+  src: url("http://localhost:8080/assets/fonts/SF-Pro-Text-Bold.otf");
 }
-/*
-@font-face {
+
+/*@font-face {
   font-family: 'SFProText';
   font-weight: 800;
-  src: url("https://sf.abarba.me/SF-UI-Text-Heavy.otf");
+  src: url("http://localhost:8080/assets/fonts/SF-Pro-Text-Heavy.otf");
 }*/
 
 :root {
   --font-family-title: 'Ubuntu Mono';
   --font-family-regular: 'SFProText';
 
+  --font-weight-light: 200;
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
   --text-color: #122033;

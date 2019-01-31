@@ -7,6 +7,12 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Panel extends Component {
+  state = {
+    collapseActive: 'people',
+  };
+
+  toggleCollapse = name => () => this.setState({ collapseActive: this.state.collapseActive === name ? '' : name });
+
   render() {
     return <div className={cx('panel', this.props.className, { '_is-shown': this.props.isShown })}>
       <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.props.onClose} className={style.close} />
@@ -38,19 +44,53 @@ class Panel extends Component {
           <span>Category</span>
         </button>
 
-        <div className={style.collapse}>
-          <button className={style.collapse_button}>
+        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'people' })}>
+          <button className={style.collapse_button} onClick={this.toggleCollapse('people')}>
             <span>People</span>
             <Icon name="arrow-down" />
           </button>
 
           <div className={style.collapse_list}>
-            People
+            <div className={style.person}>
+              <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+              <p>Meg Rigden</p>
+              <span>Admin</span>
+            </div>
+
+            <div className={style.person}>
+              <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+              <p>Meg Rigden</p>
+              <span>Admin</span>
+            </div>
+
+            <div className={style.person}>
+              <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+              <p>Meg Rigden</p>
+              <span>Admin</span>
+            </div>
+
+            <div className={style.person}>
+              <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+              <p>Meg Rigden</p>
+              <span>Admin</span>
+            </div>
+
+            <div className={style.person}>
+              <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+              <p>Meg Rigden</p>
+              <span>Admin</span>
+            </div>
+
+            <div className={style.person}>
+              <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+              <p>Meg Rigden</p>
+              <span>Admin</span>
+            </div>
           </div>
         </div>
 
-        <div className={style.collapse}>
-          <button className={style.collapse_button}>
+        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'extensions' })}>
+          <button className={style.collapse_button} onClick={this.toggleCollapse('extensions')}>
             <span>Extensions</span>
             <Icon name="arrow-down" />
           </button>
@@ -60,8 +100,8 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className={style.collapse}>
-          <button className={style.collapse_button}>
+        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'transactions' })}>
+          <button className={style.collapse_button} onClick={this.toggleCollapse('transactions')}>
             <span>Transactions</span>
             <Icon name="arrow-down" />
           </button>
@@ -71,8 +111,8 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className={style.collapse}>
-          <button className={style.collapse_button}>
+        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'files' })}>
+          <button className={style.collapse_button} onClick={this.toggleCollapse('files')}>
             <span>Files</span>
             <Icon name="arrow-down" />
           </button>
@@ -82,8 +122,8 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className={style.collapse}>
-          <button className={style.collapse_button}>
+        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'photos' })}>
+          <button className={style.collapse_button} onClick={this.toggleCollapse('photos')}>
             <span>Photos</span>
             <Icon name="arrow-down" />
           </button>

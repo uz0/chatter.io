@@ -21,6 +21,21 @@ class Chat extends Component {
   togglePanel = () => this.setState({ isPanelShown: !this.state.isPanelShown });
   closePanel = () => this.setState({ isPanelShown: false });
 
+  calcTextareaHeight = () => {
+    this.textareaRef.style.height = '20px';
+
+    if (this.textareaRef.scrollHeight > 20) {
+      this.textareaRef.style.height = this.textareaRef.scrollHeight + 10 + 'px';
+      this.inputWrapperRef.style.marginTop =  '10px';
+    } else {
+      this.inputWrapperRef.style.marginTop =  0;
+    }
+  };
+
+  onInput = () => {
+    this.calcTextareaHeight();
+  };
+
   componentWillMount() {
     if (!this.props.currentUser) {
       this.props.router.push('/sign-in');
@@ -74,7 +89,26 @@ class Chat extends Component {
         </div>
 
         <div className={style.messages} />
-        <div className={style.input_container} />
+
+        <div className={style.input_container}>
+          <Button appearance="_icon-transparent" icon="attach" className={style.attach} />
+
+          <div className={style.section}>
+            {false && <div className={style.message}>
+              <div className={style.message_content}>
+                <p className={style.name}>Alexander Borodich</p>
+                <p className={style.text}>Перевод utn, выставление счета, подпись дока</p>
+              </div>
+
+              <Button appearance="_icon-transparent" icon="close" className={style.close} />
+            </div>}
+
+            <div className={style.input_wrapper} ref={node => this.inputWrapperRef = node}>
+              <textarea placeholder="Message" ref={node => this.textareaRef = node} onInput={this.onInput} />
+              <button>Send</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <Panel isShown={this.state.isPanelShown} onClose={this.closePanel} className={style.panel} />

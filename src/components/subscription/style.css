@@ -41,6 +41,7 @@
   line-height: var(--height);
   font-size: 16px;
   color: var(--text-color);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -58,6 +59,7 @@
   line-height: var(--section-height);
   font-size: 14px;
   color: var(--caption-color);
+  font-weight: var(--font-weight-light);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -71,6 +73,7 @@
   line-height: var(--section-height);
   font-size: 14px;
   color: var(--caption-color);
+  font-weight: var(--font-weight-light);
 }
 
 .subscription .content .section .time::before {

@@ -64,6 +64,7 @@
   font-size: 14px;
   color: var(--caption-color);
   text-align: center;
+  font-weight: var(--font-weight-light);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -152,6 +153,7 @@
   line-height: var(--height);
   font-size: 14px;
   color: var(--color);
+  font-weight: var(--font-weight-light);
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
@@ -166,5 +168,74 @@
 }
 
 .panel .scroll .collapse .collapse_list {
+  overflow-y: auto;
+  overflow-x: hidden;
   display: var(--list-display);
+  max-height: 200px;
+}
+
+.panel .scroll .collapse .collapse_list::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.panel .scroll .collapse .collapse_list::-webkit-scrollbar-thumb {
+  border-radius: 1.5px;
+}
+
+.panel .scroll .collapse .collapse_list .person {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.panel .scroll .collapse .collapse_list .person:not(:hover) {
+  --background-color: transparent;
+}
+
+.panel .scroll .collapse .collapse_list .person:hover {
+  --background-color: var(--divider-color);
+}
+
+.panel .scroll .collapse .collapse_list .person .avatar {
+  --size: 30px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-image: var(--photo);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.panel .scroll .collapse .collapse_list .person p {
+  --height: 20px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 6px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.panel .scroll .collapse .collapse_list .person span {
+  --height: 20px;
+  flex-shrink: 0;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 6px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
 }

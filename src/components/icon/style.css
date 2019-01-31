@@ -44,3 +44,11 @@
 .icon[data-icon="notification"] {
   --data: url('/assets/icons/notification.svg');
 }
+
+.icon[data-icon="attach"] {
+  --data: url('/assets/icons/attach.svg');
+}
+
+.icon[data-icon="close"] {
+  --data: url('/assets/icons/close.svg');
+}

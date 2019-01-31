@@ -1,33 +1,91 @@
-# React boilerplate
-A boilerplate to start a client-side project using React.
+# Chatter.io
 
-## Features
-- [ES2015](https://babeljs.io/docs/learn-es2015)
-- [React](https://github.com/facebook/react)
-- [React Router](https://github.com/reactjs/react-router)
-- [CSS modules](https://github.com/css-modules/css-modules)
-- [PostCSS](http://postcss.org)
+```
 
-## Tools
-- [Webpack](https://github.com/webpack/webpack)
-    - [webpack-dev-server](https://github.com/webpack/webpack-dev-server) with HMR support
-    - [webpack-notifier](https://github.com/Turbo87/webpack-notifier)
-- [Babel 6](https://github.com/babel/babel) with presets for:
-    - ES2015 using [babel-preset-es2015](https://github.com/babel/babel/tree/master/packages/babel-preset-es2015)
-    - React using [babel-preset-react](https://github.com/babel/babel/tree/master/packages/babel-preset-react)
-    - React HMR and error catching using [babel-preset-react-hmre](https://github.com/babel/babel/tree/master/packages/babel-preset-react-hmre)
-- [ESLint](https://github.com/eslint/eslint) configured to:
-    - use Babel 6 as parser using [babel-eslint](https://github.com/babel/babel-eslint)
-    - lint page on save using [eslint-loader](https://github.com/MoOx/eslint-loader)
+<ChatContainer /> -> <div />
+    componentDidMount
+        api.localInterface.onNotificationReceived -> dispatch!
+        handleDocumentKeyDown! > redirect
 
-## Hot Module Replacement (HMR) in action
-![ScreenShot](https://cloud.githubusercontent.com/assets/983189/12616751/91833172-c504-11e5-87e9-f36efbd1d17c.gif)
+    <NotificationContainer /> FRAGMENT
+        Then store.notices[] has something
+            if focused
+                render <Notice /> from store.notices[]
+            
+            if !focused
+                Web Notification
 
-As you can see the HMR is working without reloading the page for React components and styles.
+            then timeout OR closed, remove from store.notices[]
+    
+        ACTION: addNotice, push store.notices[] (with: image, text)
+        ACTION: removeNotice
 
-## Getting started
-```bash
-$ git clone https://github.com/rbartoli/react-boilerplate.git
-$ npm i
-$ npm start
+    <ModalContainer /> -> FRAGMENT!
+        Then store.modal_ids has something then render <ModalName />
+
+        switch
+            case 'newChat': <NewChatModal />
+            case 'editUser': <EditUserModal />
+            ...
+
+        render store.modal_ids.map -> ids by switch <ModalName />
+    
+        ACTION: showModal, push store.modal_ids[]
+        ACTION: closeModal, remove from store.modal_ids[]
+
+    <SidebarContainer /> -> <div />
+        filters! INSIDE RENDER! FOR ONDEMAND!
+            var subscriptions_filtered_ids from store.subscriptions_ids[]
+
+            NEED RESEARCH! maybe shouldComponentUpdate
+        
+        render var subscriptions_filtered_ids[] -> <SubscriptionItem />
+
+        <Logo />
+        <Profile />
+            dropdown with links
+        <NewChatBtn />
+            ACTION: openModal 'newChat'
+
+        ACTION: filter_subscruption!
+
+    <MessagesContainer />
+        componentDidMount
+            getting subscruption details from store and url
+                store.subscription[id] !!!!
+                store.messages
+            api.messageLoading
+        
+        render
+            messages -> messagesGrouped [{type: 'dateDelimiter', date}, {type: 'unreadDelimiter'}, {type: 'messages', messages_ids}]
+
+            <Header title onClick ... />
+                onClick -> ACTION: openModal 'subscriptionDetails'
+
+            state.messagesGrouped.map -> switch type
+                case <UnreadDelimiter />
+                case <DateDelimiter />
+                case messages_ids.map -> <MessageItem messageId hasStatus(галочка)={...} className={скруглены}  hasAvatar={} />
+                    Action: setUpdatingMessage store.messagesContainer.editMessageId = id
+                    Action: forwardMessage 
+                        store.messagesContainer.forwardMessageId = id > 
+                        openModal 'forwardMessage' > 
+                        redirect to chat > 
+                        delete store.messagesContainer.forwardMessageId
+                    Action: replyMessage
+                        store.messagesContainer.replyMessageId = id > 
+
+            <MessageInput />
+                Action: sendMesage
+                Action: updateMessage
+                Action: removeUpdatingMessage
+                Action: removeReplyMessage
+    
+    Modals
+        <NewChatModal />
+        <DetailsSubscription />
+        <ForwardModal />
+        <EditUserModal />
+
+
 ```

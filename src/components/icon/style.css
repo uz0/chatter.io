@@ -52,3 +52,11 @@
 .icon[data-icon="close"] {
   --data: url('/assets/icons/close.svg');
 }
+
+.icon[data-icon="reply"] {
+  --data: url('/assets/icons/reply.svg');
+}
+
+.icon[data-icon="dots"] {
+  --data: url('/assets/icons/dots.svg');
+}

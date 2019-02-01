@@ -1,0 +1,16 @@
+.xtag {
+  --height: 50px;
+  overflow: hidden;
+  width: 100%;
+  min-height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  text-align: center;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.xtag span {
+  font-weight: var(--font-weight-medium);
+}

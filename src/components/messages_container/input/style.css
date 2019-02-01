@@ -1,0 +1,132 @@
+.input {
+  display: flex;
+  align-items: flex-end;
+  padding: 8px var(--layout-padding);
+}
+
+.input .attach {
+  --icon-size: 22px;
+  --height: 36px;
+  flex-shrink: 0;
+  margin-left: calc((((var(--height) - var(--icon-size)) / 2) * -1) - 4px);
+}
+
+.input .section {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 19px;
+  background-color: var(--divider-color);
+}
+
+.input .section .message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-right: 3px;
+  padding-top: 10px;
+}
+
+.input .section .message .message_content {
+  position: relative;
+  flex-grow: 1;
+  min-width: 0;
+  height: 30px;
+  padding-left: 8px;
+}
+
+.input .section .message .message_content::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: var(--primary-color);
+}
+
+.input .section .message .message_content .name,
+.input .section .message .message_content .text {
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.input .section .message .message_content .name {
+  --height: 10px;
+  font-size: 13px;
+  color: var(--primary-color);
+}
+
+.input .section .message .message_content .text {
+  --height: 16px;
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--text-color);
+}
+
+.input .section .message .close {
+  --height: 30px;
+  --icon-size: 10px;
+  flex-shrink: 0;
+}
+
+.input .section .input_wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+
+.input .section .input_wrapper textarea {
+  flex-grow: 1;
+  align-self: center;
+  min-width: 0;
+  height: 20px;
+  max-height: 120px;
+  line-height: 1.3;
+  padding: 0;
+  resize: none;
+  font-weight: var(--font-weight-light);
+  font-size: 15px;
+  background-color: transparent;
+  border: 0;
+}
+
+.input .section .input_wrapper textarea::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.input .section .input_wrapper textarea::-webkit-scrollbar-thumb {
+  border-radius: 1.5px;
+}
+
+.input .section .input_wrapper textarea::placeholder {
+  color: var(--caption-color);
+}
+
+.input .section .input_wrapper button {
+  --height: 36px;
+  flex-shrink: 0;
+  height: var(--height);
+  max-height: 36px;
+  margin-right: -12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--color);
+  font-weight: var(--font-weight-medium);
+  transition-property: color;
+}
+
+.input .section .input_wrapper button:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.input .section .input_wrapper button:hover {
+  --color: var(--primary-color-hover);
+}

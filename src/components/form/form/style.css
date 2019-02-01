@@ -30,8 +30,10 @@
 }
 
 .form .actions button {
+  --height: 46px;
   flex-shrink: 0;
   width: 100%;
+  font-size: 15px;
 }
 
 .form .actions a {

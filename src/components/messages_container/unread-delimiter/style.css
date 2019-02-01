@@ -1,0 +1,29 @@
+.unread {
+  --height: 50px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.unread::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: calc((var(--height) / 2) - 1px);
+  width: 100%;
+  height: 1px;
+  background-color: var(--primary-color);
+}
+
+.unread span {
+  position: relative;
+  height: var(--height);
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--primary-color);
+  background-color: #fff;
+}

@@ -1,0 +1,39 @@
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.messages .header {
+  flex-shrink: 0;
+  box-shadow: 0 -1px var(--divider-color) inset;
+}
+
+.messages .list {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  padding-bottom: 20px;
+}
+
+.messages .list .item {
+  flex-shrink: 0;
+}
+
+.messages .list .item:last-child {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.messages .list .message + .message {
+  margin-bottom: 2px;
+}
+
+.messages .input {
+  flex-shrink: 0;
+}

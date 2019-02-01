@@ -1,0 +1,143 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  height: var(--info-height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.sidebar .header h1 {
+  --height: 40px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-family: var(--font-family-title);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sidebar .header .image {
+  --size: 40px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 12px;
+  background-image: var(--bg-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: calc(var(--size) / 2);
+}
+
+.sidebar .header .button {
+  --height: 40px;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.sidebar .search {
+  flex-shrink: 0;
+  margin-top: 8px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.sidebar .search .search_container {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding-left: 12px;
+  padding-right: 12px;
+  background-color: var(--divider-color);
+  border-radius: 10px;
+}
+
+.sidebar .search .search_container i {
+  --icon-size: 16px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.sidebar .search .search_container input {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 10px;
+  border: 0;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  background-color: transparent;
+  font-size: 15px;
+}
+
+.sidebar .search .search_container input::placeholder {
+  color: var(--caption-color);
+}
+
+.sidebar .navigation {
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 4px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  box-shadow: 0 -1px var(--divider-color) inset;
+}
+
+.sidebar .navigation button {
+  flex-grow: 1;
+  position: relative;
+  height: 44px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: var(--font-weight);
+  color: var(--text-color);
+}
+
+.sidebar .navigation button::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--text-color);
+  opacity: var(--line-opacity);
+  transition-property: opacity;
+}
+
+.sidebar .navigation button:not(._is-active):not(:hover) {
+  --line-opacity: 0;
+  --font-weight: var(--font-weight-regular);
+}
+
+.sidebar .navigation button:not(._is-active):hover {
+  --line-opacity: 1;
+  --font-weight: var(--font-weight-regular);
+}
+
+.sidebar .navigation button._is-active {
+  --line-opacity: 1;
+  --font-weight: var(--font-weight-bold);
+}
+
+.sidebar .list {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.sidebar .list .subscription {
+  flex-shrink: 0;
+}

@@ -11,26 +11,27 @@
 
 /* type */
 .button[appearance^="_icon"] {
-  --height: 48px;
+  --height: 32px;
   justify-content: center;
   width: var(--height);
 }
 
 .button[appearance^="_fab"] {
-  --height: 40px;
+  --height: 32px;
   justify-content: center;
   width: var(--height);
   border-radius: calc(var(--height) / 2);
 }
 
 .button[appearance^="_basic"] {
-  --height: 46px;
+  --height: 32px;
+  --button-padding: 12px;
   justify-content: center;
-  min-width: 120px;
-  padding-left: 20px;
-  padding-right: 20px;
+  min-width: var(--height);
+  padding-left: var(--button-padding);
+  padding-right: var(--button-padding);
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 15px;
 }
 /*********/
 
@@ -83,20 +84,12 @@
   pointer-events: none;
 }
 
-.button svg {
+.button i {
   flex-shrink: 0;
-  width: var(--icon-size, 16px);
-  height: var(--icon-size, 16px);
 }
 
-.button svg polygon,
-.button svg path {
-  fill: var(--color);
-  transition-property: fill;
-}
-
-.button svg + span {
-  margin-left: 12px;
+.button i + span {
+  margin-left: 4px;
 }
 
 .button span {

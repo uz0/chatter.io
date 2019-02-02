@@ -7,8 +7,8 @@ const cx = classnames.bind(style);
 class Header extends Component {
   render() {
     return <div className={cx('header', this.props.className)}>
-      <button>Revolution Product</button>
-      <p className={style.count}>12 people</p>
+      <button>{this.props.title}</button>
+      <p className={style.count}>{this.props.count} people</p>
     </div>;
   }
 }

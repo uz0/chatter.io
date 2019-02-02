@@ -7,11 +7,15 @@
   cursor: pointer;
 }
 
-.subscription:not(:hover) {
+.subscription:not(:global(._is-active)):not(:hover) {
   --background-color: transparent;
 }
 
-.subscription:hover {
+.subscription:not(:global(._is-active)):hover {
+  --background-color: var(--divider-color);
+}
+
+.subscription:global(._is-active) {
   --background-color: var(--divider-color);
 }
 

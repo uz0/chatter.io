@@ -20,6 +20,7 @@
   line-height: var(--height);
   font-size: 13px;
   color: var(--ref-text-color);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -79,6 +80,7 @@
   min-width: 0;
   font-size: 15px;
   color: var(--ref-text-color);
+  font-weight: var(--font-weight-light);
 }
 
 .message > .loading {
@@ -106,6 +108,7 @@
   line-height: var(--height);
   font-size: 13px;
   color: var(--ref-text-color);
+  font-weight: var(--font-weight-light);
   white-space: nowrap;
   text-overflow: ellipsis;
 }

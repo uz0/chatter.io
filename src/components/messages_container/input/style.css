@@ -11,6 +11,14 @@
   margin-left: calc((((var(--height) - var(--icon-size)) / 2) * -1) - 4px);
 }
 
+.input .attach_input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 0;
+  visibility: hidden;
+}
+
 .input .section {
   flex-grow: 1;
   min-width: 0;
@@ -19,6 +27,69 @@
   padding-right: 16px;
   border-radius: 19px;
   background-color: var(--divider-color);
+}
+
+.input .section .preview {
+  --size: 70px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background-color: #dedede;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.input .section .preview:not(:hover) {
+  --button-opacity: 0;
+}
+
+.input .section .preview:hover {
+  --button-opacity: 1;
+}
+
+.input .section .preview > i {
+  --icon-size: 24px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.input .section .preview button {
+  --size: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--background-color);
+  opacity: var(--button-opacity);
+  transition-property: opacity, background-color;
+  transform: translate(-50%, -50%);
+}
+
+.input .section .preview button:not(:hover) {
+  --background-color: rgba(0, 0, 0, 0.4);
+}
+
+.input .section .preview button:hover {
+  --background-color: rgba(0, 0, 0, 0.7);
+}
+
+.input .section .preview button i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+  flex-shrink: 0;
 }
 
 .input .section .message {
@@ -120,7 +191,19 @@
   font-size: 15px;
   color: var(--color);
   font-weight: var(--font-weight-medium);
-  transition-property: color;
+  opacity: var(--opacity);
+  pointer-events: var(--pointer-events);
+  transition-property: color, opacity;
+}
+
+.input .section .input_wrapper button:not(._is-shown) {
+  --opacity: 0;
+  --pointer-events: none;
+}
+
+.input .section .input_wrapper button._is-shown {
+  --opacity: 1;
+  --pointer-events: auto;
 }
 
 .input .section .input_wrapper button:not(:hover) {

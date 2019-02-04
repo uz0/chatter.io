@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import { withNamespaces } from 'react-i18next';
@@ -56,12 +55,9 @@ class Messages extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    const isChatMessagesEqual = isEqual(this.props.chatIds, nextProps.chatIds);
-    const isDetailsEqual = isEqual(this.props.details, nextProps.details);
-
-    return !isChatMessagesEqual || !isDetailsEqual;
-  }
+  // message-item обновляется много раз
+  // shouldComponentUpdate(nextProps) {
+  // }
 
   render() {
     const groupedMessages = this.props.groupedMessages || [];
@@ -107,7 +103,9 @@ class Messages extends Component {
         <Loading isShown={this.state.isMessagesLoading} className={style.loading} />
       </div>
 
-      <MessageInput className={style.input} />
+      {this.props.details &&
+        <MessageInput subscription_id={this.props.details.id} className={style.input} />
+      }
     </div>;
   }
 }
@@ -118,6 +116,7 @@ export default compose(
   connect(
     (state, props) => ({
       details: getDetails(state.subscriptions.list, props.params),
+      messages_list: state.messages.list,
     }),
 
     {

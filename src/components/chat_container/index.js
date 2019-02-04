@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withNamespaces } from 'react-i18next';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
 import { api } from '@';
+import actions from './actions';
 import style from './style.css';
 
 class Chat extends Component {
@@ -24,9 +26,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    api.localInterface.onNotificationReceived = data => {
-      console.log(data);
-    };
+    api.localInterface.onNotificationReceived = data => data.notifications.forEach(notification => {
+      this.props.notificationReceived(notification);
+    });
 
     window.addEventListener('keydown', this.handleDocumentKeyDown);
   }
@@ -53,4 +55,12 @@ class Chat extends Component {
 
 export default compose(
   withNamespaces('translation'),
+
+  connect(
+    null,
+
+    {
+      notificationReceived: actions.notificationReceived,
+    },
+  ),
 )(Chat);

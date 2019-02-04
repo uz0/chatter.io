@@ -89,7 +89,8 @@ class ForgotPassword extends Component {
               text: this.props.t('validation_correct', { field: this.props.t('email') }),
             },
           ]}
-        />}
+        />
+      }
 
       {this.props.location.query.password_reset_token &&
         <Input
@@ -115,7 +116,8 @@ class ForgotPassword extends Component {
               text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
             },
           ]}
-        />}
+        />
+      }
 
       {this.props.location.query.password_reset_token &&
         <Input
@@ -141,7 +143,8 @@ class ForgotPassword extends Component {
               text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
             },
           ]}
-        />}
+        />
+      }
     </Form>
   </div>;
 }

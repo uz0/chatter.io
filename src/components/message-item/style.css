@@ -91,6 +91,20 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  max-width: 100%;
+}
+
+.message-item .content .deleted_message_text {
+  --height: 36px;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .message-item .content .message_block {
@@ -212,11 +226,11 @@
 }
 
 .message-item.current-user .info {
-  padding-left: 6px;
+  align-items: flex-end;
 }
 
 .message-item.opponent-user .info {
-  padding-right: 6px;
+  align-items: flex-start;
 }
 
 .message-item .info {
@@ -225,14 +239,15 @@
   order: var(--info-order);
   display: flex;
   flex-direction: column;
+  width: 22px;
 }
 
 .message-item.current-user .info .time {
-  right: 22px;
+  right: 0;
 }
 
 .message-item.opponent-user .info .time {
-  left: 22px;
+  left: 0;
 }
 
 .message-item .info .time {
@@ -248,6 +263,8 @@
   color: #fff;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
   opacity: var(--time-opacity);
   transition-property: opacity;
 }

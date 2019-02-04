@@ -9,11 +9,15 @@ const cx = classnames.bind(style);
 
 class DateDelimiter extends Component {
   render() {
-    return <p className={cx('date', this.props.className)}>
-      {moment(this.props.date).startOf('day').diff(moment().startOf('day'), 'days') === 0 ?
-        this.props.t('today') :
-        moment(this.props.date).format('MMMM, DD')}
-    </p>;
+    let date;
+
+    if (moment(this.props.date).startOf('day').diff(moment().startOf('day'), 'days') === 0) {
+      date = this.props.t('today');
+    } else {
+      date = moment(this.props.date).format('MMMM, DD');
+    }
+
+    return <p className={cx('date', this.props.className)}>{ date }</p>;
   }
 }
 

@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
-import Subscription from '@/components/subscription';
+import SubscriptionItem from '@/components/subscription-item';
 import Button from '@/components/button';
 import Icon from '@/components/icon';
 import { api } from '@';
@@ -58,7 +58,7 @@ class Sidebar extends Component {
 
       <div className={style.list}>
         {this.props.subscriptions_ids &&
-          this.props.subscriptions_ids.map(id => <Subscription
+          this.props.subscriptions_ids.map(id => <SubscriptionItem
             key={id}
             id={id}
             className={style.subscription}

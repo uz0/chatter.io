@@ -19,33 +19,37 @@ class MessageItem extends Component {
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
+    const isMessageCurrentUser = this.props.message.user_id === this.props.currentUser.id;
 
     return <div className={cx(
       'message-item',
       this.props.className,
 
       {
-        'current-user': this.props.message.user_id === this.props.currentUser.id,
-        'opponent-user': this.props.message.user_id !== this.props.currentUser.id,
+        'current-user': isMessageCurrentUser,
+        'opponent-user': !isMessageCurrentUser,
       },
     )}>
       {!isMessageDeleted &&
         <div className={style.actions}>
           <Button appearance="_icon-transparent" icon="dots" className={style.dropdown_button} />
           <Button appearance="_basic-transparent" text="Reply" icon="reply" className={style.button} />
-        </div>}
+        </div>
+      }
 
       {isMessageDeleted &&
         <div className={style.content}>
           <p className={style.deleted_message_text}>{this.props.t('deleted_message')}</p>
-        </div>}
+        </div>
+      }
 
       {!isMessageDeleted &&
         <div className={style.content}>
           {(isMessageHasFile || this.props.message.text) &&
             <div className={style.message_block}>
               {this.props.message.text &&
-                <p className={style.text}>{this.props.message.text}</p>}
+                <p className={style.text}>{this.props.message.text}</p>
+              }
 
               {isMessageHasFile &&
                 <div className={style.file}>
@@ -62,20 +66,25 @@ class MessageItem extends Component {
                       </span>
                     </div>
                   </div>
-                </div>}
-            </div>}
+                </div>
+              }
+            </div>
+          }
 
           {isMessageHasImage &&
             <div className={style.image}>
               <img src={this.props.message.attachment.preview} />
-            </div>}
-        </div>}
+            </div>
+          }
+        </div>
+      }
 
       {!isMessageDeleted &&
         <div className={style.info}>
           <span className={style.time}>{moment(this.props.message.created_at).format('HH:mm')}</span>
           <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
-        </div>}
+        </div>
+      }
     </div>;
   }
 }

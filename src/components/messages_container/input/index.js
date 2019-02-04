@@ -26,14 +26,16 @@ class MessageInput extends Component {
       <Button appearance="_icon-transparent" icon="attach" className={style.attach} />
 
       <div className={style.section}>
-        {false && <div className={style.message}>
-          <div className={style.message_content}>
-            <p className={style.name}>Alexander Borodich</p>
-            <p className={style.text}>Перевод utn, выставление счета, подпись дока</p>
-          </div>
+        {false &&
+          <div className={style.message}>
+            <div className={style.message_content}>
+              <p className={style.name}>Alexander Borodich</p>
+              <p className={style.text}>Перевод utn, выставление счета, подпись дока</p>
+            </div>
 
-          <Button appearance="_icon-transparent" icon="close" className={style.close} />
-        </div>}
+            <Button appearance="_icon-transparent" icon="close" className={style.close} />
+          </div>
+        }
 
         <div className={style.input_wrapper} ref={node => this.inputWrapperRef = node}>
           <textarea placeholder="Message" ref={node => this.textareaRef = node} onInput={this.onInput} />

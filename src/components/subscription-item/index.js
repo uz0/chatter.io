@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -14,7 +13,7 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class Subscription extends Component {
+class SubscriptionItem extends Component {
   loadLastMessage = () => {
     api.getMessages({ subscription_id: this.props.id, limit: 1 }).then(data => {
       this.props.loadMessages({chatId: this.props.id, list: data.messages});
@@ -78,4 +77,4 @@ export default compose(
       addUsers: usersActions.addUsers,
     },
   ),
-)(Subscription);
+)(SubscriptionItem);

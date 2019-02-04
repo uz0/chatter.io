@@ -90,33 +90,41 @@ class Messages extends Component {
   }
 
   render() {
+    const groupedMessages = this.props.groupedMessages || [];
+
     return <div className={cx('messages', this.props.className)}>
       {this.props.details &&
         <Header
           title={getChatName(this.props.details)}
           count={this.props.details.group.participants.length}
           className={style.header}
-        />}
+        />
+      }
 
       <div className={style.list}>
-        {this.props.groupedMessages &&
-          this.props.groupedMessages.reverse().map(grouped => <Fragment key={uid()}>
+        {groupedMessages &&
+          groupedMessages.reverse().map(grouped => <Fragment key={uid()}>
             {grouped.type === 'unreadDelimiter' &&
-              <UnreadDelimiter className={cx('item')} />}
+              <UnreadDelimiter className={cx('item')} />
+            }
 
             {grouped.type === 'xtagDelimiter' &&
-              <XtagDelimiter id={grouped.message_id} className={cx('item')} />}
+              <XtagDelimiter id={grouped.message_id} className={cx('item')} />
+            }
 
             {grouped.type === 'dateDelimiter' &&
-              <DateDelimiter date={grouped.date} className={cx('item')} />}
+              <DateDelimiter date={grouped.date} className={cx('item')} />
+            }
 
             {grouped.type === 'messages' &&
               grouped.messages_ids.reverse().map(message_id => <MessageItem
                 key={message_id}
                 id={message_id}
                 className={cx('message', 'item')}
-              />)}
-          </Fragment>)}
+              />)
+            }
+          </Fragment>)
+        }
       </div>
 
       <MessageInput className={style.input} />

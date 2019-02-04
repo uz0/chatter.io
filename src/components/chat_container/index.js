@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { withNamespaces } from 'react-i18next';
 import Sidebar from '@/components/sidebar_container';
@@ -42,10 +42,11 @@ class Chat extends Component {
       <Sidebar className={style.sidebar} />
 
       {isChatOpen &&
-        <Messages params={this.props.params} className={style.messages} />}
-
-      {isChatOpen &&
-        <Panel isShown={false} onClose={() => {}} className={style.panel} />}
+        <Fragment>
+          <Messages params={this.props.params} className={style.messages} />
+          <Panel isShown={false} onClose={() => {}} className={style.panel} />
+        </Fragment>
+      }
     </div>;
   }
 }

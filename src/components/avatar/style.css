@@ -1,0 +1,14 @@
+.avatar {
+	width: var(--size, 30px);
+	height: var(--size, 30px);
+	line-height: var(--size, 30px);
+	font-size: 15px;
+	color: #fff;
+	text-align: center;
+	background-image: var(--photo);
+	background-color: var(--primary-color);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	border-radius: calc(var(--size, 30px) / 2);
+}

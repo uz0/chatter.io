@@ -19,16 +19,9 @@
   --background-color: var(--divider-color);
 }
 
-.subscription .photo {
+.subscription .avatar {
   --size: 50px;
   flex-shrink: 0;
-  width: var(--size);
-  height: var(--size);
-  border-radius: calc(var(--size) / 2);
-  background-image: var(--photo);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 .subscription .content {

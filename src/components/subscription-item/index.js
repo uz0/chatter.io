@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import classnames from 'classnames/bind';
+import SubscriptionAvatar from '@/components/subscription-avatar';
 import { api } from '@';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
@@ -47,7 +48,10 @@ class SubscriptionItem extends Component {
       activeClassName="_is-active"
       className={cx('subscription', this.props.className)}
     >
-      <div className={style.photo} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+      <SubscriptionAvatar
+        subscription={this.props.subscription}
+        className={style.avatar}
+      />
 
       <div className={style.content}>
         <p className={style.name}>{getChatName(this.props.subscription)}</p>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import SubscriptionAvatar from '@/components/subscription-avatar';
 import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
@@ -82,7 +83,11 @@ class MessageItem extends Component {
       {!isMessageDeleted &&
         <div className={style.info}>
           <span className={style.time}>{moment(this.props.message.created_at).format('HH:mm')}</span>
-          <div className={style.avatar} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />
+
+          <SubscriptionAvatar
+            userId={this.props.message.user_id}
+            className={style.avatar}
+          />
         </div>
       }
     </div>;

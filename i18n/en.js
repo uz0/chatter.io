@@ -81,6 +81,7 @@ export default {translation: {
   several_people_typing: 'Several people typing',
   sign_up: 'Sign Up',
   there_is_no_contacts: 'There is no contacts',
+  there_is_no_messages: 'There is no messages',
   today: 'Today',
   type_something: 'Type something',
   typing: 'Typing',

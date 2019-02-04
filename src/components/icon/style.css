@@ -60,3 +60,7 @@
 .icon[data-icon="dots"] {
   --data: url('/assets/icons/dots.svg');
 }
+
+.icon[data-icon="warning"] {
+  --data: url('/assets/icons/warning.svg');
+}

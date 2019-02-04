@@ -1,80 +1,51 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import groupBy from 'lodash/groupBy';
-import map from 'lodash/map';
+import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
-import moment from 'moment';
+import { withNamespaces } from 'react-i18next';
 import Header from './header';
 import MessageInput from './input';
 import DateDelimiter from './date-delimiter';
 import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
 import MessageItem from '@/components/message-item';
+import Loading from '@/components/loading';
 import { api } from '@';
-import { getDetails, uid, getChatName } from '@/helpers';
+import { getDetails, uid, getChatName, getGroupedMessages } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
-const getGroupedMessages = (state, props) => {
-  if (!props.details) {
-    return null;
-  }
-
-  const chatIds = state.messages.chatIds[props.details.id];
-
-  if (!chatIds || !chatIds.isLoaded) {
-    return null;
-  }
-
-  const groupedByDate = groupBy(
-    map(chatIds.list, id => state.messages.list[id]),
-    message => moment(message.created_at).format('YYYY-MM-DD'),
-  );
-
-  let array = [];
-  const dates = Object.keys(groupedByDate).sort();
-
-  dates.forEach(key => {
-    array.push({ type: 'dateDelimiter', date: key });
-
-    let messages = [];
-
-    groupedByDate[key].reverse().forEach(message => {
-      if (message.xtag) {
-        if (messages.length > 0) {
-          array.push({ type: 'messages', messages_ids: messages });
-        }
-
-        array.push({ type: 'xtagDelimiter', message_id: message.id });
-        messages = [];
-        return;
-      }
-
-      messages.push(message.id);
-    });
-
-    if (messages.length > 0) {
-      array.push({ type: 'messages', messages_ids: messages });
-    }
-  });
-
-  return array;
-};
-
 class Messages extends Component {
-  loadMessages = props => api.getMessages({ subscription_id: props.details.id, limit: 100 }).then(data => {
-    this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
-  });
+  state = {
+    isMessagesLoading: false,
+  };
+
+  loadMessages = props => {
+    this.setState({ isMessagesLoading: true });
+
+    api.getMessages({ subscription_id: props.details.id, limit: 100 }).then(data => {
+      this.setState({ isMessagesLoading: false });
+      this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
+    });
+  }
+
+  componentDidMount() {
+    const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
+
+    if (this.props.details && !isMessagesLoaded) {
+      this.loadMessages(this.props);
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     const isMessagesLoaded = get(nextProps, 'chatIds.isLoaded', false);
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
 
-    // details получает не сразу, в componentDidMount details еще undefined
+    // если страница загружается сразу с открытым чатом, details еще не успевает прийти, ловим тут
     if (!this.props.details && nextProps.details && !isMessagesLoaded) {
       this.loadMessages(nextProps);
     }
@@ -86,7 +57,10 @@ class Messages extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return !!nextProps.details && !!nextProps.chatIds;
+    const isChatMessagesEqual = isEqual(this.props.chatIds, nextProps.chatIds);
+    const isDetailsEqual = isEqual(this.props.details, nextProps.details);
+
+    return !isChatMessagesEqual || !isDetailsEqual;
   }
 
   render() {
@@ -125,6 +99,12 @@ class Messages extends Component {
             }
           </Fragment>)
         }
+
+        {groupedMessages.length === 0 &&
+          <p className={style.empty}>{this.props.t('there_is_no_messages')}</p>
+        }
+
+        <Loading isShown={this.state.isMessagesLoading} className={style.loading} />
       </div>
 
       <MessageInput className={style.input} />
@@ -133,6 +113,8 @@ class Messages extends Component {
 }
 
 export default compose(
+  withNamespaces('translation'),
+
   connect(
     (state, props) => ({
       details: getDetails(state.subscriptions.list, props.params),

@@ -7,13 +7,13 @@ import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
 import Button from '@/components/button';
+import RefMessage from './ref-message';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
 class MessageItem extends Component {
   getFileType = () => this.props.message.attachment.content_type.split('/').pop();
-
   getFileSizeKb = () => parseInt(this.props.message.attachment.byte_size / 1000, 10);
 
   render() {
@@ -21,6 +21,7 @@ class MessageItem extends Component {
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
     const isMessageCurrentUser = this.props.message.user_id === this.props.currentUser.id;
+    const isMessageTextBlockShown = isMessageHasFile || this.props.message.text || this.props.message.forwarded_message_id || this.props.message.in_reply_to_message_id;
 
     return <div className={cx(
       'message-item',
@@ -40,14 +41,22 @@ class MessageItem extends Component {
 
       {isMessageDeleted &&
         <div className={style.content}>
-          <p className={style.deleted_message_text}>{this.props.t('deleted_message')}</p>
+          <p className={style.deleted_message_text}>{this.props.t('message_has_been_deleted')}</p>
         </div>
       }
 
       {!isMessageDeleted &&
         <div className={style.content}>
-          {(isMessageHasFile || this.props.message.text) &&
+          {isMessageTextBlockShown &&
             <div className={style.message_block}>
+              {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
+                <RefMessage
+                  className={style.message}
+                  {...this.props.message.forwarded_message_id ? { forwardedId: this.props.message.forwarded_message_id } : {}}
+                  {...this.props.message.in_reply_to_message_id ? { repliedId: this.props.message.in_reply_to_message_id } : {}}
+                />
+              }
+
               {this.props.message.text &&
                 <p className={style.text}>{this.props.message.text}</p>
               }
@@ -80,16 +89,16 @@ class MessageItem extends Component {
         </div>
       }
 
-      {!isMessageDeleted &&
-        <div className={style.info}>
+      <div className={style.info}>
+        {!isMessageDeleted &&
           <span className={style.time}>{moment(this.props.message.created_at).format('HH:mm')}</span>
+        }
 
-          <SubscriptionAvatar
-            userId={this.props.message.user_id}
-            className={style.avatar}
-          />
-        </div>
-      }
+        <SubscriptionAvatar
+          userId={this.props.message.user_id}
+          className={style.avatar}
+        />
+      </div>
     </div>;
   }
 }

@@ -1,8 +1,9 @@
 .avatar {
-	width: var(--size, 30px);
-	height: var(--size, 30px);
-	line-height: var(--size, 30px);
-	font-size: 15px;
+	--default-size: 50px;
+	width: var(--size, var(--default-size));
+	height: var(--size, var(--default-size));
+	line-height: var(--size, var(--default-size));
+	font-size: var(--font-size, 15px);
 	color: #fff;
 	text-align: center;
 	background-image: var(--photo);
@@ -10,5 +11,5 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
-	border-radius: calc(var(--size, 30px) / 2);
+	border-radius: calc(var(--size, var(--default-size)) / 2);
 }

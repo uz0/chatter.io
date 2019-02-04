@@ -9,6 +9,7 @@
 }
 
 .messages .list {
+  position: relative;
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
@@ -19,6 +20,18 @@
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
   padding-bottom: 20px;
+}
+
+.messages .list .empty {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .messages .list .item {
@@ -32,6 +45,9 @@
 
 .messages .list .message + .message {
   margin-bottom: 2px;
+}
+
+.messages .list .loading {
 }
 
 .messages .input {

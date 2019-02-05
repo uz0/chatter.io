@@ -93,57 +93,7 @@
 }
 
 .input .section .message {
-  display: flex;
-  align-items: center;
   margin-bottom: 10px;
-  padding-right: 3px;
-  padding-top: 10px;
-}
-
-.input .section .message .message_content {
-  position: relative;
-  flex-grow: 1;
-  min-width: 0;
-  height: 30px;
-  padding-left: 8px;
-}
-
-.input .section .message .message_content::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 2px;
-  height: 100%;
-  background-color: var(--primary-color);
-}
-
-.input .section .message .message_content .name,
-.input .section .message .message_content .text {
-  overflow: hidden;
-  height: var(--height);
-  line-height: var(--height);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.input .section .message .message_content .name {
-  --height: 10px;
-  font-size: 13px;
-  color: var(--primary-color);
-}
-
-.input .section .message .message_content .text {
-  --height: 16px;
-  margin-top: 4px;
-  font-size: 15px;
-  color: var(--text-color);
-}
-
-.input .section .message .close {
-  --height: 30px;
-  --icon-size: 10px;
-  flex-shrink: 0;
 }
 
 .input .section .input_wrapper {

@@ -6,8 +6,10 @@ import SubscriptionAvatar from '@/components/subscription-avatar';
 import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
+import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
 import RefMessage from './ref-message';
+import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -47,6 +49,9 @@ class MessageItem extends Component {
     return text;
   };
 
+  openUpdateMessage = () => this.props.addEditMessage(this.props.message.id);
+  openReplyMessage = () => this.props.addReplyMessage(this.props.message.id);
+
   render() {
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
@@ -65,8 +70,26 @@ class MessageItem extends Component {
     )}>
       {!isMessageDeleted &&
         <div className={style.actions}>
-          <Button appearance="_icon-transparent" icon="dots" className={style.dropdown_button} />
-          <Button appearance="_basic-transparent" text="Reply" icon="reply" className={style.button} />
+          <Dropdown
+            uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
+            className={style.dropdown}
+
+            items={[
+              { icon: 'arrow-left', text: 'Edit', onClick: this.openUpdateMessage },
+              { icon: 'arrow-left', text: 'Delete' },
+              { icon: 'arrow-left', text: 'Delete' },
+            ]}
+          >
+            <Button appearance="_icon-transparent" icon="dots" className={style.dropdown_button} />
+          </Dropdown>
+
+          <Button
+            appearance="_basic-transparent"
+            text="Reply"
+            icon="reply"
+            className={style.button}
+            onClick={this.openReplyMessage}
+          />
         </div>
       }
 
@@ -142,5 +165,10 @@ export default compose(
       currentUser: state.currentUser,
       message: state.messages.list[props.id],
     }),
+
+    {
+      addEditMessage: messagesActions.addEditMessage,
+      addReplyMessage: messagesActions.addReplyMessage,
+    },
   ),
 )(MessageItem);

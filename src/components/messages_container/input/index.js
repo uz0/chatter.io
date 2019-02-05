@@ -3,14 +3,19 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
 import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
 import Icon from '@/components/icon';
 import Validators from '@/components/form/validators';
 import throttle from 'lodash/throttle';
 import inputActions from './actions';
+import Message from './message';
 import { actions as notificationActions } from '@/components/notification';
+import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
+
+export { default as actions } from './actions';
 
 const cx = classnames.bind(style);
 
@@ -117,6 +122,35 @@ class MessageInput extends Component {
     return mentions || null;
   };
 
+  editMessage = ({ text, attachment }) => {
+    this.props.updateMessage({
+      ...text ? {text} : {},
+      ...attachment ? {attachment} : {},
+      ...this.props.edit_message_id ? {edit_message_id: this.props.edit_message_id} : {},
+    });
+
+    this.props.clearEditMessage();
+    this.setState({ value: '', attachment: null });
+    setTimeout(() => this.calcTextareaHeight());
+  };
+
+  sendMessage = ({ text, attachment, mentions }) => {
+    this.props.sendMessage({
+      ...text ? {text} : {},
+      ...attachment ? {attachment} : {},
+      ...mentions ? {mentions} : {},
+      ...this.props.reply_message_id ? {reply_message_id: this.props.reply_message_id} : {},
+      subscription_id: this.props.subscription_id,
+    });
+
+    this.setState({ value: '', attachment: null });
+    setTimeout(() => this.calcTextareaHeight());
+
+    if (this.props.reply_message_id) {
+      this.props.clearReplyMessage();
+    }
+  };
+
   onSendButtonClick = () => {
     const text = this.getFilteredMessage(this.state.value);
     const attachment = this.state.attachment;
@@ -127,15 +161,12 @@ class MessageInput extends Component {
       return;
     }
 
-    this.props.sendMessage({
-      ...text ? {text} : {},
-      ...attachment ? {attachment} : {},
-      ...mentions ? {mentions} : {},
-      subscription_id: this.props.subscription_id,
-    });
+    if (this.props.edit_message_id) {
+      this.editMessage({ text, attachment });
+      return;
+    }
 
-    this.setState({ value: '', attachment: null });
-    setTimeout(() => this.calcTextareaHeight());
+    this.sendMessage({ text, attachment, mentions });
   };
 
   calcTextareaHeight = () => {
@@ -167,8 +198,30 @@ class MessageInput extends Component {
   onInput = event => {
     this.calcTextareaHeight();
     this.setState({ value: event.target.value });
-    setTimeout(() => this.throttleUpdateDraft(this.state.value));
+
+    if (!this.props.edit_message_id && !this.props.reply_message_id) {
+      setTimeout(() => this.throttleUpdateDraft(this.state.value));
+    }
   };
+
+  closeMessage = () => {
+    if (this.props.edit_message_id) {
+      this.props.clearEditMessage();
+    }
+
+    if (this.props.reply_message_id) {
+      this.props.clearReplyMessage();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.editing_message && !isEqual(this.props.editing_message, nextProps.editing_message)) {
+      this.setState({
+        ...nextProps.editing_message.text ? {value: nextProps.editing_message.text} : {},
+        ...nextProps.editing_message.attachment ? {attachment: nextProps.editing_message.attachment} : {},
+      });
+    }
+  }
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleDocumentKeyDown);
@@ -181,9 +234,16 @@ class MessageInput extends Component {
   render() {
     const isSendButtonShown = this.isSendButtonShown();
     const isAttachmentImage = this.state.attachment && this.state.attachment.content_type.match('image/');
+    const messageId = this.props.reply_message_id || this.props.edit_message_id;
+    const sendButtonName = this.props.edit_message_id ? this.props.t('edit') : this.props.t('send');
 
     return <div className={cx('input', this.props.className)}>
-      <Button appearance="_icon-transparent" icon="attach" onClick={this.attachFile} className={style.attach} />
+      <Button
+        appearance="_icon-transparent"
+        icon="attach"
+        onClick={this.attachFile}
+        className={style.attach}
+      />
 
       <input
         className={style.attach_input}
@@ -193,15 +253,8 @@ class MessageInput extends Component {
       />
 
       <div className={style.section}>
-        {false &&
-          <div className={style.message}>
-            <div className={style.message_content}>
-              <p className={style.name}>Alexander Borodich</p>
-              <p className={style.text}>Перевод utn, выставление счета, подпись дока</p>
-            </div>
-
-            <Button appearance="_icon-transparent" icon="close" className={style.close} />
-          </div>
+        {messageId &&
+          <Message className={style.message} id={messageId} onClose={this.closeMessage} />
         }
 
         {this.state.attachment &&
@@ -229,7 +282,9 @@ class MessageInput extends Component {
             onKeyDown={this.onTextareaKeyDown}
           />
 
-          <button onClick={this.onSendButtonClick} className={cx({'_is-shown': isSendButtonShown})}>Send</button>
+          <button onClick={this.onSendButtonClick} className={cx({'_is-shown': isSendButtonShown})}>
+            {sendButtonName}
+          </button>
         </div>
       </div>
     </div>;
@@ -241,6 +296,8 @@ export default compose(
 
   connect(
     state => ({
+      edit_message_id: state.messages.edit_message_id,
+      reply_message_id: state.messages.reply_message_id,
       users_ids: state.users.ids,
       users_list: state.users.list,
     }),
@@ -248,7 +305,16 @@ export default compose(
     {
       updateDraft: inputActions.updateDraft,
       sendMessage: inputActions.sendMessage,
+      updateMessage: inputActions.updateMessage,
+      clearEditMessage: messagesActions.clearEditMessage,
+      clearReplyMessage: messagesActions.clearReplyMessage,
       showNotification: notificationActions.showNotification,
     },
+  ),
+
+  connect(
+    (state, props) => ({
+      editing_message: props.edit_message_id ? state.messages.list[props.edit_message_id] : null,
+    }),
   ),
 )(MessageInput);

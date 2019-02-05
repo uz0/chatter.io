@@ -1,5 +1,3 @@
-import map from 'lodash/map';
-import uniq from 'lodash/uniq';
 import actions from './actions';
 
 const initialState = {
@@ -11,91 +9,73 @@ const initialState = {
 
 export default (state = initialState, action) => {
   if (action.type === actions.types.loadMessages) {
-    let chatIds = state.chatIds;
-    let list = state.list;
+    const chatId = action.payload.chatId;
+    const isLoaded = action.payload.isLoaded || false;
+    const list = action.payload.list;
 
-    if (chatIds[action.payload.chatId] && chatIds[action.payload.chatId].isLoaded) {
-      return state;
-    }
+    let stateChatIds = { ...state.chatIds };
+    let stateList = { ...state.list };
 
-    chatIds[action.payload.chatId] = {
-      isLoaded: chatIds[action.payload.chatId] ? action.payload.isLoaded || chatIds[action.payload.chatId].isLoaded || false : action.payload.isLoaded || false,
-
-      list: chatIds[action.payload.chatId] ?
-        uniq([...chatIds[action.payload.chatId].list, ...map(action.payload.list, 'id')]) :
-        map(action.payload.list, 'id'),
+    stateChatIds[chatId] = {
+      isLoaded,
+      list: [],
     };
 
-    action.payload.list.forEach(message => {
-      if (!list[message.id]) {
-        list[message.id] = message;
-      }
+    list.forEach(message => {
+      stateList[message.id] = message;
+      stateChatIds[chatId].list.push(message.id);
     });
 
     return {
       ...state,
-      chatIds,
-      list,
+      chatIds: stateChatIds,
+      list: stateList,
     };
   }
 
   if (action.type === actions.types.addMessage) {
-    let chatIds = state.chatIds;
+    const chatId = action.payload.chatId;
+    const message = action.payload.message;
 
-    if (action.payload.chatId) {
-      const currentChatListIds = chatIds[action.payload.chatId] ? chatIds[action.payload.chatId].list : [];
+    let stateChatIds = { ...state.chatIds };
+    let stateList = { ...state.list };
 
-      if (!chatIds[action.payload.chatId]) {
-        chatIds[action.payload.chatId] = {
-          isLoaded: false,
-          list: currentChatListIds,
-        };
-      }
-
-      if (action.payload.message.uid) {
-        chatIds[action.payload.chatId].list = [action.payload.message.uid, ...currentChatListIds];
-      }
-
-      if (action.payload.message.id) {
-        chatIds[action.payload.chatId].list = [action.payload.message.id, ...currentChatListIds];
-      }
+    if (chatId) {
+      stateChatIds[chatId].list = [(message.uid || message.id), ...stateChatIds[chatId].list];
     }
 
-    let list = state.list;
-    list[action.payload.message.id || action.payload.message.uid] = action.payload.message;
+    stateList[message.uid || message.id] = message;
 
     return {
       ...state,
-      chatIds,
-      list,
+      chatIds: stateChatIds,
+      list: stateList,
     };
   }
 
   if (action.type === actions.types.updateMessage) {
-    let chatIds = state.chatIds;
-    let list = state.list;
+    const chatId = action.payload.chatId;
+    const message = action.payload.message;
 
-    if (action.payload.message.uid && action.payload.message.id) {
-      const uidMessageIndex = chatIds[action.payload.chatId].list.indexOf(action.payload.message.uid);
-      chatIds[action.payload.chatId].list[uidMessageIndex] = action.payload.message.id;
+    let stateChatIds = { ...state.chatIds };
+    let stateList = { ...state.list };
 
-      list[action.payload.message.id] = {
-        ...list[action.payload.message.uid],
-        ...action.payload.message,
-      };
-
-      delete list[action.payload.message.uid];
-    } else {
-      list[action.payload.message.id] = {
-        ...list[action.payload.message.id],
-        ...action.payload.message,
-      };
+    if (message.uid && message.id) {
+      const uidMessageIndex = stateChatIds[chatId].list.indexOf(message.uid);
+      stateChatIds[chatId].list[uidMessageIndex] = message.id;
+      stateList[message.id] = [message.uid];
+      delete stateList[message.uid];
     }
+
+    stateList[message.id] = {
+      ...stateList[message.id],
+      ...message,
+    };
 
     return {
       ...state,
-      chatIds,
-      list,
+      chatIds: stateChatIds,
+      list: stateList,
     };
   }
 

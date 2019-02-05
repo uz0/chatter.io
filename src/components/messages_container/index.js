@@ -2,6 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
+import map from 'lodash/map';
+import groupBy from 'lodash/groupBy';
+import moment from 'moment';
 import classnames from 'classnames/bind';
 import { withNamespaces } from 'react-i18next';
 import Header from './header';
@@ -12,7 +15,7 @@ import UnreadDelimiter from './unread-delimiter';
 import MessageItem from '@/components/message-item';
 import Loading from '@/components/loading';
 import { api } from '@';
-import { getDetails, uid, getChatName, getGroupedMessages } from '@/helpers';
+import { getDetails, uid, getChatName } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
@@ -21,6 +24,50 @@ const cx = classnames.bind(style);
 class Messages extends Component {
   state = {
     isMessagesLoading: false,
+  };
+
+  getGroupedMessages = () => {
+    if (!this.props.details) {
+      return null;
+    }
+
+    if (!this.props.chatIds || !this.props.chatIds.isLoaded) {
+      return null;
+    }
+
+    const groupedByDate = groupBy(
+      map(this.props.chatIds.list, id => this.props.messages_list[id]),
+      message => moment(message.created_at).format('YYYY-MM-DD'),
+    );
+
+    let array = [];
+    const dates = Object.keys(groupedByDate).sort();
+
+    dates.forEach(key => {
+      array.push({ type: 'dateDelimiter', date: key });
+
+      let messages = [];
+
+      groupedByDate[key].reverse().forEach(message => {
+        if (message.xtag) {
+          if (messages.length > 0) {
+            array.push({ type: 'messages', messages_ids: messages });
+          }
+
+          array.push({ type: 'xtagDelimiter', message_id: message.id });
+          messages = [];
+          return;
+        }
+
+        messages.push(message.id);
+      });
+
+      if (messages.length > 0) {
+        array.push({ type: 'messages', messages_ids: messages });
+      }
+    });
+
+    return array;
   };
 
   loadMessages = props => {
@@ -55,12 +102,11 @@ class Messages extends Component {
     }
   }
 
-  // message-item обновляется много раз
   // shouldComponentUpdate(nextProps) {
   // }
 
   render() {
-    const groupedMessages = this.props.groupedMessages || [];
+    const groupedMessages = this.getGroupedMessages() || [];
 
     return <div className={cx('messages', this.props.className)}>
       {this.props.details &&
@@ -116,6 +162,7 @@ export default compose(
   connect(
     (state, props) => ({
       details: getDetails(state.subscriptions.list, props.params),
+      messages: state.messages,
       messages_list: state.messages.list,
     }),
 
@@ -127,12 +174,6 @@ export default compose(
   connect(
     (state, props) => ({
       chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
-    }),
-  ),
-
-  connect(
-    (state, props) => ({
-      groupedMessages: getGroupedMessages(state, props),
     }),
   ),
 )(Messages);

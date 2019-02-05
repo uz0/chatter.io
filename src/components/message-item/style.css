@@ -48,7 +48,7 @@
   transition-property: opacity;
 }
 
-.message-item.current-user > .actions > .dropdown_button {
+.message-item.current-user > .actions > .dropdown {
   order: 1;
 }
 
@@ -56,7 +56,7 @@
   order: 2;
 }
 
-.message-item.opponent-user > .actions > .dropdown_button {
+.message-item.opponent-user > .actions > .dropdown {
   order: 2;
 }
 
@@ -64,7 +64,7 @@
   order: 1;
 }
 
-.message-item > .actions > .dropdown_button {
+.message-item > .actions > .dropdown > button {
   --icon-size: 14px;
 }
 

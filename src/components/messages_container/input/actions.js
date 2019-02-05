@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import { uid } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
@@ -35,6 +37,10 @@ const sendMessage = params => (dispatch, getState) => {
     message.mentions = params.mentions;
   }
 
+  if (params.reply_message_id) {
+    message.in_reply_to_message_id = params.reply_message_id;
+  }
+
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
 
   api.post({
@@ -43,6 +49,7 @@ const sendMessage = params => (dispatch, getState) => {
     ...message.text ? {text: message.text} : {},
     ...message.attachment ? {attachment: message.attachment.url} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
+    ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
   }).then(data => {
     api.updateSubscription({
       subscription_id: subscription.id,
@@ -54,4 +61,24 @@ const sendMessage = params => (dispatch, getState) => {
   });
 };
 
-export default { updateDraft, sendMessage };
+const updateMessage = params => (dispatch, getState) => {
+  const state = getState();
+  const updatingMessage = state.messages.list[state.messages.edit_message_id]
+
+  const isTextEqual = params.text === updatingMessage.text;
+  const isAttachmentsEqual = isEqual(params.attachment, updatingMessage.attachment);
+
+  if (isTextEqual && isAttachmentsEqual) {
+    return;
+  }
+
+  api.editMessage({
+    message_id: params.edit_message_id,
+    text: params.text,
+    ...params.attachment ? {attachment: params.attachment.url} : {},
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+export default { updateDraft, sendMessage, updateMessage };

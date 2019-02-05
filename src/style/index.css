@@ -50,7 +50,7 @@
   --primary-color: #1873f2;
   --divider-color: #f2f3f5;
   --caption-color: #a0a7b0;
-  --error-color: #ff1744;
+  --error-color: #d0021b;
 
   --primary-color-hover: #1a61c3;
 
@@ -91,6 +91,19 @@ body,
 :global(#app) {
   height: 100%;
   min-height: 100%;
+}
+
+:global(#app) ~ div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+:global(#app) ~ div > * {
+  pointer-events: auto;
 }
 
 b, strong, h1, h2 {

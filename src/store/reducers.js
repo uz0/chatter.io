@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducers as formReducers } from '@/components/form';
+import { reducers as dropdownReducers } from '@/components/dropdown';
 import { reducers as notificationReducers } from '@/components/notification';
 import { reducers as subscriptionsReducers } from '@/store/subscriptions';
 import { reducers as usersReducers } from '@/store/users';
@@ -19,6 +20,7 @@ export default combineReducers({
   currentUser: currentUserReducer,
   forms: formReducers,
   notification: notificationReducers,
+  dropdown: dropdownReducers,
   subscriptions: subscriptionsReducers,
   messages: messagesReducers,
   users: usersReducers,

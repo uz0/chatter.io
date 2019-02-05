@@ -31,6 +31,10 @@ const sendMessage = params => (dispatch, getState) => {
     message.attachment = params.attachment;
   }
 
+  if (params.mentions) {
+    message.mentions = params.mentions;
+  }
+
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
 
   api.post({
@@ -38,6 +42,7 @@ const sendMessage = params => (dispatch, getState) => {
     subscription_id: subscription.id,
     ...message.text ? {text: message.text} : {},
     ...message.attachment ? {attachment: message.attachment.url} : {},
+    ...message.mentions ? {mentions: message.mentions} : {},
   }).then(data => {
     api.updateSubscription({
       subscription_id: subscription.id,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
+import find from 'lodash/find';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
 import Icon from '@/components/icon';
@@ -98,9 +99,28 @@ class MessageInput extends Component {
     return text;
   };
 
+  parseMentions = text => {
+    if (!text) {
+      return null;
+    }
+
+    let mentions = [];
+
+    this.props.users_ids.forEach(id => {
+      const user = this.props.users_list[id];
+
+      if (user.nick && text.match(`@${user.nick}`) && !find(mentions, {user_id: user.id})) {
+        mentions.push({ user_id: user.id, text: user.nick });
+      }
+    });
+
+    return mentions || null;
+  };
+
   onSendButtonClick = () => {
     const text = this.getFilteredMessage(this.state.value);
     const attachment = this.state.attachment;
+    const mentions = this.parseMentions(text);
 
     if (!text && !attachment) {
       this.props.showNotification('No data to send');
@@ -110,6 +130,7 @@ class MessageInput extends Component {
     this.props.sendMessage({
       ...text ? {text} : {},
       ...attachment ? {attachment} : {},
+      ...mentions ? {mentions} : {},
       subscription_id: this.props.subscription_id,
     });
 
@@ -219,7 +240,10 @@ export default compose(
   withNamespaces('translation'),
 
   connect(
-    null,
+    state => ({
+      users_ids: state.users.ids,
+      users_list: state.users.list,
+    }),
 
     {
       updateDraft: inputActions.updateDraft,

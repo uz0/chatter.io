@@ -80,8 +80,26 @@ class MessageInput extends Component {
     reader.readAsDataURL(file);
   };
 
+  getFilteredMessage = value => {
+    if (!value) {
+      return '';
+    }
+
+    let text = value.replace(/\r|\n|\r\n/g, '<br />');
+
+    if (text[0] === ' ') {
+      text = text.substring(1);
+    }
+
+    if (text[text.length - 1] === ' ') {
+      text = text.substring(0, text.length - 1);
+    }
+
+    return text;
+  };
+
   onSendButtonClick = () => {
-    const text = this.state.value;
+    const text = this.getFilteredMessage(this.state.value);
     const attachment = this.state.attachment;
 
     if (!text && !attachment) {
@@ -96,6 +114,7 @@ class MessageInput extends Component {
     });
 
     this.setState({ value: '', attachment: null });
+    setTimeout(() => this.calcTextareaHeight());
   };
 
   calcTextareaHeight = () => {

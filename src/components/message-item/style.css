@@ -134,7 +134,28 @@
   font-weight: var(--font-weight-light);
 }
 
-.message-item > .content > .message_block > .text + > .file {
+.message-item > .content > .message_block > .text > a {
+  color: var(--color);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition-property: color;
+}
+
+.message-item.current-user > .content > .message_block > .text > a:not(:hover) {
+  --color: #fff;
+}
+.message-item.current-user > .content > .message_block > .text > a:hover {
+  --color: var(--error-color);
+}
+
+.message-item.opponent-user > .content > .message_block > .text > a:not(:hover) {
+  --color: var(--primary-color);
+}
+.message-item.opponent-user > .content > .message_block > .text > a:hover {
+  --color: var(--primary-color-hover);
+}
+
+.message-item > .content > .message_block > .text + .file {
   margin-top: 10px;
 }
 
@@ -218,7 +239,7 @@
   transform: translateY(-50%);
 }
 
-.message-item > .content > .message_block + > .image {
+.message-item > .content > .message_block + .image {
   margin-top: 2px;
 }
 

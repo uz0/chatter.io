@@ -16,6 +16,37 @@ class MessageItem extends Component {
   getFileType = () => this.props.message.attachment.content_type.split('/').pop();
   getFileSizeKb = () => parseInt(this.props.message.attachment.byte_size / 1000, 10);
 
+  renderMessageText = message => {
+    let text = message.text;
+
+    if (!text) {
+      return;
+    }
+
+    if (message.mentions) {
+      message.mentions.forEach(mention => {
+        let link = '';
+
+        if (mention.user_id === this.props.currentUser.id) {
+          link = `<a>@${mention.text}</a>`;
+        } else {
+          link = `<a href="/chat/user/${mention.user_id}">@${mention.text}</a>`;
+        }
+
+        text = text.split(`@${mention.text}`).join(link);
+      });
+    }
+
+    // eslint-disable-next-line no-useless-escape
+    const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+
+    if (text.match(linkreg)) {
+      text = text.replace(linkreg, '<a href="$1" target="_blank">$1</a>');
+    }
+
+    return text;
+  };
+
   render() {
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
@@ -58,7 +89,7 @@ class MessageItem extends Component {
               }
 
               {this.props.message.text &&
-                <p className={style.text}>{this.props.message.text}</p>
+                <p className={style.text} dangerouslySetInnerHTML={{__html: this.renderMessageText(this.props.message)}} />
               }
 
               {isMessageHasFile &&

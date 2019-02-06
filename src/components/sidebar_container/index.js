@@ -5,9 +5,10 @@ import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
 import SubscriptionItem from '@/components/subscription-item';
 import Button from '@/components/button';
-import Icon from '@/components/icon';
+import SearchInput from '@/components/search-input';
 import { api } from '@';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
+import { actions as modalActions } from '@/components/modal_container';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -19,6 +20,8 @@ class Sidebar extends Component {
 
   chooseTabNavigation = tab => () => this.setState({ navigationActive: tab });
 
+  openAddChat = () => this.props.showModal('new-chat-modal');
+
   async componentWillMount() {
     const shortSubscriptions = await api.getSubscriptions({ short: true });
     this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
@@ -29,15 +32,10 @@ class Sidebar extends Component {
       <div className={style.header}>
         <h1>Unichat</h1>
         <div className={style.image} style={{ '--bg-image': 'url(/assets/default-user.jpg)' }} />
-        <Button appearance="_fab-divider" icon="add-chat" className={style.button} />
+        <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
       </div>
 
-      <div className={style.search}>
-        <div className={style.search_container}>
-          <Icon name="search" />
-          <input type="text" placeholder={this.props.t('search')} />
-        </div>
-      </div>
+      <SearchInput className={style.search} />
 
       <div className={style.navigation}>
         <button
@@ -82,6 +80,7 @@ export default compose(
 
     {
       loadSubscriptionsIds: subscriptionsActions.loadSubscriptionsIds,
+      showModal: modalActions.showModal,
     },
   ),
 )(Sidebar);

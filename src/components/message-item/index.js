@@ -9,7 +9,9 @@ import Icon from '@/components/icon';
 import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
 import RefMessage from './ref-message';
+import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
+import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -52,12 +54,23 @@ class MessageItem extends Component {
   openUpdateMessage = () => this.props.addEditMessage(this.props.message.id);
   openReplyMessage = () => this.props.addReplyMessage(this.props.message.id);
 
+  onDelete = () => api.deleteMessage({ message_id: this.props.message.id })
+    .catch(error => this.props.showNotification(this.props.t(error.code)));
+
   render() {
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
     const isMessageCurrentUser = this.props.message.user_id === this.props.currentUser.id;
     const isMessageTextBlockShown = isMessageHasFile || this.props.message.text || this.props.message.forwarded_message_id || this.props.message.in_reply_to_message_id;
+    const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
+
+    let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: () => {} }];
+
+    if (isMessageCurrentUser && isMessageInCurrentHour) {
+      actionsItems.unshift({ icon: 'edit', text: this.props.t('edit'), onClick: this.openUpdateMessage });
+      actionsItems.push({ icon: 'delete', text: this.props.t('delete'), onClick: this.onDelete, isDanger: true });
+    }
 
     return <div className={cx(
       'message-item',
@@ -73,12 +86,7 @@ class MessageItem extends Component {
           <Dropdown
             uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
             className={style.dropdown}
-
-            items={[
-              { icon: 'arrow-left', text: 'Edit', onClick: this.openUpdateMessage },
-              { icon: 'arrow-left', text: 'Delete' },
-              { icon: 'arrow-left', text: 'Delete' },
-            ]}
+            items={actionsItems}
           >
             <Button appearance="_icon-transparent" icon="dots" className={style.dropdown_button} />
           </Dropdown>
@@ -169,6 +177,7 @@ export default compose(
     {
       addEditMessage: messagesActions.addEditMessage,
       addReplyMessage: messagesActions.addReplyMessage,
+      showNotification: notificationActions.showNotification,
     },
   ),
 )(MessageItem);

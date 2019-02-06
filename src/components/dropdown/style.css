@@ -23,11 +23,11 @@
   transition-property: background-color;
 }
 
-.list > button:not(._is-warning) {
+.list > button:not(._is-danger) {
   --color: var(--text-color);
 }
 
-.list > button._is-warning {
+.list > button._is-danger {
   --color: var(--error-color);
 }
 
@@ -41,7 +41,7 @@
 
 .list > button > i {
   --icon-color: var(--color);
-  --icon-size: 12px;
+  --icon-size: 14px;
   flex-shrink: 0;
 }
 

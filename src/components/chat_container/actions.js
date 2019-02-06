@@ -1,5 +1,7 @@
 import find from 'lodash/find';
+import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
+import { actions as subscriptionsActions } from '@/store/subscriptions';
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -8,8 +10,32 @@ const notificationReceived = notification => (dispatch, getState) => {
     onMessage();
   }
 
+  if (notification.object_type === 'subscription' || notification.object_name === 'subscription') {
+    onSubscription();
+  }
+
+  function onSubscription() {
+    if (notification.event === 'new') {
+      if (state.subscriptions.list[notification.object.id]) {
+        return;
+      }
+
+      api.getSubscription({subscription_id: notification.object.id})
+        .then(data => dispatch(subscriptionsActions.addSubscription(data.subscription)));
+    }
+
+    if (notification.event === 'changed') {
+      api.getSubscription({subscription_id: notification.object.id})
+        .then(data => dispatch(subscriptionsActions.updateSubscription(data.subscription)));
+    }
+  }
+
   function onMessage() {
     const messageSubscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
+
+    if (!messageSubscription) {
+      return;
+    }
 
     if (notification.event === 'new') {
       // Если текущий пользователь покидает чат, не добавлять xtag сообщение
@@ -43,6 +69,12 @@ const notificationReceived = notification => (dispatch, getState) => {
 
       if (state.messages.list[message.id]) {
         dispatch(messagesActions.updateMessage({chatId: messageSubscription.id, message}));
+      }
+    }
+
+    if (notification.event === 'deleted') {
+      if (state.messages.list[notification.object.id]) {
+        dispatch(messagesActions.updateMessage({ chatId: messageSubscription.id, message: notification.object }));
       }
     }
   }

@@ -41,6 +41,10 @@ export default (state = initialState, action) => {
     let stateList = { ...state.list };
 
     if (chatId) {
+      if (!stateChatIds[chatId]) {
+        stateChatIds[chatId] = { list: {}, chatIds: [] };
+      }
+
       stateChatIds[chatId].list = [(message.uid || message.id), ...stateChatIds[chatId].list];
     }
 

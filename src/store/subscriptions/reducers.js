@@ -25,6 +25,34 @@ export default (state = initialState, action) => {
     };
   }
 
+  if (action.type === actions.types.addSubscription) {
+    let ids = state.ids;
+    let list = state.list;
+
+    ids.push(action.payload.id);
+    list[action.payload.id] = action.payload;
+
+    return {
+      ...state,
+      ids,
+      list,
+    };
+  }
+
+  if (action.type === actions.types.updateSubscription) {
+    let list = state.list;
+
+    list[action.payload.id] = {
+      ...list[action.payload.id],
+      ...action.payload,
+    };
+
+    return {
+      ...state,
+      list,
+    };
+  }
+
   return state;
 };
 

@@ -64,3 +64,19 @@
 .icon[data-icon="warning"] {
   --data: url('/assets/icons/warning.svg');
 }
+
+.icon[data-icon="edit"] {
+  --data: url('/assets/icons/edit.svg');
+}
+
+.icon[data-icon="delete"] {
+  --data: url('/assets/icons/delete.svg');
+}
+
+.icon[data-icon="forward"] {
+  --data: url('/assets/icons/forward.svg');
+}
+
+.icon[data-icon="mark"] {
+  --data: url('/assets/icons/mark.svg');
+}

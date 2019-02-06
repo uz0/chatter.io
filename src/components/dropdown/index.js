@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Portal } from 'react-portal';
 import ReactDOM from 'react-dom';
+import classnames from 'classnames/bind';
 import get from 'lodash/get';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
@@ -11,6 +12,8 @@ import style from './style.css';
 
 export { default as actions } from './actions';
 export { default as reducers } from './reducers';
+
+const cx = classnames.bind(style);
 
 class Dropdown extends Component {
   toggleDropdown = event => {
@@ -84,7 +87,11 @@ class Dropdown extends Component {
               bottom: this.props.bottom,
             }}
           >
-            {this.props.items.map(item => <button key={uid()} onClick={item.onClick}>
+            {this.props.items.map(item => <button
+              key={uid()}
+              onClick={item.onClick}
+              className={cx({'_is-danger': item.isDanger})}
+            >
               {item.icon &&
                 <Icon name={item.icon} />
               }

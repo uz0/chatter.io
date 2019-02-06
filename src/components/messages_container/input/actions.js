@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import { uid } from '@/helpers';
 import { api } from '@';
@@ -63,7 +62,7 @@ const sendMessage = params => (dispatch, getState) => {
 
 const updateMessage = params => (dispatch, getState) => {
   const state = getState();
-  const updatingMessage = state.messages.list[state.messages.edit_message_id]
+  const updatingMessage = state.messages.list[state.messages.edit_message_id];
 
   const isTextEqual = params.text === updatingMessage.text;
   const isAttachmentsEqual = isEqual(params.attachment, updatingMessage.attachment);
@@ -79,6 +78,6 @@ const updateMessage = params => (dispatch, getState) => {
   }).catch(error => {
     console.error(error);
   });
-}
+};
 
 export default { updateDraft, sendMessage, updateMessage };

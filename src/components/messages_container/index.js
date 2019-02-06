@@ -162,6 +162,7 @@ export default compose(
   connect(
     (state, props) => ({
       details: getDetails(state.subscriptions.list, props.params),
+      // for rendering messages on updates. BUG
       messages: state.messages,
       messages_list: state.messages.list,
     }),

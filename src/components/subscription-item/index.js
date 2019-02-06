@@ -21,13 +21,21 @@ class SubscriptionItem extends Component {
     });
   };
 
-  componentWillMount() {
-    this.loadLastMessage();
+  loadSubscription = () => {
+    if (this.props.subscription) {
+      this.props.addUsers(this.props.subscription.group.participants);
+      return;
+    }
 
     api.getSubscription({ subscription_id: this.props.id }).then(data => {
       this.props.loadSubscription(data.subscription);
       this.props.addUsers(data.subscription.group.participants);
     });
+  };
+
+  componentWillMount() {
+    this.loadLastMessage();
+    this.loadSubscription();
   }
 
   render() {

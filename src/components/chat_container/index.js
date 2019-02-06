@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
+import ModalContainer from '@/components/modal_container';
 import { api } from '@';
 import actions from './actions';
 import style from './style.css';
@@ -49,6 +50,8 @@ class Chat extends Component {
           <Panel isShown={false} onClose={() => {}} className={style.panel} />
         </Fragment>
       }
+
+      <ModalContainer />
     </div>;
   }
 }

@@ -25,7 +25,7 @@ class Sidebar extends Component {
   };
 
   chooseTabNavigation = tab => () => this.setState({ navigationActive: tab });
-  openAddChat = () => this.props.showModal('new-chat-modal');
+  openAddChat = () => this.props.toggleModal('new-chat-modal');
 
   logout = () => api.logout().then(() => {
     this.props.clearMessages();
@@ -107,7 +107,7 @@ export default compose(
 
     {
       loadSubscriptionsIds: subscriptionsActions.loadSubscriptionsIds,
-      showModal: modalActions.showModal,
+      toggleModal: modalActions.toggleModal,
       setCurrentUser: storeActions.setCurrentUser,
       showNotification: notificationActions.showNotification,
       clearSubscriptions: subscriptionsActions.clearSubscriptions,

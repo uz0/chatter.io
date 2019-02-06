@@ -7,7 +7,7 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Header extends Component {
-  showPanelContainer = () => this.props.showModal('panel-container');
+  showPanelContainer = () => this.props.toggleModal('panel-container');
 
   render() {
     return <div className={cx('header', this.props.className)}>
@@ -21,6 +21,7 @@ export default connect(
   null,
 
   {
-    showModal: modalActions.showModal,
+    toggleModal: modalActions.toggleModal,
+    closeModal: modalActions.closeModal,
   },
 )(Header);

@@ -1,6 +1,6 @@
 import { actionsCreator } from '@/helpers';
 
 export default actionsCreator([
-  'showModal',
+  'toggleModal',
   'closeModal',
 ]);

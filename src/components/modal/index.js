@@ -11,7 +11,13 @@ class Modal extends Component {
       <div className={cx('modal', this.props.wrapClassName)}>
         <div className={style.header}>
           <p className={style.title}>{this.props.title}</p>
-          <Button appearance="_icon-transparent" icon="close" onClick={() => {}} className={style.close} />
+
+          <Button
+            appearance="_icon-transparent"
+            icon="close"
+            onClick={this.props.close}
+            className={style.close}
+          />
         </div>
 
         <div className={cx('content', this.props.className)}>{this.props.children}</div>

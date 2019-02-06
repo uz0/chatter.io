@@ -15,7 +15,7 @@ const notificationReceived = notification => (dispatch, getState) => {
   }
 
   function onSubscription() {
-    if (notification.event === 'new') {
+    if (notification.event === 'new' && notification.object.user_id === state.currentUser.id) {
       if (state.subscriptions.list[notification.object.id]) {
         return;
       }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classnames from 'classnames/bind';
+import map from 'lodash/map';
 import get from 'lodash/get';
+import filter from 'lodash/filter';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -8,6 +10,7 @@ import { withNamespaces } from 'react-i18next';
 import Modal from '@/components/modal';
 import Icon from '@/components/icon';
 import { api } from '@';
+import { getOpponentUser } from '@/helpers';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
 import SearchInput from '@/components/search-input';
@@ -45,7 +48,6 @@ class AddChat extends Component {
     name = `${name.substr(0, 30)}${name.length > 30 ? '...' : ''}`;
 
     api.createRoom({ name, user_ids: this.state.checkedUsers }).then(data => {
-      this.props.addSubscription(data.subscription);
       this.props.router.push(`/chat/${data.subscription.id}`);
       this.props.close();
     }).catch(error => {
@@ -72,6 +74,12 @@ class AddChat extends Component {
   };
 
   render() {
+    const subscriptions = map(this.props.subscriptions_ids, id => this.props.subscriptions_list[id]);
+
+    const privateSubscriptions = filter(subscriptions,
+      subscription => subscription.group.type === 'private_chat' && subscription.group.participants.length === 2,
+    );
+
     return <Modal
       id="new-chat-modal"
       title={this.props.t('new_chat')}
@@ -86,21 +94,22 @@ class AddChat extends Component {
     >
       <SearchInput className={style.search} />
 
-      {false &&
+      {privateSubscriptions.length === 0 &&
         <p className={style.empty}>{this.props.t('no_results')}</p>
       }
 
-      {true &&
+      {privateSubscriptions.length > 0 &&
         <div className={style.list}>
-          {this.props.users_ids.map(id => {
-            const avatar = get(this.props.users_list[id], 'avatar.small', '/assets/default-user.jpg');
-            const nick = this.props.users_list[id].nick || 'no nick';
-            const isChecked = this.state.checkedUsers.indexOf(id) !== -1;
+          {privateSubscriptions.map(subscription => {
+            const user = getOpponentUser(subscription);
+            const avatar = get(this.props.users_list[user.id], 'avatar.small', '/assets/default-user.jpg');
+            const nick = this.props.users_list[user.id].nick || 'no nick';
+            const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
 
             return <button
-              key={id}
+              key={user.id}
               className={cx('button', {'_is-checked': isChecked})}
-              onClick={this.toggleUser(id)}
+              onClick={this.toggleUser(user.id)}
             >
               <Avatar photo={avatar} className={style.avatar} />
               <p className={style.name}>{nick}</p>
@@ -119,7 +128,8 @@ export default compose(
 
   connect(
     state => ({
-      users_ids: state.users.ids,
+      subscriptions_ids: state.subscriptions.ids,
+      subscriptions_list: state.subscriptions.list,
       users_list: state.users.list,
     }),
 

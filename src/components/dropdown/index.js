@@ -68,7 +68,7 @@ class Dropdown extends Component {
   }
 
   render() {
-    return <div className={style.dropdown}>
+    return <div className={cx('dropdown', this.props.className)}>
       {React.cloneElement(this.props.children, {
         onClick: this.toggleDropdown,
         ref: node => this.buttonRef = node,

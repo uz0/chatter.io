@@ -41,5 +41,12 @@ export default (state = initialState, action) => {
     };
   }
 
+  if (action.type === actions.types.clearUsers) {
+    return {
+      ids: [],
+      list: {},
+    };
+  }
+
   return state;
 };

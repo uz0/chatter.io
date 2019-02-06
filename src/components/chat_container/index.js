@@ -20,7 +20,7 @@ class Chat extends Component {
   };
 
   componentWillMount() {
-    if (!localStorage.getItem('authToken')) {
+    if (!this.props.currentUser) {
       this.props.router.push('/sign-in');
       return;
     }
@@ -60,7 +60,9 @@ export default compose(
   withNamespaces('translation'),
 
   connect(
-    null,
+    state => ({
+      currentUser: state.currentUser,
+    }),
 
     {
       notificationReceived: actions.notificationReceived,

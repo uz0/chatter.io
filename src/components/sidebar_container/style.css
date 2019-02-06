@@ -26,12 +26,16 @@
   text-overflow: ellipsis;
 }
 
-.sidebar .header .image {
+.sidebar .header .dropdown {
   --size: 40px;
   flex-shrink: 0;
+  margin-left: 12px;
+  height: var(--size);
+}
+
+.sidebar .header .dropdown > button {
   width: var(--size);
   height: var(--size);
-  margin-left: 12px;
   background-image: var(--bg-image);
   background-repeat: no-repeat;
   background-size: cover;

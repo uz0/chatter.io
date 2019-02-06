@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
   }
 
   if (action.type === actions.types.loadSubscription) {
-    let list = state.list;
+    let list = {...state.list};
 
     list[action.payload.id] = action.payload;
 
@@ -26,8 +26,8 @@ export default (state = initialState, action) => {
   }
 
   if (action.type === actions.types.addSubscription) {
-    let ids = state.ids;
-    let list = state.list;
+    let ids = [ ...state.ids ];
+    let list = { ...state.list };
 
     ids.push(action.payload.id);
     list[action.payload.id] = action.payload;
@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
   }
 
   if (action.type === actions.types.updateSubscription) {
-    let list = state.list;
+    let list = { ...state.list };
 
     list[action.payload.id] = {
       ...list[action.payload.id],
@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
   }
 
   if (action.type === actions.types.removeSubscription) {
-    let ids = state.ids;
+    let ids = [ ...state.ids ];
     ids.splice(ids.indexOf(action.payload), 1);
 
     return {

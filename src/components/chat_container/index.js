@@ -47,7 +47,7 @@ class Chat extends Component {
       {isChatOpen &&
         <Fragment>
           <Messages params={this.props.params} className={style.messages} />
-          <Panel isShown={false} onClose={() => {}} className={style.panel} />
+          <Panel params={this.props.params} className={style.panel} />
         </Fragment>
       }
 

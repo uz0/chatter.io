@@ -1,4 +1,5 @@
 .panel {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-right: var(--margin-right);
@@ -13,31 +14,34 @@
   --margin-right: 0;
 }
 
-.panel .close {
+.panel > .loading {
+  --left: 1px;
+}
+
+.panel > .close {
   --height: var(--info-height);
   flex-shrink: 0;
   margin-left: auto;
 }
 
-.panel .header {
-  flex-shrink: 0;
+.panel > .scroll {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.panel > .scroll > .header {
   padding: 22px var(--layout-padding);
 }
 
-.panel .header .image {
+.panel > .scroll > .header > .avatar {
   --size: 70px;
-  width: var(--size);
-  height: var(--size);
   margin-left: auto;
   margin-right: auto;
-  background-image: var(--image);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: calc(var(--size) / 2);
 }
 
-.panel .header .name {
+.panel > .scroll > .header > .name {
   --height: 20px;
   overflow: hidden;
   height: var(--height);
@@ -52,7 +56,7 @@
   text-overflow: ellipsis;
 }
 
-.panel .header .subcaption {
+.panel > .scroll > .header > .subcaption {
   --height: 16px;
   overflow: hidden;
   height: var(--height);
@@ -68,14 +72,7 @@
   text-overflow: ellipsis;
 }
 
-.panel .scroll {
-  flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  min-height: 0;
-}
-
-.panel .scroll .button {
+.panel > .scroll > .button {
   --icon-size: 24px;
   display: flex;
   align-items: center;
@@ -86,13 +83,21 @@
   text-align: left;
 }
 
-.panel .scroll .button i {
+.panel > .scroll > .button:not(:hover) {
+  --color: var(--text-color);
+}
+
+.panel > .scroll > .button:hover {
+  --color: var(--primary-color);
+}
+
+.panel > .scroll > .button i {
   --icon-color: var(--primary-color);
   flex-shrink: 0;
   width: 24px;
 }
 
-.panel .scroll .button span {
+.panel > .scroll > .button span {
   --height: 18px;
   overflow: hidden;
   flex-grow: 1;
@@ -101,30 +106,31 @@
   margin-left: 18px;
   line-height: var(--height);
   font-size: 15px;
-  color: var(--text-color);
+  color: var(--color);
   white-space: nowrap;
   text-overflow: ellipsis;
+  transition-property: color;
 }
 
-.panel .scroll .button + .collapse {
+.panel > .scroll > .button + .collapse {
   margin-top: 20px;
 }
 
-.panel .scroll .collapse {
+.panel > .scroll > .collapse {
   box-shadow: 0 1px var(--divider-color) inset;
 }
 
-.panel .scroll .collapse:not(._is-open) {
+.panel > .scroll > .collapse:not(._is-open) {
   --list-display: none;
   --icon-transform: rotate(90deg);
 }
 
-.panel .scroll .collapse._is-open {
+.panel > .scroll > .collapse._is-open {
   --list-display: block;
   --icon-transform: rotate(-90deg);
 }
 
-.panel .scroll .collapse .collapse_button {
+.panel > .scroll > .collapse > .collapse_button {
   display: flex;
   align-items: center;
   width: 100%;
@@ -133,17 +139,17 @@
   padding-right: var(--layout-padding);
 }
 
-.panel .scroll .collapse .collapse_button:not(:hover) {
+.panel > .scroll > .collapse > .collapse_button:not(:hover) {
   --color: var(--caption-color);
   --icon-color: #cfd1d4;
 }
 
-.panel .scroll .collapse .collapse_button:hover {
+.panel > .scroll > .collapse > .collapse_button:hover {
   --icon-color: var(--primary-color);
   --color: var(--primary-color);
 }
 
-.panel .scroll .collapse .collapse_button span {
+.panel > .scroll > .collapse > .collapse_button span {
   --height: 16px;
   overflow: hidden;
   flex-grow: 1;
@@ -158,7 +164,7 @@
   transition-property: color;
 }
 
-.panel .scroll .collapse .collapse_button i {
+.panel > .scroll > .collapse > .collapse_button i {
   --icon-size: 14px;
   flex-shrink: 0;
   margin-left: 12px;
@@ -166,23 +172,25 @@
   transition-property: background-color, transform;
 }
 
-.panel .scroll .collapse .collapse_list {
+.panel > .scroll > .collapse > .collapse_list {
   overflow-y: auto;
   overflow-x: hidden;
   display: var(--list-display);
   max-height: 200px;
+  padding-top: 8px;
+  padding-bottom: 26px;
 }
 
-.panel .scroll .collapse .collapse_list::-webkit-scrollbar {
+.panel > .scroll > .collapse > .collapse_list::-webkit-scrollbar {
   width: 3px;
   height: 3px;
 }
 
-.panel .scroll .collapse .collapse_list::-webkit-scrollbar-thumb {
+.panel > .scroll > .collapse > .collapse_list::-webkit-scrollbar-thumb {
   border-radius: 1.5px;
 }
 
-.panel .scroll .collapse .collapse_list .person {
+.panel > .scroll > .collapse > .collapse_list > .person {
   display: flex;
   align-items: center;
   height: 40px;
@@ -192,27 +200,20 @@
   transition-property: background-color;
 }
 
-.panel .scroll .collapse .collapse_list .person:not(:hover) {
+.panel > .scroll > .collapse > .collapse_list > .person:not(:hover) {
   --background-color: transparent;
 }
 
-.panel .scroll .collapse .collapse_list .person:hover {
+.panel > .scroll > .collapse > .collapse_list > .person:hover {
   --background-color: var(--divider-color);
 }
 
-.panel .scroll .collapse .collapse_list .person .avatar {
+.panel > .scroll > .collapse > .collapse_list > .person > .avatar {
   --size: 30px;
   flex-shrink: 0;
-  width: var(--size);
-  height: var(--size);
-  border-radius: calc(var(--size) / 2);
-  background-image: var(--photo);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
-.panel .scroll .collapse .collapse_list .person p {
+.panel > .scroll > .collapse > .collapse_list > .person > p {
   --height: 20px;
   overflow: hidden;
   flex-grow: 1;
@@ -227,7 +228,7 @@
   text-overflow: ellipsis;
 }
 
-.panel .scroll .collapse .collapse_list .person span {
+.panel > .scroll > .collapse > .collapse_list > .person > span {
   --height: 20px;
   flex-shrink: 0;
   min-width: 0;
@@ -237,4 +238,14 @@
   font-size: 13px;
   color: var(--caption-color);
   font-weight: var(--font-weight-light);
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person > .dropdown {
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person > .dropdown > button {
+  --icon-size: 12px;
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
 }

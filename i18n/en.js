@@ -1,4 +1,15 @@
 export default {translation: {
+  photos: 'Photos',
+  files: 'Files',
+  transactions: 'Transactions',
+  extensions: 'Extensions',
+  kick: 'Kick',
+  people: 'People',
+  category: 'Category',
+  search_in_conversation: 'Search in conversation',
+  notifications: 'Notifications',
+  copy_invite_link: 'Copy invite link',
+
   add_chat: 'Add Chat',
   add_contact: 'Add contact',
   admin: 'Admin',

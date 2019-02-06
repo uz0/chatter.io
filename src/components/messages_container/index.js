@@ -14,8 +14,9 @@ import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
 import MessageItem from '@/components/message-item';
 import Loading from '@/components/loading';
+import { withDetails } from '@/hoc';
 import { api } from '@';
-import { getDetails, uid, getChatName } from '@/helpers';
+import { uid, getChatName } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
@@ -103,9 +104,13 @@ class Messages extends Component {
   }
 
   // shouldComponentUpdate(nextProps) {
+  //   console.log(this.props);
+  //   console.log(nextProps);
+  //   return true;
   // }
 
   render() {
+    // console.log(123);
     const groupedMessages = this.getGroupedMessages() || [];
 
     return <div className={cx('messages', this.props.className)}>
@@ -157,13 +162,11 @@ class Messages extends Component {
 }
 
 export default compose(
+  withDetails,
   withNamespaces('translation'),
 
   connect(
-    (state, props) => ({
-      details: getDetails(state.subscriptions.list, props.params),
-      // for rendering messages on updates. BUG
-      messages: state.messages,
+    state => ({
       messages_list: state.messages.list,
     }),
 

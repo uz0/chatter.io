@@ -12,6 +12,7 @@ html {
   height: 20px;
   font-size: 13px;
   color: var(--text-color);
+  font-weight: var(--font-weight-light);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -79,6 +80,7 @@ html {
   margin-top: 4px;
   line-height: 12px;
   font-size: 12px;
+  font-weight: var(--font-weight-light);
   color: var(--error-color);
   white-space: nowrap;
   text-overflow: ellipsis;

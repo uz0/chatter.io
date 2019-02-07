@@ -1,0 +1,94 @@
+.modal {
+
+}
+
+.modal .form {
+  --input-height: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.modal .form > .avatar {
+  --size: 100px;
+  flex-shrink: 0;
+}
+
+.modal .form > button {
+  --height: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.modal .form > button:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form > button:hover {
+  --color: var(--primary-color-hover);
+}
+
+.modal .form > button + .input {
+  margin-top: 30px;
+}
+
+.modal .form .input {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.modal .form .input input {
+  font-size: 15px;
+  font-weight: var(--font-weight-light);
+  border-radius: 10px;
+  background-color: var(--divider-color);
+}
+
+.modal .form .email {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.modal .form .email:not(._is-confirmed) {
+
+}
+
+.modal .form .email._is-confirmed {
+
+}
+
+.modal .form .email > .title {
+  overflow: hidden;
+  display: block;
+  height: 20px;
+  font-size: 13px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .email > .title > .confirmed {
+  color: #42c539;
+}
+
+.modal .form .email > .title > .not_confirmed {
+  color: var(--error-color);
+}
+
+.modal .form .email > .title > .input {
+}

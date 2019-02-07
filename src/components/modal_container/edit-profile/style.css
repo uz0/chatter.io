@@ -17,7 +17,7 @@
   flex-shrink: 0;
 }
 
-.modal .form > button {
+.modal .form .edit {
   --height: 24px;
   flex-shrink: 0;
   overflow: hidden;
@@ -34,21 +34,21 @@
   transition-property: color;
 }
 
-.modal .form > button:not(:hover) {
+.modal .form .edit:not(:hover) {
   --color: var(--primary-color);
 }
 
-.modal .form > button:hover {
+.modal .form .edit:hover {
   --color: var(--primary-color-hover);
-}
-
-.modal .form > button + .input {
-  margin-top: 30px;
 }
 
 .modal .form .input {
   flex-shrink: 0;
   width: 100%;
+}
+
+.modal .form .input:first-of-type {
+  margin-top: 30px;
 }
 
 .modal .form .input input {

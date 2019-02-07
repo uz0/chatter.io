@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -8,13 +9,69 @@ import Avatar from '@/components/avatar';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
+import File from '@/components/form/file';
+import { api } from '@';
+import { actions as formActions } from '@/components/form';
+import { actions as storeActions } from '@/store';
+import { actions as notificationActions } from '@/components/notification';
 import { withNamespaces } from 'react-i18next';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
 class EditProfile extends Component {
+  submit = event => {
+    event.preventDefault();
+
+    const isPasswordNoChanged = !this.props.forms.profile.oldPassword.value &&
+      !this.props.forms.profile.password.value &&
+      !this.props.forms.profile.confirmPassword.value;
+
+    if (isPasswordNoChanged) {
+      api.updateMe({
+        ...this.props.forms.profile.avatar.value && this.props.forms.profile.avatar.isTouched ? { avatar: this.props.forms.profile.avatar.value } : {},
+        nick: this.props.forms.profile.nick.value,
+      }).then(data => {
+        this.props.showNotification(this.props.t('profile_updated'));
+        this.props.formReset('profile');
+        this.props.setCurrentUser(data.user);
+        this.props.close();
+      }).catch(error => this.props.showNotification(this.props.t(error.text)));
+
+      return;
+    }
+
+    const isAnyPasswordFieldEmpty = !this.props.forms.profile.oldPassword.value ||
+      !this.props.forms.profile.password.value ||
+      !this.props.forms.profile.confirmPassword.value;
+
+    if (isAnyPasswordFieldEmpty) {
+      this.props.showNotification(this.props.t('fill_all_paswords'));
+      return;
+    }
+
+    if (this.props.forms.profile.password.value !== this.props.forms.profile.confirmPassword.value) {
+      this.props.showNotification(this.props.t('passwords_not_equal'));
+      return;
+    }
+
+    api.updateMe({
+      ...this.props.forms.profile.avatar.value && this.props.forms.profile.avatar.isTouched ? { avatar: this.props.forms.profile.avatar.value } : {},
+      nick: this.props.forms.profile.nick.value,
+      current_password: this.props.forms.profile.oldPassword.value,
+      password: this.props.forms.profile.password.value,
+    }).then(data => {
+      this.props.showNotification(this.props.t('profile_updated'));
+      this.props.formReset('profile');
+      this.props.setCurrentUser(data.user);
+      this.props.close();
+    }).catch(error => this.props.showNotification(this.props.t(error.text)));
+  };
+
   render() {
+    const photo = get(this.props.forms, 'profile.avatar.value') ||
+      get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
+
     return <Modal
       id="edit-profile-modal"
       title={this.props.t('edit_profile')}
@@ -23,15 +80,37 @@ class EditProfile extends Component {
       close={this.props.close}
 
       actions={[
-        { text: this.props.t('update'), onClick: () => {} },
+        { text: this.props.t('update'), onClick: this.submit },
       ]}
     >
       <Form
         model="profile"
         className={style.form}
       >
-        <Avatar photo="/assets/default-user.jpg" className={style.avatar} />
-        <button>Edit</button>
+        <Avatar photo={photo} className={style.avatar} />
+
+        <File
+          model="profile.avatar"
+
+          validations={[
+            {
+              action: Validators.fileMaxSize(200000),
+              text: this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }),
+            },
+
+            {
+              action: Validators.fileExtensions(['jpeg', 'png']),
+              text: this.props.t('file_extensions', { extensions: '"jpeg", "png"' }),
+            },
+
+            {
+              action: Validators.fileType('image'),
+              text: this.props.t('file_type', { type: this.props.t('image') }),
+            },
+          ]}
+        >
+          <button type="button" className={style.edit}>Edit</button>
+        </File>
 
         <Input
           placeholder={this.props.t('nick')}
@@ -154,6 +233,17 @@ export default compose(
   connect(
     state => ({
       currentUser: state.currentUser,
+      forms: state.forms,
+
+      // state.forms.profile не отслеживает изменения redux
+      // formData: state.forms.profile,
     }),
+
+    {
+      formChange: formActions.formChange,
+      formReset: formActions.formReset,
+      showNotification: notificationActions.showNotification,
+      setCurrentUser: storeActions.setCurrentUser,
+    },
   ),
 )(EditProfile);

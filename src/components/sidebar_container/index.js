@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withNamespaces } from 'react-i18next';
+import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import SubscriptionItem from '@/components/subscription-item';
 import Button from '@/components/button';
@@ -44,6 +45,8 @@ class Sidebar extends Component {
   }
 
   render() {
+    const photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
+
     return <div className={cx('sidebar', this.props.className)}>
       <div className={style.header}>
         <h1>Unichat</h1>
@@ -57,7 +60,7 @@ class Sidebar extends Component {
             { text: this.props.t('log_out'), onClick: this.logout },
           ]}
         >
-          <button className={style.image} style={{ '--bg-image': 'url(/assets/default-user.jpg)' }} />
+          <button className={style.image} style={{ '--bg-image': `url(${photo})` }} />
         </Dropdown>
 
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
@@ -103,6 +106,7 @@ export default compose(
 
   connect(
     state => ({
+      currentUser: state.currentUser,
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
     }),

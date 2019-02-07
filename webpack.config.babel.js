@@ -18,6 +18,7 @@ let config = {
   devtool: 'eval-source-map',
   devServer: {
     contentBase: './src',
+    disableHostCheck: true,
     historyApiFallback: true
   },
   module: {

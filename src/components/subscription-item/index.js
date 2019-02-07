@@ -43,6 +43,7 @@ class SubscriptionItem extends Component {
       return null;
     }
 
+    const chatName = getChatName(this.props.subscription);
     let href = '';
 
     if (this.props.subscription.group.type === 'private_chat' && !isEmpty(getOpponentUser(this.props.subscription))) {
@@ -62,7 +63,7 @@ class SubscriptionItem extends Component {
       />
 
       <div className={style.content}>
-        <p className={style.name}>{getChatName(this.props.subscription)}</p>
+        <p className={style.name}>{chatName}</p>
 
         <div className={style.section}>
           <p className={style.text}>Test picture</p>

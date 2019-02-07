@@ -49,6 +49,11 @@ class Dropdown extends Component {
     });
   };
 
+  onItemClick = onClick => event => {
+    onClick(event);
+    this.props.closeDropdown(this.props.uniqueId);
+  };
+
   componentDidMount() {
     // eslint-disable-next-line react/no-find-dom-node
     const buttonElement = ReactDOM.findDOMNode(this.buttonRef);
@@ -89,7 +94,7 @@ class Dropdown extends Component {
           >
             {this.props.items.map(item => <button
               key={uid()}
-              onClick={item.onClick}
+              onClick={this.onItemClick(item.onClick)}
               className={cx({'_is-danger': item.isDanger})}
             >
               {item.icon &&

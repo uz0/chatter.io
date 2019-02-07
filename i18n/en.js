@@ -101,6 +101,7 @@ export default {translation: {
   today: 'Today',
   type_something: 'Type something',
   typing: 'Typing',
+  update: 'Update',
   update_profile: 'Update profile',
   unread_messages: 'Unread messages',
   validation_contains_spaces: '{{field}} should not contains spaces',

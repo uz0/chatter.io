@@ -3,6 +3,7 @@ import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import AddChat from './add-chat';
+import EditProfile from './edit-profile';
 import modalActions from './actions';
 
 export { default as actions } from './actions';
@@ -13,6 +14,7 @@ class ModalContainer extends Component {
     return <Portal>
       {this.props.modal_ids.map(id => <Fragment key={id}>
         {id === 'new-chat-modal' && <AddChat close={() => this.props.closeModal(id)} />}
+        {id === 'edit-profile-modal' && <EditProfile close={() => this.props.closeModal(id)} />}
       </Fragment>)}
     </Portal>;
   }

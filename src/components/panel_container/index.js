@@ -31,7 +31,8 @@ class Panel extends Component {
   renderPanel = () => {
     const chatName = getChatName(this.props.details);
     const countParticipants = this.props.details.group.participants.length;
-    const isCurrentUserAdmin = find(this.props.details.group.participants, { user_id: this.props.currentUser.id }).role === 'admin';
+    const currentUserParticipant = find(this.props.details.group.participants, { user_id: this.props.currentUser.id });
+    const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
 
     return <Fragment>
       <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />

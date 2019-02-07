@@ -26,6 +26,7 @@ class Sidebar extends Component {
 
   chooseTabNavigation = tab => () => this.setState({ navigationActive: tab });
   openAddChat = () => this.props.toggleModal('new-chat-modal');
+  openEditProfileModal = () => this.props.toggleModal('edit-profile-modal');
 
   logout = () => api.logout().then(() => {
     this.props.clearMessages();
@@ -52,6 +53,7 @@ class Sidebar extends Component {
           className={style.dropdown}
 
           items={[
+            { text: this.props.t('edit_profile'), onClick: this.openEditProfileModal },
             { text: this.props.t('log_out'), onClick: this.logout },
           ]}
         >

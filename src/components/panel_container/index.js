@@ -31,7 +31,7 @@ class Panel extends Component {
   renderPanel = () => {
     const chatName = getChatName(this.props.details);
     const countParticipants = this.props.details.group.participants.length;
-    const currentUserParticipant = find(this.props.details.group.participants, { user_id: this.props.currentUser.id });
+    const currentUserParticipant = this.props.currentUser && find(this.props.details.group.participants, { user_id: this.props.currentUser.id });
     const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
 
     return <Fragment>

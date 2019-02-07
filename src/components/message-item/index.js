@@ -61,7 +61,7 @@ class MessageItem extends Component {
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
-    const isMessageCurrentUser = this.props.message.user_id === this.props.currentUser.id;
+    const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
     const isMessageTextBlockShown = isMessageHasFile || this.props.message.text || this.props.message.forwarded_message_id || this.props.message.in_reply_to_message_id;
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
 

@@ -95,6 +95,7 @@ class Sidebar extends Component {
             key={id}
             id={id}
             className={style.subscription}
+            withLoadData
           />)}
 
         {!this.props.subscriptions_ids &&

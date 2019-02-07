@@ -4,6 +4,7 @@ const initialState = {
   chatIds: {},
   list: {},
   edit_message_id: null,
+  forward_message_id: null,
   reply_message_id: null,
 };
 
@@ -53,10 +54,10 @@ export default (state = initialState, action) => {
         stateChatIds[chatId] = { list: {}, chatIds: [] };
       }
 
-      stateChatIds[chatId].list = [(message.uid || message.id), ...stateChatIds[chatId].list];
+      stateChatIds[chatId].list = [(message.id || message.uid), ...stateChatIds[chatId].list];
     }
 
-    stateList[message.uid || message.id] = message;
+    stateList[message.id || message.uid] = message;
 
     return {
       ...state,
@@ -75,7 +76,7 @@ export default (state = initialState, action) => {
     if (message.uid && message.id) {
       const uidMessageIndex = stateChatIds[chatId].list.indexOf(message.uid);
       stateChatIds[chatId].list[uidMessageIndex] = message.id;
-      stateList[message.id] = [message.uid];
+      stateList[message.id] = message;
       delete stateList[message.uid];
     }
 
@@ -119,11 +120,26 @@ export default (state = initialState, action) => {
     };
   }
 
+  if (action.type === actions.types.addForwardMessage) {
+    return {
+      ...state,
+      forward_message_id: action.payload,
+    };
+  }
+
+  if (action.type === actions.types.clearForwardMessage) {
+    return {
+      ...state,
+      forward_message_id: null,
+    };
+  }
+
   if (action.type === actions.types.clearMessages) {
     return {
       chatIds: {},
       list: {},
       edit_message_id: null,
+      forward_message_id: null,
       reply_message_id: null,
     };
   }

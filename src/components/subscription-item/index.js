@@ -33,9 +33,13 @@ class SubscriptionItem extends Component {
     });
   };
 
+  click = () => this.props.onClick(this.props.subscription);
+
   componentWillMount() {
-    this.loadLastMessage();
-    this.loadSubscription();
+    if (this.props.withLoadData) {
+      this.loadLastMessage();
+      this.loadSubscription();
+    }
   }
 
   render() {
@@ -53,8 +57,9 @@ class SubscriptionItem extends Component {
     }
 
     return <Link
-      to={href}
-      activeClassName="_is-active"
+      {...this.props.withLoadData ? {to: href} : {}}
+      {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
+      {...!this.props.withLoadData ? {onClick: this.click} : {}}
       className={cx('subscription', this.props.className)}
     >
       <SubscriptionAvatar

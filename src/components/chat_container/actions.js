@@ -46,6 +46,7 @@ const notificationReceived = notification => (dispatch, getState) => {
   }
 
   function onMessage() {
+    console.log(notification);
     const messageSubscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
 
     if (!messageSubscription) {

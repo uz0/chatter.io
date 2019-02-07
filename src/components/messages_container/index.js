@@ -55,12 +55,12 @@ class Messages extends Component {
             array.push({ type: 'messages', messages_ids: messages });
           }
 
-          array.push({ type: 'xtagDelimiter', message_id: message.id });
+          array.push({ type: 'xtagDelimiter', message_id: message.id || message.uid });
           messages = [];
           return;
         }
 
-        messages.push(message.id);
+        messages.push(message.id || message.uid);
       });
 
       if (messages.length > 0) {

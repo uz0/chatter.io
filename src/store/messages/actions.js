@@ -11,4 +11,7 @@ export default actionsCreator([
 
   'addReplyMessage',
   'clearReplyMessage',
+
+  'addForwardMessage',
+  'clearForwardMessage',
 ]);

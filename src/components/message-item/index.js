@@ -13,6 +13,7 @@ import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
 import { actions as notificationActions } from '@/components/notification';
+import { actions as modalActions } from '@/components/modal_container';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -53,7 +54,12 @@ class MessageItem extends Component {
   };
 
   openUpdateMessage = () => this.props.addEditMessage(this.props.message.id);
-  openReplyMessage = () => this.props.addReplyMessage(this.props.message.id);
+  openReplyMessage = () => this.props.addReplyMessage(this.props.message.forwarded_message_id || this.props.message.id);
+
+  openForwardModal = () => {
+    this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);
+    this.props.toggleModal('forward-modal');
+  }
 
   onDelete = () => api.deleteMessage({ message_id: this.props.message.id })
     .catch(error => this.props.showNotification(this.props.t(error.code)));
@@ -76,10 +82,13 @@ class MessageItem extends Component {
     const isMessageTextBlockShown = isMessageHasFile || this.props.message.text || this.props.message.forwarded_message_id || this.props.message.in_reply_to_message_id;
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
 
-    let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: () => {} }];
+    let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
+
+    if (isMessageCurrentUser && isMessageInCurrentHour && !this.props.message.forwarded_message_id) {
+      actionsItems.unshift({ icon: 'edit', text: this.props.t('edit'), onClick: this.openUpdateMessage });
+    }
 
     if (isMessageCurrentUser && isMessageInCurrentHour) {
-      actionsItems.unshift({ icon: 'edit', text: this.props.t('edit'), onClick: this.openUpdateMessage });
       actionsItems.push({ icon: 'delete', text: this.props.t('delete'), onClick: this.onDelete, isDanger: true });
     }
 
@@ -188,7 +197,9 @@ export default compose(
     {
       addEditMessage: messagesActions.addEditMessage,
       addReplyMessage: messagesActions.addReplyMessage,
+      addForwardMessage: messagesActions.addForwardMessage,
       openDropdown: dropdownActions.openDropdown,
+      toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
     },
   ),

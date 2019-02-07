@@ -18,7 +18,7 @@ const sendMessage = params => (dispatch, getState) => {
     deleted_at: null,
     edited_at: null,
     group_id: subscription.group_id,
-    id: uid(),
+    uid: uid(),
     reference: {type: null, id: null},
     user_id: state.currentUser.id,
     xtag: null,
@@ -43,7 +43,7 @@ const sendMessage = params => (dispatch, getState) => {
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
 
   api.post({
-    uid: message.id,
+    uid: message.uid,
     subscription_id: subscription.id,
     ...message.text ? {text: message.text} : {},
     ...message.attachment ? {attachment: message.attachment.url} : {},

@@ -11,6 +11,7 @@ import Button from '@/components/button';
 import RefMessage from './ref-message';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
+import { actions as dropdownActions } from '@/components/dropdown';
 import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
@@ -56,6 +57,16 @@ class MessageItem extends Component {
 
   onDelete = () => api.deleteMessage({ message_id: this.props.message.id })
     .catch(error => this.props.showNotification(this.props.t(error.code)));
+
+  isDeviceMobile = () => {
+    const deviceWidth = document.body.offsetWidth;
+
+    if (deviceWidth > 1024) {
+      return false;
+    }
+
+    return true;
+  };
 
   render() {
     const isMessageDeleted = !!this.props.message.deleted_at;
@@ -177,6 +188,7 @@ export default compose(
     {
       addEditMessage: messagesActions.addEditMessage,
       addReplyMessage: messagesActions.addReplyMessage,
+      openDropdown: dropdownActions.openDropdown,
       showNotification: notificationActions.showNotification,
     },
   ),

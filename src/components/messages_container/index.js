@@ -16,7 +16,7 @@ import MessageItem from '@/components/message-item';
 import Loading from '@/components/loading';
 import { withDetails } from '@/hoc';
 import { api } from '@';
-import { uid, getChatName } from '@/helpers';
+import { uid } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
@@ -116,8 +116,7 @@ class Messages extends Component {
     return <div className={cx('messages', this.props.className)}>
       {this.props.details &&
         <Header
-          title={getChatName(this.props.details)}
-          count={this.props.details.group.participants.length}
+          details={this.props.details}
           className={style.header}
         />
       }

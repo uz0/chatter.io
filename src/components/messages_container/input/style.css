@@ -163,3 +163,9 @@
 .input .section .input_wrapper button:hover {
   --color: var(--primary-color-hover);
 }
+
+@media (max-width: 800px) {
+  .input {
+    box-shadow: 0 1px var(--divider-color) inset;
+  }
+}

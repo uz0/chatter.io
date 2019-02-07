@@ -103,7 +103,7 @@ class Dropdown extends Component {
 
               <span>{item.text}</span>
             </button>)}
-          </div>;
+          </div>
         </Portal>
       }
     </div>;

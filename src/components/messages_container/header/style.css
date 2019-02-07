@@ -1,15 +1,50 @@
 .header {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
   height: var(--info-height);
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
   box-shadow: 0 -1px var(--divider-color) inset;
 }
 
-.header button {
+.header .back {
+  --icon-size: 20px;
+  flex-shrink: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: var(--info-height);
+  height: var(--info-height);
+  margin-left: calc((((var(--info-height) - var(--icon-size)) / 2) + 4px) * -1);
+}
+
+.header .back:not(:hover) {
+  --icon-color: var(--primary-color);
+}
+
+.header .back:hover {
+  --icon-color: var(--primary-color-hover);
+}
+
+.header .avatar {
+  --size: 40px;
+  flex-shrink: 0;
+  display: none;
+
+  /* в десктопе аватар скроется и не придется ставить margin на section лишний раз */
+  margin-right: 8px;
+}
+
+.header .section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.header .section button {
   --height: 20px;
   overflow: hidden;
   height: var(--height);
@@ -21,7 +56,7 @@
   text-overflow: ellipsis;
 }
 
-.header .count {
+.header .section .count {
   --height: 20px;
   overflow: hidden;
   height: var(--height);
@@ -31,4 +66,14 @@
   font-weight: var(--font-weight-light);
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 1024px) {
+  .header .back {
+    display: flex;
+  }
+
+  .header .avatar {
+    display: block;
+  }
 }

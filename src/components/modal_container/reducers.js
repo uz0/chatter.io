@@ -19,7 +19,11 @@ export default (state = initialState, action) => {
   if (action.type === actions.types.closeModal) {
     let stateArray = [ ...state ];
     const index = stateArray.indexOf(action.payload);
-    delete stateArray[index];
+
+    if (index !== -1) {
+      delete stateArray[index];
+    }
+
     return stateArray;
   }
 

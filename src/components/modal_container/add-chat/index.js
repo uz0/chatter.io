@@ -77,7 +77,7 @@ class AddChat extends Component {
     const subscriptions = map(this.props.subscriptions_ids, id => this.props.subscriptions_list[id]);
 
     const privateSubscriptions = filter(subscriptions,
-      subscription => subscription.group.type === 'private_chat' && subscription.group.participants.length === 2,
+      subscription => subscription && subscription.group.type === 'private_chat' && subscription.group.participants.length === 2,
     );
 
     return <Modal

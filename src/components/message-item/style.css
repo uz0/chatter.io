@@ -306,3 +306,13 @@
   --font-size: 11px;
   margin-top: auto;
 }
+
+@media (max-width: 1024px) {
+  .message-item > .actions {
+    --actions-opacity: 1;
+  }
+
+  .message-item > .info > .time {
+    display: none;
+  }
+}

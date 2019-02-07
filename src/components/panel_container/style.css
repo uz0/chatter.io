@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   margin-right: var(--margin-right);
+  background-color: #fff;
   transition-property: margin-right;
 }
 

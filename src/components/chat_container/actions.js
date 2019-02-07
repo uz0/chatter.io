@@ -2,6 +2,7 @@ import find from 'lodash/find';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
+import { actions as usersActions } from '@/store/users';
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -12,6 +13,20 @@ const notificationReceived = notification => (dispatch, getState) => {
 
   if (notification.object_type === 'subscription' || notification.object_name === 'subscription') {
     onSubscription();
+  }
+
+  if (notification.object_type === 'user') {
+    onUser();
+  }
+
+  function onUser() {
+    if (notification.event === 'changed') {
+      if (state.users.list[notification.object.id]) {
+        dispatch(usersActions.updateUser(notification.object));
+      } else {
+        dispatch(usersActions.addUser(notification.object));
+      }
+    }
   }
 
   function onSubscription() {

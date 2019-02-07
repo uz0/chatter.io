@@ -1,20 +1,25 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import { withNamespaces } from 'react-i18next';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
 import ModalContainer from '@/components/modal_container';
+import { actions as modalActions } from '@/components/modal_container';
 import { api } from '@';
 import actions from './actions';
 import style from './style.css';
+
+const cx = classnames.bind(style);
 
 class Chat extends Component {
   handleDocumentKeyDown = event => {
     const isChatOpen = this.props.params.chatId || this.props.params.userId;
 
     if (isChatOpen && event.keyCode === 27) {
+      this.props.closeModal('panel-container');
       this.props.router.push('/chat');
     }
   };
@@ -41,7 +46,7 @@ class Chat extends Component {
   render() {
     const isChatOpen = this.props.params.chatId || this.props.params.userId;
 
-    return <div className={style.chat}>
+    return <div className={cx('chat', {'_is-open': isChatOpen})}>
       <Sidebar className={style.sidebar} />
 
       {isChatOpen &&
@@ -65,6 +70,7 @@ export default compose(
     }),
 
     {
+      closeModal: modalActions.closeModal,
       notificationReceived: actions.notificationReceived,
     },
   ),

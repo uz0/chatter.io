@@ -30,6 +30,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   min-height: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
 .panel > .scroll > .header {
@@ -180,15 +181,7 @@
   max-height: 200px;
   padding-top: 8px;
   padding-bottom: 26px;
-}
-
-.panel > .scroll > .collapse > .collapse_list::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-
-.panel > .scroll > .collapse > .collapse_list::-webkit-scrollbar-thumb {
-  border-radius: 1.5px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .panel > .scroll > .collapse > .collapse_list > .person {

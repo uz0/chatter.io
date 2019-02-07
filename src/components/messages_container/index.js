@@ -112,6 +112,7 @@ class Messages extends Component {
   render() {
     // console.log(123);
     const groupedMessages = this.getGroupedMessages() || [];
+    const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
     return <div className={cx('messages', this.props.className)}>
       {this.props.details &&
@@ -150,7 +151,7 @@ class Messages extends Component {
           <p className={style.empty}>{this.props.t('there_is_no_messages')}</p>
         }
 
-        <Loading isShown={this.state.isMessagesLoading} className={style.loading} />
+        <Loading isShown={!isMessagesLoaded} className={style.loading} />
       </div>
 
       {this.props.details &&

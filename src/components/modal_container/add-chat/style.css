@@ -36,6 +36,7 @@
   overflow-x: hidden;
   min-height: 0;
   margin-top: 8px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal .list .button {

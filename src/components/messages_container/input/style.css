@@ -116,15 +116,6 @@
   border: 0;
 }
 
-.input .section .input_wrapper textarea::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-
-.input .section .input_wrapper textarea::-webkit-scrollbar-thumb {
-  border-radius: 1.5px;
-}
-
 .input .section .input_wrapper textarea::placeholder {
   color: var(--caption-color);
 }

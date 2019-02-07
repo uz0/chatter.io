@@ -8,6 +8,7 @@ import classnames from 'classnames/bind';
 import SubscriptionItem from '@/components/subscription-item';
 import Button from '@/components/button';
 import SearchInput from '@/components/search-input';
+import Loading from '@/components/loading';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
 import { actions as storeActions } from '@/store';
@@ -45,6 +46,9 @@ class Sidebar extends Component {
   }
 
   render() {
+    const isChatsLoaded = this.props.subscriptions_ids.length > 0 &&
+      this.props.subscriptions_ids.length === Object.keys(this.props.subscriptions_list).length;
+
     const photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
 
     return <div className={cx('sidebar', this.props.className)}>
@@ -96,6 +100,8 @@ class Sidebar extends Component {
         {!this.props.subscriptions_ids &&
           <p className={style.empty}>There is no chats</p>}
       </div>
+
+      <Loading isShown={!isChatsLoaded} className={style.loading} />
     </div>;
   }
 }

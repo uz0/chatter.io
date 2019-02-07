@@ -80,6 +80,7 @@ body {
 }
 
 :global(#app) {
+  -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   overflow-y: auto;
   position: fixed;
@@ -122,17 +123,6 @@ a {
 ::selection {
   color: #fff;
   background-color: var(--primary-color);
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #999;
-  border-radius: 2.5px;
-  cursor: move;
 }
 
 input:focus,

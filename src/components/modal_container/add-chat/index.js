@@ -22,6 +22,12 @@ const cx = classnames.bind(style);
 class AddChat extends Component {
   state = {
     checkedUsers: [],
+    search: '',
+  };
+
+  onSearchInput = event => {
+    event.persist();
+    this.setState({ search: event.target.value });
   };
 
   toggleUser = id => () => {
@@ -57,20 +63,28 @@ class AddChat extends Component {
   };
 
   createPrivateChat = () => {
+    api.addContact({
+      [this.state.search.indexOf('@') !== -1 ? 'email' : 'nick']: this.state.search,
+    }).then(addContactData => api.getPrivateSubscription({ user_id: addContactData.contact.user.id }).then(data => {
+      if (this.props.subscriptions_ids.indexOf(data.subscription.id) === -1) {
+        this.props.addSubscription(data.subscription);
+      }
 
+      this.props.close();
+      this.props.router.push(`/chat/user/${addContactData.contact.user.id}`);
+    })).catch(error => this.props.showNotification(this.props.t(error.code)));
   };
 
   create = () => {
-    if (!this.state.checkedUsers.length === 0) {
-      return;
-    }
-
-    if (this.state.checkedUsers.length === 1) {
+    if (this.state.search) {
       this.createPrivateChat();
       return;
     }
 
-    this.createGroupChat();
+    if (this.state.checkedUsers.length > 1) {
+      this.createGroupChat();
+      return;
+    }
   };
 
   render() {
@@ -92,7 +106,11 @@ class AddChat extends Component {
         { text: this.props.t('create'), onClick: this.create },
       ]}
     >
-      <SearchInput className={style.search} />
+      <SearchInput
+        value={this.state.search}
+        onInput={this.onSearchInput}
+        className={style.search}
+      />
 
       {privateSubscriptions.length === 0 &&
         <p className={style.empty}>{this.props.t('no_results')}</p>

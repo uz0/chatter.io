@@ -16,6 +16,14 @@ export default (state = initialState, action) => {
     let stateChatIds = { ...state.chatIds };
     let stateList = { ...state.list };
 
+    if (stateChatIds[chatId] && stateChatIds[chatId].isLoaded) {
+      return {
+        ...state,
+        chatIds: stateChatIds,
+        list: stateList,
+      };
+    }
+
     stateChatIds[chatId] = {
       isLoaded,
       list: [],

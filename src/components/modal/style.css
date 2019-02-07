@@ -14,7 +14,7 @@
 .wrapper .modal {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 600px;
   max-height: 90vh;
   background-color: #fff;
   border-radius: 6px;
@@ -125,6 +125,12 @@
 
 .wrapper .modal .actions button:not(:only-child):last-of-type:hover {
   --color: var(--primary-color-hover);
+}
+
+@media (max-width: 1600px) {
+  .wrapper .modal {
+    width: 500px;
+  }
 }
 
 @media (max-width: 800px) {

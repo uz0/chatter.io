@@ -11,7 +11,14 @@ class SearchInput extends Component {
   render() {
     return <div className={cx('wrapper', this.props.className)}>
       <Icon name="search" />
-      <input type="text" placeholder={this.props.placeholder || this.props.t('search')} />
+
+      <input
+        type="text"
+        placeholder={this.props.placeholder || this.props.t('search')}
+        value={this.props.value}
+        onInput={this.props.onInput}
+        onChange={() => {}}
+      />
     </div>;
   }
 }

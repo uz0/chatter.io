@@ -49,6 +49,7 @@
     "eslint-loader": "^1.5.0",
     "eslint-plugin-react": "^6.3.0",
     "file-loader": "^0.9.0",
+    "ncp": "^2.0.0",
     "postcss-loader": "^0.13.0",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.1",
@@ -62,7 +63,7 @@
     "build": "cross-env NODE_ENV=production webpack -p",
     "postbuild": "npm run copy",
     "clean": "rimraf build",
-    "copy": "cp -r public/* build",
+    "copy": "ncp src/assets build/assets && ncp public build && ncp src build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   }

@@ -1,37 +1,37 @@
 @font-face {
   font-family: 'SFProText';
   font-weight: 200;
-  src: url('http://localhost:8080/assets/fonts/SF-Pro-Text-Light.otf');
+  src: url('/assets/fonts/SF-Pro-Text-Light.otf');
 }
 
 @font-face {
   font-family: 'SFProText';
   font-weight: 400;
-  src: url('http://localhost:8080/assets/fonts/SF-Pro-Text-Regular.otf');
+  src: url('/assets/fonts/SF-Pro-Text-Regular.otf');
 }
 
 @font-face {
   font-family: 'SFProText';
   font-weight: 500;
-  src: url('http://localhost:8080/assets/fonts/SF-Pro-Text-Medium.otf');
+  src: url('/assets/fonts/SF-Pro-Text-Medium.otf');
 }
 
 /*@font-face {
   font-family: 'SFProText';
   font-weight: 600;
-  src: url('http://localhost:8080/assets/fonts/SF-Pro-Text-Semibold.otf');
+  src: url('/assets/fonts/SF-Pro-Text-Semibold.otf');
 }*/
 
 @font-face {
   font-family: 'SFProText';
   font-weight: 700;
-  src: url('http://localhost:8080/assets/fonts/SF-Pro-Text-Bold.otf');
+  src: url('/assets/fonts/SF-Pro-Text-Bold.otf');
 }
 
 /*@font-face {
   font-family: 'SFProText';
   font-weight: 800;
-  src: url('http://localhost:8080/assets/fonts/SF-Pro-Text-Heavy.otf');
+  src: url('/assets/fonts/SF-Pro-Text-Heavy.otf');
 }*/
 
 :root {

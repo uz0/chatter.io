@@ -9,6 +9,7 @@
     "node": true,
     "mocha": true,
     "es6": true,
+    "jest": true
   },
   "parserOptions": {
     "ecmaFeatures": {
@@ -22,7 +23,8 @@
     }
   },
   "globals": {
-    "sleep": 1
+    "sleep": 1,
+    "jestPuppeteer": true
   },
   "rules": {
     "react/jsx-no-bind": [2, { "ignoreRefs": true, "allowArrowFunctions": true }],

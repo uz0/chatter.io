@@ -7,6 +7,7 @@ import Modal from '@/components/modal';
 import SubscriptionItem from '@/components/subscription-item';
 import { api } from '@';
 import { uid, getOpponentUser } from '@/helpers';
+import { withSortedSubscriptions  } from '@/hoc';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as notificationActions } from '@/components/notification';
 import { withNamespaces } from 'react-i18next';
@@ -41,7 +42,7 @@ class Forward extends Component {
       className={style.modal}
       close={this.props.close}
     >
-      {this.props.subscriptions_ids.map(id => <SubscriptionItem
+      {this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
         key={id}
         id={id}
         className={style.subscription}
@@ -53,11 +54,11 @@ class Forward extends Component {
 
 export default compose(
   withRouter,
+  withSortedSubscriptions,
   withNamespaces('translation'),
 
   connect(
     state => ({
-      subscriptions_ids: state.subscriptions.ids,
       forward_message_id: state.messages.forward_message_id,
     }),
 

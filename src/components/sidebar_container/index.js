@@ -11,6 +11,7 @@ import SearchInput from '@/components/search-input';
 import Loading from '@/components/loading';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
+import { withSortedSubscriptions } from '@/hoc';
 import { actions as storeActions } from '@/store';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
@@ -35,9 +36,9 @@ class Sidebar extends Component {
     this.props.clearSubscriptions();
     this.props.clearUsers();
     this.props.setCurrentUser(null);
+    this.props.router.push('/sign-in');
     window.localStorage.removeItem('authToken');
     window.localStorage.removeItem('currentUser');
-    this.props.router.push('/sign-in');
   }).catch(error => this.props.showNotification(this.props.t(error.text)));
 
   async componentWillMount() {
@@ -90,8 +91,8 @@ class Sidebar extends Component {
       </div>
 
       <div className={style.list}>
-        {this.props.subscriptions_ids &&
-          this.props.subscriptions_ids.map(id => <SubscriptionItem
+        {this.props.sorted_subscriptions_ids &&
+          this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
             key={id}
             id={id}
             className={style.subscription}
@@ -109,13 +110,12 @@ class Sidebar extends Component {
 
 export default compose(
   withRouter,
+  withSortedSubscriptions,
   withNamespaces('translation'),
 
   connect(
     state => ({
       currentUser: state.currentUser,
-      subscriptions_ids: state.subscriptions.ids,
-      subscriptions_list: state.subscriptions.list,
     }),
 
     {

@@ -8,6 +8,7 @@ import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
 import ModalContainer from '@/components/modal_container';
 import { actions as modalActions } from '@/components/modal_container';
+import { actions as messagesActions } from '@/store/messages';
 import { api } from '@';
 import actions from './actions';
 import style from './style.css';
@@ -19,7 +20,6 @@ class Chat extends Component {
     const isChatOpen = this.props.params.chatId || this.props.params.userId;
 
     if (isChatOpen && event.keyCode === 27) {
-      this.props.closeModal('panel-container');
       this.props.router.push('/chat');
     }
   };
@@ -37,6 +37,14 @@ class Chat extends Component {
     });
 
     window.addEventListener('keydown', this.handleDocumentKeyDown);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if ((this.props.params.chatId || this.props.params.userId) && (!nextProps.params.chatId && !nextProps.params.userId)) {
+      this.props.closeModal('panel-container');
+      this.props.clearEditMessage();
+      this.props.clearReplyMessage();
+    }
   }
 
   componwntWillUnmount() {
@@ -71,6 +79,8 @@ export default compose(
 
     {
       closeModal: modalActions.closeModal,
+      clearEditMessage: messagesActions.clearEditMessage,
+      clearReplyMessage: messagesActions.clearReplyMessage,
       notificationReceived: actions.notificationReceived,
     },
   ),

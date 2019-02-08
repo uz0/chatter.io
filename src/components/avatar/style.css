@@ -7,9 +7,17 @@
 	color: #fff;
 	text-align: center;
 	background-image: var(--photo);
-	background-color: var(--primary-color);
+	background-color: var(--background-color);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
 	border-radius: calc(var(--size, var(--default-size)) / 2);
+}
+
+.avatar:not(._is-group) {
+	--background-color: #fff;
+}
+
+.avatar._is-group {
+	--background-color: var(--primary-color);
 }

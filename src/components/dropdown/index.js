@@ -31,6 +31,8 @@ class Dropdown extends Component {
     let right = 'auto';
     let bottom = 'auto';
 
+    const offsetHeight = buttonElement.offsetHeight;
+
     if (top > (window.innerHeight / 2)) {
       bottom = window.innerHeight - top - buttonElement.offsetWidth;
     }
@@ -43,7 +45,7 @@ class Dropdown extends Component {
       uniqueId: this.props.uniqueId,
 
       options: {
-        ...bottom !== 'auto' ? {bottom} : {top},
+        ...bottom !== 'auto' ? {bottom: bottom + offsetHeight} : {top: top + offsetHeight},
         ...right !== 'auto' ? {right} : {left},
       },
     });

@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
 import find from 'lodash/find';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
@@ -304,7 +305,7 @@ export default compose(
 
   connect(
     (state, props) => ({
-      draft: state.subscriptions.list[props.subscription_id].draft,
+      draft: get(state.subscriptions.list[props.subscription_id], 'draft', ''),
       edit_message_id: state.messages.edit_message_id,
       reply_message_id: state.messages.reply_message_id,
       users_ids: state.users.ids,

@@ -1,6 +1,6 @@
 import actions from './actions';
 
-const initialState = [];
+const initialState = ['panel-container'];
 
 export default (state = initialState, action) => {
   if (action.type === actions.types.toggleModal) {

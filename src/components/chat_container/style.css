@@ -1,7 +1,7 @@
 .chat {
   --info-height: 50px;
-  --sidebar-width: 400px;
-  --panel-width: 350px;
+  --sidebar-width: 25%;
+  --panel-width: 20%;
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
@@ -25,13 +25,6 @@
   flex-shrink: 0;
   width: var(--panel-width);
   box-shadow: 1px 0 var(--divider-color) inset;
-}
-
-@media (max-width: 1600px) {
-  .chat {
-    --sidebar-width: 25%;
-    --panel-width: 20%;
-  }
 }
 
 @media (max-width: 1280px) {

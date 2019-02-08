@@ -64,6 +64,7 @@
 }
 
 html {
+  -webkit-font-smoothing: antialiased;
   font-size: 15px;
   font-family: var(--font-family-regular), sans-serif;
   font-weight: var(--font-weight-regular);

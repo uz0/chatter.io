@@ -32,6 +32,7 @@ export default {translation: {
   delete: 'Delete',
   delete_message: 'Delete message',
   deleted_message: 'Deleted message',
+  draft: 'Draft',
   edit: 'Edit',
   edit_photo: 'Edit photo',
   edit_profile: 'Edit profile',

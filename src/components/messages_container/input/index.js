@@ -22,7 +22,7 @@ const cx = classnames.bind(style);
 class MessageInput extends Component {
   state = {
     attachment: null,
-    value: '',
+    value: this.props.draft || '',
   };
 
   onTextareaKeyDown = event => {
@@ -220,10 +220,18 @@ class MessageInput extends Component {
         ...nextProps.editing_message.text ? {value: nextProps.editing_message.text} : {},
         ...nextProps.editing_message.attachment ? {attachment: nextProps.editing_message.attachment} : {},
       });
+
+      setTimeout(() => this.textareaRef.focus());
+    }
+
+    if (this.props.subscription_id !== nextProps.subscription_id) {
+      this.setState({ value: nextProps.draft ? nextProps.draft : '' });
+      setTimeout(() => this.textareaRef.focus());
     }
   }
 
   componentDidMount() {
+    this.textareaRef.focus();
     window.addEventListener('keydown', this.handleDocumentKeyDown);
   }
 
@@ -295,7 +303,8 @@ export default compose(
   withNamespaces('translation'),
 
   connect(
-    state => ({
+    (state, props) => ({
+      draft: state.subscriptions.list[props.subscription_id].draft,
       edit_message_id: state.messages.edit_message_id,
       reply_message_id: state.messages.reply_message_id,
       users_ids: state.users.ids,

@@ -4,7 +4,9 @@ import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import classnames from 'classnames/bind';
+import { withNamespaces } from 'react-i18next';
 import SubscriptionAvatar from '@/components/subscription-avatar';
+import Message from './message';
 import { api } from '@';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
@@ -56,6 +58,8 @@ class SubscriptionItem extends Component {
       href = `/chat/${this.props.id}`;
     }
 
+    const isLastMessageShown = this.props.lastMessage && !this.props.subscription.draft;
+
     return <Link
       {...this.props.withLoadData ? {to: href} : {}}
       {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
@@ -70,10 +74,13 @@ class SubscriptionItem extends Component {
       <div className={style.content}>
         <p className={style.name}>{chatName}</p>
 
-        <div className={style.section}>
-          <p className={style.text}>Test picture</p>
-          <span className={style.time}>09:23</span>
-        </div>
+        {isLastMessageShown &&
+          <Message message={this.props.lastMessage} className={style.message} />
+        }
+
+        {this.props.subscription.draft &&
+          <p className={cx('message', 'text')}>{this.props.t('draft')}: {this.props.subscription.draft}</p>
+        }
       </div>
 
       {false && <div className={style.point} />}
@@ -84,9 +91,12 @@ class SubscriptionItem extends Component {
 }
 
 export default compose(
+  withNamespaces('translation'),
+
   connect(
     (state, props) => ({
       subscription: state.subscriptions.list[props.id] || null,
+      ...state.messages.chatIds[props.id] ? { lastMessage: state.messages.list[state.messages.chatIds[props.id].list[0]] } : {},
     }),
 
     {

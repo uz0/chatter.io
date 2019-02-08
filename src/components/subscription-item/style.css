@@ -42,47 +42,20 @@
   text-overflow: ellipsis;
 }
 
-.subscription .content .section {
-  --section-height: 16px;
-  display: flex;
-  align-items: center;
+.subscription .content .message {
+  --message-height: 16px;
   margin-top: 4px;
 }
 
-.subscription .content .section .text {
+.subscription .content .text {
   overflow: hidden;
-  height: var(--section-height);
-  line-height: var(--section-height);
+  height: var(--message-height);
+  line-height: var(--message-height);
   font-size: 14px;
-  color: var(--caption-color);
   font-weight: var(--font-weight-light);
+  color: var(--caption-color);
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.subscription .content .section .time {
-  position: relative;
-  flex-shrink: 0;
-  height: var(--section-height);
-  margin-left: 8px;
-  padding-left: 10px;
-  line-height: var(--section-height);
-  font-size: 14px;
-  color: var(--caption-color);
-  font-weight: var(--font-weight-light);
-}
-
-.subscription .content .section .time::before {
-  --size: 4px;
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: var(--size);
-  height: var(--size);
-  border-radius: calc(var(--size) / 2);
-  background-color: var(--caption-color);
-  transform: translateY(-50%);
 }
 
 .subscription .last_photo {

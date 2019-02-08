@@ -127,12 +127,6 @@
   --color: var(--primary-color-hover);
 }
 
-@media (max-width: 1600px) {
-  .wrapper .modal {
-    width: 500px;
-  }
-}
-
 @media (max-width: 800px) {
   .wrapper .modal {
     width: 100%;

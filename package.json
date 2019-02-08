@@ -7,28 +7,6 @@
     "url": "git+https://github.com/uz0/chatter.io"
   },
   "author": "dcversus <dcversus@gmail.com>",
-  "jest": {
-    "setupFiles": [
-      "./jestSetup.js"
-    ],
-    "testURL": "http://localhost:5000",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json"
-    ],
-    "moduleDirectories": [
-      "node_modules"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "preset": "jest-puppeteer"
-  },
   "dependencies": {
     "autoprefixer": "^6.3.7",
     "babel": "^6.23.0",
@@ -79,7 +57,7 @@
     "jest": "^24.1.0",
     "jest-cli": "^23.6.0",
     "jest-config": "^23.6.0",
-    "jest-puppeteer": "^3.5.2",
+    "jest-puppeteer": "^3.9.0",
     "ncp": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "postcss-loader": "^0.13.0",

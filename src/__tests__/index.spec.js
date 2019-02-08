@@ -11,16 +11,6 @@ const url = 'http://localhost:8080/';
 
 jest.setTimeout(31000);
 
-describe('Google', () => {
-  beforeAll(async () => {
-    await page.goto('https://google.com')
-  })
-
-  it('should display "google" text on page', async () => {
-    await expect(page).toMatch('google')
-  })
-})
-
 describe('Index page', () => {
   beforeAll(async () => {
     await page.goto(url);
@@ -28,13 +18,13 @@ describe('Index page', () => {
   });
 
   it('should display "Log In" button in viewport', async () => {
-    // await page.waitForSelector(signInButton, {visible: true});
+    await page.waitForSelector(signInButton, {visible: true});
     // expect(button.isIntersectingViewport()).toEqual(true);
     await expect(page).toMatch('Log in');
   });
 
   it('should display "Sign Up" button in viewport', async () => {
-    // await page.waitForSelector(signUpButton, {visible: true});
+    await page.waitForSelector(signUpButton, {visible: true});
 
     await expect(page).toMatch('Sign Up');
   });
@@ -69,6 +59,7 @@ describe('Index page', () => {
 // describe("qwe", () => {
 //   test("qwe", async () => {
 //     await page.goto(APP);
+//     await expect(page).toMatch('Sign Upqwe');
 //   }, 16000);
 // });
 //

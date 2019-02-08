@@ -6,6 +6,25 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+  if (action.type === actions.types.addUser) {
+    let ids = state.ids;
+    let list = state.list;
+
+    const user = action.payload;
+
+    if (list[user.id]) {
+      return;
+    }
+
+    list[user.id] = user;
+    ids.push(user.id);
+
+    return {
+      ids,
+      list,
+    };
+  }
+
   if (action.type === actions.types.addUsers) {
     let ids = state.ids;
     let list = state.list;

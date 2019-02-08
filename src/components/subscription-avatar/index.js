@@ -17,15 +17,16 @@ class SubscriptionAvatar extends Component {
 
   getPhoto = () => {
     if (this.props.user) {
-      return get(this.props.user, 'avatar.small');
+      return get(this.props.user, 'avatar.small', '/assets/default-user.jpg');
     }
 
     if (!this.props.subscription) {
       return;
     }
 
-    if (this.props.subscription.group.type === 'private_chat') {
-      return get(getOpponentUser(this.props.subscription), 'avatar.small');
+    if (this.props.subscription.group.type === 'private_chat' && this.props.subscription.group.participants.length === 2) {
+      const oppponent = getOpponentUser(this.props.subscription);
+      return get(this.props.users_list[oppponent.id], 'avatar.small', '/assets/default-user.jpg');
     }
 
     return get(this.props.subscription.group, 'icon.small');
@@ -34,9 +35,11 @@ class SubscriptionAvatar extends Component {
   render() {
     const letter = this.getLetter();
     const photo = this.getPhoto();
+    const isSubscriptionGroup = this.props.subscription && this.props.subscription.group.type !== 'private_chat';
 
     return <Avatar
       className={this.props.className}
+      isGroup={isSubscriptionGroup}
       {...photo ? { photo } : {}}
       {...!photo ? { letter } : {}}
     />;
@@ -46,5 +49,8 @@ class SubscriptionAvatar extends Component {
 export default connect(
   (state, props) => ({
     ...props.userId ? { user: state.users.list[props.userId] } : null,
+    // что бы обновлялся компонент при обновлении users
+    users: state.users,
+    users_list: state.users.list,
   }),
 )(SubscriptionAvatar);

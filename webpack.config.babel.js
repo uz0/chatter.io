@@ -1,6 +1,9 @@
 import path from 'path';
 import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+
 const ENV = process.env.NODE_ENV || 'development';
 const TOKEN = process.env.TOKEN || 'EiSTgKcDDtizc8Xr4Qy9fRZaOqMz3nvA9z6Kmtu0bOPwdpcp0HA';
 
@@ -11,8 +14,8 @@ let config = {
     './index.js'
   ],
   output: {
-    path: path.join(__dirname, 'build/scripts'),
-    publicPath: 'scripts/',
+    path: path.join(__dirname, 'build/'),
+    publicPath: '/',
     filename: 'app.js'
   },
   devtool: 'eval-source-map',
@@ -48,12 +51,21 @@ let config = {
       {
         test: /\.(jpg|png|ttf|eot|woff|otf|woff2|svg)$/,
         exclude: /node_modules/,
-        loader: 'url?limit=100000'
+        loader: 'file-loader'
       }
     ]
   },
   postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
   plugins: ([
+    new HtmlWebpackPlugin({
+      template: 'index.html',
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: 'assets', 
+        to: 'assets',
+      }
+    ]),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV),
       'process.env.TOKEN': JSON.stringify(TOKEN)
@@ -61,8 +73,8 @@ let config = {
   ]),
 }
 
-// if (process.env.NODE_ENV === 'production') {
-//   config.devtool = 'source-map'
+if (process.env.NODE_ENV === 'production') {
+  config.devtool = 'source-map'
 //   config.devServer = {}
 //   config.plugins = [
 //     new webpack.DefinePlugin({
@@ -71,6 +83,6 @@ let config = {
 //       }
 //     })
 //   ]
-// }
+}
 
 export default config

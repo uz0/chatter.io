@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   width: 600px;
-  max-height: 90vh;
+  max-height: 650px;
   background-color: #fff;
   border-radius: 6px;
 }
@@ -125,12 +125,6 @@
 
 .wrapper .modal .actions button:not(:only-child):last-of-type:hover {
   --color: var(--primary-color-hover);
-}
-
-@media (max-width: 1600px) {
-  .wrapper .modal {
-    width: 500px;
-  }
 }
 
 @media (max-width: 800px) {

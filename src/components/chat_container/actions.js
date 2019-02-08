@@ -19,6 +19,41 @@ const notificationReceived = notification => (dispatch, getState) => {
     onUser();
   }
 
+  if (notification.event === 'entering') {
+    onEntering(notification);
+  }
+
+  function onEntering() {
+    const subscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
+    const user_id = notification.object.user_id;
+
+    if (user_id === state.currentUser.id) {
+      return;
+    }
+
+    const typings = subscription.typings || {};
+
+    if (!state.users.list[notification.object.user_id]) {
+      api.getUser({ user_id }).then(data => dispatch(usersActions.addUser(data.user)));
+    }
+
+    if (typings[user_id]) {
+      clearTimeout(typings[user_id].timeout);
+    }
+
+    const timeout = setTimeout(() => {
+      delete typings[user_id];
+      dispatch(subscriptionsActions.updateSubscription({...subscription, typings}));
+    }, 3000);
+
+    typings[user_id] = {
+      id: user_id,
+      timeout,
+    };
+
+    dispatch(subscriptionsActions.updateSubscription({...subscription, typings}));
+  }
+
   function onUser() {
     if (notification.event === 'changed') {
       if (state.users.list[notification.object.id]) {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import isEqual from 'lodash/isEqual';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 
@@ -42,14 +41,6 @@ export default WrappedComponent => {
 
       return 1;
     });
-
-    shouldComponentUpdate(nextProps) {
-      const isSubscriptionsIdsChanged = this.props.subscriptions_ids.length !== nextProps.subscriptions_ids.length;
-      const isSubscriptionsListChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list) ||
-        Object.keys(this.props.subscriptions_list).length !== Object.keys(nextProps.subscriptions_list);
-
-      return isSubscriptionsListChanged || isSubscriptionsIdsChanged;
-    }
 
     render() {
       const sortedSubscriptions = this.getSortedSubscriptions();

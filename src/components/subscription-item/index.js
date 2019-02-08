@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -8,6 +9,7 @@ import { withNamespaces } from 'react-i18next';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Message from './message';
 import { api } from '@';
+import { withTypings } from '@/hoc';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as usersActions } from '@/store/users';
@@ -44,6 +46,14 @@ class SubscriptionItem extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    const isSubscriptionLoaded = !this.props.subscription && !!nextProps.subscription;
+    const isLastMessageChanged = !isEqual(this.props.lastMessage, nextProps.lastMessage);
+    const isSubscriptionChanged = !isEqual(this.props.subscription, nextProps.subscription);
+
+    return isSubscriptionLoaded || isLastMessageChanged || isSubscriptionChanged;
+  }
+
   render() {
     if (!this.props.subscription) {
       return null;
@@ -58,7 +68,8 @@ class SubscriptionItem extends Component {
       href = `/chat/${this.props.id}`;
     }
 
-    const isLastMessageShown = this.props.lastMessage && !this.props.subscription.draft;
+    const isLastMessageShown = this.props.lastMessage && !this.props.subscription.draft && !this.props.typings;
+    const isDraftShown = this.props.subscription.draft && !this.props.typings;
 
     return <Link
       {...this.props.withLoadData ? {to: href} : {}}
@@ -78,8 +89,12 @@ class SubscriptionItem extends Component {
           <Message message={this.props.lastMessage} className={style.message} />
         }
 
-        {this.props.subscription.draft &&
+        {isDraftShown &&
           <p className={cx('message', 'text')}>{this.props.t('draft')}: {this.props.subscription.draft}</p>
+        }
+
+        {this.props.typings &&
+          <p className={cx('message', 'text')}>{this.props.typings}</p>
         }
       </div>
 
@@ -105,4 +120,8 @@ export default compose(
       addUsers: usersActions.addUsers,
     },
   ),
+
+  withTypings(props => ({
+    chat: props.subscription,
+  })),
 )(SubscriptionItem);

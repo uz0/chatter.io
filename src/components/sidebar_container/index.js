@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withNamespaces } from 'react-i18next';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import SubscriptionItem from '@/components/subscription-item';
 import Button from '@/components/button';
@@ -44,6 +45,14 @@ class Sidebar extends Component {
   async componentWillMount() {
     const shortSubscriptions = await api.getSubscriptions({ short: true });
     this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const isSortedSubscriptionsLoaded = this.props.sorted_subscriptions_ids.length === 0 && nextProps.sorted_subscriptions_ids.length > 0;
+    const isSubscriptionsChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list);
+    const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
+
+    return isSortedSubscriptionsLoaded || isSubscriptionsChanged || isMessagesChanged;
   }
 
   render() {

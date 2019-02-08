@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
@@ -14,7 +15,7 @@ import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
 import MessageItem from '@/components/message-item';
 import Loading from '@/components/loading';
-import { withDetails } from '@/hoc';
+import { withDetails, withTypings } from '@/hoc';
 import { api } from '@';
 import { uid } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
@@ -103,14 +104,23 @@ class Messages extends Component {
     }
   }
 
-  // shouldComponentUpdate(nextProps) {
-  //   console.log(this.props);
-  //   console.log(nextProps);
-  //   return true;
-  // }
+  shouldComponentUpdate(nextProps) {
+    const isSubscriptionsIdsLoaded = this.props.subscriptions_ids.length === 0 && nextProps.subscriptions_ids.length > 0;
+    const isDetailsLoaded = !this.props.details && !!nextProps.details;
+    const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
+    const isDetailsChanged = !isEqual(this.props.details, nextProps.details);
+    const isTypingsChanged = this.props.typings !== nextProps.typings;
+    const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
+
+    return isSubscriptionsIdsLoaded ||
+      isDetailsLoaded ||
+      isChatIdsLoaded ||
+      isDetailsChanged ||
+      isTypingsChanged ||
+      isMessagesChanged;
+  }
 
   render() {
-    // console.log(123);
     const groupedMessages = this.getGroupedMessages() || [];
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
@@ -154,6 +164,10 @@ class Messages extends Component {
         <Loading isShown={!isMessagesLoaded} className={style.loading} />
       </div>
 
+      {this.props.typings &&
+        <p className={style.typings}>{this.props.typings}</p>
+      }
+
       {this.props.details &&
         <MessageInput subscription_id={this.props.details.id} className={style.input} />
       }
@@ -180,4 +194,8 @@ export default compose(
       chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
     }),
   ),
+
+  withTypings(props => ({
+    chat: props.details,
+  })),
 )(Messages);

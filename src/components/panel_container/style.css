@@ -34,26 +34,108 @@
 }
 
 .panel > .scroll > .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 22px var(--layout-padding);
 }
 
-.panel > .scroll > .header > .avatar {
-  --size: 70px;
-  margin-left: auto;
-  margin-right: auto;
+.panel > .scroll > .header > .avatar_container {
+  --avatar-size: 70px;
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: calc(var(--avatar-size) / 2);
 }
 
-.panel > .scroll > .header > .name {
-  --height: 20px;
+.panel > .scroll > .header > .avatar_container:not(:hover) {
+  --button-opacity: 0;
+}
+
+.panel > .scroll > .header > .avatar_container:hover {
+  --button-opacity: 1;
+}
+
+.panel > .scroll > .header > .avatar_container .avatar {
+  --size: var(--avatar-size);
+}
+
+.panel > .scroll > .header > .avatar_container .edit {
   overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.63);
+  text-align: center;
+  font-size: 14px;
+  font-weight: var(--font-weight-light);
+  color: #fff;
+  opacity: var(--button-opacity);
+  border-radius: calc(var(--avatar-size) / 2);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: opacity;
+}
+
+.panel > .scroll > .header > .avatar_container .close {
+  --size: 18px;
+  --icon-size: 10px;
+  --icon-color: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  opacity: var(--button-opacity);
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--caption-color);
+  transition-property: opacity;
+}
+
+.panel > .scroll > .header > .change_photo_input {
+  visibility: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.panel > .scroll > .header > .name,
+.panel > .scroll > .header > .chat_name_input {
+  --height: 20px;
+  max-width: 100%;
   height: var(--height);
-  margin-top: 12px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 10px;
   line-height: var(--height);
   font-size: 16px;
   color: var(--text-color);
   text-align: center;
+}
+
+.panel > .scroll > .header > .chat_name_input {
+  border: 0;
+  box-shadow: var(--box-shadow);
+  transition-property: box-shadow;
+}
+
+.panel > .scroll > .header > .chat_name_input:not(:focus):not(:hover) {
+  --box-shadow: none;
+}
+
+.panel > .scroll > .header > .chat_name_input:focus {
+  --box-shadow: 0 0 0 1px var(--divider-color);
+}
+
+.panel > .scroll > .header > .chat_name_input:hover {
+  --box-shadow: 0 0 0 1px var(--divider-color);
+}
+
+.panel > .scroll > .header > .name {
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -63,8 +145,6 @@
   overflow: hidden;
   height: var(--height);
   margin-top: 2px;
-  margin-left: auto;
-  margin-right: auto;
   line-height: var(--height);
   font-size: 14px;
   color: var(--caption-color);

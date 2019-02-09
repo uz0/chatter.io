@@ -5,13 +5,17 @@ import find from 'lodash/find';
 import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
+import Validators from '@/components/form/validators';
 import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
 import Loading from '@/components/loading';
+import { api } from '@';
 import { withDetails } from '@/hoc';
 import { getChatName } from '@/helpers';
 import { actions as modalActions } from '@/components/modal_container';
+import { actions as subscriptionsActions } from '@/store/subscriptions';
+import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -19,10 +23,122 @@ const cx = classnames.bind(style);
 class Panel extends Component {
   state = {
     collapseActive: '',
+    chatName: '',
+    isChatNameInputShown: false,
   };
 
   closePanel = () => this.props.closeModal('panel-container');
   toggleCollapse = name => () => this.setState({ collapseActive: this.state.collapseActive === name ? '' : name });
+  browseEditPhoto = () => this.chatAvatarInputRef.click();
+  onChatNameInput = event => this.setState({ chatName: event.target.value });
+
+  getFilteredChatName = () => {
+    if (!this.state.chatName) {
+      return '';
+    }
+
+    let text = this.state.chatName.replace(/\s{2,}/g, ' ');
+
+    if (text[0] === ' ') {
+      text = text.substring(1);
+    }
+
+    if (text[text.length - 1] === ' ') {
+      text = text.substring(0, text.length - 1);
+    }
+
+    return text;
+  };
+
+  onChatNameBlur = () => {
+    const name = this.getFilteredChatName();
+
+    if (!name) {
+      this.setState({ chatName: this.props.details.group.name });
+      return;
+    }
+
+    api.updateGroup({ subscription_id: this.props.details.id, name }).then(() => {
+      this.props.updateSubscription({
+        ...this.props.details,
+
+        group: {
+          ...this.props.details.group,
+          name,
+        },
+      });
+    }).catch(error => {
+      console.log(error);
+      this.props.showNotification(this.props.t(error.code));
+    });
+  };
+
+  onAvatarInputChange = event => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (Validators.fileMaxSize(200000)(file)) {
+      this.props.showNotification(this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }));
+      this.chatAvatarInputRef.value = '';
+      return;
+    }
+
+    if (Validators.fileType('image')(file)) {
+      this.props.showNotification(this.props.t('file_type', { type: this.props.t('image') }));
+      this.chatAvatarInputRef.value = '';
+      return;
+    }
+
+    if (Validators.fileExtensions(['jpeg', 'png'])(file)) {
+      this.props.showNotification(this.props.t('file_extensions', { extensions: '"jpeg", "png"' }));
+      this.chatAvatarInputRef.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      api.updateGroup({ subscription_id: this.props.details.id, icon: reader.result }).then(data => {
+        this.props.updateSubscription({
+          ...this.props.details,
+
+          group: {
+            ...this.props.details.group,
+            icon: data.group.icon,
+          },
+        });
+
+        this.chatAvatarInputRef.value = '';
+      }).catch(error => this.props.showNotification(this.props.t(error.code)));
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  resetChatAvatar = () => {
+    // сделать репорт - иконка не сбрасывается
+    api.updateGroup({ subscription_id: this.props.details.id, icon: null }).then(data => {
+      this.props.updateSubscription({
+        ...this.props.details,
+
+        group: {
+          ...this.props.details.group,
+          icon: data.group.icon,
+        },
+      });
+
+      this.chatAvatarInputRef.value = '';
+    }).catch(error => this.props.showNotification(this.props.t(error.code)));
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.details && nextProps.details.group.name !== this.chatName) {
+      this.setState({ chatName: nextProps.details.group.name });
+    }
+  }
 
   renderLoading = () => <Fragment>
     <Loading isShown className={style.loading} />
@@ -33,14 +149,45 @@ class Panel extends Component {
     const countParticipants = this.props.details.group.participants.length;
     const currentUserParticipant = this.props.currentUser && find(this.props.details.group.participants, { user_id: this.props.currentUser.id });
     const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
+    const isChatRoom = this.props.details.group.type === 'room';
+    const isRoomWithIcon = isChatRoom && !!this.props.details.group.icon;
 
     return <Fragment>
       <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
 
       <div className={style.scroll}>
         <div className={style.header}>
-          <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
-          <p className={style.name}>{chatName}</p>
+          <div className={style.avatar_container}>
+            <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
+
+            {isChatRoom &&
+              <button onClick={this.browseEditPhoto} className={style.edit}>Edit</button>
+            }
+
+            {isRoomWithIcon &&
+              <button className={style.close} onClick={this.resetChatAvatar}>
+                <Icon name="close" />
+              </button>
+            }
+          </div>
+
+          <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
+
+          {isChatRoom && isCurrentUserAdmin &&
+            <input
+              type="text"
+              className={style.chat_name_input}
+              value={this.state.chatName}
+              onInput={this.onChatNameInput}
+              onBlur={this.onChatNameBlur}
+              size={this.state.chatName.length === 0 ? 1 : this.state.chatName.length}
+            />
+          }
+
+          {!(isChatRoom && isCurrentUserAdmin) &&
+            <p className={style.name}>{chatName}</p>
+          }
+
           <p className={style.subcaption}>{countParticipants} {this.props.t('people')}</p>
         </div>
 
@@ -173,6 +320,8 @@ export default compose(
 
     {
       closeModal: modalActions.closeModal,
+      updateSubscription: subscriptionsActions.updateSubscription,
+      showNotification: notificationActions.showNotification,
     },
   ),
 )(Panel);

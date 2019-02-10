@@ -73,6 +73,7 @@ export default {translation: {
   next: 'Next',
   nick: 'Nick',
   not_found: 'Couldn\'t find user',
+  not_active: 'Not active',
   no_results: 'No results',
   old_password: 'Old password',
   participant_plural: 'Participants',

@@ -154,6 +154,11 @@
   text-overflow: ellipsis;
 }
 
+.panel > .scroll > .copy_input {
+  position: absolute;
+  visibility: hidden;
+}
+
 .panel > .scroll > .button {
   --icon-size: 24px;
   display: flex;

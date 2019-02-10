@@ -50,6 +50,18 @@ class Panel extends Component {
     return text;
   };
 
+  copyInviteLink = () => {
+    api.createGroupInviteCode({ subscription_id: this.props.details.id }).then(data => {
+      this.inviteCodeInputRef.value = `${location.host}/invite/${data.code}`;
+      this.inviteCodeInputRef.select();
+
+      setTimeout(() => {
+        document.execCommand('copy');
+        this.props.showNotification(this.props.t('invite_code_copied'));
+      });
+    });
+  };
+
   onChatNameBlur = () => {
     const name = this.getFilteredChatName();
 
@@ -178,6 +190,7 @@ class Panel extends Component {
               type="text"
               className={style.chat_name_input}
               value={this.state.chatName}
+              onChange={() => {}}
               onInput={this.onChatNameInput}
               onBlur={this.onChatNameBlur}
               size={this.state.chatName.length === 0 ? 1 : this.state.chatName.length}
@@ -188,13 +201,33 @@ class Panel extends Component {
             <p className={style.name}>{chatName}</p>
           }
 
-          <p className={style.subcaption}>{countParticipants} {this.props.t('people')}</p>
+          <p className={style.subcaption}>
+            {isChatRoom &&
+              `${countParticipants} ${this.props.t('people')}`
+            }
+
+            {!isChatRoom &&
+              this.props.t('not_active')
+            }
+          </p>
         </div>
 
-        <button className={style.button}>
-          <Icon name="share" />
-          <span>{this.props.t('copy_invite_link')}</span>
-        </button>
+        {isChatRoom && isCurrentUserAdmin &&
+          <Fragment>
+            <button className={style.button} onClick={this.copyInviteLink}>
+              <Icon name="share" />
+              <span>{this.props.t('copy_invite_link')}</span>
+            </button>
+
+            <input
+              type="text"
+              className={style.copy_input}
+              ref={node => this.inviteCodeInputRef = node}
+              onChange={() => {}}
+              readOnly
+            />
+          </Fragment>
+        }
 
         <button className={style.button}>
           <Icon name="notification" />

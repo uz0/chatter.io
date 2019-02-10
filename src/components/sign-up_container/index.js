@@ -32,12 +32,12 @@ class SignUp extends Component {
     window.localStorage.setItem('currentUser', JSON.stringify(data.user));
     this.props.showNotification(this.props.t('registered_success'));
 
-    if (!this.props.code) {
+    if (!this.props.params.code) {
       this.props.router.push('/chat');
       return;
     }
 
-    api.useInviteCode({ code: this.props.code }).then(data => {
+    api.useInviteCode({ code: this.props.params.code }).then(data => {
       this.props.router.push(`/chat/${data.subscription.id}`);
     });
   }).catch(error => {
@@ -75,8 +75,8 @@ class SignUp extends Component {
     <Link to="/" className={style.logo}>Chatle</Link>
 
     <nav>
-      <Link to={`/sign-in/${this.props.code || ''}`}>{this.props.t('log_in')}</Link>
-      <Link className={style.active_link} to={`/sign-up/${this.props.code || ''}`}>{this.props.t('sign_up')}</Link>
+      <Link to={`/sign-in/${this.props.params.code || ''}`}>{this.props.t('log_in')}</Link>
+      <Link className={style.active_link} to={`/sign-up/${this.props.params.code || ''}`}>{this.props.t('sign_up')}</Link>
     </nav>
 
     <Form

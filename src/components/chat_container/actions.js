@@ -6,6 +6,7 @@ import { actions as usersActions } from '@/store/users';
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
+  console.log(notification);
 
   if (notification.object_type === 'message') {
     onMessage();
@@ -66,7 +67,7 @@ const notificationReceived = notification => (dispatch, getState) => {
 
   function onSubscription() {
     if (notification.event === 'new' && notification.object.user_id === state.currentUser.id) {
-      if (state.subscriptions.list[notification.object.id]) {
+      if (state.subscriptions.ids.length === 0 || state.subscriptions.list[notification.object.id]) {
         return;
       }
 

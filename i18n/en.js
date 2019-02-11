@@ -12,6 +12,7 @@ export default {translation: {
 
   add_chat: 'Add Chat',
   add_contact: 'Add contact',
+  add_people: 'Add people',
   admin: 'Admin',
   auth_failed: 'Password is invalid',
   cancel: 'Cancel',

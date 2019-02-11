@@ -12,7 +12,7 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Header extends Component {
-  showPanelContainer = () => this.props.toggleModal('panel-container');
+  showPanelContainer = () => this.props.toggleModal({ id: 'panel-container' });
 
   closeChat = () => {
     this.props.closeModal('panel-container');

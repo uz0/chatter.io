@@ -1,30 +1,54 @@
 import actions from './actions';
 
-const initialState = [];
+const initialState = {
+  ids: [],
+  list: {},
+};
 
 export default (state = initialState, action) => {
   if (action.type === actions.types.toggleModal) {
-    let stateArray = [ ...state ];
-    const index = stateArray.indexOf(action.payload);
+    let stateIds = [ ...state.ids ];
+    let stateList = { ...state.list };
+
+    const index = stateIds.indexOf(action.payload.id);
 
     if (index === -1) {
-      stateArray.push(action.payload);
+      stateIds.push(action.payload.id);
+
+      if (action.payload.options) {
+        stateList[action.payload.id] = action.payload.options;
+      }
     } else {
-      delete stateArray[index];
+      delete stateIds[index];
+
+      if (stateList[action.payload.id]) {
+        delete stateList[action.payload.id];
+      }
     }
 
-    return stateArray;
+    return {
+      ids: stateIds,
+      list: stateList,
+    };
   }
 
   if (action.type === actions.types.closeModal) {
-    let stateArray = [ ...state ];
-    const index = stateArray.indexOf(action.payload);
+    let stateIds = [ ...state.ids ];
+    let stateList = { ...state.list };
+    const index = stateIds.indexOf(action.payload);
 
     if (index !== -1) {
-      delete stateArray[index];
+      delete stateIds[index];
     }
 
-    return stateArray;
+    if (stateList[action.payload]) {
+      delete stateList[action.payload];
+    }
+
+    return {
+      ids: stateIds,
+      list: stateList,
+    };
   }
 
   return state;

@@ -6,7 +6,6 @@ import { actions as usersActions } from '@/store/users';
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
-  console.log(notification);
 
   if (notification.object_type === 'message') {
     onMessage();
@@ -93,6 +92,11 @@ const notificationReceived = notification => (dispatch, getState) => {
       if (notification.object.xtag === 'leave' && !notification.object.reference.id) {
         dispatch(subscriptionsActions.removeSubscription(messageSubscription.id));
         return;
+      }
+
+      if (notification.object.xtag === 'invite' || notification.object.xtag === 'kick_out') {
+        api.getSubscription({subscription_id: messageSubscription.id})
+          .then(data => dispatch(subscriptionsActions.updateSubscription(data.subscription)));
       }
 
       if (state.messages.list[notification.object.uid] || state.messages.list[notification.object.id]) {

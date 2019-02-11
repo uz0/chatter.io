@@ -236,12 +236,12 @@
   --color: var(--primary-color);
 }
 
-.panel > .scroll > .collapse > .collapse_button span {
+.panel > .scroll > .collapse > .collapse_button .title {
   --height: 16px;
   overflow: hidden;
-  flex-grow: 1;
   min-width: 0;
   height: var(--height);
+  margin-right: 12px;
   line-height: var(--height);
   font-size: 14px;
   color: var(--color);
@@ -251,10 +251,41 @@
   transition-property: color;
 }
 
+.panel > .scroll > .collapse > .collapse_button .title + i,
+.panel > .scroll > .collapse > .collapse_button .title + .button {
+  margin-left: auto;
+}
+
+.panel > .scroll > .collapse > .collapse_button .button {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  padding-left: 4px;
+  padding-right: 4px;
+  line-height: var(--height);
+  font-size: 14px;
+  color: var(--color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.panel > .scroll > .collapse > .collapse_button .button:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.panel > .scroll > .collapse > .collapse_button .button:hover {
+  --color: var(--primary-color-hover);
+}
+
+.panel > .scroll > .collapse > .collapse_button .button + i {
+  margin-left: 12px;
+}
+
 .panel > .scroll > .collapse > .collapse_button i {
   --icon-size: 14px;
   flex-shrink: 0;
-  margin-left: 12px;
   transform: var(--icon-transform);
   transition-property: background-color, transform;
 }

@@ -25,5 +25,5 @@ export default combineReducers({
   subscriptions: subscriptionsReducers,
   messages: messagesReducers,
   users: usersReducers,
-  modal_ids: modalReducers,
+  modal: modalReducers,
 });

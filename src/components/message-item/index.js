@@ -58,7 +58,7 @@ class MessageItem extends Component {
 
   openForwardModal = () => {
     this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);
-    this.props.toggleModal('forward-modal');
+    this.props.toggleModal({ id: 'forward-modal' });
   }
 
   onDelete = () => api.deleteMessage({ message_id: this.props.message.id })

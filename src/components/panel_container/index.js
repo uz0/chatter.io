@@ -112,6 +112,15 @@ class Panel extends Component {
     })).catch(error => this.props.showNotification(this.props.t(error.code)));
   };
 
+  addPeople = event => {
+    event.stopPropagation();
+
+    this.props.toggleModal({
+      id: 'invite-modal',
+      options: {subscription_id: this.props.details.id},
+    });
+  };
+
   onAvatarInputChange = event => {
     const file = event.target.files[0];
 
@@ -274,7 +283,12 @@ class Panel extends Component {
         {this.props.details.group.type === 'room' &&
           <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'people' })}>
             <button className={style.collapse_button} onClick={this.toggleCollapse('people')}>
-              <span>{this.props.t('people')}</span>
+              <span className={style.title}>{this.props.t('people')}</span>
+
+              {isCurrentUserAdmin &&
+                <span className={style.button} onClick={this.addPeople}>{this.props.t('add_people')}</span>
+              }
+
               <Icon name="arrow-down" />
             </button>
 
@@ -315,7 +329,7 @@ class Panel extends Component {
 
         <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'extensions' })}>
           <button className={style.collapse_button} onClick={this.toggleCollapse('extensions')}>
-            <span>{this.props.t('extensions')}</span>
+            <span className={style.title}>{this.props.t('extensions')}</span>
             <Icon name="arrow-down" />
           </button>
 
@@ -326,7 +340,7 @@ class Panel extends Component {
 
         <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'transactions' })}>
           <button className={style.collapse_button} onClick={this.toggleCollapse('transactions')}>
-            <span>{this.props.t('transactions')}</span>
+            <span className={style.title}>{this.props.t('transactions')}</span>
             <Icon name="arrow-down" />
           </button>
 
@@ -337,7 +351,7 @@ class Panel extends Component {
 
         <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'files' })}>
           <button className={style.collapse_button} onClick={this.toggleCollapse('files')}>
-            <span>{this.props.t('files')}</span>
+            <span className={style.title}>{this.props.t('files')}</span>
             <Icon name="arrow-down" />
           </button>
 
@@ -348,7 +362,7 @@ class Panel extends Component {
 
         <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'photos' })}>
           <button className={style.collapse_button} onClick={this.toggleCollapse('photos')}>
-            <span>{this.props.t('photos')}</span>
+            <span className={style.title}>{this.props.t('photos')}</span>
             <Icon name="arrow-down" />
           </button>
 
@@ -376,11 +390,12 @@ export default compose(
   connect(
     state => ({
       currentUser: state.currentUser,
-      isShown: state.modal_ids.indexOf('panel-container') !== -1,
+      isShown: state.modal.ids.indexOf('panel-container') !== -1,
       users_list: state.users.list,
     }),
 
     {
+      toggleModal: modalActions.toggleModal,
       closeModal: modalActions.closeModal,
       addSubscription: subscriptionsActions.addSubscription,
       updateSubscription: subscriptionsActions.updateSubscription,

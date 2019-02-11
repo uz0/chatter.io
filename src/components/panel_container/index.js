@@ -303,24 +303,24 @@ class Panel extends Component {
                 const userName = user.nick || 'no nick';
                 const isAdmin = participant.role === 'admin';
 
+                let peopleDropdownItems = [{ text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id) }];
+
+                if (isCurrentUserAdmin) {
+                  peopleDropdownItems.push({ text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true });
+                }
+
                 return <div key={user.id} className={style.person}>
                   <SubscriptionAvatar subscription={this.props.details} userId={user.id} className={style.avatar} />
                   <p>{userName}</p>
                   {isAdmin && <span>{this.props.t('admin')}</span>}
 
-                  {isCurrentUserAdmin &&
-                    <Dropdown
-                      uniqueId={`panel-user-dropdown-${user.id}`}
-                      className={style.dropdown}
-
-                      items={[
-                        { text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id) },
-                        { text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true },
-                      ]}
-                    >
-                      <Button appearance="_icon-transparent" icon="dots" />
-                    </Dropdown>
-                  }
+                  <Dropdown
+                    uniqueId={`panel-user-dropdown-${user.id}`}
+                    className={style.dropdown}
+                    items={peopleDropdownItems}
+                  >
+                    <Button appearance="_icon-transparent" icon="dots" />
+                  </Dropdown>
                 </div>;
               })}
             </div>

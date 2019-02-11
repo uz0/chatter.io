@@ -62,6 +62,10 @@ class Messages extends Component {
         }
 
         messages.push(message.id || message.uid);
+
+        if (this.props.details.last_read_message_id === message.id && this.props.lastMessage && this.props.lastMessage.id !== message.id) {
+          messages.push('unreadDelimiter');
+        }
       });
 
       if (messages.length > 0) {
@@ -148,11 +152,21 @@ class Messages extends Component {
             }
 
             {grouped.type === 'messages' &&
-              grouped.messages_ids.reverse().map(message_id => <MessageItem
+              grouped.messages_ids.reverse().map(message_id => <Fragment
                 key={message_id}
-                id={message_id}
-                className={cx('message', 'item')}
-              />)
+              >
+                {message_id === 'unreadDelimiter' &&
+                  <UnreadDelimiter className={cx('item')} />
+                }
+
+                {message_id !== 'unreadDelimiter' &&
+                  <MessageItem
+                    key={message_id}
+                    id={message_id}
+                    className={cx('message', 'item')}
+                  />
+                }
+              </Fragment>)
             }
           </Fragment>)
         }
@@ -180,8 +194,9 @@ export default compose(
   withNamespaces('translation'),
 
   connect(
-    state => ({
+    (state, props) => ({
       messages_list: state.messages.list,
+      chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
     }),
 
     {
@@ -191,7 +206,7 @@ export default compose(
 
   connect(
     (state, props) => ({
-      chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
+      ...props.chatIds ? { lastMessage: state.messages.list[props.chatIds.list[0]] } : {},
     }),
   ),
 

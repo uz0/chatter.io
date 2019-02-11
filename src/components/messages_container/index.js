@@ -85,6 +85,21 @@ class Messages extends Component {
     });
   }
 
+  readLastMessage = () => {
+    if (!this.props.lastMessage) {
+      return;
+    }
+
+    if (this.props.details.last_read_message_id === this.props.lastMessage.id) {
+      return;
+    }
+
+    api.updateSubscription({
+      subscription_id: this.props.details.id,
+      last_read_message_id: this.props.lastMessage.id,
+    });
+  };
+
   componentDidMount() {
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
@@ -105,6 +120,7 @@ class Messages extends Component {
     // если перешли в другой чат из существующего и в нем не прогружены сообщения
     if (isChatChanged && !isMessagesLoaded) {
       this.loadMessages(nextProps);
+      this.readLastMessage();
     }
   }
 

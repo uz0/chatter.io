@@ -31,6 +31,7 @@ class Sidebar extends Component {
   chooseTabNavigation = tab => () => this.setState({ navigationActive: tab });
   openAddChat = () => this.props.toggleModal({ id: 'new-chat-modal' });
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
+  onSearchInput = event => this.props.filterSubscription(event.target.value);
 
   logout = () => api.logout().then(() => {
     this.props.clearMessages();
@@ -51,8 +52,9 @@ class Sidebar extends Component {
     const isSortedSubscriptionsLoaded = this.props.sorted_subscriptions_ids.length === 0 && nextProps.sorted_subscriptions_ids.length > 0;
     const isSubscriptionsChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
+    const isFiltering = !isEqual(this.props.subscriptions_filtered_ids, nextProps.subscriptions_filtered_ids);
 
-    return isSortedSubscriptionsLoaded || isSubscriptionsChanged || isMessagesChanged;
+    return isSortedSubscriptionsLoaded || isSubscriptionsChanged || isMessagesChanged || isFiltering;
   }
 
   render() {
@@ -80,7 +82,7 @@ class Sidebar extends Component {
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
       </div>
 
-      <SearchInput className={style.search} />
+      <SearchInput onInput={this.onSearchInput} className={style.search} />
 
       <div className={style.navigation}>
         <button
@@ -108,7 +110,7 @@ class Sidebar extends Component {
             withLoadData
           />)}
 
-        {!this.props.subscriptions_ids &&
+        {!this.props.sorted_subscriptions_ids.length === 0 &&
           <p className={style.empty}>There is no chats</p>}
       </div>
 
@@ -119,12 +121,14 @@ class Sidebar extends Component {
 
 export default compose(
   withRouter,
-  withSortedSubscriptions,
   withNamespaces('translation'),
 
   connect(
     state => ({
       currentUser: state.currentUser,
+      subscriptions_ids: state.subscriptions.ids,
+      subscriptions_list: state.subscriptions.list,
+      subscriptions_filtered_ids: state.subscriptions.filtered_ids,
     }),
 
     {
@@ -132,9 +136,14 @@ export default compose(
       toggleModal: modalActions.toggleModal,
       setCurrentUser: storeActions.setCurrentUser,
       showNotification: notificationActions.showNotification,
+      filterSubscription: subscriptionsActions.filterSubscription,
       clearSubscriptions: subscriptionsActions.clearSubscriptions,
       clearMessages: messagesActions.clearMessages,
       clearUsers: usersActions.clearUsers,
     },
   ),
+
+  withSortedSubscriptions(props => ({
+    ids: props.subscriptions_filtered_ids,
+  })),
 )(Sidebar);

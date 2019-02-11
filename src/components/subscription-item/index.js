@@ -40,7 +40,7 @@ class SubscriptionItem extends Component {
   click = () => this.props.onClick(this.props.subscription);
 
   componentWillMount() {
-    if (this.props.withLoadData) {
+    if (this.props.withLoadData && !this.props.subscription) {
       this.loadLastMessage();
       this.loadSubscription();
     }

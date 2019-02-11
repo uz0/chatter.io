@@ -6,5 +6,6 @@ export default actionsCreator([
   'loadSubscription',
   'addSubscription',
   'updateSubscription',
+  'filterSubscription',
   'removeSubscription',
 ]);

@@ -28,7 +28,13 @@ class Forward extends Component {
       subscription_id: subscription.id,
       text: '',
       forwarded_message_id: this.props.forward_message_id,
-    }).then(() => {
+    }).then(data => {
+      api.updateSubscription({
+        subscription_id: subscription.id,
+        last_read_message_id: data.message.id,
+        draft: '',
+      });
+
       this.props.clearForwardMessage();
       this.props.close();
       this.props.router.push(href);
@@ -54,11 +60,11 @@ class Forward extends Component {
 
 export default compose(
   withRouter,
-  withSortedSubscriptions,
   withNamespaces('translation'),
 
   connect(
     state => ({
+      subscriptions_ids: state.subscriptions.ids,
       forward_message_id: state.messages.forward_message_id,
     }),
 
@@ -67,4 +73,8 @@ export default compose(
       showNotification: notificationActions.showNotification,
     },
   ),
+
+  withSortedSubscriptions(props => ({
+    ids: props.subscriptions_ids,
+  })),
 )(Forward);

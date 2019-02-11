@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import find from 'lodash/find';
 import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
@@ -83,6 +84,32 @@ class Panel extends Component {
       console.log(error);
       this.props.showNotification(this.props.t(error.code));
     });
+  };
+
+  leaveChat = () => {
+    api.unsubscribe({ subscription_id: this.props.details.id }).then(() => {
+      this.props.router.push('/chat');
+    });
+  };
+
+  removeUser = id => {
+    if (id === this.props.currentUser.id) {
+      this.leaveChat();
+      return;
+    }
+
+    api.kick({ subscription_id: this.props.details.id, user_id: id });
+  };
+
+  goToChatByUserId = user_id => {
+    if (this.props.currentUser.id === user_id) {
+      return;
+    }
+
+    api.addContact({ user_id }).then(addContactData => api.getPrivateSubscription({ user_id: addContactData.contact.user.id }).then(data => {
+      this.props.addSubscription(data.subscription);
+      this.props.router.push(`/chat/user/${addContactData.contact.user.id}`);
+    })).catch(error => this.props.showNotification(this.props.t(error.code)));
   };
 
   onAvatarInputChange = event => {
@@ -273,7 +300,8 @@ class Panel extends Component {
                       className={style.dropdown}
 
                       items={[
-                        { text: this.props.t('kick'), onClick: () => {} },
+                        { text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id) },
+                        { text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true },
                       ]}
                     >
                       <Button appearance="_icon-transparent" icon="dots" />
@@ -341,6 +369,7 @@ class Panel extends Component {
 }
 
 export default compose(
+  withRouter,
   withDetails,
   withNamespaces('translation'),
 
@@ -353,6 +382,7 @@ export default compose(
 
     {
       closeModal: modalActions.closeModal,
+      addSubscription: subscriptionsActions.addSubscription,
       updateSubscription: subscriptionsActions.updateSubscription,
       showNotification: notificationActions.showNotification,
     },

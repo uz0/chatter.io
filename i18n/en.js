@@ -85,6 +85,7 @@ export default {translation: {
   profile_updated: 'Profile successfully updated',
   read_only: 'Read Only',
   read_write: 'Read/Write',
+  remove: 'Remove',
   registered_success: 'You registered success',
   reply: 'Reply',
   reply_message: 'Reply message',

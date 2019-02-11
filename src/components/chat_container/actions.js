@@ -89,10 +89,9 @@ const notificationReceived = notification => (dispatch, getState) => {
     }
 
     if (notification.event === 'new') {
-      // Если текущий пользователь покидает чат, не добавлять xtag сообщение
-      // В input-container при выходе из чата отправляется запрос на последнее прочитанное сообщение
-      // И из-за нового неотправленного сообщения получается, что отправляется запрос на уже удаленный чат
+      // Не добавляем сообщение, просто удаляем чат
       if (notification.object.xtag === 'leave' && !notification.object.reference.id) {
+        dispatch(subscriptionsActions.removeSubscription(messageSubscription.id));
         return;
       }
 

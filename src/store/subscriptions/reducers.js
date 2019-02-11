@@ -29,6 +29,10 @@ export default (state = initialState, action) => {
     let ids = [ ...state.ids ];
     let list = { ...state.list };
 
+    if (ids.indexOf(action.payload.id) !== -1) {
+      return state;
+    }
+
     ids.push(action.payload.id);
     list[action.payload.id] = action.payload;
 
@@ -55,11 +59,14 @@ export default (state = initialState, action) => {
 
   if (action.type === actions.types.removeSubscription) {
     let ids = [ ...state.ids ];
+    let list = { ...state.list };
     ids.splice(ids.indexOf(action.payload), 1);
+    delete list[action.payload];
 
     return {
       ...state,
       ids,
+      list,
     };
   }
 

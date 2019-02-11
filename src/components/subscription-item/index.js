@@ -70,6 +70,7 @@ class SubscriptionItem extends Component {
 
     const isLastMessageShown = this.props.lastMessage && !this.props.subscription.draft && !this.props.typings;
     const isDraftShown = this.props.subscription.draft && !this.props.typings;
+    const isUnreadShown = this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 
     return <Link
       {...this.props.withLoadData ? {to: href} : {}}
@@ -82,7 +83,7 @@ class SubscriptionItem extends Component {
         className={style.avatar}
       />
 
-      <div className={style.content}>
+      <div className={cx('content', {'_is-unread': isUnreadShown})}>
         <p className={style.name}>{chatName}</p>
 
         {isLastMessageShown &&
@@ -98,7 +99,10 @@ class SubscriptionItem extends Component {
         }
       </div>
 
-      {false && <div className={style.point} />}
+      {isUnreadShown &&
+        <div className={style.point} />
+      }
+
       {false && <div className={style.last_photo} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />}
       {false && <span className={style.last_count}>+3</span>}
     </Link>;

@@ -56,7 +56,7 @@ class Messages extends Component {
             array.push({ type: 'messages', messages_ids: messages });
           }
 
-          array.push({ type: 'xtagDelimiter', message_id: message.id || message.uid });
+          array.push({ type: 'xtagDelimiter', message_id: message.id });
           messages = [];
           return;
         }

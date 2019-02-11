@@ -8,8 +8,8 @@
   height: var(--message-height);
   line-height: var(--message-height);
   font-size: 14px;
-  color: var(--caption-color);
-  font-weight: var(--font-weight-light);
+  color: var(--text-content-color);
+  font-weight: var(--text-font-weight);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -22,8 +22,8 @@
   padding-left: 10px;
   line-height: var(--message-height);
   font-size: 14px;
-  color: var(--caption-color);
-  font-weight: var(--font-weight-light);
+  color: var(--text-content-color);
+  font-weight: var(--text-font-weight);
 }
 
 .message .time::before {
@@ -35,6 +35,6 @@
   width: var(--size);
   height: var(--size);
   border-radius: calc(var(--size) / 2);
-  background-color: var(--caption-color);
+  background-color: var(--text-content-color);
   transform: translateY(-50%);
 }

@@ -46,7 +46,7 @@ class Xtag extends Component {
     return <p
       className={cx('xtag', this.props.className)}
       dangerouslySetInnerHTML={{__html: text}}
-    />
+    />;
   }
 }
 

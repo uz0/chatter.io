@@ -4,6 +4,15 @@ import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
+import { getOpponentUser } from '@/helpers';
+
+const getChatUrl = subscription => {
+  if (subscription.group.type === 'private_chat') {
+    return `/chat/user/${getOpponentUser(subscription).id}`;
+  }
+
+  return `/chat/${subscription.id}`;
+};
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -46,11 +55,11 @@ const notificationReceived = notification => (dispatch, getState) => {
       icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
     });
 
-    // if (document.hidden) {
-    //   notification.onclick = () => window.open(`${location.host}${this.getChatUrl(subscription)}`, '_blank');
-    // } else {
-    //   notification.onclick = () => route(`${this.getChatUrl(subscription)}`);
-    // }
+    if (document.hidden) {
+      notification.onclick = () => window.open(`${location.host}${getChatUrl(subscription)}`, '_blank');
+    } else {
+      notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
+    }
   };
 
   function onEntering() {

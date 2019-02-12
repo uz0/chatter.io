@@ -60,7 +60,7 @@ const notificationReceived = notification => (dispatch, getState) => {
     } else {
       notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
     }
-  };
+  }
 
   function onEntering() {
     const subscription = find(state.subscriptions.list, { group_id: notification.object.group_id });

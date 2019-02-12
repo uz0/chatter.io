@@ -2,10 +2,16 @@ import { render } from 'react-dom';
 import { actions as storeActions } from '@/store';
 import routes from '@/routes';
 import store from '@/store';
+import mobileDetect from 'mobile-detect';
 
 import 'normalize.css';
 import './style/index.css';
 import './i18n';
+
+const md = new mobileDetect(window.navigator.userAgent);
+const isMobile = !!md.mobile();
+
+store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
 
 const init = () => render(
   routes(),

@@ -32,17 +32,35 @@ class MessageInput extends Component {
     }
   };
 
-  handleDocumentKeyDown = event => {
+  setNewLineTextarea = () => {
+    const selection = this.textareaRef.selectionStart;
+    const newValue = this.state.value.substring(0, selection) + '\n' + this.state.value.substring(selection, this.state.value.length);
+    this.setState({ value: newValue });
+    this.calcTextareaHeight();
+    setTimeout(() => this.textareaRef.setSelectionRange(selection + 1, selection + 1));
+  };
+
+  mobileDocumentKeyDown = event => {
+    if (event.keyCode === 13 && document.activeElement === this.textareaRef) {
+      this.setNewLineTextarea();
+    }
+  };
+
+  desktopDocumentKeyDown = event => {
     if (event.keyCode === 13 && event.shiftKey && document.activeElement === this.textareaRef) {
-      const selection = this.textareaRef.selectionStart;
-      const newValue = this.state.value.substring(0, selection) + '\n' + this.state.value.substring(selection, this.state.value.length);
-      this.setState({ value: newValue });
-      this.calcTextareaHeight();
-      setTimeout(() => this.textareaRef.setSelectionRange(selection + 1, selection + 1));
+      this.setNewLineTextarea();
     }
 
     if (event.keyCode === 13 && !event.shiftKey && document.activeElement === this.textareaRef) {
       this.onSendButtonClick();
+    }
+  };
+
+  handleDocumentKeyDown = event => {
+    if (this.props.isMobile) {
+      this.mobileDocumentKeyDown(event);
+    } else {
+      this.desktopDocumentKeyDown(event);
     }
   };
 
@@ -310,6 +328,7 @@ export default compose(
       reply_message_id: state.messages.reply_message_id,
       users_ids: state.users.ids,
       users_list: state.users.list,
+      isMobile: state.device === 'touch',
     }),
 
     {

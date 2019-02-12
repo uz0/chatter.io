@@ -17,6 +17,14 @@ const currentUserReducer = (state = null, action) => {
   return state;
 };
 
+const deviceReducer = (state = null, action) => {
+  if (action.type === actions.types.setDevice) {
+    return action.payload;
+  }
+
+  return state;
+};
+
 export default combineReducers({
   currentUser: currentUserReducer,
   forms: formReducers,
@@ -26,4 +34,5 @@ export default combineReducers({
   messages: messagesReducers,
   users: usersReducers,
   modal: modalReducers,
+  device: deviceReducer,
 });

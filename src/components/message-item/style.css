@@ -92,6 +92,7 @@
   flex-direction: column;
   align-items: flex-end;
   max-width: 100%;
+  min-width: 0;
 }
 
 .message-item > .content > .deleted_message_text {
@@ -110,7 +111,7 @@
 .message-item > .content > .message_block {
   display: flex;
   flex-direction: column;
-  max-width: 460px;
+  max-width: 100%;
   padding: 8px 13px;
   min-height: 36px;
   border-radius: 18px;
@@ -132,6 +133,7 @@
   font-size: 15px;
   color: var(--message-text-color);
   font-weight: var(--font-weight-light);
+  word-break: break-word;
 }
 
 .message-item > .content > .message_block > .text > a {

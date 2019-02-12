@@ -80,6 +80,7 @@
   min-width: 0;
   font-size: 15px;
   color: var(--ref-text-color);
+  word-break: break-word;
   font-weight: var(--font-weight-light);
 }
 

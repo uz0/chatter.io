@@ -12,6 +12,6 @@
   text-overflow: ellipsis;
 }
 
-.xtag span {
+.xtag strong {
   font-weight: var(--font-weight-medium);
 }

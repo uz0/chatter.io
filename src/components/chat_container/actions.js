@@ -1,4 +1,5 @@
 import find from 'lodash/find';
+import get from 'lodash/get';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -22,6 +23,35 @@ const notificationReceived = notification => (dispatch, getState) => {
   if (notification.event === 'entering') {
     onEntering(notification);
   }
+
+  function showWebNotification(message) {
+    if (Notification.permission !== 'granted') {
+      return;
+    }
+
+    if (message.user_id === state.currentUser.id) {
+      return;
+    }
+
+    const user = state.users.list[message.user_id];
+    const subscription = find(state.subscriptions.list, { group_id: message.group_id });
+
+    if (!subscription.mute_until) {
+      const audio = new Audio('/assets/notification.mp3');
+      audio.play();
+    }
+
+    const notification = new Notification(user.nick || 'no nick', {
+      body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
+      icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
+    });
+
+    // if (document.hidden) {
+    //   notification.onclick = () => window.open(`${location.host}${this.getChatUrl(subscription)}`, '_blank');
+    // } else {
+    //   notification.onclick = () => route(`${this.getChatUrl(subscription)}`);
+    // }
+  };
 
   function onEntering() {
     const subscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
@@ -88,6 +118,14 @@ const notificationReceived = notification => (dispatch, getState) => {
     }
 
     if (notification.event === 'new') {
+      if (!notification.object.xtag && document.hidden) {
+        showWebNotification(notification.object);
+      }
+
+      if (find(notification.object.mentions, {user_id: state.currentUser.id}) && !document.hidden) {
+        showWebNotification(notification.object);
+      }
+
       // Не добавляем сообщение, просто удаляем чат
       if (notification.object.xtag === 'leave' && !notification.object.reference.id) {
         dispatch(subscriptionsActions.removeSubscription(messageSubscription.id));

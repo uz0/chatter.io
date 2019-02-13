@@ -147,6 +147,19 @@ class Panel extends Component {
     });
   }).catch(error => this.props.showNotification(this.props.t(error.code)));
 
+  toggleMute = () => {
+    let date;
+
+    if (this.props.details.mute_until) {
+      date = new Date(2011, 0, 1, 0, 0, 0, 0).toISOString();
+    } else {
+      date = new Date(new Date().getTime() + 5000).toISOString();
+    }
+
+    api.updateSubscription({ subscription_id: this.props.details.id, mute_until: date })
+      .catch(error => error.text && this.props.showNotification(this.props.t(error.code)));
+  };
+
   onAvatarInputChange = event => {
     const file = event.target.files[0];
 
@@ -302,8 +315,15 @@ class Panel extends Component {
           </Fragment>
         }
 
-        <button className={style.button}>
-          <Icon name="notification" />
+        <button className={style.button} onClick={this.toggleMute}>
+          {this.props.details.mute_until &&
+            <Icon name="mute" />
+          }
+
+          {!this.props.details.mute_until &&
+            <Icon name="unmute" />
+          }
+
           <span>{this.props.t('notifications')}</span>
         </button>
 

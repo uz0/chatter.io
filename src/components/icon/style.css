@@ -41,8 +41,12 @@
   --data: url('/assets/icons/folder.svg');
 }
 
-.icon[data-icon="notification"] {
-  --data: url('/assets/icons/notification.svg');
+.icon[data-icon="mute"] {
+  --data: url('/assets/icons/mute.svg');
+}
+
+.icon[data-icon="unmute"] {
+  --data: url('/assets/icons/unmute.svg');
 }
 
 .icon[data-icon="attach"] {

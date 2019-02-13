@@ -74,6 +74,43 @@ class MessageItem extends Component {
     return true;
   };
 
+  renderMessageBlock = () => {
+    const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
+    const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
+
+    return <div className={style.message_block}>
+      {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
+        <RefMessage
+          className={style.message}
+          {...this.props.message.forwarded_message_id ? { forwardedId: this.props.message.forwarded_message_id } : {}}
+          {...this.props.message.in_reply_to_message_id ? { repliedId: this.props.message.in_reply_to_message_id } : {}}
+        />
+      }
+
+      {this.props.message.text &&
+        <p className={style.text} dangerouslySetInnerHTML={{__html: this.renderMessageText(this.props.message)}} />
+      }
+
+      {isMessageHasFile &&
+        <div className={style.file}>
+          <Icon name="add-chat" />
+
+          <div className={style.section}>
+            <p className={style.name}>File</p>
+
+            <div className={style.subcaption}>
+              <p className={style.text}>Filename.{this.getFileType()}</p>
+
+              <span className={style.size}>
+                {this.getFileSizeKb()} {this.props.t('kb')}
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>;
+  };
+
   render() {
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
@@ -83,6 +120,10 @@ class MessageItem extends Component {
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
 
     let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
+
+    if (this.props.isMobile) {
+      actionsItems.unshift({ icon: 'reply', text: this.props.t('reply'), onClick: this.openReplyMessage });
+    }
 
     if (isMessageCurrentUser && isMessageInCurrentHour && !this.props.message.forwarded_message_id) {
       actionsItems.unshift({ icon: 'edit', text: this.props.t('edit'), onClick: this.openUpdateMessage });
@@ -101,7 +142,7 @@ class MessageItem extends Component {
         'opponent-user': !isMessageCurrentUser,
       },
     )}>
-      {!isMessageDeleted &&
+      {!isMessageDeleted && !this.props.isMobile &&
         <div className={style.actions}>
           <Dropdown
             uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
@@ -129,38 +170,18 @@ class MessageItem extends Component {
 
       {!isMessageDeleted &&
         <div className={style.content}>
-          {isMessageTextBlockShown &&
-            <div className={style.message_block}>
-              {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
-                <RefMessage
-                  className={style.message}
-                  {...this.props.message.forwarded_message_id ? { forwardedId: this.props.message.forwarded_message_id } : {}}
-                  {...this.props.message.in_reply_to_message_id ? { repliedId: this.props.message.in_reply_to_message_id } : {}}
-                />
-              }
+          {isMessageTextBlockShown && !this.props.isMobile &&
+            this.renderMessageBlock()
+          }
 
-              {this.props.message.text &&
-                <p className={style.text} dangerouslySetInnerHTML={{__html: this.renderMessageText(this.props.message)}} />
-              }
-
-              {isMessageHasFile &&
-                <div className={style.file}>
-                  <Icon name="add-chat" />
-
-                  <div className={style.section}>
-                    <p className={style.name}>File</p>
-
-                    <div className={style.subcaption}>
-                      <p className={style.text}>Filename.{this.getFileType()}</p>
-
-                      <span className={style.size}>
-                        {this.getFileSizeKb()} {this.props.t('kb')}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
+          {isMessageTextBlockShown && this.props.isMobile &&
+            <Dropdown
+              uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
+              className={style.dropdown}
+              items={actionsItems}
+            >
+              {this.renderMessageBlock()}
+            </Dropdown>
           }
 
           {isMessageHasImage &&
@@ -192,6 +213,7 @@ export default compose(
     (state, props) => ({
       currentUser: state.currentUser,
       message: state.messages.list[props.id],
+      isMobile: state.device === 'touch',
     }),
 
     {

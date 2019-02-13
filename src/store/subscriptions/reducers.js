@@ -69,7 +69,7 @@ export default (state = initialState, action) => {
   if (action.type === actions.types.removeSubscription) {
     let ids = [ ...state.ids ];
     let list = { ...state.list };
-    let filtered_ids = { ...state.filtered_ids };
+    let filtered_ids = [ ...state.filtered_ids ];
     ids.splice(ids.indexOf(action.payload), 1);
 
     if (filtered_ids.indexOf(action.payload) !== -1) {

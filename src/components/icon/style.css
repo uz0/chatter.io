@@ -80,3 +80,7 @@
 .icon[data-icon="mark"] {
   --data: url('/assets/icons/mark.svg');
 }
+
+.icon[data-icon="leave"] {
+  --data: url('/assets/icons/leave.svg');
+}

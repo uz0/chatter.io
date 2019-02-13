@@ -23,7 +23,7 @@ const cx = classnames.bind(style);
 
 class Panel extends Component {
   state = {
-    collapseActive: '',
+    collapseActive: 'people',
     chatName: '',
     isChatNameInputShown: false,
   };
@@ -51,16 +51,23 @@ class Panel extends Component {
     return text;
   };
 
-  copyInviteLink = () => {
-    api.createGroupInviteCode({ subscription_id: this.props.details.id }).then(data => {
-      this.inviteCodeInputRef.value = `${location.host}/invite/${data.code}`;
-      this.inviteCodeInputRef.select();
+  createInviteCode = details => {
+    const currentUserParticipant = this.props.currentUser && find(details.group.participants, { user_id: this.props.currentUser.id });
+    const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
 
-      setTimeout(() => {
-        document.execCommand('copy');
-        this.props.showNotification(this.props.t('invite_code_copied'));
-      });
+    if (!isCurrentUserAdmin) {
+      return;
+    }
+
+    api.createGroupInviteCode({ subscription_id: details.id }).then(data => {
+      this.inviteCodeInputRef.value = `${location.host}/invite/${data.code}`;
     });
+  };
+
+  copyInviteLink = () => {
+    this.inviteCodeInputRef.select();
+    document.execCommand('copy');
+    this.props.showNotification(this.props.t('invite_code_copied'));
   };
 
   onChatNameBlur = () => {
@@ -120,6 +127,25 @@ class Panel extends Component {
       options: {subscription_id: this.props.details.id},
     });
   };
+
+  setAccess = (user_id, role) => api.setAccess({ subscription_id: this.props.details.id, user_id, role }).then(() => {
+    let participants = this.props.details.group.participants;
+    const index = participants.findIndex(participant => participant.user.id === user_id);
+
+    participants[index] = {
+      ...participants[index],
+      role,
+    };
+
+    this.props.updateSubscription({
+      ...this.props.details,
+
+      group: {
+        ...this.props.details.group,
+        participants,
+      },
+    });
+  }).catch(error => this.props.showNotification(this.props.t(error.code)));
 
   onAvatarInputChange = event => {
     const file = event.target.files[0];
@@ -183,6 +209,17 @@ class Panel extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    const isDetailsLoadedFirstly = !this.props.details && nextProps.details;
+    const isDetailsChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
+
+    if (isDetailsLoadedFirstly) {
+      this.createInviteCode(nextProps.details);
+    }
+
+    if (isDetailsChanged) {
+      this.createInviteCode(nextProps.details);
+    }
+
     if (nextProps.details && nextProps.details.group.name !== this.chatName) {
       this.setState({ chatName: nextProps.details.group.name });
     }
@@ -250,11 +287,6 @@ class Panel extends Component {
 
         {isChatRoom && isCurrentUserAdmin &&
           <Fragment>
-            <button className={style.button} onClick={this.copyInviteLink}>
-              <Icon name="share" />
-              <span>{this.props.t('copy_invite_link')}</span>
-            </button>
-
             <input
               type="text"
               className={style.copy_input}
@@ -262,6 +294,11 @@ class Panel extends Component {
               onChange={() => {}}
               readOnly
             />
+
+            <button className={style.button} onClick={this.copyInviteLink}>
+              <Icon name="share" />
+              <span>{this.props.t('copy_invite_link')}</span>
+            </button>
           </Fragment>
         }
 
@@ -270,15 +307,12 @@ class Panel extends Component {
           <span>{this.props.t('notifications')}</span>
         </button>
 
-        <button className={style.button} style={{ '--icon-size': '18px' }}>
-          <Icon name="search" />
-          <span>{this.props.t('search_in_conversation')}</span>
-        </button>
-
-        <button className={style.button} style={{ '--icon-size': '22px' }}>
-          <Icon name="folder" />
-          <span>{this.props.t('category')}</span>
-        </button>
+        {isChatRoom &&
+          <button className={style.button} onClick={this.leaveChat}>
+            <Icon name="leave" />
+            <span>{this.props.t('leave')}</span>
+          </button>
+        }
 
         {this.props.details.group.type === 'room' &&
           <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'people' })}>
@@ -306,7 +340,12 @@ class Panel extends Component {
                 let peopleDropdownItems = [{ text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id) }];
 
                 if (isCurrentUserAdmin) {
-                  peopleDropdownItems.push({ text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true });
+                  peopleDropdownItems.push(
+                    { text: this.props.t('set_admin'), onClick: () => this.setAccess(user.id, 'admin') },
+                    { text: this.props.t('set_read_write'), onClick: () => this.setAccess(user.id, 'rw') },
+                    { text: this.props.t('set_read_only'), onClick: () => this.setAccess(user.id, 'ro') },
+                    { text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true },
+                  );
                 }
 
                 return <div key={user.id} className={style.person}>
@@ -326,50 +365,6 @@ class Panel extends Component {
             </div>
           </div>
         }
-
-        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'extensions' })}>
-          <button className={style.collapse_button} onClick={this.toggleCollapse('extensions')}>
-            <span className={style.title}>{this.props.t('extensions')}</span>
-            <Icon name="arrow-down" />
-          </button>
-
-          <div className={style.collapse_list}>
-            Extensions
-          </div>
-        </div>
-
-        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'transactions' })}>
-          <button className={style.collapse_button} onClick={this.toggleCollapse('transactions')}>
-            <span className={style.title}>{this.props.t('transactions')}</span>
-            <Icon name="arrow-down" />
-          </button>
-
-          <div className={style.collapse_list}>
-            Transactions
-          </div>
-        </div>
-
-        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'files' })}>
-          <button className={style.collapse_button} onClick={this.toggleCollapse('files')}>
-            <span className={style.title}>{this.props.t('files')}</span>
-            <Icon name="arrow-down" />
-          </button>
-
-          <div className={style.collapse_list}>
-            Files
-          </div>
-        </div>
-
-        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'photos' })}>
-          <button className={style.collapse_button} onClick={this.toggleCollapse('photos')}>
-            <span className={style.title}>{this.props.t('photos')}</span>
-            <Icon name="arrow-down" />
-          </button>
-
-          <div className={style.collapse_list}>
-            Photos
-          </div>
-        </div>
       </div>
     </Fragment>;
   };

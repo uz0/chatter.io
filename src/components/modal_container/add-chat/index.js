@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames/bind';
 import map from 'lodash/map';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
@@ -44,6 +45,32 @@ class AddChat extends Component {
   };
 
   createGroupChat = () => {
+    let sameSubscription = null;
+
+    this.props.subscriptions_ids.forEach(id => {
+      const subscription = this.props.subscriptions_list[id];
+
+      if (subscription.group.type !== 'room') {
+        return;
+      }
+
+      const participantsWithoutYou = filter(subscription.group.participants, participant => participant.user_id !== this.props.currentUser.id);
+
+      if (participantsWithoutYou.length !== this.state.checkedUsers.length) {
+        return;
+      }
+
+      if (isEqual(map(participantsWithoutYou, participant => participant.user_id).sort(), this.state.checkedUsers.sort())) {
+        sameSubscription = subscription;
+      }
+    });
+
+    if (sameSubscription) {
+      this.props.router.push(`/chat/${sameSubscription.id}`);
+      this.props.close();
+      return;
+    }
+
     let name = '';
 
     this.state.checkedUsers.forEach(id => {
@@ -57,7 +84,6 @@ class AddChat extends Component {
       this.props.router.push(`/chat/${data.subscription.id}`);
       this.props.close();
     }).catch(error => {
-      console.log(error);
       this.props.showNotification(this.props.t(error.code));
     });
   };
@@ -146,6 +172,7 @@ export default compose(
 
   connect(
     state => ({
+      currentUser: state.currentUser,
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
       users_list: state.users.list,

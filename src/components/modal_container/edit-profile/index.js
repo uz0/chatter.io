@@ -31,10 +31,9 @@ class EditProfile extends Component {
       api.updateMe({
         ...this.props.forms.profile.avatar.value && this.props.forms.profile.avatar.isTouched ? { avatar: this.props.forms.profile.avatar.value } : {},
         nick: this.props.forms.profile.nick.value,
-      }).then(data => {
+      }).then(() => {
         this.props.showNotification(this.props.t('profile_updated'));
         this.props.formReset('profile');
-        this.props.setCurrentUser(data.user);
         this.props.close();
       }).catch(error => this.props.showNotification(this.props.t(error.text)));
 
@@ -60,10 +59,9 @@ class EditProfile extends Component {
       nick: this.props.forms.profile.nick.value,
       current_password: this.props.forms.profile.oldPassword.value,
       password: this.props.forms.profile.password.value,
-    }).then(data => {
+    }).then(() => {
       this.props.showNotification(this.props.t('profile_updated'));
       this.props.formReset('profile');
-      this.props.setCurrentUser(data.user);
       this.props.close();
     }).catch(error => this.props.showNotification(this.props.t(error.text)));
   };

@@ -53,8 +53,9 @@ class Sidebar extends Component {
     const isSubscriptionsChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
     const isFiltering = !isEqual(this.props.subscriptions_filtered_ids, nextProps.subscriptions_filtered_ids);
+    const isCurrentUserChangedPhoto = !isEqual(this.props.currentUser.avatar, nextProps.currentUser.avatar);
 
-    return isSortedSubscriptionsLoaded || isSubscriptionsChanged || isMessagesChanged || isFiltering;
+    return isSortedSubscriptionsLoaded || isSubscriptionsChanged || isMessagesChanged || isFiltering || isCurrentUserChangedPhoto;
   }
 
   render() {

@@ -69,8 +69,7 @@ class SubscriptionItem extends Component {
       href = `/chat/${this.props.id}`;
     }
 
-    const isLastMessageShown = this.props.lastMessage && !this.props.subscription.draft && !this.props.typings;
-    const isDraftShown = this.props.subscription.draft && !this.props.typings;
+    const isLastMessageShown = this.props.lastMessage && !this.props.typings;
     const isUnreadShown = this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 
     return <Link
@@ -89,10 +88,6 @@ class SubscriptionItem extends Component {
 
         {isLastMessageShown &&
           <Message message={this.props.lastMessage} className={style.message} />
-        }
-
-        {isDraftShown &&
-          <p className={cx('message', 'text')}>{this.props.t('draft')}: {this.props.subscription.draft}</p>
         }
 
         {!isEmpty(this.props.typings) &&

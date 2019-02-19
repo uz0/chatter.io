@@ -45,10 +45,12 @@ const notificationReceived = notification => (dispatch, getState) => {
     const user = state.users.list[message.user_id];
     const subscription = find(state.subscriptions.list, { group_id: message.group_id });
 
-    if (!subscription.mute_until) {
-      const audio = new Audio('/assets/notification.mp3');
-      audio.play();
+    if (subscription.mute_until) {
+      return;
     }
+
+    const audio = new Audio('/assets/notification.mp3');
+    audio.play().catch(error => console.log(error));
 
     const notification = new Notification(user.nick || 'no nick', {
       body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,

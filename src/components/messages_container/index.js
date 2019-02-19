@@ -13,9 +13,10 @@ import MessageInput from './input';
 import DateDelimiter from './date-delimiter';
 import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
+import Typings from './typings';
 import MessageItem from '@/components/message-item';
 import Loading from '@/components/loading';
-import { withDetails, withTypings } from '@/hoc';
+import { withDetails } from '@/hoc';
 import { api } from '@';
 import { uid } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
@@ -127,16 +128,14 @@ class Messages extends Component {
   shouldComponentUpdate(nextProps) {
     const isSubscriptionsIdsLoaded = this.props.subscriptions_ids.length === 0 && nextProps.subscriptions_ids.length > 0;
     const isDetailsLoaded = !this.props.details && !!nextProps.details;
+    const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
-    const isDetailsChanged = !isEqual(this.props.details, nextProps.details);
-    const isTypingsChanged = this.props.typings !== nextProps.typings;
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
+      isChatChanged ||
       isChatIdsLoaded ||
-      isDetailsChanged ||
-      isTypingsChanged ||
       isMessagesChanged;
   }
 
@@ -194,8 +193,8 @@ class Messages extends Component {
         <Loading isShown={!isMessagesLoaded} className={style.loading} />
       </div>
 
-      {this.props.typings &&
-        <p className={style.typings}>{this.props.typings}</p>
+      {this.props.details &&
+        <Typings subscription_id={this.props.details.id} />
       }
 
       {this.props.details &&
@@ -225,8 +224,4 @@ export default compose(
       ...props.chatIds ? { lastMessage: state.messages.list[props.chatIds.list[0]] } : {},
     }),
   ),
-
-  withTypings(props => ({
-    chat: props.details,
-  })),
 )(Messages);

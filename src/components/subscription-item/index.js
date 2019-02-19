@@ -50,8 +50,9 @@ class SubscriptionItem extends Component {
     const isSubscriptionLoaded = !this.props.subscription && !!nextProps.subscription;
     const isLastMessageChanged = !isEqual(this.props.lastMessage, nextProps.lastMessage);
     const isSubscriptionChanged = !isEqual(this.props.subscription, nextProps.subscription);
+    const isTypingsChanged = !isEqual(this.props.typings, nextProps.typings);
 
-    return isSubscriptionLoaded || isLastMessageChanged || isSubscriptionChanged;
+    return isSubscriptionLoaded || isLastMessageChanged || isSubscriptionChanged || isTypingsChanged;
   }
 
   render() {
@@ -94,7 +95,7 @@ class SubscriptionItem extends Component {
           <p className={cx('message', 'text')}>{this.props.t('draft')}: {this.props.subscription.draft}</p>
         }
 
-        {this.props.typings &&
+        {!isEmpty(this.props.typings) &&
           <p className={cx('message', 'text')}>{this.props.typings}</p>
         }
       </div>

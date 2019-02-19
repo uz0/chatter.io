@@ -1,0 +1,14 @@
+.typings {
+  --height: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-light);
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

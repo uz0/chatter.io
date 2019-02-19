@@ -93,11 +93,13 @@ class Panel extends Component {
     });
   };
 
-  leaveChat = () => {
-    api.unsubscribe({ subscription_id: this.props.details.id }).then(() => {
-      this.props.router.push('/chat');
-    });
-  };
+  leaveChat = () => this.props.toggleModal({
+    id: 'leave-chat',
+
+    options: {
+      subscription_id: this.props.details.id,
+    },
+  });
 
   removeUser = id => {
     if (id === this.props.currentUser.id) {
@@ -328,9 +330,9 @@ class Panel extends Component {
         </button>
 
         {isChatRoom &&
-          <button className={style.button} onClick={this.leaveChat}>
-            <Icon name="leave" />
-            <span>{this.props.t('leave')}</span>
+          <button className={cx('button', 'leave')} onClick={this.leaveChat}>
+            <Icon name="close" />
+            <span>{this.props.t('leave_chat')}</span>
           </button>
         }
 

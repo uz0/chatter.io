@@ -6,6 +6,7 @@ import AddChat from './add-chat';
 import EditProfile from './edit-profile';
 import Forward from './forward';
 import Invite from './invite';
+import LeaveChat from './leave-chat';
 import modalActions from './actions';
 
 export { default as actions } from './actions';
@@ -19,6 +20,7 @@ class ModalContainer extends Component {
         {id === 'edit-profile-modal' && <EditProfile options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'forward-modal' && <Forward options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'invite-modal' && <Invite options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'leave-chat' && <LeaveChat options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
       </Fragment>)}
     </Portal>;
   }

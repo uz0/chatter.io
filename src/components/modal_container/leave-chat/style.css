@@ -1,0 +1,20 @@
+.wrapper {
+  --width: 500px;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px !important;
+}
+
+.modal > p {
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  color: var(--text-color);
+  font-size: 16px;
+  letter-spacing: 0.1px;
+  line-height: 1.31;
+  text-align: center;
+}

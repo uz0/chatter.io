@@ -173,7 +173,6 @@
 }
 
 .panel > .scroll > .button {
-  --icon-size: 24px;
   display: flex;
   align-items: center;
   width: 100%;
@@ -183,16 +182,33 @@
   text-align: left;
 }
 
-.panel > .scroll > .button:not(:hover) {
+.panel > .scroll > .button:not(.leave) {
+  --icon-size: 24px;
+  --icon-color: var(--primary-color);
+}
+
+.panel > .scroll > .button:not(.leave):not(:hover) {
   --color: var(--text-color);
 }
 
-.panel > .scroll > .button:hover {
+.panel > .scroll > .button:not(.leave):hover {
   --color: var(--primary-color);
 }
 
+.panel > .scroll > .button.leave {
+  --icon-size: 14px;
+  --icon-color: var(--color);
+}
+
+.panel > .scroll > .button.leave:not(:hover) {
+  --color: var(--caption-color);
+}
+
+.panel > .scroll > .button.leave:hover {
+  --color: var(--error-color);
+}
+
 .panel > .scroll > .button i {
-  --icon-color: var(--primary-color);
   flex-shrink: 0;
   width: 24px;
 }

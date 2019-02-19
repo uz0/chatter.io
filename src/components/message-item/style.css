@@ -1,16 +1,15 @@
 .message-item {
+  --message-min-height: 36px;
   display: flex;
   width: 100%;
 }
 
 .message-item:not(:hover) {
   --actions-opacity: 0;
-  --time-opacity: 0;
 }
 
 .message-item:hover {
   --actions-opacity: 1;
-  --time-opacity: 1;
 }
 
 .message-item.current-user {
@@ -95,6 +94,14 @@
   min-width: 0;
 }
 
+.message-item > .content:not(:hover) + .info {
+  --time-opacity: 0;
+}
+
+.message-item > .content:hover + .info {
+  --time-opacity: 1;
+}
+
 .message-item > .content > .deleted_message_text {
   --height: 36px;
   overflow: hidden;
@@ -113,7 +120,7 @@
   flex-direction: column;
   max-width: 100%;
   padding: 8px 13px;
-  min-height: 36px;
+  min-height: var(--message-min-height);
   border-radius: 18px;
   background-color: var(--message-color);
 }
@@ -289,7 +296,7 @@
   --height: 24px;
   z-index: 1;
   position: absolute;
-  bottom: calc(100% + 4px);
+  top: calc((var(--message-min-height) - var(--height)) / 2);
   height: var(--height);
   padding-left: 6px;
   padding-right: 6px;

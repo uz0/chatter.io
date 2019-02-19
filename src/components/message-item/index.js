@@ -118,6 +118,7 @@ class MessageItem extends Component {
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
     const isMessageTextBlockShown = isMessageHasFile || this.props.message.text || this.props.message.forwarded_message_id || this.props.message.in_reply_to_message_id;
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
+    const isActionsShown = !isMessageDeleted && !this.props.isMobile && !this.props.isRefMessageDeleted;
 
     let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
 
@@ -142,7 +143,7 @@ class MessageItem extends Component {
         'opponent-user': !isMessageCurrentUser,
       },
     )}>
-      {!isMessageDeleted && !this.props.isMobile &&
+      {isActionsShown &&
         <div className={style.actions}>
           <Dropdown
             uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
@@ -223,6 +224,28 @@ export default compose(
       openDropdown: dropdownActions.openDropdown,
       toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
+    },
+  ),
+  
+  connect(
+    (state, props) => {
+      const refMessageId = props.message.forwarded_message_id || props.message.in_reply_to_message_id;
+
+      if (!refMessageId) {
+        return {};
+      }
+
+      const refMessage = state.messages.list[refMessageId];
+
+      if (!refMessage) {
+        return {};
+      }
+
+      const isRefMessageDeleted = !!refMessage.deleted_at;
+
+      return {
+        isRefMessageDeleted,
+      };
     },
   ),
 )(MessageItem);

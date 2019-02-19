@@ -12,6 +12,7 @@ import Modal from '@/components/modal';
 import Icon from '@/components/icon';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
+import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
 import SearchInput from '@/components/search-input';
@@ -93,6 +94,7 @@ class AddChat extends Component {
       [this.state.search.indexOf('@') !== -1 ? 'email' : 'nick']: this.state.search,
     }).then(addContactData => api.getPrivateSubscription({ user_id: addContactData.contact.user.id }).then(data => {
       if (this.props.subscriptions_ids.indexOf(data.subscription.id) === -1) {
+        this.props.addUsers(data.subscription.group.participants);
         this.props.addSubscription(data.subscription);
       }
 
@@ -180,6 +182,7 @@ export default compose(
 
     {
       addSubscription: subscriptionsActions.addSubscription,
+      addUsers: usersActions.addUsers,
       showNotification: notificationActions.showNotification,
     },
   ),

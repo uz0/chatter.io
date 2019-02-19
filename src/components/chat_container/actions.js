@@ -109,8 +109,10 @@ const notificationReceived = notification => (dispatch, getState) => {
         return;
       }
 
-      api.getSubscription({subscription_id: notification.object.id})
-        .then(data => dispatch(subscriptionsActions.addSubscription(data.subscription)));
+      api.getSubscription({subscription_id: notification.object.id}).then(data => {
+        dispatch(usersActions.addUsers(data.subscription.group.participants));
+        dispatch(subscriptionsActions.addSubscription(data.subscription));
+      });
     }
 
     if (notification.event === 'changed') {

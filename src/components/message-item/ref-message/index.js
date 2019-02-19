@@ -39,7 +39,15 @@ class RefMessage extends Component {
     const isAttachmentImage = get(this.props, 'message.attachment.content_type', '').match('image/');
 
     return <div className={cx('message', {'_is-forwarded': !!this.props.forwardedId}, this.props.className)}>
-      <p className={style.name}>{nick}</p>
+      <div className={style.title}>
+        <p className={style.name}>{nick}</p>
+
+        <span className={style.type}>
+          {', '}
+          {this.props.forwardedId && this.props.t('forwarded')}
+          {this.props.repliedId && this.props.t('replied')}
+        </span>
+      </div>
 
       {this.props.message && !isMessageDeleted &&
         <div className={style.section}>

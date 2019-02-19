@@ -85,6 +85,7 @@ export default {translation: {
   read_write: 'Read/Write',
   registered_success: 'You registered success',
   remove: 'Remove',
+  replied: 'Replied',
   replied_message: 'Replied message',
   replied_to: 'Replied to',
   reply: 'Reply',

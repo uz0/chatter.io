@@ -3,6 +3,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  max-width: 420px;
   margin-right: var(--margin-right);
   background-color: #fff;
   transition-property: margin-right;
@@ -320,13 +321,9 @@
 }
 
 .panel > .scroll > .collapse > .collapse_list {
-  overflow-y: auto;
-  overflow-x: hidden;
   display: var(--list-display);
-  max-height: 200px;
   padding-top: 8px;
   padding-bottom: 26px;
-  -webkit-overflow-scrolling: touch;
 }
 
 .panel > .scroll > .collapse > .collapse_list > .person {

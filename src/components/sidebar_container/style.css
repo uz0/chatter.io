@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  max-width: 420px;
 }
 
 .sidebar .header {
@@ -76,30 +77,15 @@
   color: var(--text-color);
 }
 
-.sidebar .navigation button::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: var(--text-color);
-  opacity: var(--line-opacity);
-  transition-property: opacity;
-}
-
 .sidebar .navigation button:not(._is-active):not(:hover) {
-  --line-opacity: 0;
   --font-weight: var(--font-weight-regular);
 }
 
 .sidebar .navigation button:not(._is-active):hover {
-  --line-opacity: 1;
   --font-weight: var(--font-weight-regular);
 }
 
 .sidebar .navigation button._is-active {
-  --line-opacity: 1;
   --font-weight: var(--font-weight-bold);
 }
 

@@ -4,11 +4,15 @@
   width: 100%;
 }
 
-.message-item:not(:hover) {
+.message-item:not(._is-dropdown-shown):not(:hover) {
   --actions-opacity: 0;
 }
 
-.message-item:hover {
+.message-item:not(._is-dropdown-shown):hover {
+  --actions-opacity: 1;
+}
+
+.message-item._is-dropdown-shown {
   --actions-opacity: 1;
 }
 

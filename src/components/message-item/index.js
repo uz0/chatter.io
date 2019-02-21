@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import moment from 'moment';
+import get from 'lodash/get';
 import { connect } from 'react-redux';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import { withNamespaces } from 'react-i18next';
@@ -141,6 +142,7 @@ class MessageItem extends Component {
       {
         'current-user': isMessageCurrentUser,
         'opponent-user': !isMessageCurrentUser,
+        '_is-dropdown-shown': this.props.isDropdownShown,
       },
     )}>
       {isActionsShown &&
@@ -225,6 +227,12 @@ export default compose(
       toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
     },
+  ),
+
+  connect(
+    (state, props) => ({
+      isDropdownShown: get(state, `dropdown.message-dropdown-${props.message.uid || props.message.id}.isShown`, false),
+    }),
   ),
   
   connect(

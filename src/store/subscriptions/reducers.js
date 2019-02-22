@@ -4,6 +4,8 @@ import filter from 'lodash/filter';
 import { getChatName } from '@/helpers';
 
 const initialState = {
+  filter_search: '',
+  filter_tag: 'all',
   filtered_ids: [],
   ids: [],
   list: {},
@@ -87,18 +89,36 @@ export default (state = initialState, action) => {
   }
 
   if (action.type === actions.types.filterSubscription) {
+    let filter_tag = state.filter_tag;
+    let filter_search = state.filter_search;
     let ids = [ ...state.ids ];
-    let filtered_ids = [ ...state.filtered_ids ];
     let list = { ...state.list };
+    let filtered_ids = ids;
 
-    if (action.payload) {
-      filtered_ids = filter(ids, id => getChatName(list[id]).toLowerCase().match(action.payload));
-    } else {
-      filtered_ids = ids;
+    if (action.payload.name) {
+      filter_search = action.payload.name;
+    }
+
+    if (action.payload.tag) {
+      filter_tag = action.payload.tag;
+    }
+
+    if (!action.payload.name && !action.payload.tag) {
+      filter_search = '';
+    }
+
+    if (filter_search) {
+      filtered_ids = filter(filtered_ids, id => getChatName(list[id]).toLowerCase().match(filter_search));
+    }
+
+    if (filter_tag && filter_tag !== 'all') {
+      filtered_ids = filter(filtered_ids, id => list[id].tags && list[id].tags[0] === filter_tag);
     }
 
     return {
       ...state,
+      filter_tag,
+      filter_search,
       ids,
       filtered_ids,
       list,
@@ -107,6 +127,8 @@ export default (state = initialState, action) => {
 
   if (action.type === actions.types.clearSubscriptions) {
     return {
+      filter_search: '',
+      filter_tag: 'all',
       filtered_ids: [],
       ids: [],
       list: {},

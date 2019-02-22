@@ -24,14 +24,10 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Sidebar extends Component {
-  state = {
-    navigationActive: 'all',
-  };
-
-  chooseTabNavigation = tab => () => this.setState({ navigationActive: tab });
   openAddChat = () => this.props.toggleModal({ id: 'new-chat-modal' });
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
-  onSearchInput = event => this.props.filterSubscription(event.target.value);
+  onSearchInput = event => this.props.filterSubscription({ name: event.target.value });
+  filterSubscriptionsByTag = tag => this.props.filterSubscription({ tag });
 
   logout = () => api.logout().then(() => {
     this.props.clearMessages();
@@ -55,12 +51,14 @@ class Sidebar extends Component {
     const isFiltering = !isEqual(this.props.subscriptions_filtered_ids, nextProps.subscriptions_filtered_ids);
     const isCurrentUserChangedPhoto = this.props.currentUser && nextProps.currentUser && !isEqual(this.props.currentUser.avatar, nextProps.currentUser.avatar);
     const isStateChanged = !isEqual(this.state, nextState);
+    const isTagFiltered = this.props.subscriptions_filter_tag !== nextProps.subscriptions_filter_tag;
 
     return isSortedSubscriptionsLoaded ||
       isSubscriptionsChanged ||
       isMessagesChanged ||
       isFiltering ||
       isCurrentUserChangedPhoto ||
+      isTagFiltered ||
       isStateChanged;
   }
 
@@ -93,19 +91,19 @@ class Sidebar extends Component {
 
       <div className={style.navigation}>
         <button
-          className={cx({'_is-active': this.state.navigationActive === 'all'})}
-          onClick={this.chooseTabNavigation('all')}
-        >All</button>
+          className={cx({'_is-active': this.props.subscriptions_filter_tag === 'all'})}
+          onClick={() => this.filterSubscriptionsByTag('all')}
+        >{this.props.t('all')}</button>
 
         <button
-          className={cx({'_is-active': this.state.navigationActive === 'personal'})}
-          onClick={this.chooseTabNavigation('personal')}
-        >Personal</button>
+          className={cx({'_is-active': this.props.subscriptions_filter_tag === 'personal'})}
+          onClick={() => this.filterSubscriptionsByTag('personal')}
+        >{this.props.t('personal')}</button>
 
         <button
-          className={cx({'_is-active': this.state.navigationActive === 'work'})}
-          onClick={this.chooseTabNavigation('work')}
-        >Work</button>
+          className={cx({'_is-active': this.props.subscriptions_filter_tag === 'work'})}
+          onClick={() => this.filterSubscriptionsByTag('work')}
+        >{this.props.t('work')}</button>
       </div>
 
       <div className={style.list}>
@@ -136,6 +134,7 @@ export default compose(
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
+      subscriptions_filter_tag: state.subscriptions.filter_tag,
     }),
 
     {

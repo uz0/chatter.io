@@ -173,7 +173,11 @@
   background-color: var(--divider-color);
 }
 
-.panel > .scroll > .button {
+.panel > .scroll > .dropdown {
+  flex-shrink: 0;
+}
+
+.panel > .scroll .setting_button {
   display: flex;
   align-items: center;
   width: 100%;
@@ -183,38 +187,38 @@
   text-align: left;
 }
 
-.panel > .scroll > .button:not(.leave) {
+.panel > .scroll .setting_button:not(.leave) {
   --icon-size: 24px;
   --icon-color: var(--primary-color);
 }
 
-.panel > .scroll > .button:not(.leave):not(:hover) {
+.panel > .scroll .setting_button:not(.leave):not(:hover) {
   --color: var(--text-color);
 }
 
-.panel > .scroll > .button:not(.leave):hover {
+.panel > .scroll .setting_button:not(.leave):hover {
   --color: var(--primary-color);
 }
 
-.panel > .scroll > .button.leave {
+.panel > .scroll .setting_button.leave {
   --icon-size: 14px;
   --icon-color: var(--color);
 }
 
-.panel > .scroll > .button.leave:not(:hover) {
+.panel > .scroll .setting_button.leave:not(:hover) {
   --color: var(--caption-color);
 }
 
-.panel > .scroll > .button.leave:hover {
+.panel > .scroll .setting_button.leave:hover {
   --color: var(--error-color);
 }
 
-.panel > .scroll > .button i {
+.panel > .scroll .setting_button i {
   flex-shrink: 0;
   width: 24px;
 }
 
-.panel > .scroll > .button span {
+.panel > .scroll .setting_button .text {
   --height: 18px;
   overflow: hidden;
   flex-grow: 1;
@@ -229,7 +233,15 @@
   transition-property: color;
 }
 
-.panel > .scroll > .button + .collapse {
+.panel > .scroll .setting_button span {
+  flex-shrink: 0;
+  margin-left: 12px;
+  font-size: 13px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+}
+
+.panel > .scroll .setting_button + .collapse {
   margin-top: 20px;
 }
 

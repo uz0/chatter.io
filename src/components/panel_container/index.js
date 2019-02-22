@@ -130,6 +130,10 @@ class Panel extends Component {
     });
   };
 
+  setTag = tags => {
+    api.updateSubscription({ subscription_id: this.props.details.id, tags });
+  }
+
   setAccess = (user_id, role) => api.setAccess({ subscription_id: this.props.details.id, user_id, role }).then(() => {
     let participants = this.props.details.group.participants;
     const index = participants.findIndex(participant => participant.user.id === user_id);
@@ -310,14 +314,14 @@ class Panel extends Component {
               readOnly
             />
 
-            <button className={style.button} onClick={this.copyInviteLink}>
+            <button className={style.setting_button} onClick={this.copyInviteLink}>
               <Icon name="share" />
-              <span>{this.props.t('copy_invite_link')}</span>
+              <p className={style.text}>{this.props.t('copy_invite_link')}</p>
             </button>
           </Fragment>
         }
 
-        <button className={style.button} onClick={this.toggleMute}>
+        <button className={style.setting_button} onClick={this.toggleMute}>
           {this.props.details.mute_until &&
             <Icon name="mute" />
           }
@@ -326,13 +330,36 @@ class Panel extends Component {
             <Icon name="unmute" />
           }
 
-          <span>{this.props.t('notifications')}</span>
+          <p className={style.text}>{this.props.t('notifications')}</p>
         </button>
 
+        <Dropdown
+          uniqueId="panel-category-dropdown"
+          className={style.dropdown}
+
+          items={[
+            { text: this.props.t('all'), onClick: () => this.setTag([null]) },
+            { text: this.props.t('work'), onClick: () => this.setTag(['work']) },
+            { text: this.props.t('personal'), onClick: () => this.setTag(['personal']) },
+          ]}
+        >
+          <button className={style.setting_button}>
+            <Icon name="folder" />
+            <p className={style.text}>{this.props.t('category')}</p>
+
+            {this.props.details.tags && this.props.details.tags[0] &&
+              <span>
+                {this.props.details.tags[0] === 'work' && this.props.t('work')}
+                {this.props.details.tags[0] === 'personal' && this.props.t('personal')}
+              </span>
+            }
+          </button>
+        </Dropdown>
+
         {isChatRoom &&
-          <button className={cx('button', 'leave')} onClick={this.leaveChat}>
+          <button className={cx('setting_button', 'leave')} onClick={this.leaveChat}>
             <Icon name="close" />
-            <span>{this.props.t('leave_chat')}</span>
+            <p className={style.text}>{this.props.t('leave_chat')}</p>
           </button>
         }
 
@@ -414,6 +441,7 @@ export default compose(
     {
       toggleModal: modalActions.toggleModal,
       closeModal: modalActions.closeModal,
+      filterSubscription: subscriptionsActions.filterSubscription,
       addSubscription: subscriptionsActions.addSubscription,
       updateSubscription: subscriptionsActions.updateSubscription,
       showNotification: notificationActions.showNotification,

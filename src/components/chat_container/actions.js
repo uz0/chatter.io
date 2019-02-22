@@ -1,4 +1,5 @@
 import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
@@ -118,8 +119,13 @@ const notificationReceived = notification => (dispatch, getState) => {
     }
 
     if (notification.event === 'changed') {
-      api.getSubscription({subscription_id: notification.object.id})
-        .then(data => dispatch(subscriptionsActions.updateSubscription(data.subscription)));
+      api.getSubscription({subscription_id: notification.object.id}).then(data => {
+        dispatch(subscriptionsActions.updateSubscription(data.subscription));
+
+        if (!isEqual(state.subscriptions.list[notification.object.id].tags, data.subscription.tags)) {
+          dispatch(subscriptionsActions.filterSubscription({ tag: state.subscriptions.filter_tag }));
+        }
+      });
     }
   }
 

@@ -64,7 +64,11 @@ class Messages extends Component {
 
         messages.push(message.id || message.uid);
 
-        if (this.props.details.last_read_message_id === message.id && this.props.lastMessage && this.props.lastMessage.id !== message.id) {
+        if (this.props.details.last_read_message_id === message.id &&
+          this.props.lastMessage &&
+          this.props.lastMessage.id !== message.id &&
+          message.user_id !== this.props.currentUser.id
+        ) {
           messages.push('unreadDelimiter');
         }
       });
@@ -210,6 +214,7 @@ export default compose(
 
   connect(
     (state, props) => ({
+      currentUser: state.currentUser,
       messages_list: state.messages.list,
       chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
     }),

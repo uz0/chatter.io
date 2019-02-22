@@ -17,6 +17,7 @@ const getChatUrl = subscription => {
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
+  console.log(notification)
 
   if (notification.object_type === 'message') {
     onMessage();
@@ -119,10 +120,16 @@ const notificationReceived = notification => (dispatch, getState) => {
     }
 
     if (notification.event === 'changed') {
+      const subscription = state.subscriptions.list[notification.object.id];
+
+      if (!subscription) {
+        return;
+      }
+
       api.getSubscription({subscription_id: notification.object.id}).then(data => {
         dispatch(subscriptionsActions.updateSubscription(data.subscription));
 
-        if (!isEqual(state.subscriptions.list[notification.object.id].tags, data.subscription.tags)) {
+        if (!isEqual(subscription.tags, data.subscription.tags)) {
           dispatch(subscriptionsActions.filterSubscription({ tag: state.subscriptions.filter_tag }));
         }
       });

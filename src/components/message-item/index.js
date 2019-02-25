@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import moment from 'moment';
 import get from 'lodash/get';
+import find from 'lodash/find';
+import reject from 'lodash/reject';
+import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import { withNamespaces } from 'react-i18next';
@@ -65,15 +68,78 @@ class MessageItem extends Component {
   onDelete = () => api.deleteMessage({ message_id: this.props.message.id })
     .catch(error => this.props.showNotification(this.props.t(error.code)));
 
-  isDeviceMobile = () => {
-    const deviceWidth = document.body.offsetWidth;
-
-    if (deviceWidth > 1024) {
+  isParticipantsReadedChanged = nextProps => {
+    if (!this.props.details || !nextProps.details) {
       return false;
     }
 
-    return true;
+    const participants = reject(this.props.details.group.participants, { user_id: this.props.currentUser.id });
+    const nextPropsParticipants = reject(nextProps.details.group.participants, { user_id: this.props.currentUser.id });
+
+    if (!participants || !nextPropsParticipants) {
+      return false;
+    }
+
+    if (participants.length !== nextPropsParticipants.length) {
+      return false;
+    }
+
+    let isReadedChanged = false;
+
+    participants.forEach(participant => {
+      const nextPropsParticipant = find(nextPropsParticipants, { user_id: participant.user_id });
+
+      if (!nextPropsParticipant) {
+        return false;
+      }
+
+      if (participant.last_read_message_id !== nextPropsParticipant.last_read_message_id) {
+        isReadedChanged = true;
+      }
+    });
+
+    return isReadedChanged;
   };
+
+  isReaded = () => {
+    if (!this.props.message.id) {
+      return false;
+    }
+
+    const participants = reject(this.props.details.group.participants, { user_id: this.props.currentUser.id });
+
+    if (!participants) {
+      return false;
+    }
+
+    let maxReadedMessageId = 0;
+
+    participants.forEach(participant => {
+      if (participant.last_read_message_id > maxReadedMessageId) {
+        maxReadedMessageId = participant.last_read_message_id;
+      }
+    });
+
+    if (maxReadedMessageId >= this.props.message.id) {
+      return true;
+    }
+
+    return false;
+  };
+
+  shouldComponentUpdate(nextProps) {
+    const isCurrentUserChanged = !isEqual(this.props.currentUser, nextProps.currentUser);
+    const isMessageChanged = !isEqual(this.props.message, nextProps.message);
+    const isDropdownToggled = this.props.isDropdownShown !== nextProps.isDropdownShown;
+    const isRefMessageDeletedChanged = this.props.isRefMessageDeleted !== nextProps.isRefMessageDeleted;
+    const isParticipantsReadedChanged = this.isParticipantsReadedChanged(nextProps);
+
+    return isCurrentUserChanged ||
+      isMessageChanged ||
+      isDropdownToggled ||
+      isParticipantsReadedChanged ||
+      isRefMessageDeletedChanged;
+  }
 
   renderMessageBlock = () => {
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
@@ -120,6 +186,7 @@ class MessageItem extends Component {
     const isMessageTextBlockShown = isMessageHasFile || this.props.message.text || this.props.message.forwarded_message_id || this.props.message.in_reply_to_message_id;
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
     const isActionsShown = !isMessageDeleted && !this.props.isMobile && !this.props.isRefMessageDeleted;
+    const isReaded = this.isReaded();
 
     let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
 
@@ -214,7 +281,7 @@ class MessageItem extends Component {
           <div className={style.mark}>
             <Icon name="mark" />
 
-            {this.props.isReaded &&
+            {isReaded &&
               <Icon name="mark" />
             }
           </div>
@@ -247,6 +314,7 @@ export default compose(
   connect(
     (state, props) => ({
       isDropdownShown: get(state, `dropdown.message-dropdown-${props.message.uid || props.message.id}.isShown`, false),
+      details: find(state.subscriptions.list, { group_id: props.message.group_id }),
     }),
   ),
   

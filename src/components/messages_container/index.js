@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
-import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
-import reject from 'lodash/reject';
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
@@ -149,28 +147,6 @@ class Messages extends Component {
     }
   };
 
-  isReaded = message_id => {
-    const participants = reject(this.props.details.group.participants, { user_id: this.props.currentUser.id });
-
-    if (!participants) {
-      return false;
-    }
-
-    let maxReadedMessageId = 0;
-
-    participants.forEach(participant => {
-      if (participant.last_read_message_id > maxReadedMessageId) {
-        maxReadedMessageId = participant.last_read_message_id;
-      }
-    });
-
-    if (maxReadedMessageId >= message_id) {
-      return true;
-    }
-
-    return false;
-  };
-
   readLastMessage = () => {
     if (!this.props.lastMessage) {
       return;
@@ -184,39 +160,6 @@ class Messages extends Component {
       subscription_id: this.props.details.id,
       last_read_message_id: this.props.lastMessage.id,
     });
-  };
-
-  isParticipantsReadedChanged = nextProps => {
-    if (!this.props.details || !nextProps.details) {
-      return false;
-    }
-
-    const participants = reject(this.props.details.group.participants, { user_id: this.props.currentUser.id });
-    const nextPropsParticipants = reject(nextProps.details.group.participants, { user_id: this.props.currentUser.id });
-
-    if (!participants || !nextPropsParticipants) {
-      return false;
-    }
-
-    if (participants.length !== nextPropsParticipants.length) {
-      return false;
-    }
-
-    let isReadedChanged = false;
-
-    participants.forEach(participant => {
-      const nextPropsParticipant = find(nextPropsParticipants, { user_id: participant.user_id });
-
-      if (!nextPropsParticipant) {
-        return false;
-      }
-
-      if (participant.last_read_message_id !== nextPropsParticipant.last_read_message_id) {
-        isReadedChanged = true;
-      }
-    });
-
-    return isReadedChanged;
   };
 
   componentDidMount() {
@@ -249,14 +192,12 @@ class Messages extends Component {
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
-    const isParticipantsReadedChanged = this.isParticipantsReadedChanged(nextProps);
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
       isChatChanged ||
-      isChatIdsLoaded ||
-      isParticipantsReadedChanged ||
-      isMessagesChanged;
+      isMessagesChanged ||
+      isChatIdsLoaded;
   }
 
   render() {
@@ -289,7 +230,6 @@ class Messages extends Component {
             {grouped.type === 'messages' &&
               grouped.messages_ids.reverse().map((message_id, index) => {
                 const type = this.getMessageType(grouped.messages_ids, index);
-                const isReaded = message_id !== 'unreadDelimiter' ? this.isReaded(message_id) : false;
 
                 return <Fragment key={message_id}>
                   {message_id === 'unreadDelimiter' &&
@@ -302,7 +242,6 @@ class Messages extends Component {
                       id={message_id}
                       className={cx('message', 'item')}
                       type={type}
-                      {...isReaded ? { isReaded: true } : {}}
                     />
                   }
                 </Fragment>;

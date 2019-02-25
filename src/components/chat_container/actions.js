@@ -17,7 +17,6 @@ const getChatUrl = subscription => {
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
-  console.log(notification)
 
   if (notification.object_type === 'message') {
     onMessage();

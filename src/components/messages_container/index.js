@@ -250,7 +250,6 @@ class Messages extends Component {
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
     const isParticipantsReadedChanged = this.isParticipantsReadedChanged(nextProps);
-    console.log(isParticipantsReadedChanged)
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
@@ -290,7 +289,6 @@ class Messages extends Component {
             {grouped.type === 'messages' &&
               grouped.messages_ids.reverse().map((message_id, index) => {
                 const type = this.getMessageType(grouped.messages_ids, index);
-                const isMessageSingleOrLast = type === 'last' || type === 'single';
                 const isReaded = message_id !== 'unreadDelimiter' ? this.isReaded(message_id) : false;
 
                 return <Fragment key={message_id}>

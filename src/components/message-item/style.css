@@ -318,6 +318,37 @@
   left: 0;
 }
 
+.message-item > .info > .avatar {
+  --size: 16px;
+  --font-size: 11px;
+  margin-top: auto;
+}
+
+.message-item > .info > .avatar + .mark {
+  margin-top: 4px;
+}
+
+.message-item > .info > .mark {
+  position: relative;
+  width: 16px;
+  height: 8px;
+  margin-top: auto;
+}
+
+.message-item > .info > .mark > i {
+  --icon-size: 8px;
+  --icon-color: var(--primary-color);
+  position: absolute;
+}
+
+.message-item > .info > .mark > i:nth-of-type(1) {
+  left: 6px;
+}
+
+.message-item > .info > .mark > i:nth-of-type(2) {
+  left: 2px;
+}
+
 .message-item > .info > .time {
   --height: 24px;
   z-index: 1;
@@ -335,12 +366,6 @@
   pointer-events: none;
   opacity: var(--time-opacity);
   transition-property: opacity;
-}
-
-.message-item > .info > .avatar {
-  --size: 16px;
-  --font-size: 11px;
-  margin-top: auto;
 }
 
 @media (max-width: 1024px) {

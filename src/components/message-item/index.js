@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import moment from 'moment';
 import get from 'lodash/get';
@@ -203,10 +203,22 @@ class MessageItem extends Component {
           <span className={style.time}>{moment(this.props.message.created_at).format('HH:mm')}</span>
         }
 
-        <SubscriptionAvatar
-          userId={this.props.message.user_id}
-          className={style.avatar}
-        />
+        {(this.props.type === 'last' || this.props.type === 'single') &&
+          <SubscriptionAvatar
+            userId={this.props.message.user_id}
+            className={style.avatar}
+          />
+        }
+
+        {this.props.message.user_id === this.props.currentUser.id &&
+          <div className={style.mark}>
+            <Icon name="mark" />
+
+            {this.props.isReaded &&
+              <Icon name="mark" />
+            }
+          </div>
+        }
       </div>
     </div>;
   }

@@ -143,6 +143,9 @@ class MessageItem extends Component {
         'current-user': isMessageCurrentUser,
         'opponent-user': !isMessageCurrentUser,
         '_is-dropdown-shown': this.props.isDropdownShown,
+        '_is-first': this.props.type === 'first',
+        '_is-middle': this.props.type === 'middle',
+        '_is-last': this.props.type === 'last',
       },
     )}>
       {isActionsShown &&

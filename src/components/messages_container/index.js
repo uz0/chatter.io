@@ -90,6 +90,63 @@ class Messages extends Component {
     });
   }
 
+  getMessageType = (initialGroup, index) => {
+    let group = [...initialGroup];
+    const last_message_id = group[index + 1];
+    const message_id = group[index];
+    const next_message_id = group[index - 1];
+
+    if (message_id === 'unreadDelimiter') {
+      return;
+    }
+
+    if (!last_message_id && !next_message_id) {
+      return 'single';
+    }
+
+    const last_message = this.props.messages_list[last_message_id];
+    const message = this.props.messages_list[message_id];
+    const next_message = this.props.messages_list[next_message_id];
+
+    if (!last_message && next_message) {
+      if (next_message.user_id !== message.user_id) {
+        return 'single';
+      }
+
+      if (message.user_id === next_message.user_id) {
+        return 'first';
+      }
+    }
+
+    if (last_message && !next_message) {
+      if (last_message.user_id !== message.user_id) {
+        return 'single';
+      }
+
+      if (last_message.user_id === message.user_id) {
+        return 'last';
+      }
+    }
+
+    if (last_message && next_message) {
+      if (last_message.user_id !== message.user_id && next_message.user_id !== message.user_id) {
+        return 'single';
+      }
+
+      if (last_message.user_id !== message.user_id && next_message.user_id === message.user_id) {
+        return 'first';
+      }
+
+      if (last_message.user_id === message.user_id && next_message.user_id === message.user_id) {
+        return 'middle';
+      }
+
+      if (last_message.user_id === message.user_id && next_message.user_id !== message.user_id) {
+        return 'last';
+      }
+    }
+  };
+
   readLastMessage = () => {
     if (!this.props.lastMessage) {
       return;
@@ -171,21 +228,24 @@ class Messages extends Component {
             }
 
             {grouped.type === 'messages' &&
-              grouped.messages_ids.reverse().map(message_id => <Fragment
-                key={message_id}
-              >
-                {message_id === 'unreadDelimiter' &&
-                  <UnreadDelimiter className={cx('item')} />
-                }
+              grouped.messages_ids.reverse().map((message_id, index) => {
+                const type = this.getMessageType(grouped.messages_ids, index);
 
-                {message_id !== 'unreadDelimiter' &&
-                  <MessageItem
-                    key={message_id}
-                    id={message_id}
-                    className={cx('message', 'item')}
-                  />
-                }
-              </Fragment>)
+                return <Fragment key={message_id}>
+                  {message_id === 'unreadDelimiter' &&
+                    <UnreadDelimiter className={cx('item')} />
+                  }
+
+                  {message_id !== 'unreadDelimiter' &&
+                    <MessageItem
+                      key={message_id}
+                      id={message_id}
+                      className={cx('message', 'item')}
+                      type={type}
+                    />
+                  }
+                </Fragment>;
+              })
             }
           </Fragment>)
         }

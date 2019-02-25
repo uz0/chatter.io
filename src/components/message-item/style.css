@@ -119,6 +119,28 @@
   text-overflow: ellipsis;
 }
 
+.message-item.opponent-user._is-first > .content .message_block {
+  border-bottom-left-radius: 6px;
+}
+.message-item.opponent-user._is-middle > .content .message_block {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.message-item.opponent-user._is-last > .content .message_block {
+  border-top-left-radius: 6px;
+}
+
+.message-item.current-user._is-first > .content .message_block {
+  border-bottom-right-radius: 6px;
+}
+.message-item.current-user._is-middle > .content .message_block {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.message-item.current-user._is-last > .content .message_block {
+  border-top-right-radius: 6px;
+}
+
 .message-item > .content .message_block {
   display: flex;
   flex-direction: column;

@@ -25,6 +25,7 @@ class AddChat extends Component {
   state = {
     checkedUsers: [],
     search: '',
+    tab: 'my',
   };
 
   onSearchInput = event => {
@@ -44,6 +45,8 @@ class AddChat extends Component {
 
     this.setState({ checkedUsers: array });
   };
+
+  checkTab = tab => this.setState({ tab });
 
   createGroupChat = () => {
     let sameSubscription = null;
@@ -139,6 +142,18 @@ class AddChat extends Component {
         onInput={this.onSearchInput}
         className={style.search}
       />
+
+      <nav className={style.tabs}>
+        <button
+          className={cx({'_is-active': this.state.tab === 'my'})}
+          onClick={() => this.checkTab('my')}
+        >{this.props.t('your_contacts')}</button>
+
+        <button
+          className={cx({'_is-active': this.state.tab === 'global'})}
+          onClick={() => this.checkTab('global')}
+        >{this.props.t('global_search')}</button>
+      </nav>
 
       {privateSubscriptions.length === 0 &&
         <p className={style.empty}>{this.props.t('no_results')}</p>

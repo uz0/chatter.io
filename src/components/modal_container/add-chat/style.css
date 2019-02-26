@@ -13,6 +13,42 @@
   margin-right: var(--layout-padding);
 }
 
+.modal .tabs {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 -1px var(--divider-color) inset;
+}
+
+.modal .tabs > button {
+  --height: 50px;
+  overflow: hidden;
+  height: var(--height);
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: var(--height);
+  font-size: 16px;
+  letter-spacing: 0.1px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.modal .tabs > button:not(._is-active):not(:hover) {
+  --color: var(--caption-color);
+}
+
+.modal .tabs > button:not(._is-active):hover {
+  --color: var(--text-color);
+}
+
+.modal .tabs > button:._is-active {
+  --color: var(--text-color);
+}
+
 .modal .empty {
   --height: 20px;
   overflow: hidden;

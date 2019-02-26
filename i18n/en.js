@@ -110,6 +110,8 @@ export default {translation: {
   there_is_no_contacts: 'There is no contacts',
   there_is_no_messages: 'There is no messages',
   today: 'Today',
+  global_search: 'Global search',
+  your_contacts: 'Your contacts',
   transactions: 'Transactions',
   type_something: 'Type something',
   typing: 'Typing',

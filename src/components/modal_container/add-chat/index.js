@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames/bind';
 import map from 'lodash/map';
 import get from 'lodash/get';
+import reject from 'lodash/reject';
 import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 import compose from 'recompose/compose';
@@ -11,7 +12,6 @@ import { withNamespaces } from 'react-i18next';
 import Modal from '@/components/modal';
 import Icon from '@/components/icon';
 import { api } from '@';
-import { getOpponentUser } from '@/helpers';
 import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
@@ -23,14 +23,56 @@ const cx = classnames.bind(style);
 
 class AddChat extends Component {
   state = {
+    searchResults: {
+      isActive: false,
+      users: [],
+    },
+
     checkedUsers: [],
     search: '',
     tab: 'my',
   };
 
+  search = value => {
+    if (this.state.tab === 'my') {
+      api.searchKnown({ nick_part: value }).then(data => {
+        this.setState({
+          searchResults: {
+            isActive: true,
+            users: data.users,
+          },
+        });
+      });
+
+      return;
+    }
+
+    api.searchUser({ nick_prefix: value }).then(data => {
+      this.setState({
+        searchResults: {
+          isActive: true,
+          users: data.users,
+        },
+      });
+    });
+  };
+
   onSearchInput = event => {
     event.persist();
     this.setState({ search: event.target.value });
+
+    if (event.target.value.length < 5) {
+      this.setState({
+        searchResults: {
+          isActive: false,
+          users: [],
+        },
+      });
+
+      return;
+    }
+
+    this.search(event.target.value);
   };
 
   toggleUser = id => () => {
@@ -46,7 +88,13 @@ class AddChat extends Component {
     this.setState({ checkedUsers: array });
   };
 
-  checkTab = tab => this.setState({ tab });
+  checkTab = tab => {
+    this.setState({ tab });
+
+    if (this.state.search.length > 4) {
+      setTimeout(() => this.search(this.state.search));
+    }
+  }
 
   createGroupChat = () => {
     let sameSubscription = null;
@@ -93,37 +141,36 @@ class AddChat extends Component {
   };
 
   createPrivateChat = () => {
-    api.addContact({
-      [this.state.search.indexOf('@') !== -1 ? 'email' : 'nick']: this.state.search,
-    }).then(addContactData => api.getPrivateSubscription({ user_id: addContactData.contact.user.id }).then(data => {
+    api.getPrivateSubscription({ user_id: this.state.checkedUsers[0] }).then(data => {
       if (this.props.subscriptions_ids.indexOf(data.subscription.id) === -1) {
         this.props.addUsers(data.subscription.group.participants);
         this.props.addSubscription(data.subscription);
       }
 
       this.props.close();
-      this.props.router.push(`/chat/user/${addContactData.contact.user.id}`);
-    })).catch(error => this.props.showNotification(this.props.t(error.code)));
+      this.props.router.push(`/chat/user/${this.state.checkedUsers[0]}`);
+    });
   };
 
   create = () => {
-    if (this.state.search) {
+    if (this.state.checkedUsers.length === 1) {
       this.createPrivateChat();
-      return;
     }
 
     if (this.state.checkedUsers.length > 1) {
       this.createGroupChat();
-      return;
     }
   };
 
   render() {
-    const subscriptions = map(this.props.subscriptions_ids, id => this.props.subscriptions_list[id]);
+    let users = [];
 
-    const privateSubscriptions = filter(subscriptions,
-      subscription => subscription && subscription.group.type === 'private_chat' && subscription.group.participants.length === 2,
-    );
+    if (this.state.searchResults.isActive) {
+      users = this.state.searchResults.users;
+    } else {
+      users = map(this.props.users_ids, id => this.props.users_list[id]);
+      users = reject(users, { id: this.props.currentUser.id });
+    }
 
     return <Modal
       id="new-chat-modal"
@@ -155,16 +202,15 @@ class AddChat extends Component {
         >{this.props.t('global_search')}</button>
       </nav>
 
-      {privateSubscriptions.length === 0 &&
+      {users.length === 0 &&
         <p className={style.empty}>{this.props.t('no_results')}</p>
       }
 
-      {privateSubscriptions.length > 0 &&
+      {users.length > 0 &&
         <div className={style.list}>
-          {privateSubscriptions.map(subscription => {
-            const user = getOpponentUser(subscription);
-            const avatar = get(this.props.users_list[user.id], 'avatar.small', '/assets/default-user.jpg');
-            const nick = this.props.users_list[user.id].nick || 'no nick';
+          {users.map(user => {
+            const avatar = get(user, 'avatar.small', '/assets/default-user.jpg');
+            const nick = user.nick || 'no nick';
             const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
 
             return <button
@@ -192,6 +238,7 @@ export default compose(
       currentUser: state.currentUser,
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
+      users_ids: state.users.ids,
       users_list: state.users.list,
     }),
 

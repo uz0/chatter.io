@@ -187,6 +187,7 @@ class MessageItem extends Component {
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
     const isActionsShown = !isMessageDeleted && !this.props.isMobile && !this.props.isRefMessageDeleted;
     const isReaded = this.isReaded();
+    const isCurrentUserAdmin = this.props.details.role === 'admin';
 
     let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
 
@@ -198,7 +199,7 @@ class MessageItem extends Component {
       actionsItems.unshift({ icon: 'edit', text: this.props.t('edit'), onClick: this.openUpdateMessage });
     }
 
-    if (isMessageCurrentUser && isMessageInCurrentHour) {
+    if ((isMessageCurrentUser && isMessageInCurrentHour) || isCurrentUserAdmin) {
       actionsItems.push({ icon: 'delete', text: this.props.t('delete'), onClick: this.onDelete, isDanger: true });
     }
 

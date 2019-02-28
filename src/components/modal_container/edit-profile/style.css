@@ -42,6 +42,12 @@
   --color: var(--primary-color-hover);
 }
 
+.modal .form .checkbox {
+  flex-shrink: 0;
+  width: 100%;
+  padding-bottom: 22px;
+}
+
 .modal .form .input {
   flex-shrink: 0;
   width: 100%;

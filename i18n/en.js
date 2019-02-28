@@ -6,6 +6,7 @@ export default {translation: {
   all: 'All',
   auth_failed: 'Password is invalid',
   cancel: 'Cancel',
+  can_be_found_in_the_search: 'Can be found in the search',
   category: 'Category',
   change: 'Change',
   change_nickname: 'Change nickname',

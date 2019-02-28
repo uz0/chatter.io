@@ -9,6 +9,7 @@ import Avatar from '@/components/avatar';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
+import Checkbox from '@/components/form/checkbox';
 import File from '@/components/form/file';
 import { api } from '@';
 import { actions as formActions } from '@/components/form';
@@ -23,14 +24,23 @@ class EditProfile extends Component {
   submit = event => {
     event.preventDefault();
 
+    const avatar = this.props.forms.profile.avatar.value;
+    const nick = this.props.forms.profile.nick.value;
+    const searchable_nick = this.props.forms.profile.searchableNick.value;
+    const password = this.props.forms.profile.password.value;
+    const oldPassword = this.props.forms.profile.oldPassword.value;
+    const confirmPassword = this.props.forms.profile.confirmPassword.value;
+
+
     const isPasswordNoChanged = !this.props.forms.profile.oldPassword.value &&
       !this.props.forms.profile.password.value &&
       !this.props.forms.profile.confirmPassword.value;
 
     if (isPasswordNoChanged) {
       api.updateMe({
-        ...this.props.forms.profile.avatar.value && this.props.forms.profile.avatar.isTouched ? { avatar: this.props.forms.profile.avatar.value } : {},
-        nick: this.props.forms.profile.nick.value,
+        ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
+        nick,
+        searchable_nick,
       }).then(() => {
         this.props.showNotification(this.props.t('profile_updated'));
         this.props.formReset('profile');
@@ -40,25 +50,26 @@ class EditProfile extends Component {
       return;
     }
 
-    const isAnyPasswordFieldEmpty = !this.props.forms.profile.oldPassword.value ||
-      !this.props.forms.profile.password.value ||
-      !this.props.forms.profile.confirmPassword.value;
+    const isAnyPasswordFieldEmpty = !oldPassword ||
+      !password ||
+      !confirmPassword;
 
     if (isAnyPasswordFieldEmpty) {
       this.props.showNotification(this.props.t('fill_all_paswords'));
       return;
     }
 
-    if (this.props.forms.profile.password.value !== this.props.forms.profile.confirmPassword.value) {
+    if (password !== confirmPassword) {
       this.props.showNotification(this.props.t('passwords_not_equal'));
       return;
     }
 
     api.updateMe({
-      ...this.props.forms.profile.avatar.value && this.props.forms.profile.avatar.isTouched ? { avatar: this.props.forms.profile.avatar.value } : {},
-      nick: this.props.forms.profile.nick.value,
-      current_password: this.props.forms.profile.oldPassword.value,
-      password: this.props.forms.profile.password.value,
+      ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
+      nick,
+      searchable_nick,
+      current_password: oldPassword,
+      password,
     }).then(() => {
       this.props.showNotification(this.props.t('profile_updated'));
       this.props.formReset('profile');
@@ -133,6 +144,13 @@ class EditProfile extends Component {
               text: this.props.t('validation_contains_spaces', { field: this.props.t('nick') }),
             },
           ]}
+        />
+
+        <Checkbox
+          className={style.checkbox}
+          label={this.props.t('can_be_found_in_the_search')}
+          model="profile.searchableNick"
+          defaultValue={this.props.currentUser.searchable_nick}
         />
 
         <div className={cx('email', { '_is-confirmed': !!this.props.currentUser.confirmed_at })}>

@@ -36,4 +36,4 @@ const api = window.UniversaChatApi({ token: process.env.TOKEN }, {
   },
 });
 
-export { api };
+export { isMobile, api };

@@ -1,7 +1,11 @@
 import actions from './actions';
+import mobileDetect from 'mobile-detect';
+
+const md = new mobileDetect(window.navigator.userAgent);
+const isMobile = !!md.mobile();
 
 const initialState = {
-  ids: [],
+  ids: [...!isMobile ? 'panel-container' : []],
   list: {},
 };
 

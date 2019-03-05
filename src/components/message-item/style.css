@@ -282,9 +282,6 @@
 .message-item > .content > :global(.lightbox-container) {
   flex-shrink: 0;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   max-height: 280px;
   border-radius: 18px;
   box-shadow: 0 0 0 1px var(--divider-color);

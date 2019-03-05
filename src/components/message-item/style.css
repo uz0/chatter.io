@@ -280,6 +280,7 @@
 }
 
 .message-item > .content > .image {
+  flex-shrink: 0;
   overflow: hidden;
   display: flex;
   justify-content: center;

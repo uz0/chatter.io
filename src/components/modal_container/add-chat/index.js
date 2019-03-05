@@ -9,6 +9,7 @@ import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
+import Loading from '@/components/loading';
 import Modal from '@/components/modal';
 import Icon from '@/components/icon';
 import { api } from '@';
@@ -29,11 +30,14 @@ class AddChat extends Component {
     },
 
     checkedUsers: [],
+    isLoading: false,
     search: '',
     tab: 'my',
   };
 
   search = value => {
+    this.setState({ isLoading: true });
+
     if (this.state.tab === 'my') {
       api.searchKnown({ nick_part: value }).then(data => {
         this.setState({
@@ -41,6 +45,8 @@ class AddChat extends Component {
             isActive: true,
             users: data.users,
           },
+
+          isLoading: false,
         });
       });
 
@@ -53,6 +59,8 @@ class AddChat extends Component {
           isActive: true,
           users: data.users,
         },
+
+        isLoading: false,
       });
     });
   };
@@ -162,15 +170,31 @@ class AddChat extends Component {
     }
   };
 
-  render() {
-    let users = [];
+  getFilteredUsers = () => {
+    if (this.state.tab === 'global' && !this.state.searchResults.isActive) {
+      return [];
+    }
 
     if (this.state.searchResults.isActive) {
-      users = this.state.searchResults.users;
-    } else {
-      users = map(this.props.users_ids, id => this.props.users_list[id]);
-      users = reject(users, { id: this.props.currentUser.id });
+      return this.state.searchResults.users;
     }
+
+    let users = [];
+    users = map(this.props.users_ids, id => this.props.users_list[id]);
+    users = reject(users, { id: this.props.currentUser.id });
+
+    if (this.state.tab === 'my' && this.state.search.length < 5) {
+      users = filter(users, user => {
+        const nick = user.nick || 'no nick';
+        return nick.toLowerCase().match(this.state.search.toLowerCase());
+      });
+    }
+
+    return users;
+  };
+
+  render() {
+    const users = this.getFilteredUsers();
 
     return <Modal
       id="new-chat-modal"
@@ -184,6 +208,8 @@ class AddChat extends Component {
         { text: this.props.t('create'), onClick: this.create },
       ]}
     >
+      <Loading type="line" className={style.loading} isShown={this.state.isLoading} />
+
       <SearchInput
         value={this.state.search}
         onInput={this.onSearchInput}

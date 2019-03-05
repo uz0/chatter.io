@@ -275,11 +275,11 @@
   transform: translateY(-50%);
 }
 
-.message-item > .content .message_block + .image {
+.message-item > .content .message_block + :global(.lightbox-container) {
   margin-top: 2px;
 }
 
-.message-item > .content > .image {
+.message-item > .content > :global(.lightbox-container) {
   flex-shrink: 0;
   overflow: hidden;
   display: flex;
@@ -288,10 +288,10 @@
   max-height: 280px;
   border-radius: 18px;
   box-shadow: 0 0 0 1px var(--divider-color);
+  cursor: pointer;
 }
 
-.message-item > .content > .image img {
-  max-width: 220px;
+.message-item > .content > :global(.lightbox-container) > img {
 }
 
 .message-item.current-user > .info {

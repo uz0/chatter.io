@@ -18,6 +18,8 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as modalActions } from '@/components/modal_container';
+import Lightbox from 'react-lightbox-component';
+import 'react-lightbox-component/build/css/index.css';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -259,9 +261,15 @@ class MessageItem extends Component {
           }
 
           {isMessageHasImage &&
-            <div className={style.image}>
-              <img src={this.props.message.attachment.preview} />
-            </div>
+            <Lightbox
+              images={[{src: this.props.message.attachment.preview}]}
+
+              renderImageFunc={(idx, image, toggleLightbox, width, height) => <img
+                key={idx}
+                src={image.src}
+                onClick={() => toggleLightbox(idx)}
+              />}
+            />
           }
         </div>
       }

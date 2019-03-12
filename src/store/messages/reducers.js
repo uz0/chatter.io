@@ -80,10 +80,19 @@ export default (state = initialState, action) => {
       delete stateList[message.uid];
     }
 
-    stateList[message.id] = {
-      ...stateList[message.id],
-      ...message,
-    };
+    if (message.id) {
+      stateList[message.id] = {
+        ...stateList[message.id],
+        ...message,
+      };
+    }
+
+    if (!message.id) {
+      stateList[message.uid] = {
+        ...stateList[message.uid],
+        ...message,
+      };
+    }
 
     return {
       ...state,

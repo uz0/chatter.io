@@ -300,12 +300,13 @@
 }
 
 .message-item > .info {
+  --info-width: 22px;
   flex-shrink: 0;
   position: relative;
   order: var(--info-order);
   display: flex;
   flex-direction: column;
-  width: 22px;
+  width: var(--info-width);
 }
 
 .message-item.current-user > .info > .time {
@@ -314,6 +315,22 @@
 
 .message-item.opponent-user > .info > .time {
   left: 0;
+}
+
+.message-item > .info > .error_dropdown {
+  margin-top: auto;
+}
+
+.message-item > .info > .error_dropdown > .error_dropdown_button {
+  --height: var(--info-width);
+}
+
+.message-item > .info > .error_dropdown > .error_dropdown_button:not(:hover) {
+  --color: var(--error-color);
+}
+
+.message-item > .info > .error_dropdown > .error_dropdown_button:hover {
+  --color: #a90418;
 }
 
 .message-item > .info > .avatar {

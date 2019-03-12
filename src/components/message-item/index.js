@@ -18,6 +18,7 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as modalActions } from '@/components/modal_container';
+import { actions as inputActions } from '@/components/messages_container/input';
 import Lightbox from 'react-lightbox-component';
 import 'react-lightbox-component/build/css/index.css';
 import style from './style.css';
@@ -66,6 +67,11 @@ class MessageItem extends Component {
     this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);
     this.props.toggleModal({ id: 'forward-modal' });
   }
+
+  resendMessage = () => this.props.resendMessage({
+    uid: this.props.message.uid,
+    subscription_id: this.props.details.id,
+  });
 
   onDelete = () => api.deleteMessage({ message_id: this.props.message.id })
     .catch(error => this.props.showNotification(this.props.t(error.code)));
@@ -185,7 +191,14 @@ class MessageItem extends Component {
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
-    const isMessageTextBlockShown = isMessageHasFile || this.props.message.text || this.props.message.forwarded_message_id || this.props.message.in_reply_to_message_id;
+    const isMarkShown = this.props.message.user_id === this.props.currentUser.id && !this.props.message.isError;
+    const isAvatarShown = (this.props.type === 'last' || this.props.type === 'single') && !this.props.message.isError;
+
+    const isMessageTextBlockShown = isMessageHasFile ||
+      (this.props.message.text && this.props.message.text.replace(/\s/g,'').length > 0) ||
+      this.props.message.forwarded_message_id ||
+      this.props.message.in_reply_to_message_id;
+
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
     const isActionsShown = !isMessageDeleted && !this.props.isMobile && !this.props.isRefMessageDeleted;
     const isReaded = this.isReaded();
@@ -279,14 +292,27 @@ class MessageItem extends Component {
           <span className={style.time}>{moment(this.props.message.created_at).format('HH:mm')}</span>
         }
 
-        {(this.props.type === 'last' || this.props.type === 'single') &&
+        {isAvatarShown &&
           <SubscriptionAvatar
             userId={this.props.message.user_id}
             className={style.avatar}
           />
         }
 
-        {this.props.message.user_id === this.props.currentUser.id &&
+        {this.props.message.isError &&
+          <Dropdown
+            uniqueId={`message-error-dropdown-${this.props.message.uid || this.props.message.id}`}
+            className={style.error_dropdown}
+
+            items={[
+              { text: this.props.t('resend'), onClick: this.resendMessage },
+            ]}
+          >
+            <Button appearance="_icon-transparent" icon="warning" className={style.error_dropdown_button} />
+          </Dropdown>
+        }
+
+        {isMarkShown &&
           <div className={style.mark}>
             <Icon name="mark" />
 
@@ -315,6 +341,7 @@ export default compose(
       addReplyMessage: messagesActions.addReplyMessage,
       addForwardMessage: messagesActions.addForwardMessage,
       openDropdown: dropdownActions.openDropdown,
+      resendMessage: inputActions.resendMessage,
       toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
     },

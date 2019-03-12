@@ -45,7 +45,7 @@ const sendMessage = params => (dispatch, getState) => {
   api.post({
     uid: message.uid,
     subscription_id: subscription.id,
-    ...message.text ? {text: message.text} : {},
+    text: message.text || ' ',
     ...message.attachment ? {attachment: message.attachment.url} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
@@ -55,8 +55,13 @@ const sendMessage = params => (dispatch, getState) => {
       last_read_message_id: data.message.id,
       draft: '',
     });
-  }).catch(error => {
-    console.error(error);
+  }).catch(() => {
+    dispatch(
+      messagesActions.updateMessage({chatId: subscription.id, message: {
+        ...message,
+        isError: true,
+      }}),
+    );
   });
 };
 
@@ -80,4 +85,38 @@ const updateMessage = params => (dispatch, getState) => {
   });
 };
 
-export default { updateDraft, sendMessage, updateMessage };
+const resendMessage = params => (dispatch, getState) => {
+  const state = getState();
+  const message = state.messages.list[params.uid];
+
+  dispatch(
+    messagesActions.updateMessage({chatId: params.subscription_id, message: {
+      ...message,
+      isError: false,
+    }}),
+  );
+
+  api.post({
+    uid: params.uid,
+    subscription_id: params.subscription_id,
+    text: message.text || ' ',
+    ...message.attachment ? {attachment: message.attachment.url} : {},
+    ...message.mentions ? {mentions: message.mentions} : {},
+    ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
+  }).then(data => {
+    api.updateSubscription({
+      subscription_id: params.subscription_id,
+      last_read_message_id: data.message.id,
+      draft: '',
+    });
+  }).catch(() => {
+    dispatch(
+      messagesActions.updateMessage({chatId: params.subscription_id, message: {
+        ...message,
+        isError: true,
+      }}),
+    );
+  });
+};
+
+export default { updateDraft, sendMessage, updateMessage, resendMessage };

@@ -96,6 +96,7 @@ export default {translation: {
   replied_to: 'Replied to',
   reply: 'Reply',
   reply_message: 'Reply message',
+  resend: 'Resend',
   resend_message: 'Resend message',
   save: 'Save',
   search: 'Search',

@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
@@ -28,6 +31,8 @@ class Messages extends Component {
   state = {
     isMessagesLoading: false,
   };
+
+  messagesRefs = [];
 
   getGroupedMessages = () => {
     if (!this.props.details) {
@@ -162,6 +167,17 @@ class Messages extends Component {
     });
   };
 
+  addMessageRef = (id, node) => {
+    const index = findIndex(this.messagesRefs, { id });
+
+    if (index === -1) {
+      this.messagesRefs.push({ id, node });
+      return;
+    }
+
+    this.messagesRefs[index] = { id, node };
+  };
+
   componentDidMount() {
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
@@ -184,6 +200,14 @@ class Messages extends Component {
       this.loadMessages(nextProps);
       this.readLastMessage();
     }
+
+    if (nextProps.scrolled_message_to && this.props.scrolled_message_to !== nextProps.scrolled_message_to) {
+      const messageRef = find(this.messagesRefs, { id: nextProps.scrolled_message_to });
+      // eslint-disable-next-line react/no-find-dom-node
+      const element = ReactDOM.findDOMNode(messageRef.node);
+      element.scrollIntoView({block: 'center', behavior: 'smooth'});
+      this.props.clearScrollToMessage();
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -192,11 +216,13 @@ class Messages extends Component {
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
+    const isScrolledMessageChanged = this.props.scrolled_message_to !== nextProps.scrolled_message_to;
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
       isChatChanged ||
       isMessagesChanged ||
+      isScrolledMessageChanged ||
       isChatIdsLoaded;
   }
 
@@ -242,6 +268,7 @@ class Messages extends Component {
                       id={message_id}
                       className={cx('message', 'item')}
                       type={type}
+                      ref={node => this.addMessageRef(message_id, node)}
                     />
                   }
                 </Fragment>;
@@ -277,10 +304,12 @@ export default compose(
       currentUser: state.currentUser,
       messages_list: state.messages.list,
       chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
+      scrolled_message_to: state.messages.scrolled_message_to,
     }),
 
     {
       loadMessages: messagesActions.loadMessages,
+      clearScrollToMessage: messagesActions.clearScrollToMessage,
     },
   ),
 

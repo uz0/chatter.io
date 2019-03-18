@@ -153,7 +153,7 @@ class MessageItem extends Component {
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
 
-    return <div className={style.message_block}>
+    return <div className={style.message_block} ref={this.props.ref}>
       {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
         <RefMessage
           className={style.message}

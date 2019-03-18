@@ -6,6 +6,7 @@ const initialState = {
   edit_message_id: null,
   forward_message_id: null,
   reply_message_id: null,
+  scrolled_message_to: null,
 };
 
 export default (state = initialState, action) => {
@@ -143,6 +144,20 @@ export default (state = initialState, action) => {
     };
   }
 
+  if (action.type === actions.types.scrollToMessage) {
+    return {
+      ...state,
+      scrolled_message_to: action.payload,
+    };
+  }
+
+  if (action.type === actions.types.clearScrollToMessage) {
+    return {
+      ...state,
+      scrolled_message_to: null,
+    };
+  }
+
   if (action.type === actions.types.clearMessages) {
     return {
       chatIds: {},
@@ -150,6 +165,7 @@ export default (state = initialState, action) => {
       edit_message_id: null,
       forward_message_id: null,
       reply_message_id: null,
+      scrolled_message_to: null,
     };
   }
 

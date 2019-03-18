@@ -11,6 +11,7 @@ import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
 import Loading from '@/components/loading';
+import PhotosList from './photos-list';
 import { api } from '@';
 import { withDetails } from '@/hoc';
 import { getChatName } from '@/helpers';
@@ -414,6 +415,19 @@ class Panel extends Component {
             </div>
           </div>
         }
+
+        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'photos' })}>
+          <button className={style.collapse_button} onClick={this.toggleCollapse('photos')}>
+            <span className={style.title}>{this.props.t('image_plural')}</span>
+            <Icon name="arrow-down" />
+          </button>
+
+          <div className={style.collapse_list}>
+            {this.props.details &&
+              <PhotosList details={this.props.details} className={style.photos_list} />
+            }
+          </div>
+        </div>
       </div>
     </Fragment>;
   };

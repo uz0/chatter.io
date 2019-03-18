@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
+import { withRouter } from 'react-router';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
@@ -192,15 +193,40 @@ class Messages extends Component {
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
+    const isMessageIdChanged = this.props.params.messageId !== nextProps.params.messageId;
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
       isChatChanged ||
       isMessagesChanged ||
+      isMessageIdChanged ||
       isChatIdsLoaded;
   }
 
   render() {
+    if (this.props.params.messageId) {
+      setTimeout(() => {
+        const element = document.querySelector(`[data-message-id="${this.props.params.messageId}"]`);
+
+        if (!element) {
+          return;
+        }
+
+        element.scrollIntoView({block: 'center', behavior: 'smooth'});
+        let url;
+
+        if (this.props.params.chatId) {
+          url = `/chat/${this.props.params.chatId}`;
+        }
+
+        if (this.props.params.userId) {
+          url = `/chat/user/${this.props.params.userId}`;
+        }
+
+        this.props.router.replace(url);
+      });
+    }
+
     const groupedMessages = this.getGroupedMessages() || [];
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
@@ -270,6 +296,7 @@ class Messages extends Component {
 
 export default compose(
   withDetails,
+  withRouter,
   withNamespaces('translation'),
 
   connect(

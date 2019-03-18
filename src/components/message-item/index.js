@@ -218,19 +218,23 @@ class MessageItem extends Component {
       actionsItems.push({ icon: 'delete', text: this.props.t('delete'), onClick: this.onDelete, isDanger: true });
     }
 
-    return <div className={cx(
-      'message-item',
-      this.props.className,
+    return <div
+      data-message-id={this.props.message.id || this.props.message.uid}
 
-      {
-        'current-user': isMessageCurrentUser,
-        'opponent-user': !isMessageCurrentUser,
-        '_is-dropdown-shown': this.props.isDropdownShown,
-        '_is-first': this.props.type === 'first',
-        '_is-middle': this.props.type === 'middle',
-        '_is-last': this.props.type === 'last',
-      },
-    )}>
+      className={cx(
+        'message-item',
+        this.props.className,
+
+        {
+          'current-user': isMessageCurrentUser,
+          'opponent-user': !isMessageCurrentUser,
+          '_is-dropdown-shown': this.props.isDropdownShown,
+          '_is-first': this.props.type === 'first',
+          '_is-middle': this.props.type === 'middle',
+          '_is-last': this.props.type === 'last',
+        },
+      )}
+    >
       {isActionsShown &&
         <div className={style.actions}>
           <Dropdown

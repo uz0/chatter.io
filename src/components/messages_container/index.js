@@ -213,6 +213,17 @@ class Messages extends Component {
         }
 
         element.scrollIntoView({block: 'center', behavior: 'smooth'});
+        let url;
+
+        if (this.props.params.chatId) {
+          url = `/chat/${this.props.params.chatId}`;
+        }
+
+        if (this.props.params.userId) {
+          url = `/chat/user/${this.props.params.userId}`;
+        }
+
+        this.props.router.replace(url);
       });
     }
 
@@ -227,7 +238,7 @@ class Messages extends Component {
         />
       }
 
-      <div className={style.list} ref={node => this.messagesScrollRef = node}>
+      <div className={style.list}>
         {groupedMessages &&
           groupedMessages.reverse().map(grouped => <Fragment key={uid()}>
             {grouped.type === 'unreadDelimiter' &&

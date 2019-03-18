@@ -250,6 +250,7 @@ class MessageInput extends Component {
   }
 
   componentDidMount() {
+    this.calcTextareaHeight();
     this.textareaRef.focus();
     window.addEventListener('keydown', this.handleDocumentKeyDown);
   }
@@ -284,30 +285,32 @@ class MessageInput extends Component {
           <Message className={style.message} id={messageId} onClose={this.closeMessage} />
         }
 
-        {this.state.attachment &&
-          <div
-            className={style.preview}
-            {...isAttachmentImage ? { style: {'--image': `url(${this.state.attachment.preview})`} } : {}}
-          >
-            {!isAttachmentImage &&
-              <Icon name="attach" />
-            }
-
-            <button onClick={this.resetAttachment}>
-              <Icon name="close" />
-            </button>
-          </div>
-        }
-
         <div className={style.input_wrapper} ref={node => this.inputWrapperRef = node}>
-          <textarea
-            placeholder={this.props.t('message')}
-            ref={node => this.textareaRef = node}
-            value={this.state.value}
-            onInput={this.onInput}
-            onChange={() => {}}
-            onKeyDown={this.onTextareaKeyDown}
-          />
+          <div className={style.input_content}>
+            <textarea
+              placeholder={this.props.t('message')}
+              ref={node => this.textareaRef = node}
+              value={this.state.value}
+              onInput={this.onInput}
+              onChange={() => {}}
+              onKeyDown={this.onTextareaKeyDown}
+            />
+
+            {this.state.attachment &&
+              <div
+                className={style.preview}
+                {...isAttachmentImage ? { style: {'--image': `url(${this.state.attachment.preview})`} } : {}}
+              >
+                {!isAttachmentImage &&
+                  <Icon name="attach" />
+                }
+
+                <button onClick={this.resetAttachment}>
+                  <Icon name="close" />
+                </button>
+              </div>
+            }
+          </div>
 
           <button onClick={this.onSendButtonClick} className={cx({'_is-shown': isSendButtonShown})}>
             {sendButtonName}

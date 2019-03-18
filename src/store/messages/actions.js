@@ -12,9 +12,6 @@ export default actionsCreator([
   'addReplyMessage',
   'clearReplyMessage',
 
-  'scrollToMessage',
-  'clearScrollToMessage',
-
   'addForwardMessage',
   'clearForwardMessage',
 ]);

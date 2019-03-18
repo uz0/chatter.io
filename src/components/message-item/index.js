@@ -153,7 +153,7 @@ class MessageItem extends Component {
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
 
-    return <div className={style.message_block} ref={this.props.ref}>
+    return <div className={style.message_block}>
       {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
         <RefMessage
           className={style.message}
@@ -218,19 +218,23 @@ class MessageItem extends Component {
       actionsItems.push({ icon: 'delete', text: this.props.t('delete'), onClick: this.onDelete, isDanger: true });
     }
 
-    return <div className={cx(
-      'message-item',
-      this.props.className,
+    return <div
+      data-message-id={this.props.message.id || this.props.message.uid}
 
-      {
-        'current-user': isMessageCurrentUser,
-        'opponent-user': !isMessageCurrentUser,
-        '_is-dropdown-shown': this.props.isDropdownShown,
-        '_is-first': this.props.type === 'first',
-        '_is-middle': this.props.type === 'middle',
-        '_is-last': this.props.type === 'last',
-      },
-    )}>
+      className={cx(
+        'message-item',
+        this.props.className,
+
+        {
+          'current-user': isMessageCurrentUser,
+          'opponent-user': !isMessageCurrentUser,
+          '_is-dropdown-shown': this.props.isDropdownShown,
+          '_is-first': this.props.type === 'first',
+          '_is-middle': this.props.type === 'middle',
+          '_is-last': this.props.type === 'last',
+        },
+      )}
+    >
       {isActionsShown &&
         <div className={style.actions}>
           <Dropdown

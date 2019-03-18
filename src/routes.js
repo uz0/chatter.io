@@ -17,8 +17,10 @@ export default () => <Provider store={store}>
     <Route path="/" component={Layout}>
       <IndexRedirect to="chat" />
       <Route component={Chat} path="chat" />
-      <Route component={Chat} path="chat/:chatId" />
       <Route component={Chat} path="chat/user/:userId" />
+      <Route component={Chat} path="chat/user/:userId/:messageId" />
+      <Route component={Chat} path="chat/:chatId" />
+      <Route component={Chat} path="chat/:chatId/:messageId" />
       <Route component={Invite} path="invite/:code" />
       <Route component={SignIn} path="sign-in" />
       <Route component={SignIn} path="sign-in/:code" />

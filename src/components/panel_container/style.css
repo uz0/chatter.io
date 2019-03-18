@@ -241,7 +241,8 @@
   font-weight: var(--font-weight-light);
 }
 
-.panel > .scroll .setting_button + .collapse {
+.panel > .scroll .setting_button + .collapse,
+.panel > .scroll .dropdown + .collapse {
   margin-top: 20px;
 }
 
@@ -396,4 +397,8 @@
 .panel > .scroll > .collapse > .collapse_list > .person > .dropdown > button {
   --icon-size: 12px;
   margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.panel > .scroll > .collapse > .collapse_list > .photos_list {
+  width: 100%;
 }

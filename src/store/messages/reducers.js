@@ -42,6 +42,29 @@ export default (state = initialState, action) => {
     };
   }
 
+  if (action.type === actions.types.loadMoreMessages) {
+    const chatId = action.payload.chatId;
+    const list = action.payload.list;
+
+    let stateChatIds = { ...state.chatIds };
+    let stateList = { ...state.list };
+
+    list.forEach(message => {
+      if (stateList[message.id]) {
+        return;
+      }
+
+      stateList[message.id] = message;
+      stateChatIds[chatId].list.push(message.id);
+    });
+
+    return {
+      ...state,
+      chatIds: stateChatIds,
+      list: stateList,
+    };
+  }
+
   if (action.type === actions.types.addMessage) {
     const chatId = action.payload.chatId;
     const message = action.payload.message;

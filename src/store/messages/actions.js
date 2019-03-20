@@ -2,6 +2,7 @@ import { actionsCreator } from '@/helpers';
 
 export default actionsCreator([
   'loadMessages',
+  'loadMoreMessages',
   'addMessage',
   'updateMessage',
   'clearMessages',

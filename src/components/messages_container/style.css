@@ -11,7 +11,7 @@
   box-shadow: 0 -1px var(--divider-color) inset;
 }
 
-.messages .list {
+/*.messages .list {
   -webkit-overflow-scrolling: touch;
   position: relative;
   flex-grow: 1;
@@ -21,9 +21,25 @@
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-start;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
-  padding-bottom: 20px;
+}*/
+
+.messages .list {
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages .list > div:first-of-type {
+  position: relative;
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .messages .list .empty {
@@ -56,4 +72,10 @@
 
 .messages .input {
   flex-shrink: 0;
+}
+
+.list_loading {
+  --bottom: auto;
+  height: 200px;
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.1) 100%) !important;
 }

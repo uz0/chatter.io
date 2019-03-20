@@ -259,11 +259,6 @@ class Messages extends Component {
     }
 
     const groupedMessages = this.getGroupedMessages() || [];
-
-    // if (groupedMessages.length > 0 && this.listRef) {
-    //   setTimeout(() => this.listRef.scrollTo(0, this.listRef.scrollHeight));
-    // }
-
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
     return <div className={cx('messages', this.props.className)}>

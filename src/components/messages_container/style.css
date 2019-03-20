@@ -11,18 +11,6 @@
   box-shadow: 0 -1px var(--divider-color) inset;
 }
 
-/*.messages .list {
-  -webkit-overflow-scrolling: touch;
-  position: relative;
-  flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-start;
-}*/
-
 .messages .list {
   -webkit-overflow-scrolling: touch;
   position: relative;

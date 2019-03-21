@@ -289,6 +289,8 @@
 }
 
 .message-item > .content > :global(.lightbox-container) > img {
+  max-width: max-content;
+  max-height: max-content;
 }
 
 .message-item.current-user > .info {

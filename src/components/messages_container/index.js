@@ -18,9 +18,9 @@ import Typings from './typings';
 import MessageItem from '@/components/message-item';
 import Loading from '@/components/loading';
 import { withDetails } from '@/hoc';
+import { uid } from '@/helpers';
 import InfiniteScroll from 'react-infinite-scroller';
 import { api } from '@';
-import { uid } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
@@ -106,7 +106,7 @@ class Messages extends Component {
     api.getMessages({ subscription_id: props.details.id, limit: itemsPerPage }).then(data => {
       this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
       this.setState({ isMessagesLoading: false });
-      this.listRef.scrollTo(0, this.listRef.scrollHeight)
+      this.listRef.scrollTo(0, this.listRef.scrollHeight);
     });
   }
 
@@ -279,9 +279,9 @@ class Messages extends Component {
             isReverse
             initialLoad={false}
             threshold={100}
-            loader={<Loading isShown className={style.list_loading} />}
+            loader={<Loading key={0} isShown className={style.list_loading} />}
           >
-            {groupedMessages.reverse().map(grouped => <Fragment>
+            {groupedMessages.reverse().map(grouped => <Fragment key={uid()}>
               {grouped.type === 'unreadDelimiter' &&
                 <UnreadDelimiter className={cx('item')} />
               }

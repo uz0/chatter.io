@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Avatar from '@/components/avatar';
-import Button from '@/components/button';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';

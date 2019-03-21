@@ -18,25 +18,28 @@ import Typings from './typings';
 import MessageItem from '@/components/message-item';
 import Loading from '@/components/loading';
 import { withDetails } from '@/hoc';
-import { api } from '@';
 import { uid } from '@/helpers';
+import InfiniteScroll from 'react-infinite-scroller';
+import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
 const cx = classnames.bind(style);
+const itemsPerPage = 50;
 
 class Messages extends Component {
   state = {
     isMessagesLoading: false,
+    hasMoreMessages: true,
   };
 
   getGroupedMessages = () => {
     if (!this.props.details) {
-      return null;
+      return [];
     }
 
     if (!this.props.chatIds || !this.props.chatIds.isLoaded) {
-      return null;
+      return [];
     }
 
     const groupedByDate = groupBy(
@@ -79,23 +82,42 @@ class Messages extends Component {
       }
     });
 
-    return array;
+    let formatted = [];
+
+    array.reverse().forEach(item => {
+      if (item.type !== 'messages') {
+        formatted.push(item);
+        return;
+      }
+
+      if (item.type === 'messages') {
+        item.messages_ids.reverse().forEach(id => {
+          formatted.push({ type: 'message', message_id: id });
+        });
+      }
+    });
+
+    return formatted;
   };
 
   loadMessages = props => {
-    this.setState({ isMessagesLoading: true });
+    this.setState({ isMessagesLoading: true, hasMoreMessages: true });
 
-    api.getMessages({ subscription_id: props.details.id, limit: 100 }).then(data => {
-      this.setState({ isMessagesLoading: false });
+    api.getMessages({ subscription_id: props.details.id, limit: itemsPerPage }).then(data => {
       this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
+      this.setState({ isMessagesLoading: false });
+      this.listRef.scrollTo(0, this.listRef.scrollHeight);
     });
   }
 
-  getMessageType = (initialGroup, index) => {
-    let group = [...initialGroup];
-    const last_message_id = group[index + 1];
-    const message_id = group[index];
-    const next_message_id = group[index - 1];
+  getMessageType = (groupedMessages, index) => {
+    if (groupedMessages[index].type !== 'message') {
+      return;
+    }
+
+    const last_message_id = groupedMessages[index - 1] && groupedMessages[index - 1].type === 'message' ? groupedMessages[index - 1].message_id : null;
+    const message_id = groupedMessages[index].message_id;
+    const next_message_id = groupedMessages[index + 1] && groupedMessages[index + 1].type === 'message' ? groupedMessages[index + 1].message_id : null;
 
     if (message_id === 'unreadDelimiter') {
       return;
@@ -163,6 +185,16 @@ class Messages extends Component {
     });
   };
 
+  loadMoreMessages = page => {
+    api.getMessages({ subscription_id: this.props.details.id, limit: itemsPerPage, offset: itemsPerPage * page }).then(data => {
+      if (data.messages.length === 0) {
+        this.setState({ hasMoreMessages: false });
+      }
+
+      this.props.loadMoreMessages({chatId: this.props.details.id, list: data.messages});
+    });
+  };
+
   componentDidMount() {
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
@@ -187,19 +219,21 @@ class Messages extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     const isSubscriptionsIdsLoaded = this.props.subscriptions_ids.length === 0 && nextProps.subscriptions_ids.length > 0;
     const isDetailsLoaded = !this.props.details && !!nextProps.details;
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
     const isMessageIdChanged = this.props.params.messageId !== nextProps.params.messageId;
+    const isMessagesHasMoreChanged = this.state.hasMoreMessages !== nextState.hasMoreMessages;
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
       isChatChanged ||
       isMessagesChanged ||
       isMessageIdChanged ||
+      isMessagesHasMoreChanged ||
       isChatIdsLoaded;
   }
 
@@ -238,42 +272,49 @@ class Messages extends Component {
         />
       }
 
-      <div className={style.list}>
-        {groupedMessages &&
-          groupedMessages.reverse().map(grouped => <Fragment key={uid()}>
-            {grouped.type === 'unreadDelimiter' &&
-              <UnreadDelimiter className={cx('item')} />
-            }
+      <div className={style.list} ref={node => this.listRef = node}>
+        {groupedMessages.length > 0 &&
+          <InfiniteScroll
+            pageStart={groupedMessages.length <= itemsPerPage ? 0 : groupedMessages.length / itemsPerPage}
+            loadMore={this.loadMoreMessages}
+            hasMore={this.state.hasMoreMessages}
+            useWindow={false}
+            isReverse
+            initialLoad={false}
+            threshold={100}
+            loader={<Loading key={0} isShown className={style.list_loading} />}
+          >
+            {groupedMessages.reverse().map((grouped, index) => {
+              const type = this.getMessageType(groupedMessages, index);
 
-            {grouped.type === 'xtagDelimiter' &&
-              <XtagDelimiter id={grouped.message_id} className={cx('item')} />
-            }
+              return <Fragment key={uid()}>
+                {grouped.type === 'unreadDelimiter' &&
+                  <UnreadDelimiter className={cx('item')} />
+                }
 
-            {grouped.type === 'dateDelimiter' &&
-              <DateDelimiter date={grouped.date} className={cx('item')} />
-            }
+                {grouped.type === 'xtagDelimiter' &&
+                  <XtagDelimiter id={grouped.message_id} className={cx('item')} />
+                }
 
-            {grouped.type === 'messages' &&
-              grouped.messages_ids.reverse().map((message_id, index) => {
-                const type = this.getMessageType(grouped.messages_ids, index);
+                {grouped.type === 'dateDelimiter' &&
+                  <DateDelimiter date={grouped.date} className={cx('item')} />
+                }
 
-                return <Fragment key={message_id}>
-                  {message_id === 'unreadDelimiter' &&
-                    <UnreadDelimiter className={cx('item')} />
-                  }
+                {grouped.type === 'message' && grouped.message_id === 'unreadDelimiter' &&
+                  <UnreadDelimiter className={cx('item')} />
+                }
 
-                  {message_id !== 'unreadDelimiter' &&
-                    <MessageItem
-                      key={message_id}
-                      id={message_id}
-                      className={cx('message', 'item')}
-                      type={type}
-                    />
-                  }
-                </Fragment>;
-              })
-            }
-          </Fragment>)
+                {grouped.type === 'message' && grouped.message_id !== 'unreadDelimiter' &&
+                  <MessageItem
+                    key={grouped.message_id}
+                    id={grouped.message_id}
+                    className={cx('message', 'item')}
+                    type={type}
+                  />
+                }
+              </Fragment>;
+            })}
+          </InfiniteScroll>
         }
 
         {groupedMessages.length === 0 &&
@@ -308,6 +349,7 @@ export default compose(
 
     {
       loadMessages: messagesActions.loadMessages,
+      loadMoreMessages: messagesActions.loadMoreMessages,
     },
   ),
 

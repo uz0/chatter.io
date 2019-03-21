@@ -227,7 +227,6 @@ class Messages extends Component {
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
     const isMessageIdChanged = this.props.params.messageId !== nextProps.params.messageId;
     const isMessagesHasMoreChanged = this.state.hasMoreMessages !== nextState.hasMoreMessages;
-    console.log(123)
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||

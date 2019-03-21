@@ -289,7 +289,7 @@
 }
 
 .message-item > .content > :global(.lightbox-container) > img {
-  max-width: max-content;
+  max-width: 200px;
   max-height: max-content;
 }
 

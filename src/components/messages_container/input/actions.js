@@ -2,6 +2,7 @@ import isEqual from 'lodash/isEqual';
 import { uid } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
+import { actions as notificationActions } from '@/components/notification';
 
 const updateDraft = params => (dispatch, getState) => {
   const state = getState();
@@ -55,7 +56,9 @@ const sendMessage = params => (dispatch, getState) => {
       last_read_message_id: data.message.id,
       draft: '',
     });
-  }).catch(() => {
+  }).catch(error => {
+    dispatch(notificationActions.showNotification(error.text));
+
     dispatch(
       messagesActions.updateMessage({chatId: subscription.id, message: {
         ...message,
@@ -81,7 +84,7 @@ const updateMessage = params => (dispatch, getState) => {
     text: params.text,
     ...params.attachment ? {attachment: params.attachment.url} : {},
   }).catch(error => {
-    console.error(error);
+    dispatch(notificationActions.showNotification(error.text));
   });
 };
 
@@ -109,7 +112,9 @@ const resendMessage = params => (dispatch, getState) => {
       last_read_message_id: data.message.id,
       draft: '',
     });
-  }).catch(() => {
+  }).catch(error => {
+    dispatch(notificationActions.showNotification(error.text));
+
     dispatch(
       messagesActions.updateMessage({chatId: params.subscription_id, message: {
         ...message,

@@ -164,6 +164,7 @@ class Panel extends Component {
     }
 
     api.updateSubscription({ subscription_id: this.props.details.id, mute_until: date })
+      .then(() => this.props.updateSubscription({ id: this.props.details.id, mute_until: this.props.details.mute_until ? null : date }))
       .catch(error => error.text && this.props.showNotification(this.props.t(error.code)));
   };
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import compose from 'recompose/compose';
 import map from 'lodash/map';
+import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import { connect } from 'react-redux';
@@ -52,7 +53,7 @@ export default compose(
 
   connect(
     (state, props) => ({
-      messages: map(state.messages.chatIds[props.details.id].list, id => state.messages.list[id]),
+      messages: map(get(state.messages.chatIds[props.details.id], 'list', []), id => state.messages.list[id]),
     }),
   ),
 )(Photos);

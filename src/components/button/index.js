@@ -7,6 +7,7 @@ const cx = classnames.bind(style);
 
 class Button extends Component {
   render = () => <button
+    type={this.props.type}
     ref={this.props.ref}
     className={cx('button', this.props.className)}
     appearance={this.props.appearance}

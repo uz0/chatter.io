@@ -16,6 +16,7 @@ export default {translation: {
   check_your_email: 'Check your email',
   clear: 'Clear',
   confirm_password: 'Confirm password',
+  confirmation_resended: 'Confirmation resended',
   confirmation_dialog: 'Confirmation Dialog',
   confirmed: 'Confirmed',
   copy: 'Copy',

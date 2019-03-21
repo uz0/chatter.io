@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Avatar from '@/components/avatar';
+import Button from '@/components/button';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
@@ -76,6 +77,10 @@ class EditProfile extends Component {
       this.props.close();
     }).catch(error => this.props.showNotification(this.props.t(error.text)));
   };
+
+  resend = () => api.resendConfirmation({ email: this.props.currentUser.email }).then(() => {
+    this.props.showNotification(this.props.t('confirmation_resended'));
+  });
 
   render() {
     const photo = get(this.props.forms, 'profile.avatar.value') ||
@@ -162,6 +167,14 @@ class EditProfile extends Component {
 
             {!this.props.currentUser.confirmed_at &&
               <span className={style.not_confirmed}> {this.props.t('not_confirmed')}</span>}
+
+            {!this.props.currentUser.confirmed_at &&
+              <button
+                type="button"
+                onClick={this.resend}
+                className={style.resend}
+              >{this.props.t('send_confirmation_again')}</button>
+            }
           </div>
 
           <Input
@@ -172,12 +185,6 @@ class EditProfile extends Component {
             className={style.input}
             disabled
           />
-
-          {!this.props.currentUser.confirmed_at &&
-            <button class={style.resend} type="button" onClick={this.resend}>
-              {this.props.t('send_confirmation_again')}
-            </button>
-          }
         </div>
 
         <Input

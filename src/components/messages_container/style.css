@@ -22,7 +22,7 @@
   flex-direction: column;
 }
 
-.messages .list > div:first-of-type {
+.messages .list > div:first-of-type:not(.loading) {
   position: relative;
   flex-grow: 1;
   min-height: 0;
@@ -46,13 +46,13 @@
   flex-shrink: 0;
 }
 
-.messages .list .item:last-child {
+.messages .list .item:first-child {
   margin-top: auto;
   padding-top: 20px;
 }
 
 .messages .list .message + .message {
-  margin-bottom: 2px;
+  margin-top: 2px;
 }
 
 .messages .list .loading {

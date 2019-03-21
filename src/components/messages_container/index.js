@@ -110,11 +110,14 @@ class Messages extends Component {
     });
   }
 
-  getMessageType = (initialGroup, index) => {
-    let group = [...initialGroup];
-    const last_message_id = group[index + 1];
-    const message_id = group[index];
-    const next_message_id = group[index - 1];
+  getMessageType = (groupedMessages, index) => {
+    if (groupedMessages[index].type !== 'message') {
+      return;
+    }
+
+    const last_message_id = groupedMessages[index - 1] && groupedMessages[index - 1].type === 'message' ? groupedMessages[index - 1].message_id : null;
+    const message_id = groupedMessages[index].message_id;
+    const next_message_id = groupedMessages[index + 1] && groupedMessages[index + 1].type === 'message' ? groupedMessages[index + 1].message_id : null;
 
     if (message_id === 'unreadDelimiter') {
       return;
@@ -281,32 +284,36 @@ class Messages extends Component {
             threshold={100}
             loader={<Loading key={0} isShown className={style.list_loading} />}
           >
-            {groupedMessages.reverse().map(grouped => <Fragment key={uid()}>
-              {grouped.type === 'unreadDelimiter' &&
-                <UnreadDelimiter className={cx('item')} />
-              }
+            {groupedMessages.reverse().map((grouped, index) => {
+              const type = this.getMessageType(groupedMessages, index);
 
-              {grouped.type === 'xtagDelimiter' &&
-                <XtagDelimiter id={grouped.message_id} className={cx('item')} />
-              }
+              return <Fragment key={uid()}>
+                {grouped.type === 'unreadDelimiter' &&
+                  <UnreadDelimiter className={cx('item')} />
+                }
 
-              {grouped.type === 'dateDelimiter' &&
-                <DateDelimiter date={grouped.date} className={cx('item')} />
-              }
+                {grouped.type === 'xtagDelimiter' &&
+                  <XtagDelimiter id={grouped.message_id} className={cx('item')} />
+                }
 
-              {grouped.type === 'message' && grouped.message_id === 'unreadDelimiter' &&
-                <UnreadDelimiter className={cx('item')} />
-              }
+                {grouped.type === 'dateDelimiter' &&
+                  <DateDelimiter date={grouped.date} className={cx('item')} />
+                }
 
-              {grouped.type === 'message' && grouped.message_id !== 'unreadDelimiter' &&
-                <MessageItem
-                  key={grouped.message_id}
-                  id={grouped.message_id}
-                  className={cx('message', 'item')}
-                  // type={type}
-                />
-              }
-            </Fragment>)}
+                {grouped.type === 'message' && grouped.message_id === 'unreadDelimiter' &&
+                  <UnreadDelimiter className={cx('item')} />
+                }
+
+                {grouped.type === 'message' && grouped.message_id !== 'unreadDelimiter' &&
+                  <MessageItem
+                    key={grouped.message_id}
+                    id={grouped.message_id}
+                    className={cx('message', 'item')}
+                    type={type}
+                  />
+                }
+              </Fragment>;
+            })}
           </InfiniteScroll>
         }
 

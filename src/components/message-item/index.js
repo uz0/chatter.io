@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import { Link } from 'react-router';
 import moment from 'moment';
 import get from 'lodash/get';
 import find from 'lodash/find';
@@ -27,12 +28,16 @@ const cx = classnames.bind(style);
 
 class MessageItem extends Component {
   getFileType = () => this.props.message.attachment.content_type.split('/').pop();
-  getFileSizeKb = () => parseInt(this.props.message.attachment.byte_size / 1000, 10);
+  getFileSizeKb = () => Math.ceil(this.props.message.attachment.byte_size / 1000);
 
   renderMessageText = message => {
     let text = message.text;
 
     if (!text) {
+      return;
+    }
+
+    if (!text.replace(/\s/g, '').length) {
       return;
     }
 
@@ -152,6 +157,7 @@ class MessageItem extends Component {
   renderMessageBlock = () => {
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
+    const messageText = this.renderMessageText(this.props.message);
 
     return <div className={style.message_block}>
       {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
@@ -162,12 +168,12 @@ class MessageItem extends Component {
         />
       }
 
-      {this.props.message.text &&
-        <p className={style.text} dangerouslySetInnerHTML={{__html: this.renderMessageText(this.props.message)}} />
+      {messageText &&
+        <p className={style.text} dangerouslySetInnerHTML={{__html: messageText}} />
       }
 
       {isMessageHasFile &&
-        <div className={style.file}>
+        <Link to={this.props.message.attachment.url} target="_blank" className={style.file}>
           <Icon name="add-chat" />
 
           <div className={style.section}>
@@ -181,7 +187,7 @@ class MessageItem extends Component {
               </span>
             </div>
           </div>
-        </div>
+        </Link>
       }
     </div>;
   };

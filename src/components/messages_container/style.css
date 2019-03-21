@@ -28,6 +28,14 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  padding-bottom: 20px;
+}
+
+.messages .list > div:first-of-type:not(.loading) > .item:first-child {
+  margin-top: auto;
+  padding-top: 20px;
 }
 
 .messages .list .empty {
@@ -44,11 +52,6 @@
 
 .messages .list .item {
   flex-shrink: 0;
-}
-
-.messages .list .item:first-child {
-  margin-top: auto;
-  padding-top: 20px;
 }
 
 .messages .list .message + .message {

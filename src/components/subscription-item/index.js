@@ -71,12 +71,12 @@ class SubscriptionItem extends Component {
 
     const isLastMessageShown = this.props.lastMessage && !this.props.typings;
     const isUnreadShown = this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
-    const isChatOpened = this.props.withLoadData && location.pathname.match(href);
 
     return <Link
       {...this.props.withLoadData ? {to: href} : {}}
+      {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
       {...!this.props.withLoadData ? {onClick: this.click} : {}}
-      className={cx('subscription', this.props.className, {'_is-active': isChatOpened})}
+      className={cx('subscription', this.props.className)}
     >
       <SubscriptionAvatar
         subscription={this.props.subscription}

@@ -227,6 +227,7 @@ class Messages extends Component {
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
     const isMessageIdChanged = this.props.params.messageId !== nextProps.params.messageId;
     const isMessagesHasMoreChanged = this.state.hasMoreMessages !== nextState.hasMoreMessages;
+    console.log(123)
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
@@ -277,7 +278,7 @@ class Messages extends Component {
           <InfiniteScroll
             pageStart={groupedMessages.length <= itemsPerPage ? 0 : groupedMessages.length / itemsPerPage}
             loadMore={this.loadMoreMessages}
-            hasMore={this.state.hasMoreMessages}
+            hasMore={groupedMessages.length < itemsPerPage ? false : this.state.hasMoreMessages}
             useWindow={false}
             isReverse
             initialLoad={false}

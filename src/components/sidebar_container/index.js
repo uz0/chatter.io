@@ -34,9 +34,9 @@ class Sidebar extends Component {
     this.props.clearSubscriptions();
     this.props.clearUsers();
     this.props.setCurrentUser(null);
-    this.props.router.push('/sign-in');
     window.localStorage.removeItem('authToken');
     window.localStorage.removeItem('currentUser');
+    this.props.router.push('/sign-in');
   }).catch(error => this.props.showNotification(this.props.t(error.text)));
 
   async componentWillMount() {

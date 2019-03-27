@@ -35,7 +35,7 @@ const notificationReceived = notification => (dispatch, getState) => {
   }
 
   function showWebNotification(message) {
-    if (Notification.permission !== 'granted') {
+    if (Notification.permission === 'denied') {
       return;
     }
 
@@ -51,7 +51,13 @@ const notificationReceived = notification => (dispatch, getState) => {
     }
 
     const audio = new Audio('/assets/notification.mp3');
-    audio.play().catch(error => console.log(error));
+    const promise = audio.play();
+
+    if (promise !== undefined) {
+      promise.catch(error => {
+        console.error(error);
+      });
+    }
 
     const notification = new Notification(user.nick || 'no nick', {
       body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,

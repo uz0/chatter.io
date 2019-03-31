@@ -99,6 +99,76 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.sidebar .list .title {
+  --height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  line-height: var(--height);
+  font-size: 14px;
+  font-weight: var(--font-weight-light);
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sidebar .list .title + * {
+  margin-top: 8px;
+}
+
+.sidebar .list * + .title {
+  margin-top: 20px;
+}
+
+.sidebar .list .contact {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.sidebar .list .contact:not(:hover) {
+  --background-color: transparent;
+}
+
+.sidebar .list .contact:hover {
+  --background-color: var(--divider-color);
+}
+
+.sidebar .list .contact .avatar {
+  --size: 32px;
+  flex-shrink: 0;
+}
+
+.sidebar .list .contact .name {
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  margin-left: 6px;
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sidebar .list .empty {
+  --height: 60px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .sidebar .list .subscription {
   flex-shrink: 0;
 }

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 export default getInitialIds => WrappedComponent => {
   class Wrapped extends Component {
     getSortedSubscriptions = () => {
-      const ids = getInitialIds(this.props).ids;
+      const ids = getInitialIds(this.props).ids || [];
 
       return ids.sort((prevId, nextId) => {
         const getSubscriptionLastMessageById = id => {

@@ -70,7 +70,7 @@ class SubscriptionItem extends Component {
     }
 
     const isLastMessageShown = this.props.lastMessage && !this.props.typings;
-    const isUnreadShown = this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
+    const isUnreadShown = !this.props.messageId && this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 
     return <Link
       {...this.props.withLoadData ? {to: href} : {}}

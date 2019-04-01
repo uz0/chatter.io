@@ -170,26 +170,50 @@
   word-break: break-word;
 }
 
-.message-item > .content .message_block > .text > a {
+.message-item > .content .message_block > .text a {
   color: var(--color);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition-property: color;
 }
 
-.message-item.current-user > .content .message_block > .text > a:not(:hover) {
+.message-item > .content .message_block > .text span {
+  border-radius: 6px;
+  animation-duration: 3s;
+}
+
+@keyframes hideBackgroundCurrentUserText {
+  from {background-color: rgba(18, 32, 51, 0.52);}
+  to {background-color: transparent;}
+}
+@keyframes hideBackgroundOpponentUserText {
+  from {background-color: #b3b3b3;}
+  to {background-color: transparent;}
+}
+
+.message-item.current-user > .content .message_block > .text a:not(:hover) {
   --color: #fff;
 }
-.message-item.current-user > .content .message_block > .text > a:hover {
+.message-item.current-user > .content .message_block > .text a:hover {
   --color: var(--error-color);
 }
 
-.message-item.opponent-user > .content .message_block > .text > a:not(:hover) {
+.message-item.opponent-user > .content .message_block > .text a:not(:hover) {
   --color: var(--primary-color);
 }
-.message-item.opponent-user > .content .message_block > .text > a:hover {
+.message-item.opponent-user > .content .message_block > .text a:hover {
   --color: var(--primary-color-hover);
 }
+
+
+.message-item.current-user > .content .message_block > .text span {
+  animation-name: hideBackgroundCurrentUserText;
+}
+
+.message-item.opponent-user > .content .message_block > .text span {
+  animation-name: hideBackgroundOpponentUserText;
+}
+
 
 .message-item > .content .message_block > .text + .file {
   margin-top: 10px;

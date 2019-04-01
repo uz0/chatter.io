@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withNamespaces } from 'react-i18next';
 import get from 'lodash/get';
+import uniq from 'lodash/uniq';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
@@ -54,6 +55,38 @@ class Sidebar extends Component {
     const subscription = this.props.subscriptions_list[params.chatId];
     const href = this.getSubscriptionHref(subscription);
     this.props.router.push(`${href}/${params.messageId}`);
+    const message = this.props.messages_list[params.messageId];
+
+    let text = message.text;
+
+    uniq(message.text.split(' ')).forEach(word => {
+      if (!word.match(this.props.subscriptions_filter_text)) {
+        return;
+      }
+
+      const regex = new RegExp(word, 'g');
+      text = text.replace(regex, `<span>${word}</span>`);
+    });
+
+    this.props.updateMessage({
+      chatId: params.chatId,
+
+      message: {
+        ...message,
+        text,
+      },
+    });
+
+    setTimeout(() => {
+      this.props.updateMessage({
+        chatId: params.chatId,
+
+        message: {
+          ...message,
+          text: message.text,
+        },
+      });
+    }, 3000);
   };
 
   goToChat = id => {
@@ -209,6 +242,7 @@ export default compose(
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_filter_tag: state.subscriptions.filter_tag,
       subscriptions_filter_text: state.subscriptions.filter_text,
+      messages_list: state.messages.list,
     }),
 
     {
@@ -218,6 +252,7 @@ export default compose(
       showNotification: notificationActions.showNotification,
       filterSubscription: subscriptionsActions.filterSubscription,
       clearSubscriptions: subscriptionsActions.clearSubscriptions,
+      updateMessage: messagesActions.updateMessage,
       clearMessages: messagesActions.clearMessages,
       clearUsers: usersActions.clearUsers,
     },

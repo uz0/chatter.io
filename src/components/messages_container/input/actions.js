@@ -43,15 +43,6 @@ const sendMessage = params => (dispatch, getState) => {
 
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
 
-  console.log({
-    uid: message.uid,
-    subscription_id: subscription.id,
-    text: message.text || ' ',
-    ...message.attachment ? {attachment: message.attachment.url} : {},
-    ...message.mentions ? {mentions: message.mentions} : {},
-    ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
-  });
-
   api.post({
     uid: message.uid,
     subscription_id: subscription.id,

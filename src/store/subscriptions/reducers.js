@@ -10,7 +10,7 @@ const initialState = {
   list: {},
   filter_text: '',
   filtered_ids: [],
-  filtered_messages: [],
+  filtered_messages: {},
   filtered_contacts_ids: [],
   filter_tag: 'all',
 };
@@ -66,7 +66,7 @@ export default createReducer(initialState, {
     }
 
     state.filtered_ids = state.ids;
-    state.filtered_messages = [];
+    state.filtered_messages = {};
     state.filtered_contacts_ids = [];
 
     if (state.filter_text) {
@@ -80,15 +80,14 @@ export default createReducer(initialState, {
         const chatId = find(state.list, { group_id: message.group_id }).id;
         const messageId = message.id || message.uid;
 
-        if (!find(state.filtered_messages, { chatId, messageId })) {
-          state.filtered_messages.push({
-            chatId,
-            messageId,
-          });
+        if (!state.filtered_messages[chatId]) {
+          state.filtered_messages[chatId] = [messageId];
+        } else {
+          state.filtered_messages[chatId].push(messageId);
         }
       });
 
-      state.filtered_ids = filter(state.filtered_ids, id => find(state.filtered_messages, { chatId: id }));
+      state.filtered_ids = filter(state.filtered_ids, id => !!state.filtered_messages[id]);
     }
 
     if (state.filter_tag && state.filter_tag !== 'all') {
@@ -97,15 +96,13 @@ export default createReducer(initialState, {
     }
   },
 
-  [actions.types.clearSubscriptions]: (state) => {
-    state = {
-      ids: [],
-      list: {},
-      filter_text: '',
-      filtered_ids: [],
-      filtered_messages: [],
-      filtered_contacts_ids: [],
-      filter_tag: 'all',
-    };
+  [actions.types.clearSubscriptions]: state => {
+    state.ids = [];
+    state.list = {};
+    state.filter_text = '';
+    state.filtered_ids = [];
+    state.filtered_messages = {};
+    state.filtered_contacts_ids = [];
+    state.filter_tag = 'all';
   },
 });

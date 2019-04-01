@@ -109,10 +109,22 @@ export default compose(
   withNamespaces('translation'),
 
   connect(
-    (state, props) => ({
-      subscription: state.subscriptions.list[props.id] || null,
-      ...state.messages.chatIds[props.id] ? { lastMessage: state.messages.list[state.messages.chatIds[props.id].list[0]] } : {},
-    }),
+    (state, props) => {
+      let lastMessage = null;
+
+      if (state.messages.chatIds[props.id] && !props.messageId) {
+        lastMessage = state.messages.list[state.messages.chatIds[props.id].list[0]];
+      }
+
+      if (props.messageId) {
+        lastMessage = state.messages.list[props.messageId];
+      }
+
+      return {
+        subscription: state.subscriptions.list[props.id] || null,
+        ...lastMessage ? { lastMessage } : {},
+      };
+    },
 
     {
       loadSubscription: subscriptionsActions.loadSubscription,

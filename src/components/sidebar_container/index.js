@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withNamespaces } from 'react-i18next';
 import get from 'lodash/get';
+import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import SubscriptionItem from '@/components/subscription-item';
@@ -132,11 +133,16 @@ class Sidebar extends Component {
           <p className={style.title}>{this.props.t('message_plural')}</p>
 
           {this.props.sorted_subscriptions_ids &&
-            this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
-              key={uid()}
-              id={id}
-              className={style.subscription}
-            />)}
+            this.props.sorted_subscriptions_ids.map(id => {
+              const messageId = find(this.props.subscriptions_filtered_messages, { chatId: id }).messageId;
+
+              return <SubscriptionItem
+                key={uid()}
+                id={id}
+                messageId={messageId}
+                className={style.subscription}
+              />
+            })}
 
           {this.props.sorted_subscriptions_ids.length === 0 &&
             <p className={style.empty}>{this.props.t('no_results')}</p>}
@@ -172,6 +178,7 @@ export default compose(
       currentUser: state.currentUser,
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
+      subscriptions_filtered_messages: state.subscriptions.filtered_messages,
       subscriptions_filtered_contacts_ids: state.subscriptions.filtered_contacts_ids,
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_filter_tag: state.subscriptions.filter_tag,

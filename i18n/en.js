@@ -78,6 +78,7 @@ export default {translation: {
   next: 'Next',
   nick: 'Nick',
   no_results: 'No results',
+  no_chats: 'No chats',
   not_active: 'Not active',
   not_confirmed: 'Not confirmed',
   not_found: 'Couldn\'t find user',

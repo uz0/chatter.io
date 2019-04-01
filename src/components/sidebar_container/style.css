@@ -130,6 +130,7 @@
   padding-right: var(--layout-padding);
   background-color: var(--background-color);
   transition-property: background-color;
+  cursor: pointer;
 }
 
 .sidebar .list .contact:not(:hover) {

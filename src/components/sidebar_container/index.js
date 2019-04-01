@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import { withNamespaces } from 'react-i18next';
 import get from 'lodash/get';
 import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import SubscriptionItem from '@/components/subscription-item';
@@ -15,7 +16,7 @@ import Loading from '@/components/loading';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
 import { withSortedSubscriptions } from '@/hoc';
-import { getChatName, uid } from '@/helpers';
+import { getChatName, uid, getOpponentUser } from '@/helpers';
 import { actions as storeActions } from '@/store';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
@@ -41,6 +42,23 @@ class Sidebar extends Component {
     window.localStorage.removeItem('currentUser');
     this.props.router.push('/sign-in');
   }).catch(error => this.props.showNotification(this.props.t(error.text)));
+
+  goToMessage = params => {
+    console.log(params)
+  };
+
+  goToChat = id => {
+    let href = '';
+    const subscription = this.props.subscriptions_list[id];
+
+    if (subscription.group.type === 'private_chat' && !isEmpty(getOpponentUser(subscription))) {
+      href = `/chat/user/${getOpponentUser(subscription).id}`;
+    } else {
+      href = `/chat/${id}`;
+    }
+
+    this.props.router.push(href);
+  };
 
   async componentWillMount() {
     const shortSubscriptions = await api.getSubscriptions({ short: true });
@@ -121,6 +139,7 @@ class Sidebar extends Component {
               return <div
                 key={id}
                 className={style.contact}
+                onClick={() => this.goToChat(subscription.id)}
               >
                 <SubscriptionAvatar subscription={subscription} className={style.avatar} />
                 <p className={style.name}>{name}</p>
@@ -134,12 +153,14 @@ class Sidebar extends Component {
 
           {this.props.sorted_subscriptions_ids &&
             this.props.sorted_subscriptions_ids.map(id => {
-              const messageId = find(this.props.subscriptions_filtered_messages, { chatId: id }).messageId;
+              const currentFiltered = find(this.props.subscriptions_filtered_messages, { chatId: id });
+              const messageId = currentFiltered.messageId;
 
               return <SubscriptionItem
                 key={uid()}
                 id={id}
                 messageId={messageId}
+                onClick={() => this.goToMessage(currentFiltered)}
                 className={style.subscription}
               />
             })}

@@ -107,7 +107,7 @@ class Messages extends Component {
     api.getMessages({ subscription_id: props.details.id, limit: itemsPerPage }).then(data => {
       this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
       this.setState({ isMessagesLoading: false });
-      this.listRef.scrollTo(0, this.listRef.scrollHeight);
+      this.scrollListMessagesToBottom();
     });
   }
 
@@ -186,6 +186,8 @@ class Messages extends Component {
     });
   };
 
+  scrollListMessagesToBottom = () => this.listRef.scrollTo(0, this.listRef.scrollHeight);
+
   loadMoreMessages = page => {
     api.getMessages({ subscription_id: this.props.details.id, limit: itemsPerPage, offset: itemsPerPage * page }).then(data => {
       this.props.loadMoreMessages({chatId: this.props.details.id, list: data.messages});
@@ -207,7 +209,7 @@ class Messages extends Component {
     // если перешли в другой чат - нужно опускать скролл вниз
     // скролл опускается вниз в this.loadMessages, но она не сработает если там уже загружены сообщения
     if (this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id && this.listRef) {
-      setTimeout(() => this.listRef.scrollTo(0, this.listRef.scrollHeight));
+      setTimeout(() => this.scrollListMessagesToBottom());
     }
 
     // если страница загружается сразу с открытым чатом, details еще не успевает прийти, ловим тут
@@ -332,7 +334,11 @@ class Messages extends Component {
       }
 
       {this.props.details &&
-        <MessageInput subscription_id={this.props.details.id} className={style.input} />
+        <MessageInput
+          subscription_id={this.props.details.id}
+          className={style.input}
+          onMessageSend={this.scrollListMessagesToBottom}
+        />
       }
     </div>;
   }

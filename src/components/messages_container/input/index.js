@@ -163,7 +163,14 @@ class MessageInput extends Component {
     });
 
     this.setState({ value: '', attachment: null });
-    setTimeout(() => this.calcTextareaHeight());
+
+    setTimeout(() => {
+      this.calcTextareaHeight();
+
+      if (this.props.onMessageSend) {
+        this.props.onMessageSend();
+      }
+    });
 
     if (this.props.reply_message_id) {
       this.props.clearReplyMessage();

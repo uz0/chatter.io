@@ -305,16 +305,24 @@
 
 .message-item > .content > :global(.lightbox-container) {
   flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+}
+
+.message-item > .content > :global(.lightbox-container) > .wrapper {
   overflow: hidden;
-  max-height: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   border-radius: 18px;
   box-shadow: 0 0 0 1px var(--divider-color);
   cursor: pointer;
 }
 
-.message-item > .content > :global(.lightbox-container) > img {
-  max-width: 200px;
-  max-height: max-content;
+.message-item > .content > :global(.lightbox-container) > .wrapper > img {
+
 }
 
 .message-item.current-user > .info {

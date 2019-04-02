@@ -287,11 +287,13 @@ class MessageItem extends Component {
             <Lightbox
               images={[{src: this.props.message.attachment.preview}]}
 
-              renderImageFunc={(idx, image, toggleLightbox) => <img
+              renderImageFunc={(idx, image, toggleLightbox) => <div
                 key={idx}
-                src={image.src}
+                className={style.wrapper}
                 onClick={() => toggleLightbox(idx)}
-              />}
+              >
+                <img src={image.src} />
+              </div>}
             />
           }
         </div>

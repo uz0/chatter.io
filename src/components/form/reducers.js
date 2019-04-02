@@ -1,5 +1,6 @@
 import set from 'lodash/set';
 import actions from './actions';
+import { createReducer } from 'redux-starter-kit';
 
 const initialState = {
   register: {},
@@ -8,20 +9,19 @@ const initialState = {
   profile: {},
 };
 
-export default (state = initialState, action) => {
-  if (action.type === actions.types.formChange) {
-    return {
-      ...state,
-      ...set(state, action.model, action.data),
-    };
-  }
+export default createReducer(initialState, {
+  [actions.types.formChange]: (state, action) => {
+    const modelArray = action.model.split('.');
 
-  if (action.type === actions.types.formReset) {
-    return {
-      ...state,
-      [action.model]: {},
-    };
-  }
+    if (modelArray.length === 1) {
+      state[modelArray[0]] = action.data;
+      return;
+    }
 
-  return state;
-};
+    state[modelArray[0]] = set(state[modelArray[0]], modelArray.splice(1).join('.'), action.data);
+  },
+
+  [actions.types.formReset]: (state, action) => {
+    state[action.model] = {};
+  },
+});

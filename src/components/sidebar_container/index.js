@@ -4,15 +4,19 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withNamespaces } from 'react-i18next';
 import get from 'lodash/get';
+import uniq from 'lodash/uniq';
+import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import SubscriptionItem from '@/components/subscription-item';
+import SubscriptionAvatar from '@/components/subscription-avatar';
 import Button from '@/components/button';
 import SearchInput from '@/components/search-input';
 import Loading from '@/components/loading';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
 import { withSortedSubscriptions } from '@/hoc';
+import { getChatName, uid, getOpponentUser } from '@/helpers';
 import { actions as storeActions } from '@/store';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
@@ -26,7 +30,7 @@ const cx = classnames.bind(style);
 class Sidebar extends Component {
   openAddChat = () => this.props.toggleModal({ id: 'new-chat-modal' });
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
-  onSearchInput = event => this.props.filterSubscription({ name: event.target.value });
+  onSearchInput = event => this.props.filterSubscription({ text: event.target.value });
   filterSubscriptionsByTag = tag => this.props.filterSubscription({ tag });
 
   logout = () => api.logout().then(() => {
@@ -39,6 +43,58 @@ class Sidebar extends Component {
     this.props.router.push('/sign-in');
   }).catch(error => this.props.showNotification(this.props.t(error.text)));
 
+  getSubscriptionHref = subscription => {
+    if (subscription.group.type === 'private_chat' && !isEmpty(getOpponentUser(subscription))) {
+      return `/chat/user/${getOpponentUser(subscription).id}`;
+    }
+
+    return `/chat/${subscription.id}`;
+  };
+
+  goToMessage = params => {
+    const subscription = this.props.subscriptions_list[params.chatId];
+    const href = this.getSubscriptionHref(subscription);
+    this.props.router.push(`${href}/${params.messageId}`);
+    const message = this.props.messages_list[params.messageId];
+
+    let text = message.text;
+
+    uniq(message.text.split(' ')).forEach(word => {
+      if (!word.match(this.props.subscriptions_filter_text)) {
+        return;
+      }
+
+      const regex = new RegExp(word, 'g');
+      text = text.replace(regex, `<span>${word}</span>`);
+    });
+
+    this.props.updateMessage({
+      chatId: params.chatId,
+
+      message: {
+        ...message,
+        text,
+      },
+    });
+
+    setTimeout(() => {
+      this.props.updateMessage({
+        chatId: params.chatId,
+
+        message: {
+          ...message,
+          text: message.text,
+        },
+      });
+    }, 3000);
+  };
+
+  goToChat = id => {
+    const subscription = this.props.subscriptions_list[id];
+    const href = this.getSubscriptionHref(subscription);
+    this.props.router.push(href);
+  };
+
   async componentWillMount() {
     const shortSubscriptions = await api.getSubscriptions({ short: true });
     this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
@@ -48,10 +104,14 @@ class Sidebar extends Component {
     const isSortedSubscriptionsLoaded = this.props.sorted_subscriptions_ids.length === 0 && nextProps.sorted_subscriptions_ids.length > 0;
     const isSubscriptionsChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
-    const isFiltering = !isEqual(this.props.subscriptions_filtered_ids, nextProps.subscriptions_filtered_ids);
     const isCurrentUserChangedPhoto = this.props.currentUser && nextProps.currentUser && !isEqual(this.props.currentUser.avatar, nextProps.currentUser.avatar);
     const isStateChanged = !isEqual(this.state, nextState);
     const isTagFiltered = this.props.subscriptions_filter_tag !== nextProps.subscriptions_filter_tag;
+
+    const isFilteredIdsChanged = !isEqual(this.props.subscriptions_filtered_ids, nextProps.subscriptions_filtered_ids);
+    const isFilteredContactsChanged = !isEqual(this.props.subscriptions_filtered_contacts_ids, nextProps.subscriptions_filtered_contacts_ids);
+    const isFilteredMessagesChanged = !isEqual(this.props.subscriptions_filtered_messages, nextProps.subscriptions_filtered_messages);
+    const isFiltering = isFilteredIdsChanged || isFilteredContactsChanged || isFilteredMessagesChanged;
 
     return isSortedSubscriptionsLoaded ||
       isSubscriptionsChanged ||
@@ -106,18 +166,62 @@ class Sidebar extends Component {
         >{this.props.t('work')}</button>
       </div>
 
-      <div className={style.list}>
-        {this.props.sorted_subscriptions_ids &&
-          this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
-            key={id}
-            id={id}
-            className={style.subscription}
-            withLoadData
-          />)}
+      {this.props.subscriptions_filter_text &&
+        <div className={style.list}>
+          <p className={style.title}>{this.props.t('contact_plural')}</p>
 
-        {!this.props.sorted_subscriptions_ids.length === 0 &&
-          <p className={style.empty}>There is no chats</p>}
-      </div>
+          {this.props.subscriptions_filtered_contacts_ids &&
+            this.props.subscriptions_filtered_contacts_ids.map(id => {
+              const subscription = this.props.subscriptions_list[id];
+              const name = getChatName(subscription);
+
+              return <div
+                key={id}
+                className={style.contact}
+                onClick={() => this.goToChat(subscription.id)}
+              >
+                <SubscriptionAvatar subscription={subscription} className={style.avatar} />
+                <p className={style.name}>{name}</p>
+              </div>;
+            })}
+
+          {this.props.subscriptions_filtered_contacts_ids.length === 0 &&
+            <p className={style.empty}>{this.props.t('no_results')}</p>}
+
+          <p className={style.title}>{this.props.t('message_plural')}</p>
+
+          {this.props.sorted_subscriptions_ids &&
+            this.props.sorted_subscriptions_ids.map(id => {
+              const messages = this.props.subscriptions_filtered_messages[id];
+
+              return messages.map(messageId => <SubscriptionItem
+                key={uid()}
+                id={id}
+                messageId={messageId}
+                onClick={() => this.goToMessage({ chatId: id, messageId })}
+                className={style.subscription}
+              />);
+            })}
+
+          {this.props.sorted_subscriptions_ids.length === 0 &&
+            <p className={style.empty}>{this.props.t('no_results')}</p>}
+        </div>
+      }
+
+      {!this.props.subscriptions_filter_text &&
+        <div className={style.list}>
+          {this.props.sorted_subscriptions_ids &&
+            this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
+              key={id}
+              id={id}
+              className={style.subscription}
+              withLoadData
+            />)}
+
+          {this.props.sorted_subscriptions_ids.length === 0 &&
+            <p className={style.empty}>{this.props.t('no_chats')}</p>}
+        </div>
+      }
 
       <Loading isShown={!isChatsLoaded} className={style.loading} />
     </div>;
@@ -133,8 +237,12 @@ export default compose(
       currentUser: state.currentUser,
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
+      subscriptions_filtered_messages: state.subscriptions.filtered_messages,
+      subscriptions_filtered_contacts_ids: state.subscriptions.filtered_contacts_ids,
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_filter_tag: state.subscriptions.filter_tag,
+      subscriptions_filter_text: state.subscriptions.filter_text,
+      messages_list: state.messages.list,
     }),
 
     {
@@ -144,6 +252,7 @@ export default compose(
       showNotification: notificationActions.showNotification,
       filterSubscription: subscriptionsActions.filterSubscription,
       clearSubscriptions: subscriptionsActions.clearSubscriptions,
+      updateMessage: messagesActions.updateMessage,
       clearMessages: messagesActions.clearMessages,
       clearUsers: usersActions.clearUsers,
     },

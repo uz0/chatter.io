@@ -1,11 +1,25 @@
 import { actionsCreator } from '@/helpers';
 
-export default actionsCreator([
+const actions = actionsCreator([
   'loadSubscriptionsIds',
   'clearSubscriptions',
   'loadSubscription',
   'addSubscription',
   'updateSubscription',
-  'filterSubscription',
+  'search',
   'removeSubscription',
 ]);
+
+const filterSubscription = params => (dispatch, getState) => {
+  const state = getState();
+
+  dispatch(actions.search({
+    ...params,
+    messages: state.messages,
+  }));
+};
+
+export default {
+  ...actions,
+  filterSubscription,
+};

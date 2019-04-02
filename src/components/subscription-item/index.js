@@ -70,7 +70,7 @@ class SubscriptionItem extends Component {
     }
 
     const isLastMessageShown = this.props.lastMessage && !this.props.typings;
-    const isUnreadShown = this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
+    const isUnreadShown = !this.props.messageId && this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 
     return <Link
       {...this.props.withLoadData ? {to: href} : {}}
@@ -109,10 +109,22 @@ export default compose(
   withNamespaces('translation'),
 
   connect(
-    (state, props) => ({
-      subscription: state.subscriptions.list[props.id] || null,
-      ...state.messages.chatIds[props.id] ? { lastMessage: state.messages.list[state.messages.chatIds[props.id].list[0]] } : {},
-    }),
+    (state, props) => {
+      let lastMessage = null;
+
+      if (state.messages.chatIds[props.id] && !props.messageId) {
+        lastMessage = state.messages.list[state.messages.chatIds[props.id].list[0]];
+      }
+
+      if (props.messageId) {
+        lastMessage = state.messages.list[props.messageId];
+      }
+
+      return {
+        subscription: state.subscriptions.list[props.id] || null,
+        ...lastMessage ? { lastMessage } : {},
+      };
+    },
 
     {
       loadSubscription: subscriptionsActions.loadSubscription,

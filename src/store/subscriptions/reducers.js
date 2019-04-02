@@ -73,7 +73,11 @@ export default createReducer(initialState, {
       state.filtered_contacts_ids = filter(state.ids, id => getChatName(state.list[id]).toLowerCase().match(state.filter_text.toLowerCase()));
 
       map(action.payload.messages.list, message => {
-        if (!message.text || !message.text.toLowerCase().match(state.filter_text.toLowerCase())) {
+        if (!message.text || message.xtag) {
+          return;
+        }
+
+        if (!message.text.toLowerCase().match(state.filter_text.toLowerCase())) {
           return;
         }
 

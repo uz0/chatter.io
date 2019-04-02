@@ -1,71 +1,43 @@
 import actions from './actions';
+import { createReducer } from 'redux-starter-kit';
 
 const initialState = {
   ids: [],
   list: {},
 };
 
-export default (state = initialState, action) => {
-  if (action.type === actions.types.addUser) {
-    let ids = state.ids;
-    let list = state.list;
-
-    const user = action.payload;
-
-    if (list[user.id]) {
+export default createReducer(initialState, {
+  [actions.types.addUser]: (state, action) => {
+    if (state.list[action.payload.id]) {
       return;
     }
 
-    list[user.id] = user;
-    ids.push(user.id);
+    state.list[action.payload.id] = action.payload;
+    state.ids.push(action.payload.id);
+  },
 
-    return {
-      ids,
-      list,
-    };
-  }
-
-  if (action.type === actions.types.addUsers) {
-    let ids = state.ids;
-    let list = state.list;
-
+  [actions.types.addUsers]: (state, action) => {
     action.payload.forEach(participant => {
       const user = participant.user;
 
-      if (list[user.id]) {
+      if (state.list[user.id]) {
         return;
       }
 
-      list[user.id] = user;
-      ids.push(user.id);
+      state.list[user.id] = user;
+      state.ids.push(user.id);
     });
+  },
 
-    return {
-      ids,
-      list,
-    };
-  }
-
-  if (action.type === actions.types.updateUser) {
-    let list = state.list;
-
-    list[action.payload.id] = {
-      ...list[action.payload.id],
+  [actions.types.updateUser]: (state, action) => {
+    state.list[action.payload.id] = {
+      ...state.list[action.payload.id],
       ...action.payload,
     };
+  },
 
-    return {
-      ...state,
-      list,
-    };
-  }
-
-  if (action.type === actions.types.clearUsers) {
-    return {
-      ids: [],
-      list: {},
-    };
-  }
-
-  return state;
-};
+  [actions.types.clearUsers]: state => {
+    state.ids = [];
+    state.list = {};
+  },
+});

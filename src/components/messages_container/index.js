@@ -30,9 +30,10 @@ const itemsPerPage = 50;
 class Messages extends Component {
   state = {
     isMessagesLoading: false,
-    hasMoreMessages: true,
+    // hasMoreMessages: true,
   };
 
+  // need refactoring
   getGroupedMessages = () => {
     if (!this.props.details) {
       return [];
@@ -101,7 +102,7 @@ class Messages extends Component {
   };
 
   loadMessages = props => {
-    this.setState({ isMessagesLoading: true, hasMoreMessages: true });
+    this.setState({ isMessagesLoading: true });
 
     api.getMessages({ subscription_id: props.details.id, limit: itemsPerPage }).then(data => {
       this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
@@ -187,10 +188,6 @@ class Messages extends Component {
 
   loadMoreMessages = page => {
     api.getMessages({ subscription_id: this.props.details.id, limit: itemsPerPage, offset: itemsPerPage * page }).then(data => {
-      if (data.messages.length === 0) {
-        this.setState({ hasMoreMessages: false });
-      }
-
       this.props.loadMoreMessages({chatId: this.props.details.id, list: data.messages});
     });
   };
@@ -206,6 +203,12 @@ class Messages extends Component {
   componentWillReceiveProps(nextProps) {
     const isMessagesLoaded = get(nextProps, 'chatIds.isLoaded', false);
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
+
+    // если перешли в другой чат - нужно опускать скролл вниз
+    // скролл опускается вниз в this.loadMessages, но она не сработает если там уже загружены сообщения
+    if (this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id && this.listRef) {
+      setTimeout(() => this.listRef.scrollTo(0, this.listRef.scrollHeight));
+    }
 
     // если страница загружается сразу с открытым чатом, details еще не успевает прийти, ловим тут
     if (!this.props.details && nextProps.details && !isMessagesLoaded) {
@@ -277,7 +280,7 @@ class Messages extends Component {
           <InfiniteScroll
             pageStart={groupedMessages.length <= itemsPerPage ? 0 : groupedMessages.length / itemsPerPage}
             loadMore={this.loadMoreMessages}
-            hasMore={groupedMessages.length < itemsPerPage ? false : this.state.hasMoreMessages}
+            hasMore={this.props.hasMoreMessages}
             useWindow={false}
             isReverse
             initialLoad={false}
@@ -355,6 +358,7 @@ export default compose(
 
   connect(
     (state, props) => ({
+      hasMoreMessages: props.chatIds && props.chatIds.hasMore,
       ...props.chatIds ? { lastMessage: state.messages.list[props.chatIds.list[0]] } : {},
     }),
   ),

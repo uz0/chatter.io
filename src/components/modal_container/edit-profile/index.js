@@ -39,8 +39,8 @@ class EditProfile extends Component {
     if (isPasswordNoChanged) {
       api.updateMe({
         ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
-        ...nick ? { nick } : {},
-        ...searchable_nick ? { searchable_nick } : {},
+        ...nick && this.props.forms.profile.nick.isTouched ? { nick } : {},
+        ...this.props.forms.profile.searchableNick.isTouched ? { searchable_nick } : {},
       }).then(() => {
         this.props.showNotification(this.props.t('profile_updated'));
         this.props.formReset('profile');
@@ -66,8 +66,8 @@ class EditProfile extends Component {
 
     api.updateMe({
       ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
-      ...nick ? { nick } : {},
-      ...searchable_nick ? { searchable_nick } : {},
+      ...nick && this.props.forms.profile.nick.isTouched ? { nick } : {},
+      ...this.props.forms.profile.searchableNick.isTouched ? { searchable_nick } : {},
       current_password: oldPassword,
       password,
     }).then(() => {

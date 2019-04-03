@@ -30,7 +30,6 @@ const itemsPerPage = 50;
 class Messages extends Component {
   state = {
     isMessagesLoading: false,
-    // hasMoreMessages: true,
   };
 
   // need refactoring
@@ -222,6 +221,10 @@ class Messages extends Component {
       this.loadMessages(nextProps);
       this.readLastMessage();
     }
+  }
+
+  componentWillUnmount() {
+    this.readLastMessage();
   }
 
   shouldComponentUpdate(nextProps, nextState) {

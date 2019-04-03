@@ -227,14 +227,14 @@ class Messages extends Component {
     this.readLastMessage();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     const isSubscriptionsIdsLoaded = this.props.subscriptions_ids.length === 0 && nextProps.subscriptions_ids.length > 0;
     const isDetailsLoaded = !this.props.details && !!nextProps.details;
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
     const isMessageIdChanged = this.props.params.messageId !== nextProps.params.messageId;
-    const isMessagesHasMoreChanged = this.state.hasMoreMessages !== nextState.hasMoreMessages;
+    const isMessagesHasMoreChanged = this.props.hasMoreMessages !== nextProps.hasMoreMessages;
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||

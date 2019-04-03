@@ -43,7 +43,7 @@ export default createReducer(initialState, {
       state.chatIds[chatId].list.push(message.id);
     });
 
-    if (!Number.isInteger(state.chatIds[chatId].list.length / 50)) {
+    if (action.payload.list.length < 50) {
       state.chatIds[chatId].hasMore = false;
     }
   },

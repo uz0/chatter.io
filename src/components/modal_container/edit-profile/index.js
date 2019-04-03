@@ -39,8 +39,8 @@ class EditProfile extends Component {
     if (isPasswordNoChanged) {
       api.updateMe({
         ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
-        nick,
-        searchable_nick,
+        ...nick ? { nick } : {},
+        ...searchable_nick ? { searchable_nick } : {},
       }).then(() => {
         this.props.showNotification(this.props.t('profile_updated'));
         this.props.formReset('profile');
@@ -66,8 +66,8 @@ class EditProfile extends Component {
 
     api.updateMe({
       ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
-      nick,
-      searchable_nick,
+      ...nick ? { nick } : {},
+      ...searchable_nick ? { searchable_nick } : {},
       current_password: oldPassword,
       password,
     }).then(() => {
@@ -133,10 +133,10 @@ class EditProfile extends Component {
           title="Change nickname"
 
           validations={[
-            {
-              action: Validators.required,
-              text: this.props.t('validation_required', { field: this.props.t('nick') }),
-            },
+            // {
+            //   action: Validators.required,
+            //   text: this.props.t('validation_required', { field: this.props.t('nick') }),
+            // },
 
             {
               action: Validators.minLength(4),

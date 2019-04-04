@@ -285,7 +285,7 @@ class MessageItem extends Component {
 
           {isMessageHasImage &&
             <Lightbox
-              images={[{src: this.props.message.attachment.preview}]}
+              images={[{src: this.props.message.attachment.url}]}
 
               renderImageFunc={(idx, image, toggleLightbox) => <div
                 key={idx}

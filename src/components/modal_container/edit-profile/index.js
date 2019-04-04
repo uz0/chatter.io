@@ -248,9 +248,9 @@ class EditProfile extends Component {
             },
           ]}
         />
-      </Form>
 
-      <Loading isShown={this.state.isLoading} />
+        <Loading isShown={this.state.isLoading} />
+      </Form>
     </Modal>;
   }
 }

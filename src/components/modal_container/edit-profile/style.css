@@ -4,6 +4,7 @@
 
 .modal .form {
   --input-height: 32px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -58,6 +58,6 @@ class Form extends Component {
 
 export default connect(
   (state, props) => ({
-    formData: { ...get(state.forms, props.model) },
+    formData: get(state.forms, props.model),
   }),
 )(Form);

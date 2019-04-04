@@ -28,6 +28,7 @@ class Modal extends Component {
               key={action.text}
               onClick={action.onClick}
               className={cx({'_is-danger': action.isDanger})}
+              {...action.disabled ? { disabled: true } : {}}
             >{action.text}</button>)}
           </div>
         }

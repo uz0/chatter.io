@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Avatar from '@/components/avatar';
+import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
@@ -21,27 +22,33 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class EditProfile extends Component {
+  state = {
+    isLoading: false,
+  };
+
   submit = event => {
     event.preventDefault();
 
-    const avatar = this.props.forms.profile.avatar.value;
-    const nick = this.props.forms.profile.nick.value;
-    const searchable_nick = this.props.forms.profile.searchableNick.value;
-    const password = this.props.forms.profile.password.value;
-    const oldPassword = this.props.forms.profile.oldPassword.value;
-    const confirmPassword = this.props.forms.profile.confirmPassword.value;
+    const avatar = this.props.formData.avatar.value;
+    const nick = this.props.formData.nick.value;
+    const searchable_nick = this.props.formData.searchableNick.value;
+    const password = this.props.formData.password.value;
+    const oldPassword = this.props.formData.oldPassword.value;
+    const confirmPassword = this.props.formData.confirmPassword.value;
 
-
-    const isPasswordNoChanged = !this.props.forms.profile.oldPassword.value &&
-      !this.props.forms.profile.password.value &&
-      !this.props.forms.profile.confirmPassword.value;
+    const isPasswordNoChanged = !this.props.formData.oldPassword.value &&
+      !this.props.formData.password.value &&
+      !this.props.formData.confirmPassword.value;
 
     if (isPasswordNoChanged) {
+      this.setState({ isLoading: true });
+
       api.updateMe({
-        ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
-        ...nick && this.props.forms.profile.nick.isTouched ? { nick } : {},
-        ...this.props.forms.profile.searchableNick.isTouched ? { searchable_nick } : {},
+        ...avatar && this.props.formData.avatar.isTouched ? { avatar } : {},
+        ...nick && this.props.formData.nick.isTouched ? { nick } : {},
+        ...this.props.formData.searchableNick.isTouched ? { searchable_nick } : {},
       }).then(() => {
+        this.setState({ isLoading: false });
         this.props.showNotification(this.props.t('profile_updated'));
         this.props.formReset('profile');
         this.props.close();
@@ -64,13 +71,16 @@ class EditProfile extends Component {
       return;
     }
 
+    this.setState({ isLoading: true });
+
     api.updateMe({
-      ...avatar && this.props.forms.profile.avatar.isTouched ? { avatar } : {},
-      ...nick && this.props.forms.profile.nick.isTouched ? { nick } : {},
-      ...this.props.forms.profile.searchableNick.isTouched ? { searchable_nick } : {},
+      ...avatar && this.props.formData.avatar.isTouched ? { avatar } : {},
+      ...nick && this.props.formData.nick.isTouched ? { nick } : {},
+      ...this.props.formData.searchableNick.isTouched ? { searchable_nick } : {},
       current_password: oldPassword,
       password,
     }).then(() => {
+      this.setState({ isLoading: false });
       this.props.showNotification(this.props.t('profile_updated'));
       this.props.formReset('profile');
       this.props.close();
@@ -93,7 +103,7 @@ class EditProfile extends Component {
       close={this.props.close}
 
       actions={[
-        { text: this.props.t('update'), onClick: this.submit },
+        { text: this.props.t('update'), onClick: this.submit, disabled: this.state.isLoading },
       ]}
     >
       <Form
@@ -133,11 +143,6 @@ class EditProfile extends Component {
           title="Change nickname"
 
           validations={[
-            // {
-            //   action: Validators.required,
-            //   text: this.props.t('validation_required', { field: this.props.t('nick') }),
-            // },
-
             {
               action: Validators.minLength(4),
               text: this.props.t('validation_min_length', { field: this.props.t('nick'), count: 4 }),
@@ -244,6 +249,8 @@ class EditProfile extends Component {
           ]}
         />
       </Form>
+
+      <Loading isShown={this.state.isLoading} />
     </Modal>;
   }
 }
@@ -258,7 +265,7 @@ export default compose(
       forms: state.forms,
 
       // state.forms.profile не отслеживает изменения redux
-      // formData: state.forms.profile,
+      formData: state.forms.profile,
     }),
 
     {

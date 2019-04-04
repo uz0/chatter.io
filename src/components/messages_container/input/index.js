@@ -251,7 +251,11 @@ class MessageInput extends Component {
     }
 
     if (this.props.subscription_id !== nextProps.subscription_id) {
-      this.setState({ value: nextProps.draft ? nextProps.draft : '' });
+      this.setState({
+        value: nextProps.draft ? nextProps.draft : '',
+        attachment: null,
+      });
+
       setTimeout(() => this.textareaRef.focus());
     }
   }

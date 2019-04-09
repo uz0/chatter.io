@@ -56,7 +56,7 @@ class SignIn extends Component {
   }
 
   render = () => <div className={style.login}>
-    <Link to="/" className={style.logo}>Chatle</Link>
+    <Link to="/" className={style.logo}>Chatter</Link>
 
     <nav>
       <Link className={style.active_link} to={`/sign-in/${this.props.params.code || ''}`}>{this.props.t('log_in')}</Link>

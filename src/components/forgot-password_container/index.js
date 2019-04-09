@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
   }
 
   render = () => <div className={style.forgot}>
-    <Link to="/" className={style.logo}>Chatle</Link>
+    <Link to="/" className={style.logo}>Chatter</Link>
     <h1 className={style.title}>{this.props.t('forgot_password')}?</h1>
 
     <Form

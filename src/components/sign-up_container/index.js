@@ -72,7 +72,7 @@ class SignUp extends Component {
   }
 
   render = () => <div className={style.register}>
-    <Link to="/" className={style.logo}>Chatle</Link>
+    <Link to="/" className={style.logo}>Chatter</Link>
 
     <nav>
       <Link to={`/sign-in/${this.props.params.code || ''}`}>{this.props.t('log_in')}</Link>

@@ -252,12 +252,12 @@
 
 .panel > .scroll > .collapse:not(._is-open) {
   --list-display: none;
-  --icon-transform: rotate(90deg);
+  --icon-transform: none;
 }
 
 .panel > .scroll > .collapse._is-open {
   --list-display: block;
-  --icon-transform: rotate(-90deg);
+  --icon-transform: rotate(-180deg);
 }
 
 .panel > .scroll > .collapse > .collapse_button {

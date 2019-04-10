@@ -336,7 +336,7 @@ class Messages extends Component {
         <Typings subscription_id={this.props.details.id} />
       }
 
-      {this.props.details &&
+      {this.props.details && this.props.details.role !== 'ro' &&
         <MessageInput
           subscription_id={this.props.details.id}
           className={style.input}

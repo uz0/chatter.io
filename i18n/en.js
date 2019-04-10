@@ -91,6 +91,7 @@ export default {translation: {
   passwords_not_equal: 'Passwords are not equal',
   people: 'People',
   photo: 'Photo',
+  invalid_character: 'Invalid character',
   photo_plural: 'Photos',
   profile_updated: 'Profile successfully updated',
   personal: 'Personal',

@@ -48,6 +48,9 @@ class AddChat extends Component {
 
           isLoading: false,
         });
+      }).catch(() => {
+        this.props.showNotification(this.props.t('invalid_character'));
+        this.setState({ isLoading: false });
       });
 
       return;
@@ -62,6 +65,9 @@ class AddChat extends Component {
 
         isLoading: false,
       });
+    }).catch(() => {
+      this.props.showNotification(this.props.t('invalid_character'));
+      this.setState({ isLoading: false });
     });
   };
 
@@ -186,7 +192,7 @@ class AddChat extends Component {
     if (this.state.tab === 'my' && this.state.search.length < 5) {
       users = filter(users, user => {
         const nick = user.nick || 'no nick';
-        return nick.toLowerCase().match(this.state.search.toLowerCase());
+        return nick.toLowerCase().startsWith(this.state.search.toLowerCase());
       });
     }
 

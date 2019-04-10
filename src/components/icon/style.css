@@ -1,90 +1,31 @@
 .icon {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: var(--icon-size);
   height: var(--icon-size);
-  background-color: var(--icon-color);
-  mask-image: var(--data);
-  mask-size: var(--icon-size) var(--icon-size);
-  mask-position: center;
-  mask-repeat: no-repeat;
-  transition-property: background-color;
   pointer-events: none;
 }
 
-.icon[data-icon="add-chat"] {
-  --data: url('/assets/icons/add-chat.svg');
+.icon svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
-.icon[data-icon="search"] {
-  --data: url('/assets/icons/search.svg');
-}
-
-.icon[data-icon="arrow-right"] {
-  --data: url('/assets/icons/arrow.svg');
-}
-
-.icon[data-icon="arrow-left"] {
-  --data: url('/assets/icons/arrow.svg');
+.icon svg.arrow_left {
   transform: rotate(180deg);
 }
 
-.icon[data-icon="arrow-down"] {
-  --data: url('/assets/icons/arrow.svg');
+.icon svg.arrow_down {
   transform: rotate(90deg);
 }
 
-.icon[data-icon="share"] {
-  --data: url('/assets/icons/share.svg');
+.icon svg:not(.stroke) path {
+  fill: var(--icon-color);
+  transition-property: fill;
 }
 
-.icon[data-icon="folder"] {
-  --data: url('/assets/icons/folder.svg');
-}
-
-.icon[data-icon="mute"] {
-  --data: url('/assets/icons/mute.svg');
-}
-
-.icon[data-icon="unmute"] {
-  --data: url('/assets/icons/unmute.svg');
-}
-
-.icon[data-icon="attach"] {
-  --data: url('/assets/icons/attach.svg');
-}
-
-.icon[data-icon="close"] {
-  --data: url('/assets/icons/close.svg');
-}
-
-.icon[data-icon="reply"] {
-  --data: url('/assets/icons/reply.svg');
-}
-
-.icon[data-icon="dots"] {
-  --data: url('/assets/icons/dots.svg');
-}
-
-.icon[data-icon="warning"] {
-  --data: url('/assets/icons/warning.svg');
-}
-
-.icon[data-icon="edit"] {
-  --data: url('/assets/icons/edit.svg');
-}
-
-.icon[data-icon="delete"] {
-  --data: url('/assets/icons/delete.svg');
-}
-
-.icon[data-icon="forward"] {
-  --data: url('/assets/icons/forward.svg');
-}
-
-.icon[data-icon="mark"] {
-  --data: url('/assets/icons/mark.svg');
-}
-
-.icon[data-icon="leave"] {
-  --data: url('/assets/icons/leave.svg');
+.icon svg.stroke path {
+  stroke: var(--icon-color);
+  transition-property: stroke;
 }

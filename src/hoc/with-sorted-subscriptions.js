@@ -8,7 +8,7 @@ export default getInitialIds => WrappedComponent => {
     getSortedSubscriptions = () => {
       const ids = getInitialIds(this.props).ids;
 
-      return ids.sort((prevId, nextId) => {
+      return [...ids].sort((prevId, nextId) => {
         const getSubscriptionLastMessageById = id => {
           if (!this.props.chatIds[id]) {
             return null;

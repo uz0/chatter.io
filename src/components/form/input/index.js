@@ -10,7 +10,13 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Input extends Component {
-  onInput = event => {
+  onInput = event => this.props.formChange(this.props.model, {
+    ...this.props.modelData,
+    isTouched: true,
+    value: event.target.value,
+  });
+
+  onBlur = event => {
     let error = '';
 
     if (this.props.validations) {
@@ -20,8 +26,6 @@ class Input extends Component {
     this.props.formChange(this.props.model, {
       ...this.props.modelData,
       error,
-      isTouched: true,
-      value: event.target.value,
     });
   };
 
@@ -51,6 +55,7 @@ class Input extends Component {
         className={style.input}
         // при автокомплите возникает ошибка uncontrolled input
         onChange={() => {}}
+        onBlur={this.onBlur}
         onInput={this.onInput}
         value={this.props.value}
         placeholder={this.props.placeholder}

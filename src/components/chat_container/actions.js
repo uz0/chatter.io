@@ -71,8 +71,15 @@ const notificationReceived = notification => (dispatch, getState) => {
     }
   }
 
-  function onEntering() {
+  async function onEntering() {
     const subscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
+
+    if (!subscription) {
+      const response = await api.getPrivateSubscription({ user_id: notification.object.user_id });
+      dispatch(subscriptionsActions.addSubscription(response.subscription));
+      return;
+    }
+
     const user_id = notification.object.user_id;
 
     if (user_id === state.currentUser.id) {

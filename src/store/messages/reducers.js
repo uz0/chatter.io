@@ -52,6 +52,14 @@ export default createReducer(initialState, {
     const chatId = action.payload.chatId;
     const messageId = action.payload.message.id || action.payload.message.uid;
 
+    if (chatId && !state.chatIds[chatId]) {
+      state.chatIds[chatId] = {
+        isLoaded: false,
+        hasMore: true,
+        list: [],
+      };
+    }
+
     if (!state.list[messageId]) {
       state.list[messageId] = action.payload.message;
     }

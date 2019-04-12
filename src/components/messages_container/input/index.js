@@ -196,6 +196,10 @@ class MessageInput extends Component {
   };
 
   calcTextareaHeight = () => {
+    if (!this.textareaRef) {
+      return;
+    }
+
     this.textareaRef.style.height = '20px';
 
     if (this.textareaRef.scrollHeight > 20) {

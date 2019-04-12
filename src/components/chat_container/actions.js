@@ -35,6 +35,10 @@ const notificationReceived = notification => (dispatch, getState) => {
   }
 
   function showWebNotification(message) {
+    if (!Notification) {
+      return;
+    }
+
     if (Notification.permission === 'denied') {
       return;
     }

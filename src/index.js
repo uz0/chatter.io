@@ -7,6 +7,7 @@ import mobileDetect from 'mobile-detect';
 import 'normalize.css';
 import './style/index.css';
 import './i18n';
+import 'proxy-polyfill';
 
 window.version = 4;
 

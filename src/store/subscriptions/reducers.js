@@ -1,6 +1,7 @@
 import map from 'lodash/map';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
+import uniq from 'lodash/uniq';
 import { getChatName } from '@/helpers';
 import actions from './actions';
 import { createReducer } from 'redux-starter-kit';
@@ -17,7 +18,7 @@ const initialState = {
 
 export default createReducer(initialState, {
   [actions.types.loadSubscriptionsIds]: (state, action) => {
-    const ids = [...state.ids, ...map(action.payload, 'id')];
+    const ids = uniq([...state.ids, ...map(action.payload, 'id')]);
     state.ids = ids;
     state.filtered_ids = ids;
   },

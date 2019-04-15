@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import compose from 'recompose/compose';
+import Link from '@/components/link';
 import Form from '@/components/form/form';
 import Validators from '@/components/form/validators';
 import Input from '@/components/form/input';
@@ -10,6 +10,7 @@ import { actions as notificationActions } from '@/components/notification';
 import { actions as formActions } from '@/components/form';
 import { actions as storeActions } from '@/store';
 import { api } from '@';
+import { withRouter } from '@/hoc';
 import style from './style.css';
 
 class SignIn extends Component {
@@ -33,25 +34,7 @@ class SignIn extends Component {
       window.localStorage.setItem('authToken', data.user.auth_token);
       window.localStorage.setItem('currentUser', JSON.stringify(data.user));
       this.props.showNotification(this.props.t('you_logged_success'));
-
-      if (!this.props.params.code && !this.props.params.nick) {
-        this.props.router.push('/chat');
-        return;
-      }
-
-      if (this.props.params.code) {
-        api.useInviteCode({ code: this.props.params.code }).then(data => {
-          this.props.router.push(`/chat/${data.subscription.id}`);
-        });
-      }
-
-      if (this.props.params.nick) {
-        api.addContact({nick: this.props.params.nick}).then(data => {
-          api.getPrivateSubscription({user_id: data.contact.user.id}).then(() => {
-            this.props.router.push(`/chat/user/${data.contact.user.id}`);
-          });
-        });
-      }
+      this.props.pushUrl('/chat');
     }).catch(error => {
       this.setState({ commonError: this.props.t(error.code), isLoading: false });
       this.props.showNotification(this.props.t(error.code));
@@ -60,28 +43,18 @@ class SignIn extends Component {
 
   componentWillMount() {
     if (this.props.currentUser) {
-      this.props.router.push('/');
+      this.props.pushUrl('/');
       return;
     }
   }
 
   render = () => {
-    let additionalUrl = '';
-
-    if (this.props.params.code) {
-      additionalUrl = this.props.params.code;
-    }
-
-    if (this.props.params.nick) {
-      additionalUrl = `user/${this.props.params.nick}`;
-    }
-
     return <div className={style.login}>
       <Link to="/" className={style.logo}>Chatter</Link>
 
       <nav>
-        <Link className={style.active_link} to={`/sign-in/${additionalUrl}`}>{this.props.t('log_in')}</Link>
-        <Link to={`/sign-up/${additionalUrl}`}>{this.props.t('sign_up')}</Link>
+        <Link className={style.active_link} to="/sign-in">{this.props.t('log_in')}</Link>
+        <Link to="/sign-up">{this.props.t('sign_up')}</Link>
       </nav>
 
       <Form
@@ -147,6 +120,7 @@ class SignIn extends Component {
 }
 
 export default compose(
+  withRouter,
   withNamespaces('translation'),
 
   connect(

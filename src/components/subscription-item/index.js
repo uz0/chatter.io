@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import Link from '@/components/link';
 import classnames from 'classnames/bind';
 import { withNamespaces } from 'react-i18next';
 import SubscriptionAvatar from '@/components/subscription-avatar';

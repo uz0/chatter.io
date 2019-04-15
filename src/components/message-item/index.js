@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import { Link } from 'react-router';
+import Link from '@/components/link';
 import moment from 'moment';
 import get from 'lodash/get';
 import find from 'lodash/find';

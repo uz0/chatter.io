@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import get from 'lodash/get';
 import { uid } from '@/helpers';
 import Button from '@/components/button';
+import Link from '@/components/link';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

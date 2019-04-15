@@ -24,11 +24,7 @@ export default () => <Provider store={store}>
       <Route component={Invite} path="invite/:code" />
       <Route component={Invite} path="joinuser/:nick" />
       <Route component={SignIn} path="sign-in" />
-      <Route component={SignIn} path="sign-in/:code" />
-      <Route component={SignIn} path="sign-in/user/:nick" />
       <Route component={SignUp} path="sign-up" />
-      <Route component={SignUp} path="sign-up/:code" />
-      <Route component={SignUp} path="sign-up/user/:nick" />
       <Route component={ForgotPassword} path="/forgot-password" />
     </Route>
   </Router>

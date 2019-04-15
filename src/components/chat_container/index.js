@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
-import find from 'lodash/find';
 import { withNamespaces } from 'react-i18next';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';

@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { api } from '@';
 import { withRouter } from '@/hoc';
 
 class Invite extends Component {

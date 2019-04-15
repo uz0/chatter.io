@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
@@ -248,6 +248,11 @@ class EditProfile extends Component {
             },
           ]}
         />
+
+        {this.props.currentUser.nick && <Fragment>
+          <p className={style.title}>{this.props.t('invite_link')}</p>
+          <p className={style.invite_link}>{`${location.origin}/joinuser/${this.props.currentUser.nick}`}</p>
+        </Fragment>}
 
         <Loading isShown={this.state.isLoading} />
       </Form>

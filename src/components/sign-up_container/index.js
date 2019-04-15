@@ -32,14 +32,24 @@ class SignUp extends Component {
     window.localStorage.setItem('currentUser', JSON.stringify(data.user));
     this.props.showNotification(this.props.t('registered_success'));
 
-    if (!this.props.params.code) {
+    if (!this.props.params.code && !this.props.params.nick) {
       this.props.router.push('/chat');
       return;
     }
 
-    api.useInviteCode({ code: this.props.params.code }).then(data => {
-      this.props.router.push(`/chat/${data.subscription.id}`);
-    });
+    if (this.props.params.code) {
+      api.useInviteCode({ code: this.props.params.code }).then(data => {
+        this.props.router.push(`/chat/${data.subscription.id}`);
+      });
+    }
+
+    if (this.props.params.nick) {
+      api.addContact({nick: this.props.params.nick}).then(data => {
+        api.getPrivateSubscription({user_id: data.contact.user.id}).then(() => {
+          this.props.router.push(`/chat/user/${data.contact.user.id}`);
+        });
+      });
+    }
   }).catch(error => {
     this.setState({ commonError: this.props.t(error.code), isLoading: false });
     this.props.showNotification(this.props.t(error.code));
@@ -71,95 +81,107 @@ class SignUp extends Component {
     }
   }
 
-  render = () => <div className={style.register}>
-    <Link to="/" className={style.logo}>Chatter</Link>
+  render = () => {
+    let additionalUrl = '';
 
-    <nav>
-      <Link to={`/sign-in/${this.props.params.code || ''}`}>{this.props.t('log_in')}</Link>
-      <Link className={style.active_link} to={`/sign-up/${this.props.params.code || ''}`}>{this.props.t('sign_up')}</Link>
-    </nav>
+    if (this.props.params.code) {
+      additionalUrl = this.props.params.code;
+    }
 
-    <Form
-      actions={[
-        {text: `${this.props.t('get_started')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'},
-      ]}
+    if (this.props.params.nick) {
+      additionalUrl = `user/${this.props.params.nick}`;
+    }
 
-      error={this.state.commonError.text || ''}
-      model="register"
-      disabled={this.state.isLoading}
-      className={style.form}
-    >
-      <Input
-        type="email"
-        placeholder={this.props.t('email')}
-        model="register.email"
-        disabled={this.state.isLoading}
-        className={style.input}
+    return <div className={style.register}>
+      <Link to="/" className={style.logo}>Chatter</Link>
 
-        validations={[
-          {
-            action: Validators.required,
-            text: this.props.t('validation_required', { field: this.props.t('email') }),
-          },
+      <nav>
+        <Link to={`/sign-in/${additionalUrl}`}>{this.props.t('log_in')}</Link>
+        <Link className={style.active_link} to={`/sign-up/${additionalUrl}`}>{this.props.t('sign_up')}</Link>
+      </nav>
 
-          {
-            action: Validators.email,
-            text: this.props.t('validation_correct', { field: this.props.t('email') }),
-          },
+      <Form
+        actions={[
+          {text: `${this.props.t('get_started')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'},
         ]}
-      />
 
-      <Input
-        type="password"
-        placeholder={this.props.t('password')}
-        model="register.password"
+        error={this.state.commonError.text || ''}
+        model="register"
         disabled={this.state.isLoading}
-        className={style.input}
+        className={style.form}
+      >
+        <Input
+          type="email"
+          placeholder={this.props.t('email')}
+          model="register.email"
+          disabled={this.state.isLoading}
+          className={style.input}
 
-        validations={[
-          {
-            action: Validators.required,
-            text: this.props.t('validation_correct', { field: this.props.t('password') }),
-          },
+          validations={[
+            {
+              action: Validators.required,
+              text: this.props.t('validation_required', { field: this.props.t('email') }),
+            },
 
-          {
-            action: Validators.minLength(6),
-            text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
-          },
+            {
+              action: Validators.email,
+              text: this.props.t('validation_correct', { field: this.props.t('email') }),
+            },
+          ]}
+        />
 
-          {
-            action: Validators.contains(' '),
-            text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
-          },
-        ]}
-      />
+        <Input
+          type="password"
+          placeholder={this.props.t('password')}
+          model="register.password"
+          disabled={this.state.isLoading}
+          className={style.input}
 
-      <Input
-        type="password"
-        placeholder={this.props.t('confirm_password')}
-        model="register.confirmPassword"
-        disabled={this.state.isLoading}
-        className={style.input}
+          validations={[
+            {
+              action: Validators.required,
+              text: this.props.t('validation_correct', { field: this.props.t('password') }),
+            },
 
-        validations={[
-          {
-            action: Validators.required,
-            text: this.props.t('validation_correct', { field: this.props.t('password') }),
-          },
+            {
+              action: Validators.minLength(6),
+              text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
+            },
 
-          {
-            action: Validators.minLength(6),
-            text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
-          },
+            {
+              action: Validators.contains(' '),
+              text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
+            },
+          ]}
+        />
 
-          {
-            action: Validators.contains(' '),
-            text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
-          },
-        ]}
-      />
-    </Form>
-  </div>;
+        <Input
+          type="password"
+          placeholder={this.props.t('confirm_password')}
+          model="register.confirmPassword"
+          disabled={this.state.isLoading}
+          className={style.input}
+
+          validations={[
+            {
+              action: Validators.required,
+              text: this.props.t('validation_correct', { field: this.props.t('password') }),
+            },
+
+            {
+              action: Validators.minLength(6),
+              text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
+            },
+
+            {
+              action: Validators.contains(' '),
+              text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
+            },
+          ]}
+        />
+      </Form>
+    </div>;
+  }
 }
 
 export default compose(

@@ -28,7 +28,6 @@
     "mobile-detect": "^1.4.3",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
-    "proxy-polyfill": "^0.3.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-i18next": "^9.0.9",

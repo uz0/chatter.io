@@ -130,3 +130,25 @@
 .modal .form .email > .title > .resend:hover {
   --color: var(--primary-color-hover);
 }
+
+.modal .form .title {
+  --height: 20px;
+  overflow: hidden;
+  align-self: flex-start;
+  width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .invite_link {
+  align-self: flex-start;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+}

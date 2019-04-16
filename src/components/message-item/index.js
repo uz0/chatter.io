@@ -206,7 +206,7 @@ class MessageItem extends Component {
       this.props.message.in_reply_to_message_id;
 
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
-    const isActionsShown = !isMessageDeleted && !this.props.isMobile && !this.props.isRefMessageDeleted;
+    const isActionsShown = !isMessageDeleted && !this.props.isMobile && !this.props.isRefMessageDeleted && this.props.details.group.type !== 'global_channel';
     const isReaded = this.isReaded();
     const isCurrentUserAdmin = this.props.details.role === 'admin';
 
@@ -269,11 +269,19 @@ class MessageItem extends Component {
 
       {!isMessageDeleted &&
         <div className={style.content}>
-          {isMessageTextBlockShown && !this.props.isMobile &&
+          {isMessageTextBlockShown && !this.props.isMobile && this.props.details.group.type === 'global_channel' &&
             this.renderMessageBlock()
           }
 
-          {isMessageTextBlockShown && this.props.isMobile &&
+          {isMessageTextBlockShown && !this.props.isMobile && this.props.details.group.type !== 'global_channel' &&
+            this.renderMessageBlock()
+          }
+
+          {isMessageTextBlockShown && this.props.isMobile && this.props.details.group.type === 'global_channel' &&
+            this.renderMessageBlock()
+          }
+
+          {isMessageTextBlockShown && this.props.isMobile && this.props.details.group.type !== 'global_channel' &&
             <Dropdown
               uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
               className={style.dropdown}

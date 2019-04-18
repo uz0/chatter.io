@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { withNamespaces } from 'react-i18next';
 import get from 'lodash/get';
 import uniq from 'lodash/uniq';
@@ -15,8 +14,8 @@ import SearchInput from '@/components/search-input';
 import Loading from '@/components/loading';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
-import { withSortedSubscriptions } from '@/hoc';
-import { getChatName, uid, getOpponentUser } from '@/helpers';
+import { withSortedSubscriptions, withRouter } from '@/hoc';
+import { getChatName, uid, getOpponentUser, getChatUrl } from '@/helpers';
 import { actions as storeActions } from '@/store';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
@@ -28,6 +27,71 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Sidebar extends Component {
+  isSubscriptionInViewPort = element => {
+    const parent = element.parentElement;
+    const elementRect = element.getBoundingClientRect();
+    const parentRect = parent.getBoundingClientRect();
+
+    if (elementRect.top >= parentRect.top && elementRect.bottom <= parentRect.bottom) {
+      return true;
+    }
+
+    return false;
+  };
+
+  handleDocumentKeyDown = event => {
+    const isChatOpen = this.props.params.chatId || this.props.params.userId;
+
+    if (!isChatOpen && event.keyCode === 13) {
+      if (this.props.hover_subscription_id) {
+        const subscription = this.props.subscriptions_list[this.props.hover_subscription_id];
+        const href = getChatUrl(subscription);
+        this.props.setHoverSubscription(null);
+        setTimeout(() => this.props.pushUrl(href));
+      }
+    }
+
+    if (!isChatOpen && event.keyCode === 38) {
+      if (this.props.hover_subscription_id) {
+        const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
+        const prevSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex - 1];
+
+        if (currentHoverIndex > 0 && !!prevSubscription) {
+          this.props.setHoverSubscription(prevSubscription);
+          const prevSubscriptionRef = document.querySelector(`[data-subscription-id="${prevSubscription}"]`);
+
+          if (!this.isSubscriptionInViewPort(prevSubscriptionRef)) {
+            prevSubscriptionRef.scrollIntoView({block: 'start'});
+          }
+        }
+      }
+
+      if (!this.props.hover_subscription_id) {
+        this.props.setHoverSubscription(this.props.sorted_subscriptions_ids[0]);
+      }
+    }
+
+    if (!isChatOpen && event.keyCode === 40) {
+      if (this.props.hover_subscription_id) {
+        const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
+        const nextSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex + 1];
+
+        if (currentHoverIndex < this.props.sorted_subscriptions_ids.length - 1 && !!nextSubscription) {
+          this.props.setHoverSubscription(nextSubscription);
+          const nextSubscriptionRef = document.querySelector(`[data-subscription-id="${nextSubscription}"]`);
+
+          if (!this.isSubscriptionInViewPort(nextSubscriptionRef)) {
+            nextSubscriptionRef.scrollIntoView({block: 'end'});
+          }
+        }
+      }
+
+      if (!this.props.hover_subscription_id) {
+        this.props.setHoverSubscription(this.props.sorted_subscriptions_ids[0]);
+      }
+    }
+  };
+
   openAddChat = () => this.props.toggleModal({ id: 'new-chat-modal' });
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
   onSearchInput = event => this.props.filterSubscription({ text: event.target.value });
@@ -100,6 +164,14 @@ class Sidebar extends Component {
     this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleDocumentKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleDocumentKeyDown);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     const isSortedSubscriptionsLoaded = this.props.sorted_subscriptions_ids.length === 0 && nextProps.sorted_subscriptions_ids.length > 0;
     const isSubscriptionsChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list);
@@ -107,6 +179,8 @@ class Sidebar extends Component {
     const isCurrentUserChangedPhoto = this.props.currentUser && nextProps.currentUser && !isEqual(this.props.currentUser.avatar, nextProps.currentUser.avatar);
     const isStateChanged = !isEqual(this.state, nextState);
     const isTagFiltered = this.props.subscriptions_filter_tag !== nextProps.subscriptions_filter_tag;
+    const isParamsChanged = !isEqual(this.props.params, nextProps.params);
+    const isHoverSubscriptionChanged = this.props.hover_subscription_id !== nextProps.hover_subscription_id;
 
     const isFilteredIdsChanged = !isEqual(this.props.subscriptions_filtered_ids, nextProps.subscriptions_filtered_ids);
     const isFilteredContactsChanged = !isEqual(this.props.subscriptions_filtered_contacts_ids, nextProps.subscriptions_filtered_contacts_ids);
@@ -119,6 +193,8 @@ class Sidebar extends Component {
       isFiltering ||
       isCurrentUserChangedPhoto ||
       isTagFiltered ||
+      isParamsChanged ||
+      isHoverSubscriptionChanged ||
       isStateChanged;
   }
 
@@ -214,8 +290,9 @@ class Sidebar extends Component {
             this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
               key={id}
               id={id}
-              className={style.subscription}
+              className={cx('subscription', {'_is-user-hover': id === this.props.hover_subscription_id})}
               withLoadData
+              withDataId
             />)}
 
           {this.props.sorted_subscriptions_ids.length === 0 &&
@@ -242,6 +319,7 @@ export default compose(
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_filter_tag: state.subscriptions.filter_tag,
       subscriptions_filter_text: state.subscriptions.filter_text,
+      hover_subscription_id: state.subscriptions.hover_subscription_id,
       messages_list: state.messages.list,
     }),
 
@@ -250,6 +328,7 @@ export default compose(
       toggleModal: modalActions.toggleModal,
       setCurrentUser: storeActions.setCurrentUser,
       showNotification: notificationActions.showNotification,
+      setHoverSubscription: subscriptionsActions.setHoverSubscription,
       filterSubscription: subscriptionsActions.filterSubscription,
       clearSubscriptions: subscriptionsActions.clearSubscriptions,
       updateMessage: messagesActions.updateMessage,

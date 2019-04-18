@@ -51,8 +51,9 @@ class SubscriptionItem extends Component {
     const isLastMessageChanged = !isEqual(this.props.lastMessage, nextProps.lastMessage);
     const isSubscriptionChanged = !isEqual(this.props.subscription, nextProps.subscription);
     const isTypingsChanged = !isEqual(this.props.typings, nextProps.typings);
+    const isClassNameChanged = !isEqual(this.props.className, nextProps.className);
 
-    return isSubscriptionLoaded || isLastMessageChanged || isSubscriptionChanged || isTypingsChanged;
+    return isSubscriptionLoaded || isLastMessageChanged || isSubscriptionChanged || isTypingsChanged || isClassNameChanged;
   }
 
   render() {
@@ -76,6 +77,7 @@ class SubscriptionItem extends Component {
       {...this.props.withLoadData ? {to: href} : {}}
       {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
       {...!this.props.withLoadData ? {onClick: this.click} : {}}
+      {...this.props.withDataId ? {'data-subscription-id': this.props.id} : {}}
       className={cx('subscription', this.props.className)}
     >
       <SubscriptionAvatar

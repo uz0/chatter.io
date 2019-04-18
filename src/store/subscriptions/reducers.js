@@ -9,6 +9,7 @@ import { createReducer } from 'redux-starter-kit';
 const initialState = {
   ids: [],
   list: {},
+  hover_subscription_id: null,
   filter_text: '',
   filtered_ids: [],
   filtered_messages: {},
@@ -42,6 +43,10 @@ export default createReducer(initialState, {
       ...state.list[action.payload.id],
       ...action.payload,
     };
+  },
+
+  [actions.types.setHoverSubscription]: (state, action) => {
+    state.hover_subscription_id = action.payload;
   },
 
   [actions.types.removeSubscription]: (state, action) => {

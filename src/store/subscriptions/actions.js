@@ -6,6 +6,7 @@ const actions = actionsCreator([
   'loadSubscription',
   'addSubscription',
   'updateSubscription',
+  'setHoverSubscription',
   'search',
   'removeSubscription',
 ]);

@@ -63,15 +63,17 @@ const notificationReceived = notification => (dispatch, getState) => {
       });
     }
 
-    const notification = new Notification(user.nick || 'no nick', {
-      body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
-      icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
-    });
+    if (window.Notification) {
+      const notification = new window.Notification(user.nick || 'no nick', {
+        body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
+        icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
+      });
 
-    if (document.hidden) {
-      notification.onclick = () => window.open(`${location.host}${getChatUrl(subscription)}`, '_blank');
-    } else {
-      notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
+      if (document.hidden) {
+        notification.onclick = () => window.open(`${location.host}${getChatUrl(subscription)}`, '_blank');
+      } else {
+        notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
+      }
     }
   }
 

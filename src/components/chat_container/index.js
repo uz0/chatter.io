@@ -60,8 +60,8 @@ class Chat extends Component {
       this.props.notificationReceived(notification);
     });
 
-    if (Notification && Notification.permission === 'default') {
-      Notification.requestPermission();
+    if (window.Notification && window.Notification.permission === 'default') {
+      window.Notification.requestPermission();
     }
 
     window.addEventListener('keydown', this.handleDocumentKeyDown);

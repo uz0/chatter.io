@@ -111,7 +111,7 @@ export default compose(
   connect(
     state => ({
       currentUser: state.currentUser,
-      isMobile: state.device === 'mobile',
+      isMobile: state.device === 'touch',
       isPanelShown: state.modal.ids.indexOf('panel-container') !== -1,
     }),
 

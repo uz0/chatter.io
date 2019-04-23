@@ -65,7 +65,7 @@ class SignUp extends Component {
 
   render = () => {
     return <div className={style.register}>
-      <Link to="/" className={style.logo}>Chatter</Link>
+      <Link to="/" className={style.logo}>Unichat</Link>
 
       <nav>
         <Link to="/sign-in">{this.props.t('log_in')}</Link>

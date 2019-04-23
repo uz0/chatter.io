@@ -130,10 +130,6 @@ class AddChat extends Component {
 
       const participantsWithoutYou = filter(subscription.group.participants, participant => participant.user_id !== this.props.currentUser.id);
 
-      if (participantsWithoutYou.length !== this.state.checkedUsers.length) {
-        return;
-      }
-
       if (isEqual(map(participantsWithoutYou, participant => participant.user_id).sort(), this.state.checkedUsers.sort())) {
         sameSubscription = subscription;
       } else if (subscription.group.name === name) {
@@ -151,6 +147,7 @@ class AddChat extends Component {
       this.props.router.push(`/chat/${data.subscription.id}`);
       this.props.close();
     }).catch(error => {
+      console.error(error);
       this.props.showNotification(this.props.t(error.code));
     });
   };

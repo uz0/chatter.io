@@ -8,7 +8,7 @@ import 'normalize.css';
 import './style/index.css';
 import './i18n';
 
-window.version = 7;
+window.version = 8;
 
 const md = new mobileDetect(window.navigator.userAgent);
 const isMobile = !!md.mobile();

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
@@ -25,6 +26,22 @@ class SubscriptionItem extends Component {
     });
   };
 
+  loadInviteCode = subscription => {
+    const currentUserParticipant = this.props.currentUser && find(subscription.group.participants, { user_id: this.props.currentUser.id });
+    const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
+
+    if (!isCurrentUserAdmin) {
+      return;
+    }
+
+    api.createGroupInviteCode({ subscription_id: subscription.id }).then(data => {
+      this.props.updateSubscription({
+        ...subscription,
+        invite_code: data.code,
+      });
+    });
+  };
+
   loadSubscription = () => {
     if (this.props.subscription) {
       this.props.addUsers(this.props.subscription.group.participants);
@@ -34,6 +51,7 @@ class SubscriptionItem extends Component {
     api.getSubscription({ subscription_id: this.props.id }).then(data => {
       this.props.loadSubscription(data.subscription);
       this.props.addUsers(data.subscription.group.participants);
+      this.loadInviteCode(data.subscription);
     });
   };
 
@@ -123,6 +141,7 @@ export default compose(
       }
 
       return {
+        currentUser: state.currentUser,
         subscription: state.subscriptions.list[props.id] || null,
         ...lastMessage ? { lastMessage } : {},
       };
@@ -130,6 +149,7 @@ export default compose(
 
     {
       loadSubscription: subscriptionsActions.loadSubscription,
+      updateSubscription: subscriptionsActions.updateSubscription,
       loadMessages: messagesActions.loadMessages,
       addUsers: usersActions.addUsers,
     },

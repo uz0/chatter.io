@@ -52,19 +52,6 @@ class Panel extends Component {
     return text;
   };
 
-  createInviteCode = details => {
-    const currentUserParticipant = this.props.currentUser && find(details.group.participants, { user_id: this.props.currentUser.id });
-    const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
-
-    if (!isCurrentUserAdmin) {
-      return;
-    }
-
-    api.createGroupInviteCode({ subscription_id: details.id }).then(data => {
-      this.inviteCodeInputRef.value = `${location.host}/invite/${data.code}`;
-    });
-  };
-
   copyInviteLink = () => {
     this.inviteCodeInputRef.select();
     document.execCommand('copy');
@@ -233,14 +220,6 @@ class Panel extends Component {
     const isDetailsLoadedFirstly = !this.props.details && nextProps.details;
     const isDetailsChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
 
-    if (isDetailsLoadedFirstly) {
-      this.createInviteCode(nextProps.details);
-    }
-
-    if (isDetailsChanged) {
-      this.createInviteCode(nextProps.details);
-    }
-
     if (nextProps.details && nextProps.details.group.name !== this.chatName) {
       this.setState({ chatName: nextProps.details.group.name });
     }
@@ -313,6 +292,7 @@ class Panel extends Component {
               className={style.copy_input}
               ref={node => this.inviteCodeInputRef = node}
               onChange={() => {}}
+              {...this.props.details.invite_code ? {value: `${location.origin}/invite/${this.props.details.invite_code}`} : {}}
               readOnly
             />
 

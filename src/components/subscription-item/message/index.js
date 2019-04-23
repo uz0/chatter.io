@@ -23,7 +23,41 @@ class Message extends Component {
     }
 
     if (this.props.message.xtag) {
-      return this.props.message.text;
+      const author = this.props.users_list[this.props.message.user_id];
+      const ref = this.props.users_list[this.props.message.reference.id];
+
+      const authorNick = author && author.nick || 'no nick';
+      const refNick = ref && ref.nick || 'no nick';
+
+      const isInvite = this.props.message.xtag === 'invite';
+      const isCreation = this.props.message.xtag === 'creation';
+      const isLeave = this.props.message.xtag === 'leave';
+      const isKick = this.props.message.xtag === 'kick_out';
+      const isJoined = this.props.message.xtag === 'joined';
+
+      let text = '';
+
+      if (isKick) {
+        text = this.props.t('xtag_message_kick', { user_nick: authorNick, reference_user_nick: refNick });
+      }
+
+      if (isLeave) {
+        text = this.props.t('xtag_message_leave', { user_nick: authorNick });
+      }
+
+      if (isCreation) {
+        text = this.props.t('xtag_message_creation', { user_nick: authorNick });
+      }
+
+      if (isInvite) {
+        text = this.props.t('xtag_message_invite', { user_nick: authorNick, reference_user_nick: refNick });
+      }
+
+      if (isJoined) {
+        text = this.props.t('xtag_message_joined', { user_nick: authorNick });
+      }
+
+      return text;
     }
 
     const isMessageHasAttachment = this.props.message.attachment;
@@ -53,15 +87,23 @@ class Message extends Component {
   };
 
   render() {
-    const isAuthorNameShown = !this.props.message.deleted_at && !this.props.message.xtag;
     const author = this.props.users_list[this.props.message.user_id] || {};
     const authorNick = author.id !== this.props.currentUser.id ? author.nick || 'no nick' : this.props.t('you');
 
     return <div className={cx('message', this.props.className)}>
-      <p className={style.text}>
-        {isAuthorNameShown && `${authorNick}: `}
-        {this.getMessageText()}
-      </p>
+      {!this.props.message.xtag &&
+        <p className={style.text}>
+          {!this.props.message.deleted_at && `${authorNick}: `}
+          {this.getMessageText()}
+        </p>
+      }
+
+      {this.props.message.xtag &&
+        <p
+          className={style.text}
+          dangerouslySetInnerHTML={{__html: this.getMessageText()}}
+        />
+      }
 
       {!this.props.message.deleted_at &&
         <span className={style.time}>{this.getLastMessageTime()}</span>

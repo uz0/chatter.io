@@ -112,6 +112,14 @@ class AddChat extends Component {
 
   createGroupChat = () => {
     let sameSubscription = null;
+    let name = '';
+
+    this.state.checkedUsers.forEach(id => {
+      const userName = this.props.users_list[id].nick || 'no nick';
+      name += `${name.length === 0 ? '' : ', '}${userName}`;
+    });
+
+    name = `${name.substr(0, 30)}${name.length > 30 ? '...' : ''}`;
 
     this.props.subscriptions_ids.forEach(id => {
       const subscription = this.props.subscriptions_list[id];
@@ -128,6 +136,8 @@ class AddChat extends Component {
 
       if (isEqual(map(participantsWithoutYou, participant => participant.user_id).sort(), this.state.checkedUsers.sort())) {
         sameSubscription = subscription;
+      } else if (subscription.group.name === name) {
+        sameSubscription = subscription;
       }
     });
 
@@ -136,15 +146,6 @@ class AddChat extends Component {
       this.props.close();
       return;
     }
-
-    let name = '';
-
-    this.state.checkedUsers.forEach(id => {
-      const userName = this.props.users_list[id].nick || 'no nick';
-      name += `${name.length === 0 ? '' : ', '}${userName}`;
-    });
-
-    name = `${name.substr(0, 30)}${name.length > 30 ? '...' : ''}`;
 
     api.createRoom({ name, user_ids: this.state.checkedUsers }).then(data => {
       this.props.router.push(`/chat/${data.subscription.id}`);

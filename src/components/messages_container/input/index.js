@@ -242,6 +242,11 @@ class MessageInput extends Component {
     if (this.props.reply_message_id) {
       this.props.clearReplyMessage();
     }
+
+    this.setState({
+      value: this.props.draft ? this.props.draft : '',
+      attachment: null,
+    });
   }
 
   componentWillReceiveProps(nextProps) {

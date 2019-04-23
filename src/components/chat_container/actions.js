@@ -1,6 +1,7 @@
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
+import reject from 'lodash/reject';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -170,10 +171,20 @@ const notificationReceived = notification => (dispatch, getState) => {
         showWebNotification(notification.object);
       }
 
-      // Не добавляем сообщение, просто удаляем чат
       if (notification.object.xtag === 'leave' && !notification.object.reference.id) {
-        dispatch(subscriptionsActions.removeSubscription(messageSubscription.id));
-        return;
+        if (state.currentUser.id === notification.object.user_id) {
+          dispatch(subscriptionsActions.removeSubscription(messageSubscription.id));
+          return;
+        }
+
+        let leavingSubscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
+
+        if (!leavingSubscription) {
+          return;
+        }
+
+        leavingSubscription.group.participants = reject(leavingSubscription.group.participants, { user_id: notification.object.user_id });
+        dispatch(subscriptionsActions.updateSubscription(leavingSubscription));
       }
 
       if (notification.object.xtag === 'invite' || notification.object.xtag === 'kick_out') {

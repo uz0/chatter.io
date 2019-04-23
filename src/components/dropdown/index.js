@@ -34,7 +34,7 @@ class Dropdown extends Component {
     const offsetHeight = buttonElement.offsetHeight;
 
     if (top > (window.innerHeight / 2)) {
-      bottom = window.innerHeight - top - buttonElement.offsetWidth;
+      bottom = window.innerHeight - top - buttonElement.offsetHeight;
     }
 
     if (left > (window.innerWidth / 2)) {

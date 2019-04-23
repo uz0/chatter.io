@@ -106,6 +106,10 @@ class Panel extends Component {
     api.addContact({ user_id }).then(addContactData => api.getPrivateSubscription({ user_id: addContactData.contact.user.id }).then(data => {
       this.props.addSubscription(data.subscription);
       this.props.router.push(`/chat/user/${addContactData.contact.user.id}`);
+
+      if (this.props.isMobile) {
+        this.props.closeModal('panel-container');
+      }
     })).catch(error => this.props.showNotification(this.props.t(error.code)));
   };
 
@@ -427,6 +431,7 @@ export default compose(
     state => ({
       currentUser: state.currentUser,
       isShown: state.modal.ids.indexOf('panel-container') !== -1,
+      isMobile: state.device === 'touch',
       users_list: state.users.list,
     }),
 

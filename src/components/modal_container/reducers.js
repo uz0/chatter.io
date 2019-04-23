@@ -1,4 +1,5 @@
 import actions from './actions';
+import { createReducer } from 'redux-starter-kit';
 import mobileDetect from 'mobile-detect';
 
 const md = new mobileDetect(window.navigator.userAgent);
@@ -9,51 +10,34 @@ const initialState = {
   list: {},
 };
 
-export default (state = initialState, action) => {
-  if (action.type === actions.types.toggleModal) {
-    let stateIds = [ ...state.ids ];
-    let stateList = { ...state.list };
-
-    const index = stateIds.indexOf(action.payload.id);
+export default createReducer(initialState, {
+  [actions.types.toggleModal]: (state, action) => {
+    const index = state.ids.indexOf(action.payload.id);
 
     if (index === -1) {
-      stateIds.push(action.payload.id);
+      state.ids.push(action.payload.id);
 
       if (action.payload.options) {
-        stateList[action.payload.id] = action.payload.options;
+        state.list[action.payload.id] = action.payload.options;
       }
     } else {
-      delete stateIds[index];
+      delete state.ids[index];
 
-      if (stateList[action.payload.id]) {
-        delete stateList[action.payload.id];
+      if (state.list[action.payload.id]) {
+        delete state.list[action.payload.id];
       }
     }
+  },
 
-    return {
-      ids: stateIds,
-      list: stateList,
-    };
-  }
-
-  if (action.type === actions.types.closeModal) {
-    let stateIds = [ ...state.ids ];
-    let stateList = { ...state.list };
-    const index = stateIds.indexOf(action.payload);
+  [actions.types.closeModal]: (state, action) => {
+    const index = state.ids.indexOf(action.payload);
 
     if (index !== -1) {
-      delete stateIds[index];
+      delete state.ids[index];
     }
 
-    if (stateList[action.payload]) {
-      delete stateList[action.payload];
+    if (state.list[action.payload]) {
+      delete state.list[action.payload];
     }
-
-    return {
-      ids: stateIds,
-      list: stateList,
-    };
-  }
-
-  return state;
-};
+  },
+});

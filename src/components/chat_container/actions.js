@@ -71,7 +71,7 @@ const notificationReceived = notification => (dispatch, getState) => {
       });
 
       if (document.hidden) {
-        notification.onclick = () => window.open(`${location.host}${getChatUrl(subscription)}`, '_blank');
+        notification.onclick = () => window.open(`${location.origin}${getChatUrl(subscription)}`, '_blank');
       } else {
         notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
       }

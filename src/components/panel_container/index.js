@@ -217,9 +217,6 @@ class Panel extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const isDetailsLoadedFirstly = !this.props.details && nextProps.details;
-    const isDetailsChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
-
     if (nextProps.details && nextProps.details.group.name !== this.chatName) {
       this.setState({ chatName: nextProps.details.group.name });
     }

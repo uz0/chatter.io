@@ -239,7 +239,7 @@ class AddChat extends Component {
       {users.length > 0 &&
         <div className={style.list}>
           {users.map(user => {
-            const avatar = get(user, 'avatar.small', '/assets/default-user.jpg');
+            const avatar = get(user, 'avatar.small', '/assets/default-user.jpg') || '/assets/default-user.jpg';
             const nick = user.nick || 'no nick';
             const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
 

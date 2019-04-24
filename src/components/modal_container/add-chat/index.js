@@ -180,7 +180,17 @@ class AddChat extends Component {
     }
 
     if (this.state.searchResults.isActive) {
-      return this.state.searchResults.users;
+      const startsWith = filter(this.state.searchResults.users, user => {
+        const nick = user.nick || 'no nick';
+        return nick.toLowerCase().startsWith(this.state.search.toLowerCase());
+      });
+
+      const rest = filter(this.state.searchResults.users, user => {
+        const nick = user.nick || 'no nick';
+        return !nick.toLowerCase().startsWith(this.state.search.toLowerCase());
+      });
+
+      return [...startsWith, ...rest];
     }
 
     let users = [];

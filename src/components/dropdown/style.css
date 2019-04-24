@@ -66,6 +66,19 @@
 
 @media (max-width: 800px) {
   .list {
+    padding-top: 8px;
+    padding-bottom: 8px;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .list > button {
+    min-width: 160px;
+    height: 38px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .list > button > i {
+    --icon-size: 20px;
   }
 }

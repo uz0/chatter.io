@@ -166,10 +166,6 @@ class MessageInput extends Component {
 
     setTimeout(() => {
       this.calcTextareaHeight();
-
-      if (this.props.onMessageSend) {
-        this.props.onMessageSend();
-      }
     });
 
     if (this.props.reply_message_id) {
@@ -178,6 +174,7 @@ class MessageInput extends Component {
   };
 
   onSendButtonClick = () => {
+    this.textareaRef.focus();
     const text = this.getFilteredMessage(this.state.value);
     const attachment = this.state.attachment;
     const mentions = this.parseMentions(text);

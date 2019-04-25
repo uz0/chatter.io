@@ -31,7 +31,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-i18next": "^9.0.9",
-    "react-infinite-scroller": "^1.2.4",
     "react-lightbox-component": "^1.2.1",
     "react-portal": "^4.2.0",
     "react-redux": "^6.0.0",

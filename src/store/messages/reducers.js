@@ -65,7 +65,7 @@ export default createReducer(initialState, {
     }
 
     if (chatId && state.chatIds[chatId] && state.chatIds[chatId].list.indexOf(messageId) === -1) {
-      state.chatIds[chatId].list = [messageId, ...state.chatIds[chatId].list];
+      state.chatIds[chatId].list.unshift(messageId);
     }
   },
 

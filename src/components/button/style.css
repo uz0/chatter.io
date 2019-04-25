@@ -46,6 +46,10 @@
   --color: var(--text-color)
 }
 
+.button[appearance$="primary"] {
+  --button-loading-background: var(--primary-color);
+}
+
 .button[appearance$="primary"]:not(:hover) {
   --background-color: var(--primary-color);
   --color: #fff;
@@ -100,4 +104,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
+}
+
+.button .loading {
+  --spinner-size: 16px;
+  --loading-background-color: var(--button-loading-background);
 }

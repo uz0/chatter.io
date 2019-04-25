@@ -237,6 +237,7 @@ class Panel extends Component {
     const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
     const isChatRoom = this.props.details.group.type === 'room';
     const isRoomWithIcon = isChatRoom && !!this.props.details.group.icon;
+    const isInviteCodeBlockShown = isChatRoom && isCurrentUserAdmin && this.props.details.invite_code;
 
     return <Fragment>
       <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
@@ -286,7 +287,7 @@ class Panel extends Component {
           </p>
         </div>
 
-        {isChatRoom && isCurrentUserAdmin &&
+        {isInviteCodeBlockShown &&
           <Fragment>
             <input
               type="text"

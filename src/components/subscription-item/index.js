@@ -27,6 +27,10 @@ class SubscriptionItem extends Component {
   };
 
   loadInviteCode = subscription => {
+    if (subscription.group.type !== 'room') {
+      return;
+    }
+
     const currentUserParticipant = this.props.currentUser && find(subscription.group.participants, { user_id: this.props.currentUser.id });
     const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
 

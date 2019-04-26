@@ -6,7 +6,7 @@
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
   line-height: var(--height);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: var(--font-weight-light);
   color: var(--caption-color);
   white-space: nowrap;

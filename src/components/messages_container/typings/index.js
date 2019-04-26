@@ -6,6 +6,19 @@ import { withTypings } from '@/hoc';
 import style from './style.css';
 
 class Typings extends Component {
+  componentWillReceiveProps(nextProps) {
+    const isTypingsHasBeenShown = isEmpty(this.props.typings) && !isEmpty(nextProps.typings);
+
+    if (isTypingsHasBeenShown) {
+      const messagesScrollElement = document.getElementById('messages-scroll');
+      const isScrolledToBottom = messagesScrollElement && messagesScrollElement.scrollTop === (messagesScrollElement.scrollHeight - messagesScrollElement.offsetHeight);
+
+      if (isScrolledToBottom) {
+        setTimeout(() => messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight));
+      }
+    }
+  }
+
   render() {
     return !isEmpty(this.props.typings) &&
       <p className={style.typings}>{this.props.typings}</p>;

@@ -135,6 +135,18 @@ const notificationReceived = notification => (dispatch, getState) => {
       api.getSubscription({subscription_id: notification.object.id}).then(data => {
         dispatch(usersActions.addUsers(data.subscription.group.participants));
         dispatch(subscriptionsActions.addSubscription(data.subscription));
+
+        const currentUserParticipant = state.currentUser && find(data.subscription.group.participants, { user_id: state.currentUser.id });
+        const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
+
+        if (data.subscription.group.type === 'room' && isCurrentUserAdmin) {
+          api.createGroupInviteCode({ subscription_id: data.subscription.id }).then(inviteCodeData => {
+            dispatch(subscriptionsActions.updateSubscription({
+              ...data.subscription,
+              invite_code: inviteCodeData.code,
+            }));
+          });
+        }
       });
     }
 

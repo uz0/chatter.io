@@ -10,11 +10,29 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Input extends Component {
-  onInput = event => this.props.formChange(this.props.model, {
-    ...this.props.modelData,
-    isTouched: true,
-    value: event.target.value,
-  });
+  onInput = event => {
+    if (!this.props.modelData.isBlured) {
+      this.props.formChange(this.props.model, {
+        ...this.props.modelData,
+        isTouched: true,
+        value: event.target.value,
+      });
+
+      return;
+    }
+
+    let error = '';
+
+    if (this.props.validations) {
+      this.props.validations.forEach(validator => error = validator.action(event.target.value) ? validator.text : error);
+    }
+
+    this.props.formChange(this.props.model, {
+      ...this.props.modelData,
+      value: event.target.value,
+      error,
+    });
+  }
 
   onBlur = event => {
     let error = '';
@@ -25,6 +43,7 @@ class Input extends Component {
 
     this.props.formChange(this.props.model, {
       ...this.props.modelData,
+      isBlured: true,
       error,
     });
   };
@@ -40,6 +59,7 @@ class Input extends Component {
       error: '',
       value: this.props.defaultValue || '',
       isTouched: false,
+      isBlured: false,
       isRequired,
     });
   }
@@ -57,7 +77,7 @@ class Input extends Component {
         onChange={() => {}}
         onBlur={this.onBlur}
         onInput={this.onInput}
-        value={this.props.value}
+        value={this.props.value || ''}
         placeholder={this.props.placeholder}
         {...this.props.disabled ? { disabled: true } : {}}
       />

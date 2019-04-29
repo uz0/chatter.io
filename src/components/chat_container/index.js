@@ -36,7 +36,7 @@ class Chat extends Component {
     }
 
     if (this.props.router.location.query.inviteuser) {
-      api.addContact({nick: this.props.router.location.query.inviteuser}).then(data => {
+      api.addContact({nick: this.props.router.location.query.inviteuser.replace('+', ' ')}).then(data => {
         api.getPrivateSubscription({user_id: data.contact.user.id}).then(getChatData => {
           this.props.addUsers(getChatData.subscription.group.participants);
           this.props.addSubscription(getChatData.subscription);

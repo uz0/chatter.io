@@ -131,7 +131,69 @@
   --color: var(--primary-color-hover);
 }
 
-.modal .form .title {
+.modal .form .change_password_button {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.modal .form .change_password_button + .section {
+  margin-top: 20px;
+}
+
+.modal .form .section {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.modal .form .section > .title {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .section > button {
+  --height: 20px;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  transition-property: color;
+}
+
+.modal .form .section > button:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form .section > button:hover {
+  --color: var(--primary-color-hover);
+}
+
+.modal .form .invite_link_input {
+  --height: 32px;
+  align-self: flex-start;
+  width: 100%;
+  height: var(--height);
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: calc(var(--height) / 2);
+  font-size: 14px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  border: 0;
+  background-color: var(--divider-color);
+}
+
+/*.modal .form .title {
   --height: 20px;
   overflow: hidden;
   align-self: flex-start;
@@ -145,10 +207,15 @@
   text-overflow: ellipsis;
 }
 
+.modal .form .title > button {
+  height: var(--height);
+  line-height: var(--height);
+}
+
 .modal .form .invite_link {
   align-self: flex-start;
   margin-top: 4px;
   font-size: 13px;
   color: var(--primary-color);
   font-weight: var(--font-weight-medium);
-}
+}*/

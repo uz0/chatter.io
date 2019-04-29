@@ -7,6 +7,7 @@ import EditProfile from './edit-profile';
 import Forward from './forward';
 import Invite from './invite';
 import LeaveChat from './leave-chat';
+import ChangePassword from './change-password';
 import modalActions from './actions';
 
 export { default as actions } from './actions';
@@ -18,6 +19,7 @@ class ModalContainer extends Component {
       {this.props.modal.ids.map(id => <Fragment key={id}>
         {id === 'new-chat-modal' && <AddChat options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'edit-profile-modal' && <EditProfile options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'change-password-modal' && <ChangePassword options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'forward-modal' && <Forward options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'invite-modal' && <Invite options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'leave-chat' && <LeaveChat options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}

@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Avatar from '@/components/avatar';
+import Button from '@/components/button';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
@@ -14,8 +15,8 @@ import Checkbox from '@/components/form/checkbox';
 import File from '@/components/form/file';
 import { api } from '@';
 import { actions as formActions } from '@/components/form';
-import { actions as storeActions } from '@/store';
 import { actions as notificationActions } from '@/components/notification';
+import { actions as modalActions } from '@/components/modal_container';
 import { withNamespaces } from 'react-i18next';
 import style from './style.css';
 
@@ -29,71 +30,89 @@ class EditProfile extends Component {
   submit = event => {
     event.preventDefault();
 
-    const avatar = this.props.formData.avatar.value;
-    const nick = this.props.formData.nick.value;
-    const searchable_nick = this.props.formData.searchableNick.value;
-    const password = this.props.formData.password.value;
-    const oldPassword = this.props.formData.oldPassword.value;
-    const confirmPassword = this.props.formData.confirmPassword.value;
+    const {
+      avatar,
+      nick,
+      searchable_nick,
+    } = this.props.formData;
 
-    const isPasswordNoChanged = !this.props.formData.oldPassword.value &&
-      !this.props.formData.password.value &&
-      !this.props.formData.confirmPassword.value;
-
-    if (isPasswordNoChanged) {
-      this.setState({ isLoading: true });
-
-      api.updateMe({
-        ...avatar && this.props.formData.avatar.isTouched ? { avatar } : {},
-        ...nick && this.props.formData.nick.isTouched ? { nick } : {},
-        ...this.props.formData.searchableNick.isTouched ? { searchable_nick } : {},
-      }).then(() => {
-        this.setState({ isLoading: false });
-        this.props.showNotification(this.props.t('profile_updated'));
-        this.props.formReset('profile');
-        this.props.close();
-      }).catch(error => this.props.showNotification(this.props.t(error.text)));
-
+    if (!avatar || !nick || !searchable_nick) {
       return;
     }
 
-    const isAnyPasswordFieldEmpty = !oldPassword ||
-      !password ||
-      !confirmPassword;
-
-    if (isAnyPasswordFieldEmpty) {
-      this.props.showNotification(this.props.t('fill_all_paswords'));
+    if (!avatar.isTouched && !nick.isTouched && !searchable_nick.isTouched) {
       return;
     }
 
-    if (password !== confirmPassword) {
-      this.props.showNotification(this.props.t('passwords_not_equal'));
+    if (avatar.error || nick.error || searchable_nick.error) {
       return;
     }
 
     this.setState({ isLoading: true });
 
     api.updateMe({
-      ...avatar && this.props.formData.avatar.isTouched ? { avatar } : {},
-      ...nick && this.props.formData.nick.isTouched ? { nick } : {},
-      ...this.props.formData.searchableNick.isTouched ? { searchable_nick } : {},
-      current_password: oldPassword,
-      password,
+      ...avatar.value && avatar.isTouched ? { avatar: avatar.value } : {},
+      ...nick.value && nick.isTouched ? { nick: nick.value } : {},
+      ...searchable_nick.isTouched ? { searchable_nick: searchable_nick.value } : {},
     }).then(() => {
       this.setState({ isLoading: false });
       this.props.showNotification(this.props.t('profile_updated'));
       this.props.formReset('profile');
       this.props.close();
-    }).catch(error => this.props.showNotification(this.props.t(error.text)));
+    }).catch(error => {
+      this.setState({ isLoading: false });
+
+      if (error.text === 'nick is in use') {
+        this.props.showNotification(this.props.t('nick_in_use'));
+        return;
+      }
+
+      this.props.showNotification(this.props.t(error.code));
+    });
   };
+
+  openChangePasswordModal = () => this.props.toggleModal({ id: 'change-password-modal' });
 
   resend = () => api.resendConfirmation({ email: this.props.currentUser.email }).then(() => {
     this.props.showNotification(this.props.t('confirmation_resended'));
   });
 
+  copyInviteLink = () => {
+    this.inviteLinkRef.select();
+    document.execCommand('copy');
+    this.props.showNotification(this.props.t('invite_link_copied'));
+  };
+
+  isActionDisabled = () => {
+    if (this.state.isLoading) {
+      return true;
+    }
+
+    const {
+      avatar,
+      nick,
+      searchable_nick,
+    } = this.props.formData;
+
+    if (!avatar || !nick || !searchable_nick) {
+      return true;
+    }
+
+    if (!avatar.isTouched && !nick.isTouched && !searchable_nick.isTouched) {
+      return true;
+    }
+
+    if (avatar.error || nick.error || searchable_nick.error) {
+      return true;
+    }
+
+    return false;
+  };
+
   render() {
-    const photo = get(this.props.forms, 'profile.avatar.value') ||
-      get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
+    const isActionDisabled = this.isActionDisabled();
+    const invite_link = this.props.currentUser.nick && `${location.origin}/joinuser/${this.props.currentUser.nick.replace(' ', '+')}`;
+    const photo = get(this.props.formData, 'avatar.value') || get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
 
     return <Modal
       id="edit-profile-modal"
@@ -103,7 +122,7 @@ class EditProfile extends Component {
       close={this.props.close}
 
       actions={[
-        { text: this.props.t('update'), onClick: this.submit, disabled: this.state.isLoading },
+        { text: this.props.t('update'), onClick: this.submit, disabled: isActionDisabled },
       ]}
     >
       <Form
@@ -144,22 +163,15 @@ class EditProfile extends Component {
 
           validations={[
             {
-              action: Validators.minLength(4),
-              text: this.props.t('validation_min_length', { field: this.props.t('nick'), count: 4 }),
+              action: Validators.required,
+              text: this.props.t('validation_required', { field: this.props.t('nick') }),
             },
 
             {
-              action: Validators.contains(' '),
-              text: this.props.t('validation_contains_spaces', { field: this.props.t('nick') }),
+              action: Validators.minLength(4),
+              text: this.props.t('validation_min_length', { field: this.props.t('nick'), count: 4 }),
             },
           ]}
-        />
-
-        <Checkbox
-          className={style.checkbox}
-          label={this.props.t('can_be_found_in_the_search')}
-          model="profile.searchableNick"
-          defaultValue={this.props.currentUser.searchable_nick}
         />
 
         <div className={cx('email', { '_is-confirmed': !!this.props.currentUser.confirmed_at })}>
@@ -191,67 +203,34 @@ class EditProfile extends Component {
           />
         </div>
 
-        <Input
-          type="password"
-          placeholder={this.props.t('old_password')}
-          model="profile.oldPassword"
-          className={style.input}
-          title="Change password"
-
-          validations={[
-            {
-              action: Validators.minLength(6),
-              text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
-            },
-
-            {
-              action: Validators.contains(' '),
-              text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
-            },
-          ]}
+        <Checkbox
+          className={style.checkbox}
+          label={this.props.t('can_be_found_in_the_search')}
+          model="profile.searchable_nick"
+          defaultValue={this.props.currentUser.searchable_nick}
         />
 
-        <Input
-          type="password"
-          placeholder={this.props.t('new_password')}
-          model="profile.password"
-          className={style.input}
-
-          validations={[
-            {
-              action: Validators.minLength(6),
-              text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
-            },
-
-            {
-              action: Validators.contains(' '),
-              text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
-            },
-          ]}
-        />
-
-        <Input
-          type="password"
-          placeholder={this.props.t('confirm_password')}
-          model="profile.confirmPassword"
-          className={style.input}
-
-          validations={[
-            {
-              action: Validators.minLength(6),
-              text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
-            },
-
-            {
-              action: Validators.contains(' '),
-              text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
-            },
-          ]}
+        <Button
+          appearance="_basic-primary"
+          type="button"
+          text="Change password"
+          className={style.change_password_button}
+          onClick={this.openChangePasswordModal}
         />
 
         {this.props.currentUser.nick && <Fragment>
-          <p className={style.title}>{this.props.t('invite_link')}</p>
-          <p className={style.invite_link}>{`${location.origin}/joinuser/${this.props.currentUser.nick}`}</p>
+          <div className={style.section}>
+            <p className={style.title}>{this.props.t('invite_link')}</p>
+            <button type="button" onClick={this.copyInviteLink}>Copy</button>
+          </div>
+
+          <input
+            type="text"
+            readonly
+            ref={node => this.inviteLinkRef = node}
+            value={invite_link}
+            className={style.invite_link_input}
+          />
         </Fragment>}
 
         <Loading isShown={this.state.isLoading} />
@@ -267,17 +246,13 @@ export default compose(
   connect(
     state => ({
       currentUser: state.currentUser,
-      forms: state.forms,
-
-      // state.forms.profile не отслеживает изменения redux
       formData: state.forms.profile,
     }),
 
     {
-      formChange: formActions.formChange,
       formReset: formActions.formReset,
+      toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
-      setCurrentUser: storeActions.setCurrentUser,
     },
   ),
 )(EditProfile);

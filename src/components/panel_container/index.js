@@ -367,24 +367,34 @@ class Panel extends Component {
                   return;
                 }
 
-                const userName = user.nick || 'no nick';
-                const isAdmin = participant.role === 'admin';
+                let peopleDropdownItems = [];
 
-                let peopleDropdownItems = [{ text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id) }];
+                if (participant.user_id !== this.props.currentUser.id) {
+                  peopleDropdownItems.push({text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id)});
+                }
 
                 if (isCurrentUserAdmin) {
-                  peopleDropdownItems.push(
-                    { text: this.props.t('set_admin'), onClick: () => this.setAccess(user.id, 'admin') },
-                    { text: this.props.t('set_read_write'), onClick: () => this.setAccess(user.id, 'rw') },
-                    { text: this.props.t('set_read_only'), onClick: () => this.setAccess(user.id, 'ro') },
-                    { text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true },
-                  );
+                  if (participant.role !== 'admin') {
+                    peopleDropdownItems.push({text: this.props.t('set_admin'), onClick: () => this.setAccess(user.id, 'admin')});
+                  }
+
+                  if (participant.role !== 'rw') {
+                    peopleDropdownItems.push({text: this.props.t('set_read_write'), onClick: () => this.setAccess(user.id, 'rw')});
+                  }
+
+                  if (participant.role !== 'ro') {
+                    peopleDropdownItems.push({text: this.props.t('set_read_only'), onClick: () => this.setAccess(user.id, 'ro')});
+                  }
+
+                  if (participant.user_id !== this.props.currentUser.id) {
+                    peopleDropdownItems.push({text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true});
+                  }
                 }
 
                 return <div key={user.id} className={style.person}>
                   <SubscriptionAvatar subscription={this.props.details} userId={user.id} className={style.avatar} />
-                  <p>{userName}</p>
-                  {isAdmin && <span>{this.props.t('admin')}</span>}
+                  <p>{user.nick || 'no nick'}</p>
+                  {participant.role === 'admin' && <span>{this.props.t('admin')}</span>}
 
                   <Dropdown
                     uniqueId={`panel-user-dropdown-${user.id}`}

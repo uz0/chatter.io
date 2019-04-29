@@ -106,9 +106,9 @@
   height: 0;
 }
 
-.panel > .scroll > .header > .name,
-.panel > .scroll > .header > .chat_name_input {
+.panel > .scroll > .header > .name {
   --height: 20px;
+  overflow: hidden;
   max-width: 100%;
   height: var(--height);
   margin-top: 10px;
@@ -116,30 +116,16 @@
   font-size: 16px;
   color: var(--text-color);
   text-align: center;
-}
-
-.panel > .scroll > .header > .chat_name_input {
-  border: 0;
-  box-shadow: var(--box-shadow);
-  transition-property: box-shadow;
-}
-
-.panel > .scroll > .header > .chat_name_input:not(:focus):not(:hover) {
-  --box-shadow: none;
-}
-
-.panel > .scroll > .header > .chat_name_input:focus {
-  --box-shadow: 0 0 0 1px var(--divider-color);
-}
-
-.panel > .scroll > .header > .chat_name_input:hover {
-  --box-shadow: 0 0 0 1px var(--divider-color);
-}
-
-.panel > .scroll > .header > .name {
-  overflow: hidden;
   white-space: nowrap;
+}
+
+.panel > .scroll > .header > .name:not(:focus) {
   text-overflow: ellipsis;
+}
+
+.panel > .scroll > .header > .name:focus {
+  text-overflow: unset;
+  outline: none;
 }
 
 .panel > .scroll > .header > .subcaption {

@@ -12,6 +12,7 @@ import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
 import Loading from '@/components/loading';
 import PhotosList from './photos-list';
+import ContentEditable from 'react-contenteditable';
 import { api } from '@';
 import { withDetails } from '@/hoc';
 import { getChatName } from '@/helpers';
@@ -27,6 +28,7 @@ class Panel extends Component {
     collapseActive: 'people',
     chatName: '',
     isChatNameInputShown: false,
+    isChatNameInputFocus: false,
   };
 
   closePanel = () => this.props.closeModal('panel-container');
@@ -261,14 +263,14 @@ class Panel extends Component {
           <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
 
           {isChatRoom && isCurrentUserAdmin &&
-            <input
-              type="text"
-              className={style.chat_name_input}
-              value={this.state.chatName}
-              onChange={() => {}}
-              onInput={this.onChatNameInput}
+            <ContentEditable
+              className={style.name}
+              innerRef={this.chatNameInputRef}
+              html={this.state.chatName}
+              disabled={false}
+              onChange={this.onChatNameInput}
               onBlur={this.onChatNameBlur}
-              size={this.state.chatName.length === 0 ? 1 : this.state.chatName.length}
+              tagName="p"
             />
           }
 

@@ -226,7 +226,7 @@ class EditProfile extends Component {
 
           <input
             type="text"
-            readonly
+            readOnly
             ref={node => this.inviteLinkRef = node}
             value={invite_link}
             className={style.invite_link_input}

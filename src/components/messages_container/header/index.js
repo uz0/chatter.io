@@ -42,7 +42,9 @@ export default compose(
   withRouter,
 
   connect(
-    null,
+    (state, props) => ({
+      details: state.subscriptions.list[props.chatId],
+    }),
 
     {
       toggleModal: modalActions.toggleModal,

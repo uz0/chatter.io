@@ -286,7 +286,7 @@ class Messages extends Component {
     return <div className={cx('messages', this.props.className)}>
       {this.props.details &&
         <Header
-          details={this.props.details}
+          chatId={this.props.details.id}
           className={style.header}
         />
       }

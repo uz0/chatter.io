@@ -223,7 +223,7 @@ class Panel extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.details && nextProps.details.group.name !== this.chatName) {
+    if (nextProps.details && nextProps.details.group.name !== this.state.chatName) {
       this.setState({ chatName: nextProps.details.group.name });
     }
   }

@@ -265,7 +265,6 @@ class Panel extends Component {
           {isChatRoom && isCurrentUserAdmin &&
             <ContentEditable
               className={style.name}
-              innerRef={this.chatNameInputRef}
               html={this.state.chatName}
               disabled={false}
               onChange={this.onChatNameInput}

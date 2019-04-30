@@ -113,6 +113,8 @@
   min-width: 20px;
   height: var(--height);
   margin-top: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
   line-height: var(--height);
   font-size: 16px;
   color: var(--text-color);

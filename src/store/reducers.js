@@ -25,6 +25,14 @@ const deviceReducer = (state = null, action) => {
   return state;
 };
 
+const errorReducer = (state = null, action) => {
+  if (action.type === actions.types.setError) {
+    return action.payload;
+  }
+
+  return state;
+};
+
 export default combineReducers({
   currentUser: currentUserReducer,
   forms: formReducers,
@@ -35,4 +43,5 @@ export default combineReducers({
   users: usersReducers,
   modal: modalReducers,
   device: deviceReducer,
+  error: errorReducer,
 });

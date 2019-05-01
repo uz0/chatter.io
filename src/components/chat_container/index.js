@@ -73,7 +73,7 @@ class Chat extends Component {
     // };
   };
 
-  componentWillMount() {
+  async componentWillMount() {
     if (!this.props.currentUser) {
       this.props.pushUrl('/sign-in');
       return;
@@ -100,9 +100,11 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    api.localInterface.onNotificationReceived = data => data.notifications.forEach(notification => {
-      this.props.notificationReceived(notification);
-    });
+    if (api) {
+      api.localInterface.onNotificationReceived = data => data.notifications.forEach(notification => {
+        this.props.notificationReceived(notification);
+      });
+    }
 
     if ('Notification' in window) {
       if (Notification.permission !== 'denied') {

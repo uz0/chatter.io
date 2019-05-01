@@ -99,6 +99,9 @@ a:focus {
 }
 
 h1,
+h2,
+h3,
+pre,
 p {
   margin: 0;
 }

@@ -10,18 +10,18 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.chat .sidebar {
+.chat > .sidebar {
   flex-shrink: 0;
   width: var(--sidebar-width);
   box-shadow: -1px 0 var(--divider-color) inset;
 }
 
-.chat .messages {
+.chat > .messages {
   flex-grow: 1;
   min-width: 0;
 }
 
-.chat .panel {
+.chat > .panel {
   flex-shrink: 0;
   width: var(--panel-width);
   box-shadow: 1px 0 var(--divider-color) inset;
@@ -62,7 +62,7 @@
   .chat._is-open {
     --sidebar-display: none;
     --messages-display: flex;
-}
+  }
 
   .chat .sidebar {
     flex-shrink: 0;

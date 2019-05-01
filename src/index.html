@@ -22,7 +22,9 @@
         messagingSenderId: "523602759876"
       };
 
-      firebase.initializeApp(config);
+      if (firebase) {
+        firebase.initializeApp(config);
+      }
     </script>
 
     <!-- Start Single Page Apps for GitHub Pages -->
@@ -55,9 +57,53 @@
         }
       }(window.location))
     </script>
+
+    <style>
+      .loading {
+        --spinner-size: 40px;
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #fff;
+        border-radius: inherit;
+        contain: strict;
+      }
+
+      .loading::before {
+        content: "";
+        position: absolute;
+        left: calc(50% - var(--spinner-size) / 2);
+        top: calc(50% - var(--spinner-size) / 2);
+        width: var(--spinner-size);
+        height: var(--spinner-size);
+        border: 2px solid #1873f2;
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation-name: loading-ring;
+        animation-duration: .4s;
+        animation-iteration-count: infinite;
+        animation-play-state: running;
+        animation-timing-function: linear;
+        pointer-events: none;
+      }
+
+      @keyframes loading-ring {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
 
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="loading"></div>
+    </div>
   </body>
 </html>

@@ -20,20 +20,36 @@ const init = () => render(
   document.getElementById('app'),
 );
 
-const api = window.UniversaChatApi({ token: process.env.TOKEN }, {
-  onInitialized() {
-    const authToken = window.localStorage.getItem('authToken');
+let api;
+const apiArguments = { token: process.env.TOKEN };
 
-    if (!authToken) {
-      init();
-      return;
-    }
+try {
+  api = window.UniversaChatApi(apiArguments, {
+    onInitialized() {
+      const authToken = window.localStorage.getItem('authToken');
 
-    api.login({ auth_token: authToken }).then(data => {
-      store.dispatch(storeActions.setCurrentUser(data.user));
-      init();
-    });
-  },
-});
+      if (!authToken) {
+        init();
+        return;
+      }
+
+      api.login({ auth_token: authToken }).then(data => {
+        store.dispatch(storeActions.setCurrentUser(data.user));
+        init();
+      });
+    },
+  });
+} catch (error) {
+  store.dispatch(storeActions.setError({
+    details: error,
+
+    request: {
+      name: 'UniversaChatApi',
+      arguments: apiArguments,
+    },
+  }));
+
+  init();
+}
 
 export { isMobile, api };

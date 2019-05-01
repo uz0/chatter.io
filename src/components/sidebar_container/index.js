@@ -160,13 +160,20 @@ class Sidebar extends Component {
   };
 
   async componentWillMount() {
+    const getSubscriptionsArguments = { short: true };
+
     try {
-      const shortSubscriptions = await api.getSubscriptions({ short: true });
+      const shortSubscriptions = await api.getSubscriptions(getSubscriptionsArguments);
       this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
-    } catch(error) {
-      console.log('get subscriptions error')
-      console.log(error);
-      console.log('get subscriptions error')
+    } catch (error) {
+      this.props.setError({
+        details: error,
+
+        request: {
+          name: 'getSubscriptions',
+          arguments: getSubscriptionsArguments,
+        },
+      });
     }
   }
 
@@ -340,6 +347,7 @@ export default compose(
       updateMessage: messagesActions.updateMessage,
       clearMessages: messagesActions.clearMessages,
       clearUsers: usersActions.clearUsers,
+      setError: storeActions.setError,
     },
   ),
 

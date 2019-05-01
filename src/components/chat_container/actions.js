@@ -36,6 +36,10 @@ const notificationReceived = notification => (dispatch, getState) => {
   }
 
   function showWebNotification(message) {
+    console.log(get);
+    console.log(getChatUrl);
+    console.log(message);
+
     // if (!Notification) {
     //   return;
     // }

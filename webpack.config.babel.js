@@ -22,7 +22,8 @@ let config = {
   devServer: {
     contentBase: './src',
     disableHostCheck: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    https: true,
   },
   module: {
     preLoaders: [

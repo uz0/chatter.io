@@ -36,46 +36,46 @@ const notificationReceived = notification => (dispatch, getState) => {
   }
 
   function showWebNotification(message) {
-    if (!Notification) {
-      return;
-    }
+    // if (!Notification) {
+    //   return;
+    // }
 
-    if (Notification.permission === 'denied') {
-      return;
-    }
+    // if (Notification.permission === 'denied') {
+    //   return;
+    // }
 
-    if (message.user_id === state.currentUser.id) {
-      return;
-    }
+    // if (message.user_id === state.currentUser.id) {
+    //   return;
+    // }
 
-    const user = state.users.list[message.user_id];
-    const subscription = find(state.subscriptions.list, { group_id: message.group_id });
+    // const user = state.users.list[message.user_id];
+    // const subscription = find(state.subscriptions.list, { group_id: message.group_id });
 
-    if (subscription.mute_until) {
-      return;
-    }
+    // if (subscription.mute_until) {
+    //   return;
+    // }
 
-    const audio = new Audio('/assets/notification.mp3');
-    const promise = audio.play();
+    // const audio = new Audio('/assets/notification.mp3');
+    // const promise = audio.play();
 
-    if (promise !== undefined) {
-      promise.catch(error => {
-        console.error(error);
-      });
-    }
+    // if (promise !== undefined) {
+    //   promise.catch(error => {
+    //     console.error(error);
+    //   });
+    // }
 
-    if (window.Notification) {
-      const notification = new window.Notification(user.nick || 'no nick', {
-        body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
-        icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
-      });
+    // if (window.Notification) {
+    //   const notification = new window.Notification(user.nick || 'no nick', {
+    //     body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
+    //     icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
+    //   });
 
-      if (document.hidden) {
-        notification.onclick = () => window.open(`${location.origin}${getChatUrl(subscription)}`, '_blank');
-      } else {
-        notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
-      }
-    }
+    //   if (document.hidden) {
+    //     notification.onclick = () => window.open(`${location.origin}${getChatUrl(subscription)}`, '_blank');
+    //   } else {
+    //     notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
+    //   }
+    // }
   }
 
   async function onEntering() {

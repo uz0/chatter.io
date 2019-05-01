@@ -108,7 +108,6 @@
 
 .panel > .scroll > .header > .name {
   --height: 20px;
-  overflow: hidden;
   max-width: 100%;
   min-width: 20px;
   height: var(--height);
@@ -124,6 +123,7 @@
 
 .panel > .scroll > .header > .name:not(:focus) {
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .panel > .scroll > .header > .name:focus {

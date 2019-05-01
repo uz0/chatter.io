@@ -160,8 +160,14 @@ class Sidebar extends Component {
   };
 
   async componentWillMount() {
-    const shortSubscriptions = await api.getSubscriptions({ short: true });
-    this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
+    try {
+      const shortSubscriptions = await api.getSubscriptions({ short: true });
+      this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
+    } catch(error) {
+      console.log('get subscriptions error')
+      console.log(error);
+      console.log('get subscriptions error')
+    }
   }
 
   componentDidMount() {

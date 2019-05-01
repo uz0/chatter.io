@@ -29,6 +29,50 @@ class Chat extends Component {
     }
   };
 
+  // subscribe = () => {
+  //   const messaging = window.firebase.messaging();
+
+  //   messaging.requestPermission().then (() => {
+  //     messaging.getToken().then(currentToken => {
+  //       console.log(currentToken)
+  //       fetch('https://fcm.googleapis.com/fcm/send', {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'key=' + 'AAAAeekoEMQ:APA91bGZY2IyqHuss3BuORgBdiux66OALRkqxGGKKyfzPYXwpTSsqnwaYoSKrAQ4POShnfqgVVdLU-AEjPycuVx4uETODQexI63EZeTspVOxn-OuMtT03aCXrkW6aoyt0hvIBpKiP19c',
+  //         },
+
+  //         method: 'POST',
+
+  //         body: JSON.stringify({
+  //           notification: {
+  //             title: 'title',
+  //             body: 'body',
+  //             click_action: 'https://localhost:8080',
+  //             icon: 'https://localhost:8080/assets/default-user.jpg',
+  //           },
+
+  //           to: currentToken,
+  //         }),
+  //       }).then(data => console.log(data))
+  //     });
+  //   });
+  // };
+
+  subscribe = () => {
+    // const MAXAGE = 3600;
+    // const URL = `/api-notifications-sw.js?q=${Math.floor(Date.now() / (MAXAGE * 1000))}`;
+    // navigator.serviceWorker.register(URL);
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.register(URL).then(reg => {
+    //     // регистрация сработала
+    //     console.log('Registration succeeded. Scope is ' + reg.scope);
+    //   }).catch(function(error) {
+    //     // регистрация прошла неудачно
+    //     console.log('Registration failed with ' + error);
+    //   });
+    // };
+  };
+
   componentWillMount() {
     if (!this.props.currentUser) {
       this.props.pushUrl('/sign-in');
@@ -60,8 +104,10 @@ class Chat extends Component {
       this.props.notificationReceived(notification);
     });
 
-    if (window.Notification && window.Notification.permission === 'default') {
-      window.Notification.requestPermission();
+    if ('Notification' in window) {
+      if (Notification.permission !== 'denied') {
+        this.subscribe();
+      }
     }
 
     window.addEventListener('keydown', this.handleDocumentKeyDown);

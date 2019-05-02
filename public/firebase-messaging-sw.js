@@ -6,3 +6,23 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
+
+self.addEventListener('notificationclick', event => {
+  const target = event.notification.data.click_action || '/';
+  event.notification.close();
+
+  event.waitUntil(clients.matchAll({
+    type: 'window',
+    includeUncontrolled: true,
+  }).then(clientList => {
+    for (var i = 0; i < clientList.length; i++) {
+      const client = clientList[i];
+
+      if (client.url == target && 'focus' in client) {
+        return client.focus();
+      }
+    }
+
+    return clients.openWindow(target);
+  }));
+});

@@ -9,13 +9,13 @@ import { actions as usersActions } from '@/store/users';
 import { getOpponentUser } from '@/helpers';
 import config from '@/config';
 
-const getChatUrl = subscription => {
-  if (subscription.group.type === 'private_chat') {
-    return `/chat/user/${getOpponentUser(subscription).id}`;
-  }
+// const getChatUrl = subscription => {
+//   if (subscription.group.type === 'private_chat') {
+//     return `/chat/user/${getOpponentUser(subscription).id}`;
+//   }
 
-  return `/chat/${subscription.id}`;
-};
+//   return `/chat/${subscription.id}`;
+// };
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -74,7 +74,8 @@ const notificationReceived = notification => (dispatch, getState) => {
           notification: {
             title: 'New Message',
             body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
-            click_action: `${location.origin}${getChatUrl(subscription)}`,
+            // click_action: `${location.origin}${getChatUrl(subscription)}`,
+            click_action: `${location.href}`,
             icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
             sound: 'default',
           },

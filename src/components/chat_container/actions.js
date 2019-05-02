@@ -6,7 +6,7 @@ import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
-import { getOpponentUser } from '@/helpers';
+// import { getOpponentUser } from '@/helpers';
 import config from '@/config';
 
 // const getChatUrl = subscription => {

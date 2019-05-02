@@ -7,6 +7,7 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
 import { getOpponentUser } from '@/helpers';
+import config from '@/config';
 
 const getChatUrl = subscription => {
   if (subscription.group.type === 'private_chat') {
@@ -35,51 +36,55 @@ const notificationReceived = notification => (dispatch, getState) => {
     onEntering(notification);
   }
 
-  function showWebNotification(message) {
-    console.log(get);
-    console.log(getChatUrl);
-    console.log(message);
+  async function showWebNotification(message) {
+    if (!window.firebase) {
+      return;
+    }
 
-    // if (!Notification) {
-    //   return;
-    // }
+    if (message.user_id === state.currentUser.id) {
+      return;
+    }
 
-    // if (Notification.permission === 'denied') {
-    //   return;
-    // }
+    const user = state.users.list[message.user_id];
+    const subscription = find(state.subscriptions.list, { group_id: message.group_id });
 
-    // if (message.user_id === state.currentUser.id) {
-    //   return;
-    // }
+    if (subscription.mute_until) {
+      return;
+    }
 
-    // const user = state.users.list[message.user_id];
-    // const subscription = find(state.subscriptions.list, { group_id: message.group_id });
+    const messaging = window.firebase.messaging();
+    await messaging.requestPermission();
 
-    // if (subscription.mute_until) {
-    //   return;
-    // }
+    if (Notification.permission === 'denied') {
+      return;
+    }
 
-    // const audio = new Audio('/assets/notification.mp3');
-    // const promise = audio.play();
+    try {
+      const currentToken = await messaging.getToken();
 
-    // if (promise !== undefined) {
-    //   promise.catch(error => {
-    //     console.error(error);
-    //   });
-    // }
+      fetch('https://fcm.googleapis.com/fcm/send', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `key=${config.firebase_server_key}`,
+        },
 
-    // if (window.Notification) {
-    //   const notification = new window.Notification(user.nick || 'no nick', {
-    //     body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
-    //     icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
-    //   });
+        method: 'POST',
 
-    //   if (document.hidden) {
-    //     notification.onclick = () => window.open(`${location.origin}${getChatUrl(subscription)}`, '_blank');
-    //   } else {
-    //     notification.onclick = () => location.replace(`${getChatUrl(subscription)}`);
-    //   }
-    // }
+        body: JSON.stringify({
+          notification: {
+            title: 'New Message',
+            body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
+            click_action: `${location.origin}${getChatUrl(subscription)}`,
+            icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
+            sound: 'default',
+          },
+
+          to: currentToken,
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function onEntering() {
@@ -179,11 +184,7 @@ const notificationReceived = notification => (dispatch, getState) => {
     }
 
     if (notification.event === 'new') {
-      if (!notification.object.xtag && document.hidden) {
-        showWebNotification(notification.object);
-      }
-
-      if (find(notification.object.mentions, {user_id: state.currentUser.id}) && !document.hidden) {
+      if (!notification.object.xtag && 'Notification' in window && Notification.permission !== 'denied') {
         showWebNotification(notification.object);
       }
 

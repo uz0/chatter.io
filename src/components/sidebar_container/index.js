@@ -160,6 +160,10 @@ class Sidebar extends Component {
   };
 
   async componentWillMount() {
+    if (!this.props.currentUser) {
+      return;
+    }
+
     const getSubscriptionsArguments = { short: true };
 
     try {

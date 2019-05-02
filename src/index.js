@@ -23,22 +23,43 @@ const init = () => render(
 let api;
 const apiArguments = { token: process.env.TOKEN };
 
-try {
-  api = window.UniversaChatApi(apiArguments, {
-    onInitialized() {
-      const authToken = window.localStorage.getItem('authToken');
+const localInterface = {
+  onInitialized() {
+    const authToken = window.localStorage.getItem('authToken');
 
-      if (!authToken) {
-        init();
-        return;
-      }
+    if (!authToken) {
+      init();
+      return;
+    }
 
+    try {
       api.login({ auth_token: authToken }).then(data => {
         store.dispatch(storeActions.setCurrentUser(data.user));
         init();
       });
-    },
-  });
+    } catch (error) {
+      store.dispatch(storeActions.setError({
+        details: error,
+
+        request: {
+          name: 'login',
+          arguments: { auth_token: authToken },
+        },
+      }));
+
+      init();
+    }
+  },
+
+  onDisconnected() {
+    console.log('------------');
+    console.log('disconnected');
+    console.log('------------');
+  },
+};
+
+try {
+  api = window.UniversaChatApi(apiArguments, localInterface);
 } catch (error) {
   store.dispatch(storeActions.setError({
     details: error,

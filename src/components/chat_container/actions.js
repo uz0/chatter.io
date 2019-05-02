@@ -75,7 +75,7 @@ const notificationReceived = notification => (dispatch, getState) => {
             title: 'New Message',
             body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
             // click_action: `${location.origin}${getChatUrl(subscription)}`,
-            click_action: `${location.href}`,
+            click_action: location.href,
             icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
             sound: 'default',
           },

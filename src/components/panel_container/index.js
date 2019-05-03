@@ -15,7 +15,7 @@ import PhotosList from './photos-list';
 import ContentEditable from 'react-contenteditable';
 import { api } from '@';
 import { withDetails } from '@/hoc';
-import { getChatName } from '@/helpers';
+import { getChatName, copy } from '@/helpers';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
@@ -54,11 +54,9 @@ class Panel extends Component {
     return text;
   };
 
-  copyInviteLink = () => {
-    this.inviteCodeInputRef.select();
-    document.execCommand('copy');
+  copyInviteLink = () => copy(`${location.origin}/invite/${this.props.details.invite_code}`, () => {
     this.props.showNotification(this.props.t('invite_code_copied'));
-  };
+  });
 
   onChatNameBlur = () => {
     const name = this.getFilteredChatName();
@@ -289,21 +287,10 @@ class Panel extends Component {
         </div>
 
         {isInviteCodeBlockShown &&
-          <Fragment>
-            <input
-              type="text"
-              className={style.copy_input}
-              ref={node => this.inviteCodeInputRef = node}
-              onChange={() => {}}
-              {...this.props.details.invite_code ? {value: `${location.origin}/invite/${this.props.details.invite_code}`} : {}}
-              readOnly
-            />
-
-            <button className={style.setting_button} onClick={this.copyInviteLink}>
-              <Icon name="share" />
-              <p className={style.text}>{this.props.t('copy_invite_link')}</p>
-            </button>
-          </Fragment>
+          <button className={style.setting_button} onClick={this.copyInviteLink}>
+            <Icon name="share" />
+            <p className={style.text}>{this.props.t('copy_invite_link')}</p>
+          </button>
         }
 
         <button className={style.setting_button} onClick={this.toggleMute}>

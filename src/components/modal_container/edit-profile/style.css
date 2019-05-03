@@ -178,44 +178,16 @@
   --color: var(--primary-color-hover);
 }
 
-.modal .form .invite_link_input {
-  --height: 32px;
-  align-self: flex-start;
-  width: 100%;
-  height: var(--height);
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: calc(var(--height) / 2);
-  font-size: 14px;
-  color: var(--text-color);
-  font-weight: var(--font-weight-light);
-  border: 0;
-  background-color: var(--divider-color);
-}
-
-/*.modal .form .title {
+.modal .form .invite_link_text {
   --height: 20px;
   overflow: hidden;
   align-self: flex-start;
   width: 100%;
   height: var(--height);
+  margin-top: 8px;
   line-height: var(--height);
   font-size: 13px;
-  color: var(--text-color);
-  font-weight: var(--font-weight-light);
+  color: var(--primary-color);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-.modal .form .title > button {
-  height: var(--height);
-  line-height: var(--height);
-}
-
-.modal .form .invite_link {
-  align-self: flex-start;
-  margin-top: 4px;
-  font-size: 13px;
-  color: var(--primary-color);
-  font-weight: var(--font-weight-medium);
-}*/

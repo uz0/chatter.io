@@ -145,23 +145,6 @@
   text-overflow: ellipsis;
 }
 
-.panel > .scroll > .copy_input {
-  --height: 30px;
-  width: calc(var(--panel-width) - (var(--layout-padding) * 2));
-  width: -webkit-fill-available;
-  height: var(--height);
-  margin-left: var(--layout-padding);
-  margin-right: var(--layout-padding);
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: calc(var(--height) / 2);
-  font-size: 14px;
-  color: var(--text-color);
-  font-weight: var(--font-weight-light);
-  border: 0;
-  background-color: var(--divider-color);
-}
-
 .panel > .scroll > .dropdown {
   flex-shrink: 0;
 }

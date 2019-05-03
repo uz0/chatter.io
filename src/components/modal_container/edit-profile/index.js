@@ -14,6 +14,7 @@ import Input from '@/components/form/input';
 import Checkbox from '@/components/form/checkbox';
 import File from '@/components/form/file';
 import { api } from '@';
+import { copy } from '@/helpers';
 import { actions as formActions } from '@/components/form';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as modalActions } from '@/components/modal_container';
@@ -77,11 +78,9 @@ class EditProfile extends Component {
     this.props.showNotification(this.props.t('confirmation_resended'));
   });
 
-  copyInviteLink = () => {
-    this.inviteLinkRef.select();
-    document.execCommand('copy');
-    this.props.showNotification(this.props.t('invite_link_copied'));
-  };
+  copyInviteLink = () => copy(`${location.origin}/joinuser/${this.props.currentUser.nick.replace(' ', '+')}`, () => {
+    this.props.showNotification(this.props.t('invite_code_copied'));
+  });
 
   isActionDisabled = () => {
     if (this.state.isLoading) {
@@ -224,13 +223,7 @@ class EditProfile extends Component {
             <button type="button" onClick={this.copyInviteLink}>Copy</button>
           </div>
 
-          <input
-            type="text"
-            readOnly
-            ref={node => this.inviteLinkRef = node}
-            value={invite_link}
-            className={style.invite_link_input}
-          />
+          <p className={style.invite_link_text}>{invite_link}</p>
         </Fragment>}
 
         <Loading isShown={this.state.isLoading} />

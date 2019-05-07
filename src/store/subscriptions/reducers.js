@@ -14,6 +14,7 @@ const initialState = {
   filtered_ids: [],
   filtered_messages: {},
   filtered_contacts_ids: [],
+  filtered_global_users: [],
   filter_tag: 'all',
 };
 
@@ -74,6 +75,7 @@ export default createReducer(initialState, {
     state.filtered_ids = state.ids;
     state.filtered_messages = {};
     state.filtered_contacts_ids = [];
+    state.filtered_global_users = [];
 
     if (state.filter_text) {
       state.filtered_contacts_ids = filter(state.ids, id => getChatName(state.list[id]).toLowerCase().startsWith(state.filter_text.toLowerCase()));
@@ -104,6 +106,22 @@ export default createReducer(initialState, {
       state.filtered_contacts_ids = filter(state.filtered_contacts_ids, id => state.list[id].tags && state.list[id].tags[0] === state.filter_tag);
       state.filtered_ids = filter(state.filtered_ids, id => state.list[id].tags && state.list[id].tags[0] === state.filter_tag);
     }
+
+    if (action.payload.global_users) {
+      state.filtered_global_users = filter(action.payload.global_users, user => {
+        let isUserExist = false;
+
+        map(state.filtered_contacts_ids, id => {
+          const subscription = state.list[id];
+
+          if (find(subscription.group.participants, { user_id: user.id })) {
+            isUserExist = true;
+          }
+        });
+
+        return !isUserExist;
+      });
+    }
   },
 
   [actions.types.clearSubscriptions]: state => {
@@ -113,6 +131,7 @@ export default createReducer(initialState, {
     state.filtered_ids = [];
     state.filtered_messages = {};
     state.filtered_contacts_ids = [];
+    state.filtered_global_users = [];
     state.filter_tag = 'all';
   },
 });

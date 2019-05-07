@@ -104,7 +104,7 @@ class Sidebar extends Component {
     this.props.setCurrentUser(null);
     window.localStorage.removeItem('authToken');
     window.localStorage.removeItem('currentUser');
-    this.props.router.push('/sign-in');
+    this.props.pushUrl('/sign-in');
   }).catch(error => this.props.showNotification(this.props.t(error.text)));
 
   getSubscriptionHref = subscription => {
@@ -118,7 +118,7 @@ class Sidebar extends Component {
   goToMessage = params => {
     const subscription = this.props.subscriptions_list[params.chatId];
     const href = this.getSubscriptionHref(subscription);
-    this.props.router.push(`${href}/${params.messageId}`);
+    this.props.pushUrl(`${href}/${params.messageId}`);
     const message = this.props.messages_list[params.messageId];
 
     let text = message.text;
@@ -156,7 +156,18 @@ class Sidebar extends Component {
   goToChat = id => {
     const subscription = this.props.subscriptions_list[id];
     const href = this.getSubscriptionHref(subscription);
-    this.props.router.push(href);
+    this.props.pushUrl(href);
+  };
+
+  goToGlobalChat = id => {
+    api.getPrivateSubscription({ user_id: id }).then(data => {
+      if (this.props.subscriptions_ids.indexOf(data.subscription.id) === -1) {
+        this.props.addUsers(data.subscription.group.participants);
+        this.props.addSubscription(data.subscription);
+      }
+
+      this.props.pushUrl(`/chat/user/${id}`);
+    });
   };
 
   async componentWillMount() {
@@ -202,7 +213,8 @@ class Sidebar extends Component {
     const isFilteredIdsChanged = !isEqual(this.props.subscriptions_filtered_ids, nextProps.subscriptions_filtered_ids);
     const isFilteredContactsChanged = !isEqual(this.props.subscriptions_filtered_contacts_ids, nextProps.subscriptions_filtered_contacts_ids);
     const isFilteredMessagesChanged = !isEqual(this.props.subscriptions_filtered_messages, nextProps.subscriptions_filtered_messages);
-    const isFiltering = isFilteredIdsChanged || isFilteredContactsChanged || isFilteredMessagesChanged;
+    const isFilteredGlobalUsersChanged = !isEqual(this.props.subscriptions_filtered_global_users, nextProps.subscriptions_filtered_global_users);
+    const isFiltering = isFilteredIdsChanged || isFilteredContactsChanged || isFilteredMessagesChanged || isFilteredGlobalUsersChanged;
 
     return isSortedSubscriptionsLoaded ||
       isSubscriptionsChanged ||
@@ -281,11 +293,30 @@ class Sidebar extends Component {
           {this.props.subscriptions_filtered_contacts_ids.length === 0 &&
             <p className={style.empty}>{this.props.t('no_results')}</p>}
 
+          <p className={style.title}>{this.props.t('global_search')}</p>
+
+          {this.props.subscriptions_filtered_global_users &&
+            this.props.subscriptions_filtered_global_users.map(user => {
+              const name = get(user, 'nick', 'no nick') || 'no nick';
+
+              return <div
+                key={user.id}
+                className={style.contact}
+                onClick={() => this.goToGlobalChat(user.id)}
+              >
+                <SubscriptionAvatar user={user} className={style.avatar} />
+                <p className={style.name}>{name}</p>
+              </div>;
+            })}
+
+          {this.props.subscriptions_filtered_global_users.length === 0 &&
+            <p className={style.empty}>{this.props.t('no_results')}</p>}
+
           <p className={style.title}>{this.props.t('message_plural')}</p>
 
           {this.props.sorted_subscriptions_ids &&
             this.props.sorted_subscriptions_ids.map(id => {
-              const messages = this.props.subscriptions_filtered_messages[id];
+              const messages = this.props.subscriptions_filtered_messages[id] || [];
 
               return messages.map(messageId => <SubscriptionItem
                 key={uid()}
@@ -333,6 +364,7 @@ export default compose(
       subscriptions_list: state.subscriptions.list,
       subscriptions_filtered_messages: state.subscriptions.filtered_messages,
       subscriptions_filtered_contacts_ids: state.subscriptions.filtered_contacts_ids,
+      subscriptions_filtered_global_users: state.subscriptions.filtered_global_users,
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_filter_tag: state.subscriptions.filter_tag,
       subscriptions_filter_text: state.subscriptions.filter_text,
@@ -341,6 +373,7 @@ export default compose(
     }),
 
     {
+      addSubscription: subscriptionsActions.addSubscription,
       loadSubscriptionsIds: subscriptionsActions.loadSubscriptionsIds,
       toggleModal: modalActions.toggleModal,
       setCurrentUser: storeActions.setCurrentUser,
@@ -350,6 +383,7 @@ export default compose(
       clearSubscriptions: subscriptionsActions.clearSubscriptions,
       updateMessage: messagesActions.updateMessage,
       clearMessages: messagesActions.clearMessages,
+      addUsers: usersActions.addUsers,
       clearUsers: usersActions.clearUsers,
       setError: storeActions.setError,
     },

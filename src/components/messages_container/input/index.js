@@ -10,8 +10,10 @@ import Button from '@/components/button';
 import Icon from '@/components/icon';
 import Validators from '@/components/form/validators';
 import throttle from 'lodash/throttle';
+import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
+import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
@@ -71,6 +73,64 @@ class MessageInput extends Component {
     this.setState({ attachment: null });
   };
 
+  getBlobChunk = (file, offset, length) => new Promise(resolve => {
+    const reader = new FileReader();
+    const blob = file.slice(offset, length);
+
+    reader.onloadend = event => {
+      resolve(event.target.result);
+    };
+
+    reader.readAsText(blob);
+  });
+
+  getFileChecksum = file => new Promise(resolve => {
+    const reader = new FileReader();
+
+    reader.onloadend = event => {
+      resolve(CRC32.str(event.target.result));
+    };
+
+    reader.readAsBinaryString(file);
+  });
+
+  loadFileByChunks = async file => {
+    const chunk = await this.getBlobChunk(file, 0, 60000);
+    const checksum = await this.getFileChecksum(file);
+
+    console.log(
+      chunk,
+      null,
+      file.size,
+      checksum,
+      file.name,
+    );
+
+    // const a = document.createElement('a');
+    // const data = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify({
+    //   arguments: [
+    //     chunk,
+    //     null,
+    //     file.size,
+    //     checksum,
+    //     file.name,
+    //   ],
+    // }))
+    // a.setAttribute('href', `data:${data}`);
+    // a.setAttribute('download', 'data.json');
+    // document.body.appendChild(a);
+
+    api.attachmentByChunks(
+      chunk,
+      null,
+      file.size,
+      checksum,
+      file.name,
+    ).then(data => {
+      console.log(data)
+    });
+  };
+
   onAttachFileChange = event => {
     const file = event.target.files[0];
 
@@ -78,20 +138,13 @@ class MessageInput extends Component {
       return;
     }
 
-    if (Validators.fileMaxSize(200000)(file)) {
-      this.props.showNotification(this.props.t('validation_max_size', {
-        object: this.props.t('file'),
-        size_type: this.props.t('kb'),
-        count: 200,
-      }));
-
-      this.resetAttachment();
-      return;
-    }
-
     const reader = new FileReader();
 
     reader.onloadend = () => {
+      if (Validators.fileMaxSize(200000)(file)) {
+        this.loadFileByChunks(file);
+      }
+
       this.setState({
         attachment: {
           byte_size: file.size,

@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
 import Icon from '@/components/icon';
+import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import throttle from 'lodash/throttle';
 import CRC32 from 'crc-32';
@@ -21,11 +22,14 @@ import style from './style.css';
 export { default as actions } from './actions';
 
 const cx = classnames.bind(style);
+const bytesSize = 64000;
 
 class MessageInput extends Component {
   state = {
     attachment: null,
+    upload_id: null,
     value: this.props.draft || '',
+    isFileLoading: false,
   };
 
   onTextareaKeyDown = event => {
@@ -70,65 +74,87 @@ class MessageInput extends Component {
 
   resetAttachment = () => {
     this.attachInputRef.value = '';
-    this.setState({ attachment: null });
+    this.setState({ attachment: null, upload_id: null, isFileLoading: false });
   };
 
-  getBlobChunk = (file, offset, length) => new Promise(resolve => {
+  createLinkToJsonArguments = object => {
+    const a = document.createElement('a');
+    const data = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(object));
+    a.setAttribute('href', `data:${data}`);
+    a.setAttribute('download', 'data.json');
+    document.body.appendChild(a);
+  };
+
+  getBlobBase = blob => new Promise(resolve => {
     const reader = new FileReader();
-    const blob = file.slice(offset, length);
 
     reader.onloadend = event => {
-      resolve(event.target.result);
+      let binaryString = '';
+      const bytes = new Uint8Array(event.target.result);
+
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binaryString += String.fromCharCode(bytes[i]);
+      }
+
+      resolve(window.btoa(binaryString));
     };
 
-    reader.readAsText(blob);
+    reader.readAsArrayBuffer(blob);
   });
 
   getFileChecksum = file => new Promise(resolve => {
     const reader = new FileReader();
 
     reader.onloadend = event => {
-      resolve(CRC32.str(event.target.result));
+      const bytes = new Uint8Array(event.target.result);
+      resolve(CRC32.buf(bytes) >>> 0);
     };
 
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
   });
 
   loadFileByChunks = async file => {
-    const chunk = await this.getBlobChunk(file, 0, 60000);
+    try {
+      this.setState({ isFileLoading: true });
+      const firstResponse = await this.loadFirstChunk(file);
+      await this.loadLastChunks(file, firstResponse);
+      this.setState({ upload_id: firstResponse.upload_id, isFileLoading: false });
+    } catch (error) {
+      console.error(error);
+      this.props.showNotification(error.text);
+      this.resetAttachment();
+    }
+  };
+
+  loadFirstChunk = async file => {
+    let blob = file.slice(0, bytesSize);
+    let chunk = await this.getBlobBase(blob);
     const checksum = await this.getFileChecksum(file);
 
-    console.log(
-      chunk,
-      null,
-      file.size,
-      checksum,
-      file.name,
-    );
-
-    // const a = document.createElement('a');
-    // const data = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify({
-    //   arguments: [
-    //     chunk,
-    //     null,
-    //     file.size,
-    //     checksum,
-    //     file.name,
-    //   ],
-    // }))
-    // a.setAttribute('href', `data:${data}`);
-    // a.setAttribute('download', 'data.json');
-    // document.body.appendChild(a);
-
-    api.attachmentByChunks(
-      chunk,
-      null,
-      file.size,
-      checksum,
-      file.name,
-    ).then(data => {
-      console.log(data)
+    return api.attachmentByChunks({
+      file_chunk: chunk,
+      upload_id: null,
+      file_size: file.size,
+      file_checksum: checksum,
+      file_name: file.name,
     });
+  };
+
+  loadLastChunks = async (file, firstResponse) => {
+    const checksum = await this.getFileChecksum(file);
+
+    for (let i = bytesSize; i <= file.size; i += bytesSize) {
+      let blob = file.slice(i, i + bytesSize);
+      let chunk = await this.getBlobBase(blob);
+
+      await api.attachmentByChunks({
+        file_chunk: chunk,
+        upload_id: firstResponse.upload_id,
+        file_size: file.size,
+        file_checksum: checksum,
+        file_name: file.name,
+      });
+    }
   };
 
   onAttachFileChange = event => {
@@ -194,32 +220,31 @@ class MessageInput extends Component {
     return mentions || null;
   };
 
-  editMessage = ({ text, attachment }) => {
+  editMessage = ({ text, attachment, upload_id }) => {
     this.props.updateMessage({
       ...text ? {text} : {},
       ...attachment ? {attachment} : {},
+      ...upload_id ? {upload_id} : {},
       ...this.props.edit_message_id ? {edit_message_id: this.props.edit_message_id} : {},
     });
 
     this.props.clearEditMessage();
-    this.setState({ value: '', attachment: null });
+    this.setState({ value: '', attachment: null, upload_id: null });
     setTimeout(() => this.calcTextareaHeight());
   };
 
-  sendMessage = ({ text, attachment, mentions }) => {
+  sendMessage = ({ text, attachment, mentions, upload_id }) => {
     this.props.sendMessage({
       ...text ? {text} : {},
       ...attachment ? {attachment} : {},
       ...mentions ? {mentions} : {},
+      ...upload_id ? {upload_id} : {},
       ...this.props.reply_message_id ? {reply_message_id: this.props.reply_message_id} : {},
       subscription_id: this.props.subscription_id,
     });
 
-    this.setState({ value: '', attachment: null });
-
-    setTimeout(() => {
-      this.calcTextareaHeight();
-    });
+    this.setState({ value: '', attachment: null, upload_id: null });
+    setTimeout(() => this.calcTextareaHeight());
 
     if (this.props.reply_message_id) {
       this.props.clearReplyMessage();
@@ -227,9 +252,14 @@ class MessageInput extends Component {
   };
 
   onSendButtonClick = () => {
+    if (this.state.isFileLoading) {
+      return;
+    }
+
     this.textareaRef.focus();
     const text = this.getFilteredMessage(this.state.value);
     const attachment = this.state.attachment;
+    const upload_id = this.state.upload_id;
     const mentions = this.parseMentions(text);
 
     if (!text && !attachment) {
@@ -238,11 +268,16 @@ class MessageInput extends Component {
     }
 
     if (this.props.edit_message_id) {
-      this.editMessage({ text, attachment });
+      this.editMessage({ text, attachment, upload_id });
       return;
     }
 
-    this.sendMessage({ text, attachment, mentions });
+    this.sendMessage({
+      text,
+      mentions,
+      upload_id,
+      attachment,
+    });
   };
 
   calcTextareaHeight = () => {
@@ -261,6 +296,10 @@ class MessageInput extends Component {
   };
 
   isSendButtonShown = () => {
+    if (this.state.isFileLoading) {
+      return false;
+    }
+
     if (this.state.value) {
       return true;
     }
@@ -378,6 +417,8 @@ class MessageInput extends Component {
                 <button onClick={this.resetAttachment}>
                   <Icon name="close" />
                 </button>
+
+                <Loading className={style.file_loading} isShown={this.state.isFileLoading} />
               </div>
             }
           </div>

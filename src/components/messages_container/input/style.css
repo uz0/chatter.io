@@ -88,6 +88,7 @@
 
 .input .section .input_wrapper .input_content .preview button {
   --size: 18px;
+  z-index: 3;
   position: absolute;
   top: -4px;
   right: -4px;
@@ -112,6 +113,13 @@
 .input .section .input_wrapper .input_content .preview button i {
   --icon-size: 8px;
   flex-shrink: 0;
+}
+
+.input .section .input_wrapper .input_content .preview .file_loading {
+  --loading-background-color: rgba(0, 0, 0, 0.4);
+  --spinner-size: 30px;
+  --spinner-section-color: #fff;
+  --spinner-border-color: transparent;
 }
 
 .input .section .input_wrapper > button {

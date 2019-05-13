@@ -63,7 +63,7 @@ class Message extends Component {
     const isMessageHasAttachment = this.props.message.attachment;
     const isMessageAttachmentImage = isMessageHasAttachment && this.props.message.attachment.content_type.match('image/');
 
-    if (!isMessageHasAttachment) {
+    if (!isMessageHasAttachment && !this.props.message.upload_id) {
       return this.props.message.text.replace(/<(?:.|\n)*?>/gm, '');
     }
 

@@ -33,6 +33,10 @@ const sendMessage = params => (dispatch, getState) => {
     message.attachment = params.attachment;
   }
 
+  if (params.upload_id) {
+    message.upload_id = params.upload_id;
+  }
+
   if (params.mentions) {
     message.mentions = params.mentions;
   }
@@ -51,11 +55,22 @@ const sendMessage = params => (dispatch, getState) => {
     }
   });
 
+  console.log({
+    uid: message.uid,
+    subscription_id: subscription.id,
+    text: message.text || ' ',
+    ...message.attachment && !message.upload_id ? {attachment: message.attachment.url} : {},
+    ...message.upload_id ? {upload_id: message.upload_id} : {},
+    ...message.mentions ? {mentions: message.mentions} : {},
+    ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
+  });
+
   api.post({
     uid: message.uid,
     subscription_id: subscription.id,
     text: message.text || ' ',
-    ...message.attachment ? {attachment: message.attachment.url} : {},
+    ...message.attachment && !message.upload_id ? {attachment: message.attachment.url} : {},
+    ...message.upload_id ? {upload_id: message.upload_id} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
   }).then(data => {
@@ -65,6 +80,7 @@ const sendMessage = params => (dispatch, getState) => {
       draft: '',
     });
   }).catch(error => {
+    console.error(error);
     dispatch(notificationActions.showNotification(error.text));
 
     dispatch(
@@ -90,8 +106,10 @@ const updateMessage = params => (dispatch, getState) => {
   api.editMessage({
     message_id: params.edit_message_id,
     text: params.text,
-    ...params.attachment ? {attachment: params.attachment.url} : {},
+    ...params.attachment && !params.upload_id ? {attachment: params.attachment.url} : {},
+    ...params.upload_id ? {upload_id: params.upload_id} : {},
   }).catch(error => {
+    console.error(error);
     dispatch(notificationActions.showNotification(error.text));
   });
 };

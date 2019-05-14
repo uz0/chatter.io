@@ -21,7 +21,7 @@ const filterSubscription = params => (dispatch, getState) => {
     messages: state.messages,
   }));
 
-  if (params.text && params.text.length >= 5) {
+  if (params.text && params.text.length >= 4) {
     api.searchUser({ nick_prefix: params.text }).then(data => {
       dispatch(actions.search({
         ...params,

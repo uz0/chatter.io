@@ -145,5 +145,6 @@ export default {translation: {
   xtag_message_leave: '<strong>{{user_nick}}</strong> is leaving',
   yesterday: 'Yesterday',
   you: 'You',
+  you_cannot_upload_empty_files: 'You can\'t upload empty files',
   you_logged_success: 'You logged success',
 }};

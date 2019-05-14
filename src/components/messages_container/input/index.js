@@ -164,6 +164,11 @@ class MessageInput extends Component {
       return;
     }
 
+    if (file.size === 0) {
+      this.props.showNotification(this.props.t('you_cannot_upload_empty_files'));
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onloadend = () => {

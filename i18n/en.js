@@ -87,6 +87,7 @@ export default {translation: {
   not_found: 'Couldn\'t find user',
   notifications: 'Notifications',
   old_password: 'Old password',
+  open: 'Open',
   participant_plural: 'Participants',
   password: 'Password',
   password_has_been_reset: 'Password has been reset',

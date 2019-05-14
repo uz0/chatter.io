@@ -20,6 +20,7 @@ import deleteIcon from '@/assets/icons/delete.svg';
 import forwardIcon from '@/assets/icons/forward.svg';
 import markIcon from '@/assets/icons/mark.svg';
 import leaveIcon from '@/assets/icons/leave.svg';
+import fullScreenIcon from '@/assets/icons/full-screen.svg';
 
 const cx = classnames.bind(style);
 
@@ -98,6 +99,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'leave' &&
     <ReactSvgInjector src={leaveIcon} />
+  }
+
+  {name === 'full-screen' &&
+    <ReactSvgInjector src={fullScreenIcon} />
   }
 </i>;
 

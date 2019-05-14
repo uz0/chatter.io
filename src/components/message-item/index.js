@@ -295,13 +295,30 @@ class MessageItem extends Component {
             <Lightbox
               images={[{src: this.props.message.attachment.url}]}
 
-              renderImageFunc={(idx, image, toggleLightbox) => <div
-                key={idx}
-                className={style.wrapper}
-                onClick={() => toggleLightbox(idx)}
-              >
-                <img src={image.src} />
-              </div>}
+              renderImageFunc={(idx, image, toggleLightbox) => {
+                const items = [
+                  ...actionsItems,
+                  {icon: 'full-screen', text: this.props.t('open'), onClick: () => toggleLightbox(idx)},
+                ];
+
+                if (this.props.isMobile && !this.props.message.text.replace(' ', '')) {
+                  return <Dropdown
+                    uniqueId={`message-${this.props.message.id}-image-${idx}`}
+                    className={style.wrapper}
+                    items={items}
+                  >
+                    <img src={image.src} />
+                  </Dropdown>;
+                }
+
+                return <div
+                  key={idx}
+                  className={style.wrapper}
+                  onClick={() => toggleLightbox(idx)}
+                >
+                  <img src={image.src} />
+                </div>;
+              }}
             />
           }
         </div>

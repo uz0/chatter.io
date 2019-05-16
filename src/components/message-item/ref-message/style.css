@@ -96,7 +96,6 @@
   color: var(--ref-text-color);
   letter-spacing: 0.04px;
   word-break: break-word;
-  font-weight: var(--font-weight-light);
 }
 
 .message > .loading {

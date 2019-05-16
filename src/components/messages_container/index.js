@@ -207,6 +207,10 @@ class Messages extends Component {
     if (this.props.details && !isMessagesLoaded) {
       this.loadMessages(this.props);
     }
+
+    if (this.props.details && isMessagesLoaded) {
+      this.scrollListMessagesToBottom();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -348,6 +352,7 @@ class Messages extends Component {
         <MessageInput
           subscription_id={this.props.details.id}
           className={style.input}
+          scrollListMessagesToBottom={this.scrollListMessagesToBottom}
         />
       }
     </div>;

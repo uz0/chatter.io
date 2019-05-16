@@ -333,7 +333,9 @@
 }
 
 .message-item > .info {
-  --info-width: 22px;
+  /* может 30? */
+  --avatar-size: 29px;
+  --info-width: calc(var(--avatar-size) + 8px);
   flex-shrink: 0;
   position: relative;
   order: var(--info-order);
@@ -367,7 +369,7 @@
 }
 
 .message-item > .info > .avatar {
-  --size: 16px;
+  --size: var(--avatar-size);
   --font-size: 11px;
   margin-top: auto;
 }

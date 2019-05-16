@@ -306,6 +306,9 @@ class MessageInput extends Component {
       return;
     }
 
+    const messagesListRef = document.getElementById('messages-scroll');
+    const isMessagesListScrolledBottom = messagesListRef.offsetHeight + messagesListRef.scrollTop === messagesListRef.scrollHeight;
+
     this.textareaRef.style.height = '20px';
 
     if (this.textareaRef.scrollHeight > 20) {
@@ -313,6 +316,10 @@ class MessageInput extends Component {
       this.inputWrapperRef.style.marginTop =  '10px';
     } else {
       this.inputWrapperRef.style.marginTop =  0;
+    }
+
+    if (isMessagesListScrolledBottom) {
+      this.props.scrollListMessagesToBottom();
     }
   };
 

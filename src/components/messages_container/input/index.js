@@ -169,7 +169,7 @@ class MessageInput extends Component {
       return;
     }
 
-    if (file.size > 5120) {
+    if (file.size > 5242880) {
       this.props.showNotification(
         this.props.t(
           'validation_max_size',

@@ -14,6 +14,7 @@ import Icon from '@/components/icon';
 import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
 import RefMessage from './ref-message';
+import Username from './username';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
@@ -173,7 +174,15 @@ class MessageItem extends Component {
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
     const messageText = this.renderMessageText(this.props.message);
 
+    const isUserNameShown = this.props.details.group.type === 'room' &&
+      (this.props.type === 'first' || this.props.type === 'single') &&
+      this.props.message.user_id !== this.props.currentUser.id;
+
     return <div className={style.message_block}>
+      {isUserNameShown &&
+        <Username className={style.username} message={this.props.message} />
+      }
+
       {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
         <RefMessage
           className={style.message}

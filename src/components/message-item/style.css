@@ -151,6 +151,25 @@
   background-color: var(--message-color);
 }
 
+.message-item > .content .message_block > .username {
+  --height: 16px;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.message-item > .content .message_block > .username + .message {
+  margin-top: 6px;
+}
+
+.message-item > .content .message_block > .username + .text {
+  margin-top: 2px;
+}
+
 .message-item > .content .message_block > .message {
   --ref-text-color: var(--message-text-color);
   --ref-message-color: var(--message-color);

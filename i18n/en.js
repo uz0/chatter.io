@@ -70,6 +70,7 @@ export default {translation: {
   log_in: 'Log in',
   log_out: 'Log out',
   login: 'Login',
+  mb: 'Mb',
   message: 'Message',
   message_plural: 'Messages',
   message_editing: 'Message editing',

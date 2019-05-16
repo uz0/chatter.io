@@ -169,6 +169,22 @@ class MessageInput extends Component {
       return;
     }
 
+    if (file.size > 5120) {
+      this.props.showNotification(
+        this.props.t(
+          'validation_max_size',
+
+          {
+            object: this.props.t('file'),
+            count: 5,
+            size_type: this.props.t('mb').toLowerCase(),
+          },
+        ),
+      );
+
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onloadend = () => {

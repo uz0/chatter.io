@@ -179,14 +179,11 @@ const notificationReceived = notification => (dispatch, getState) => {
         showWebNotification(notification.object);
       }
 
-      if (notification.object.xtag === 'joined') {
-        const subscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
-
-        if (subscription) {
-          api.getSubscription({ subscription_id: subscription.id }).then(data => {
-            dispatch(subscriptionsActions.updateSubscription(data.subscription));
-          });
-        }
+      if (notification.object.xtag === 'invite' || notification.object.xtag === 'joined' || notification.object.xtag === 'kick_out') {
+        api.getSubscription({subscription_id: messageSubscription.id}).then(data => {
+          dispatch(subscriptionsActions.updateSubscription(data.subscription));
+          dispatch(usersActions.addUsers(data.subscription.group.participants));
+        });
       }
 
       if (notification.object.xtag === 'leave' && !notification.object.reference.id) {
@@ -203,11 +200,6 @@ const notificationReceived = notification => (dispatch, getState) => {
 
         leavingSubscription.group.participants = reject(leavingSubscription.group.participants, { user_id: notification.object.user_id });
         dispatch(subscriptionsActions.updateSubscription(leavingSubscription));
-      }
-
-      if (notification.object.xtag === 'invite' || notification.object.xtag === 'kick_out') {
-        api.getSubscription({subscription_id: messageSubscription.id})
-          .then(data => dispatch(subscriptionsActions.updateSubscription(data.subscription)));
       }
 
       if (state.messages.list[notification.object.uid] || state.messages.list[notification.object.id]) {

@@ -6,16 +6,7 @@ import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
-// import { getOpponentUser } from '@/helpers';
 import config from '@/config';
-
-// const getChatUrl = subscription => {
-//   if (subscription.group.type === 'private_chat') {
-//     return `/chat/user/${getOpponentUser(subscription).id}`;
-//   }
-
-//   return `/chat/${subscription.id}`;
-// };
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -74,7 +65,6 @@ const notificationReceived = notification => (dispatch, getState) => {
           notification: {
             title: 'New Message',
             body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
-            // click_action: `${location.origin}${getChatUrl(subscription)}`,
             click_action: location.href,
             icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
             sound: 'default',
@@ -187,6 +177,16 @@ const notificationReceived = notification => (dispatch, getState) => {
     if (notification.event === 'new') {
       if (!notification.object.xtag && 'Notification' in window && Notification.permission !== 'denied') {
         showWebNotification(notification.object);
+      }
+
+      if (notification.object.xtag === 'joined') {
+        const subscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
+
+        if (subscription) {
+          api.getSubscription({ subscription_id: subscription.id }).then(data => {
+            dispatch(subscriptionsActions.updateSubscription(data.subscription));
+          });
+        }
       }
 
       if (notification.object.xtag === 'leave' && !notification.object.reference.id) {

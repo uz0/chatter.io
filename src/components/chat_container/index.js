@@ -50,6 +50,8 @@ class Chat extends Component {
 
     if (this.props.router.location.query.invitecode) {
       api.useInviteCode({ code: this.props.router.location.query.invitecode }).then(data => {
+        this.props.addUsers(data.subscription.group.participants);
+        this.props.addSubscription(data.subscription);
         this.props.pushUrl(`/chat/${data.subscription.id}`, null);
       });
     }

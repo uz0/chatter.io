@@ -106,6 +106,10 @@
   --time-opacity: 1;
 }
 
+.message-item > .content > .dropdown {
+  max-width: 100%;
+}
+
 .message-item > .content > .deleted_message_text {
   --height: 36px;
   overflow: hidden;

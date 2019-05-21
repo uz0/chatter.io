@@ -29,8 +29,40 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class MessageItem extends Component {
-  getFileType = () => this.props.message.attachment.content_type.split('/').pop();
-  getFileSizeKb = () => Math.ceil(this.props.message.attachment.byte_size / 1000);
+  getFileName = () => {
+    if (!this.props.message.attachment) {
+      return null;
+    }
+
+    const lastIndex = this.props.message.attachment.url.lastIndexOf('/');
+    return this.props.message.attachment.url.substring(lastIndex + 1);
+  };
+
+  getFileSize = () => {
+    if (!this.props.message.attachment) {
+      return null;
+    }
+
+    let formattedSize = '';
+    let type = '';
+
+    if (this.props.message.attachment.byte_size < 1024) {
+      type = this.props.t('b');
+      formattedSize = this.props.message.attachment.byte_size;
+    }
+
+    if (this.props.message.attachment.byte_size >= 1024 && this.props.message.attachment.byte_size < 1048576) {
+      type = this.props.t('kb');
+      formattedSize = Math.ceil(this.props.message.attachment.byte_size / 1024);
+    }
+
+    if (this.props.message.attachment.byte_size >= 1048576) {
+      type = this.props.t('mb');
+      formattedSize = Math.ceil(this.props.message.attachment.byte_size / 1048576);
+    }
+
+    return `${formattedSize} ${type}`;
+  };
 
   renderMessageText = message => {
     let text = message.text;
@@ -163,6 +195,8 @@ class MessageItem extends Component {
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
     const messageText = this.renderMessageText(this.props.message);
+    const fileName = this.getFileName();
+    const fileSize = this.getFileSize();
 
     const isUserNameShown = this.props.details.group.type === 'room' &&
       (this.props.type === 'first' || this.props.type === 'single') &&
@@ -193,11 +227,8 @@ class MessageItem extends Component {
             <p className={style.name}>File</p>
 
             <div className={style.subcaption}>
-              <p className={style.text}>Filename.{this.getFileType()}</p>
-
-              <span className={style.size}>
-                {this.getFileSizeKb()} {this.props.t('kb')}
-              </span>
+              <p className={style.text}>{fileName}</p>
+              <span className={style.size}>{fileSize}</span>
             </div>
           </div>
         </Link>

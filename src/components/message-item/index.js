@@ -240,12 +240,12 @@ class MessageItem extends Component {
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
     const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
+    const isMessageHasText = (this.props.message.text || '').replace(/\s/g,'').length > 0;
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
     const isMarkShown = this.props.message.user_id === this.props.currentUser.id && !this.props.message.isError;
     const isAvatarShown = (this.props.type === 'last' || this.props.type === 'single') && !this.props.message.isError;
 
-    const isMessageTextBlockShown = isMessageHasFile ||
-      (this.props.message.text && this.props.message.text.replace(/\s/g,'').length > 0) ||
+    const isMessageTextBlockShown = isMessageHasFile || isMessageHasText ||
       this.props.message.forwarded_message_id ||
       this.props.message.in_reply_to_message_id;
 
@@ -345,7 +345,7 @@ class MessageItem extends Component {
                   {icon: 'full-screen', text: this.props.t('open'), onClick: () => toggleLightbox(idx)},
                 ];
 
-                if (this.props.isMobile && !this.props.message.text.replace(' ', '')) {
+                if (this.props.isMobile && !isMessageHasText) {
                   return <Dropdown
                     uniqueId={`message-${this.props.message.id}-image-${idx}`}
                     className={style.wrapper}

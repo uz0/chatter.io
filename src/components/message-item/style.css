@@ -327,8 +327,8 @@
 
 .message-item > .content > :global(.lightbox-container) {
   flex-shrink: 0;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
 
 .message-item > .content > :global(.lightbox-container) > .wrapper {

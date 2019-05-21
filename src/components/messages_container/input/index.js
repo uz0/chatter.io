@@ -79,14 +79,6 @@ class MessageInput extends Component {
     this.setState({ attachment: null, upload_id: null, currentChunk: null, isFileLoading: false });
   };
 
-  createLinkToJsonArguments = object => {
-    const a = document.createElement('a');
-    const data = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(object));
-    a.setAttribute('href', `data:${data}`);
-    a.setAttribute('download', 'data.json');
-    document.body.appendChild(a);
-  };
-
   getBlobBase = blob => new Promise(resolve => {
     const reader = new FileReader();
 
@@ -120,7 +112,10 @@ class MessageInput extends Component {
       this.setState({ isFileLoading: true });
       const firstResponse = await this.loadFirstChunk(file);
       await this.loadLastChunks(file, firstResponse);
-      this.setState({ upload_id: firstResponse.upload_id, currentChunk: null, isFileLoading: false });
+
+      if (this.state.isFileLoading) {
+        this.setState({ upload_id: firstResponse.upload_id, currentChunk: null, isFileLoading: false });
+      }
     } catch (error) {
       console.error(error);
       this.props.showNotification(error.text);
@@ -132,7 +127,6 @@ class MessageInput extends Component {
     let blob = file.slice(0, bytesSize);
     let chunk = await this.getBlobBase(blob);
     const checksum = await this.getFileChecksum(file);
-
     this.setState({ currentChunk: bytesSize });
 
     return api.attachmentByChunks({
@@ -152,6 +146,7 @@ class MessageInput extends Component {
         break;
       }
 
+      this.setState({ currentChunk: i });
       let blob = file.slice(i, i + bytesSize);
       let chunk = await this.getBlobBase(blob);
 
@@ -162,8 +157,6 @@ class MessageInput extends Component {
         file_checksum: checksum,
         file_name: file.name,
       });
-
-      this.setState({ currentChunk: i });
     }
   };
 
@@ -223,7 +216,7 @@ class MessageInput extends Component {
       });
     };
 
-    setTimeout(() => reader.readAsDataURL(file), 40);
+    reader.readAsDataURL(file);
   };
 
   getFilteredMessage = value => {
@@ -271,7 +264,7 @@ class MessageInput extends Component {
     });
 
     this.props.clearEditMessage();
-    this.setState({ value: '', attachment: null, upload_id: null });
+    this.setState({ value: '', attachment: null, upload_id: null, currentChunk: null });
     setTimeout(() => this.calcTextareaHeight());
   };
 
@@ -285,7 +278,7 @@ class MessageInput extends Component {
       subscription_id: this.props.subscription_id,
     });
 
-    this.setState({ value: '', attachment: null, upload_id: null });
+    this.setState({ value: '', attachment: null, upload_id: null, currentChunk: null });
     setTimeout(() => this.calcTextareaHeight());
 
     if (this.props.reply_message_id) {

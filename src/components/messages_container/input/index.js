@@ -243,11 +243,19 @@ class MessageInput extends Component {
     }
 
     let mentions = [];
+    const pattern = /\B@[a-z0-9_-]+/gi;
+    const allMentions = text.match(pattern);
 
     this.props.users_ids.forEach(id => {
       const user = this.props.users_list[id];
 
-      if (user.nick && text.match(`@${user.nick}`) && !find(mentions, {user_id: user.id})) {
+      if (!user.nick) {
+        return;
+      }
+
+      const isUserExistInMentions = find(allMentions, mention => `${mention.toLowerCase()}` === `@${user.nick.toLowerCase()}`);
+
+      if (isUserExistInMentions) {
         mentions.push({ user_id: user.id, text: user.nick });
       }
     });

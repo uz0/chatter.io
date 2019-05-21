@@ -15,6 +15,7 @@ import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
 import RefMessage from './ref-message';
 import Username from './username';
+import { scrollMessagesBottom } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
@@ -66,22 +67,11 @@ class MessageItem extends Component {
     return text;
   };
 
-  actionWithScrollListBottom = action => {
-    const messagesListRef = document.getElementById('messages-scroll');
-    const isMessagesListScrolledBottom = messagesListRef.offsetHeight + messagesListRef.scrollTop === messagesListRef.scrollHeight;
-
-    action();
-
-    if (isMessagesListScrolledBottom) {
-      setTimeout(() => messagesListRef.scrollTo(0, messagesListRef.scrollHeight));
-    }
-  };
-
   updateMessage = () => this.props.addEditMessage(this.props.message.id);
   replyMessage = () => this.props.addReplyMessage(this.props.message.forwarded_message_id || this.props.message.id);
 
-  openUpdateMessage = () => this.actionWithScrollListBottom(this.updateMessage);
-  openReplyMessage = () => this.actionWithScrollListBottom(this.replyMessage);
+  openUpdateMessage = () => scrollMessagesBottom(this.updateMessage);
+  openReplyMessage = () => scrollMessagesBottom(this.replyMessage);
 
   openForwardModal = () => {
     this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);

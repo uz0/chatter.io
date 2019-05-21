@@ -115,6 +115,24 @@
   flex-shrink: 0;
 }
 
+.input .section .input_wrapper .input_content .preview .progress {
+  --height: 20px;
+  z-index: 3;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 9px;
+  color: #fff;
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .input .section .input_wrapper .input_content .preview .file_loading {
   --loading-background-color: rgba(0, 0, 0, 0.4);
   --spinner-size: 30px;

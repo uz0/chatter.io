@@ -14,6 +14,7 @@ import throttle from 'lodash/throttle';
 import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
+import { scrollMessagesBottom } from '@/helpers';
 import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
@@ -28,6 +29,7 @@ class MessageInput extends Component {
   state = {
     attachment: null,
     upload_id: null,
+    currentChunk: null,
     value: this.props.draft || '',
     isFileLoading: false,
   };
@@ -74,7 +76,7 @@ class MessageInput extends Component {
 
   resetAttachment = () => {
     this.attachInputRef.value = '';
-    this.setState({ attachment: null, upload_id: null, isFileLoading: false });
+    this.setState({ attachment: null, upload_id: null, currentChunk: null, isFileLoading: false });
   };
 
   createLinkToJsonArguments = object => {
@@ -118,7 +120,7 @@ class MessageInput extends Component {
       this.setState({ isFileLoading: true });
       const firstResponse = await this.loadFirstChunk(file);
       await this.loadLastChunks(file, firstResponse);
-      this.setState({ upload_id: firstResponse.upload_id, isFileLoading: false });
+      this.setState({ upload_id: firstResponse.upload_id, currentChunk: null, isFileLoading: false });
     } catch (error) {
       console.error(error);
       this.props.showNotification(error.text);
@@ -130,6 +132,8 @@ class MessageInput extends Component {
     let blob = file.slice(0, bytesSize);
     let chunk = await this.getBlobBase(blob);
     const checksum = await this.getFileChecksum(file);
+
+    this.setState({ currentChunk: bytesSize });
 
     return api.attachmentByChunks({
       file_chunk: chunk,
@@ -144,6 +148,10 @@ class MessageInput extends Component {
     const checksum = await this.getFileChecksum(file);
 
     for (let i = bytesSize; i <= file.size; i += bytesSize) {
+      if (!this.state.isFileLoading) {
+        break;
+      }
+
       let blob = file.slice(i, i + bytesSize);
       let chunk = await this.getBlobBase(blob);
 
@@ -154,6 +162,8 @@ class MessageInput extends Component {
         file_checksum: checksum,
         file_name: file.name,
       });
+
+      this.setState({ currentChunk: i });
     }
   };
 
@@ -169,14 +179,15 @@ class MessageInput extends Component {
       return;
     }
 
-    if (file.size > 5242880) {
+    // 200 мб
+    if (file.size > 209715200) {
       this.props.showNotification(
         this.props.t(
           'validation_max_size',
 
           {
             object: this.props.t('file'),
-            count: 5,
+            count: 200,
             size_type: this.props.t('mb').toLowerCase(),
           },
         ),
@@ -185,24 +196,34 @@ class MessageInput extends Component {
       return;
     }
 
-    const reader = new FileReader();
+    if (Validators.fileMaxSize(200000)(file)) {
+      this.loadFileByChunks(file);
+    }
 
-    reader.onloadend = () => {
-      if (Validators.fileMaxSize(200000)(file)) {
-        this.loadFileByChunks(file);
-      }
-
+    scrollMessagesBottom(() => {
       this.setState({
         attachment: {
           byte_size: file.size,
           content_type: file.type,
+          preview: '',
+          url: '',
+        },
+      });
+    });
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      this.setState({
+        attachment: {
+          ...this.state.attachment,
           preview: reader.result,
           url: reader.result,
         },
       });
     };
 
-    reader.readAsDataURL(file);
+    setTimeout(() => reader.readAsDataURL(file), 40);
   };
 
   getFilteredMessage = value => {
@@ -306,21 +327,16 @@ class MessageInput extends Component {
       return;
     }
 
-    const messagesListRef = document.getElementById('messages-scroll');
-    const isMessagesListScrolledBottom = messagesListRef.offsetHeight + messagesListRef.scrollTop === messagesListRef.scrollHeight;
+    scrollMessagesBottom(() => {
+      this.textareaRef.style.height = '20px';
 
-    this.textareaRef.style.height = '20px';
-
-    if (this.textareaRef.scrollHeight > 20) {
-      this.textareaRef.style.height = this.textareaRef.scrollHeight + 10 + 'px';
-      this.inputWrapperRef.style.marginTop =  '10px';
-    } else {
-      this.inputWrapperRef.style.marginTop =  0;
-    }
-
-    if (isMessagesListScrolledBottom) {
-      this.props.scrollListMessagesToBottom();
-    }
+      if (this.textareaRef.scrollHeight > 20) {
+        this.textareaRef.style.height = this.textareaRef.scrollHeight + 10 + 'px';
+        this.inputWrapperRef.style.marginTop =  '10px';
+      } else {
+        this.inputWrapperRef.style.marginTop =  0;
+      }
+    });
   };
 
   isSendButtonShown = () => {
@@ -364,7 +380,38 @@ class MessageInput extends Component {
       value: this.props.draft ? this.props.draft : '',
       attachment: null,
     });
-  }
+  };
+
+  getProgressText = () => {
+    if (!this.state.currentChunk || !this.state.attachment) {
+      return null;
+    }
+
+    let type = '';
+    let formattedChunkSize = null;
+    let formattedFullSize = null;
+    const fullSize = this.state.attachment.byte_size;
+
+    if (fullSize < 1024) {
+      type = this.props.t('b');
+      formattedChunkSize = this.state.currentChunk;
+      formattedFullSize = fullSize;
+    }
+
+    if (fullSize >= 1024 && fullSize < 1048576) {
+      type = this.props.t('kb');
+      formattedChunkSize = Math.ceil(this.state.currentChunk / 1024);
+      formattedFullSize = Math.ceil(fullSize / 1024);
+    }
+
+    if (fullSize >= 1048576) {
+      type = this.props.t('mb');
+      formattedChunkSize = Math.ceil(this.state.currentChunk / 1048576);
+      formattedFullSize = Math.ceil(fullSize / 1048576);
+    }
+
+    return `${formattedChunkSize} / ${formattedFullSize} ${type}`;
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.editing_message && !isEqual(this.props.editing_message, nextProps.editing_message)) {
@@ -401,6 +448,7 @@ class MessageInput extends Component {
     const isAttachmentImage = this.state.attachment && this.state.attachment.content_type.match('image/');
     const messageId = this.props.reply_message_id || this.props.edit_message_id;
     const sendButtonName = this.props.edit_message_id ? this.props.t('edit') : this.props.t('send');
+    const progress = this.getProgressText();
 
     return <div className={cx('input', this.props.className)}>
       <Button
@@ -445,6 +493,10 @@ class MessageInput extends Component {
                 <button onClick={this.resetAttachment}>
                   <Icon name="close" />
                 </button>
+
+                {this.state.isFileLoading &&
+                  <p className={style.progress}>{progress}</p>
+                }
 
                 <Loading className={style.file_loading} isShown={this.state.isFileLoading} />
               </div>

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import isEmpty from 'lodash/isEmpty';
 import { withTypings } from '@/hoc';
 import style from './style.css';
+
+const cx = classnames.bind(style);
 
 class Typings extends Component {
   componentWillReceiveProps(nextProps) {
@@ -20,11 +23,11 @@ class Typings extends Component {
   }
 
   render() {
-    return <div className={style.typings}>
-      {!isEmpty(this.props.typings) &&
-        <p className={style.text}>{this.props.typings}</p>
+    return <p className={cx('typings', this.props.className, {'_is-typing': this.props.typings})}>
+      {this.props.typings &&
+        this.props.typings
       }
-    </div>;
+    </p>;
   }
 }
 

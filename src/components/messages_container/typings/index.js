@@ -20,8 +20,11 @@ class Typings extends Component {
   }
 
   render() {
-    return !isEmpty(this.props.typings) &&
-      <p className={style.typings}>{this.props.typings}</p>;
+    return <div className={style.typings}>
+      {!isEmpty(this.props.typings) &&
+        <p className={style.text}>{this.props.typings}</p>
+      }
+    </div>;
   }
 }
 

@@ -23,7 +23,7 @@ let config = {
     contentBase: './src',
     disableHostCheck: true,
     historyApiFallback: true,
-    https: true,
+    https: false,
   },
   module: {
     preLoaders: [

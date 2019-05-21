@@ -23,7 +23,6 @@
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
   padding-top: 20px;
-  padding-bottom: 20px;
 }
 
 .messages .list > .load_more {

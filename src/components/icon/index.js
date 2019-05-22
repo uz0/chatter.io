@@ -21,6 +21,8 @@ import forwardIcon from '@/assets/icons/forward.svg';
 import markIcon from '@/assets/icons/mark.svg';
 import leaveIcon from '@/assets/icons/leave.svg';
 import fullScreenIcon from '@/assets/icons/full-screen.svg';
+import thinArrowLeftIcon from '@/assets/icons/thin-arrow-left.svg';
+import thinArrowRightIcon from '@/assets/icons/thin-arrow-right.svg';
 
 const cx = classnames.bind(style);
 
@@ -43,6 +45,14 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'arrow-right' &&
     <ReactSvgInjector src={arrowIcon} />
+  }
+
+  {name === 'thin-arrow-left' &&
+    <ReactSvgInjector src={thinArrowLeftIcon} />
+  }
+
+  {name === 'thin-arrow-right' &&
+    <ReactSvgInjector src={thinArrowRightIcon} />
   }
 
   {name === 'share' &&

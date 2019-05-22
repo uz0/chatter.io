@@ -321,29 +321,31 @@
   transform: translateY(-50%);
 }
 
-.message-item > .content .message_block + :global(.lightbox-container) {
+.message-item > .content .message_block + .gallery {
   margin-top: 2px;
 }
 
-.message-item > .content > :global(.lightbox-container) {
-  flex-shrink: 0;
-  width: 150px;
-  height: 150px;
+.message-item > .content > .gallery {
+  display: flex;
 }
 
-.message-item > .content > :global(.lightbox-container) > .wrapper {
+.message-item > .content > .gallery > .image {
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 150px;
+  height: 150px;
   border-radius: 18px;
   box-shadow: 0 0 0 1px var(--divider-color) inset;
   cursor: pointer;
 }
 
-.message-item > .content > :global(.lightbox-container) > .wrapper > img {
+.message-item > .content > .gallery > .image:nth-of-type(n+2) {
+  margin-left: 2px;
+}
+
+.message-item > .content > .gallery > .image > img {
 
 }
 

@@ -107,7 +107,7 @@
   padding-right: 4px;
   line-height: var(--height);
   font-size: 12px;
-  border-radius: 7px;
+  border-radius: calc(var(--height) / 2);
   background-color: var(--divider-color);
   color: var(--caption-color);
 }

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { reducers as formReducers } from '@/components/form';
 import { reducers as dropdownReducers } from '@/components/dropdown';
 import { reducers as notificationReducers } from '@/components/notification';
+import { reducers as galleryReducers } from '@/components/gallery_container';
 import { reducers as modalReducers } from '@/components/modal_container';
 import { reducers as subscriptionsReducers } from '@/store/subscriptions';
 import { reducers as usersReducers } from '@/store/users';
@@ -42,6 +43,7 @@ export default combineReducers({
   messages: messagesReducers,
   users: usersReducers,
   modal: modalReducers,
+  gallery: galleryReducers,
   device: deviceReducer,
   error: errorReducer,
 });

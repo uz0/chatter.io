@@ -9,6 +9,7 @@ import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
 import ModalContainer from '@/components/modal_container';
 import { actions as modalActions } from '@/components/modal_container';
+import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -24,8 +25,12 @@ class Chat extends Component {
   handleDocumentKeyDown = event => {
     const isChatOpen = this.props.params.chatId || this.props.params.userId;
 
-    if (isChatOpen && event.keyCode === 27) {
+    if (isChatOpen && !this.props.isGalleryOpen && event.keyCode === 27) {
       this.props.pushUrl('/chat');
+    }
+
+    if (this.props.isGalleryOpen && event.keyCode === 27) {
+      this.props.closeGallery();
     }
   };
 
@@ -117,6 +122,7 @@ export default compose(
     state => ({
       currentUser: state.currentUser,
       isMobile: state.device === 'touch',
+      isGalleryOpen: state.gallery.images.length > 0,
       isPanelShown: state.modal.ids.indexOf('panel-container') !== -1,
     }),
 
@@ -128,6 +134,7 @@ export default compose(
       clearEditMessage: messagesActions.clearEditMessage,
       clearReplyMessage: messagesActions.clearReplyMessage,
       notificationReceived: actions.notificationReceived,
+      closeGallery: galleryActions.close,
       showNotification: notificationActions.showNotification,
     },
   ),

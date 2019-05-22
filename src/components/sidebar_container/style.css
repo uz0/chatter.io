@@ -43,6 +43,7 @@
   background-size: cover;
   background-position: center;
   border-radius: calc(var(--size) / 2);
+  box-shadow: 0 0 0 1px var(--divider-color) inset;
 }
 
 .sidebar .header .button {

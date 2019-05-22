@@ -61,7 +61,7 @@ class Dropdown extends Component {
       uniqueId: this.props.uniqueId,
 
       options: {
-        ...bottom !== 'auto' ? {bottom: bottom} : {top: top},
+        ...bottom !== 'auto' ? {bottom} : {top},
         ...right !== 'auto' ? {right} : {left},
       },
     });

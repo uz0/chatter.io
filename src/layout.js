@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Notification from '@/components/notification';
+import Gallery from '@/components/gallery_container';
 import Icon from '@/components/icon';
 import style from './layout-style.css';
 
@@ -10,6 +11,7 @@ class Layout extends Component {
     return <Fragment>
       { this.props.children }
       <Notification />
+      <Gallery />
     </Fragment>;
   }
 

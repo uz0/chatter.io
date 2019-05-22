@@ -33,7 +33,6 @@
     "react-contenteditable": "^3.2.6",
     "react-dom": "^16.2.0",
     "react-i18next": "^9.0.9",
-    "react-lightbox-component": "^1.2.1",
     "react-portal": "^4.2.0",
     "react-redux": "^6.0.0",
     "react-router": "^3.0.5",

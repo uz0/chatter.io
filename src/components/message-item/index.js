@@ -21,9 +21,8 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as modalActions } from '@/components/modal_container';
+import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as inputActions } from '@/components/messages_container/input';
-import Lightbox from 'react-lightbox-component';
-import 'react-lightbox-component/build/css/index.css';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -336,34 +335,38 @@ class MessageItem extends Component {
           }
 
           {isMessageHasImage &&
-            <Lightbox
-              images={[{src: this.props.message.attachment.url}]}
+            <div className={style.gallery}>
+              {!(this.props.isMobile && !isMessageHasText) &&
+                <div
+                  className={style.image}
 
-              renderImageFunc={(idx, image, toggleLightbox) => {
-                const items = [
-                  ...actionsItems,
-                  {icon: 'full-screen', text: this.props.t('open'), onClick: () => toggleLightbox(idx)},
-                ];
-
-                if (this.props.isMobile && !isMessageHasText) {
-                  return <Dropdown
-                    uniqueId={`message-${this.props.message.id}-image-${idx}`}
-                    className={style.wrapper}
-                    items={items}
-                  >
-                    <img src={image.src} />
-                  </Dropdown>;
-                }
-
-                return <div
-                  key={idx}
-                  className={style.wrapper}
-                  onClick={() => toggleLightbox(idx)}
+                  onClick={() => this.props.openGallery({
+                    images: [this.props.message.attachment.url],
+                    index: 0,
+                  })}
                 >
-                  <img src={image.src} />
-                </div>;
-              }}
-            />
+                  <img src={this.props.message.attachment.url} />
+                </div>
+              }
+
+              {this.props.isMobile && !isMessageHasText &&
+                <Dropdown
+                  uniqueId={`message-${this.props.message.id}-image-0`}
+                  className={style.image}
+
+                  items={[
+                    ...actionsItems,
+
+                    {icon: 'full-screen', text: this.props.t('open'), onClick: () => this.props.openGallery({
+                      images: [this.props.message.attachment.url],
+                      index: 0,
+                    })},
+                  ]}
+                >
+                  <img src={this.props.message.attachment.url} />
+                </Dropdown>
+              }
+            </div>
           }
         </div>
       }
@@ -424,6 +427,7 @@ export default compose(
       openDropdown: dropdownActions.openDropdown,
       resendMessage: inputActions.resendMessage,
       toggleModal: modalActions.toggleModal,
+      openGallery: galleryActions.open,
       showNotification: notificationActions.showNotification,
     },
   ),

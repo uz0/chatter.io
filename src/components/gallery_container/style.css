@@ -1,0 +1,97 @@
+.gallery {
+  z-index: 2;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.gallery .arrow_left:not(:hover),
+.gallery .arrow_right:not(:hover),
+.gallery .close:not(:hover) {
+  --icon-color: rgba(255, 255, 255, 0.5);
+}
+
+.gallery .arrow_left:hover,
+.gallery .arrow_right:hover,
+.gallery .close:hover {
+  --icon-color: rgba(255, 255, 255, 1);
+}
+
+.gallery .close_wrapper {
+  --close-height: 70px;
+}
+
+.gallery .close_wrapper .close {
+  --height: var(--close-height);
+  --icon-size: 14px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.gallery .arrow_left,
+.gallery .arrow_right {
+  --icon-size: 38px;
+  --height: 100px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gallery .arrow_left {
+  left: calc(65px - (var(--height) / 2));
+}
+
+.gallery .arrow_right {
+  right: calc(65px - (var(--height) / 2));
+}
+
+.gallery .content {
+  position: absolute;
+  left: 130px;
+  right: 130px;
+  top: 100px;
+  bottom: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery .content img {
+  border-radius: 10px;
+}
+
+@media (max-width: 800px) {
+  .gallery .arrow_left {
+    display: none;
+  }
+
+  .gallery .arrow_right {
+    display: none;
+  }
+
+  .gallery .close_wrapper {
+    --close-height: 50px;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--close-height);
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .gallery .content {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .gallery .content img {
+    border-radius: 0;
+  }
+}

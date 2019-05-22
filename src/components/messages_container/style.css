@@ -16,13 +16,20 @@
   position: relative;
   flex-grow: 1;
   overflow-x: hidden;
-  overflow-y: auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
   padding-top: 20px;
+}
+
+.messages .list:not(._is-gallery-open) {
+  overflow-y: auto;
+}
+
+.messages .list._is-gallery-open {
+  overflow-y: hidden;
 }
 
 .messages .list > .load_more {

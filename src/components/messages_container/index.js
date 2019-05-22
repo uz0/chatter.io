@@ -248,6 +248,7 @@ class Messages extends Component {
     const isMessageIdChanged = this.props.params.messageId !== nextProps.params.messageId;
     const isMessagesHasMoreChanged = this.props.hasMoreMessages !== nextProps.hasMoreMessages;
     const isButtonLoadMoreLoading = this.state.isNewMessagesLoading !== nextState.isNewMessagesLoading;
+    const isGalleryChangeState = this.props.isGalleryOpen !== nextProps.isGalleryOpen;
 
     return isSubscriptionsIdsLoaded ||
       isDetailsLoaded ||
@@ -256,6 +257,7 @@ class Messages extends Component {
       isMessageIdChanged ||
       isMessagesHasMoreChanged ||
       isButtonLoadMoreLoading ||
+      isGalleryChangeState ||
       isChatIdsLoaded;
   }
 
@@ -295,7 +297,7 @@ class Messages extends Component {
         />
       }
 
-      <div className={style.list} ref={node => this.listRef = node} id="messages-scroll">
+      <div className={cx('list', {'_is-gallery-open': this.props.isGalleryOpen})} ref={node => this.listRef = node} id="messages-scroll">
         {isHasMoreMessages &&
           <Button
             appearance="_basic-primary"
@@ -369,6 +371,7 @@ export default compose(
       currentUser: state.currentUser,
       messages_list: state.messages.list,
       chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
+      isGalleryOpen: state.gallery.images.length > 0,
     }),
 
     {

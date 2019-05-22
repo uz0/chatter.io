@@ -147,8 +147,8 @@ export default compose(
     }),
 
     {
-      close: actions.close,
-      step: actions.step,
+      close: actions.closeGallery,
+      step: actions.stepGallery,
     },
   ),
 )(Gallery);

@@ -427,7 +427,7 @@ export default compose(
       openDropdown: dropdownActions.openDropdown,
       resendMessage: inputActions.resendMessage,
       toggleModal: modalActions.toggleModal,
-      openGallery: galleryActions.open,
+      openGallery: galleryActions.openGallery,
       showNotification: notificationActions.showNotification,
     },
   ),

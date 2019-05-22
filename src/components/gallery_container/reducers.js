@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default createReducer(initialState, {
-  [actions.types.open]: (state, action) => {
+  [actions.types.openGallery]: (state, action) => {
     state.images = action.payload.images;
 
     if (action.payload.index) {
@@ -15,11 +15,11 @@ export default createReducer(initialState, {
     }
   },
 
-  [actions.types.step]: (state, action) => {
+  [actions.types.stepGallery]: (state, action) => {
     state.index = action.payload;
   },
 
-  [actions.types.close]: state => {
+  [actions.types.closeGallery]: state => {
     state.images = [];
     state.index = 0;
   },

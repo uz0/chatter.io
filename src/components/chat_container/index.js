@@ -134,7 +134,7 @@ export default compose(
       clearEditMessage: messagesActions.clearEditMessage,
       clearReplyMessage: messagesActions.clearReplyMessage,
       notificationReceived: actions.notificationReceived,
-      closeGallery: galleryActions.close,
+      closeGallery: galleryActions.closeGallery,
       showNotification: notificationActions.showNotification,
     },
   ),

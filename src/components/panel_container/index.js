@@ -247,11 +247,11 @@ class Panel extends Component {
           <div className={style.avatar_container}>
             <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
 
-            {isChatRoom &&
+            {isChatRoom && isCurrentUserAdmin &&
               <button onClick={this.browseEditPhoto} className={style.edit}>Edit</button>
             }
 
-            {isRoomWithIcon &&
+            {isRoomWithIcon && isCurrentUserAdmin &&
               <button className={style.close} onClick={this.resetChatAvatar}>
                 <Icon name="close" />
               </button>

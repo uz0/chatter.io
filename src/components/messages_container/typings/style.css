@@ -2,6 +2,8 @@
   --height: 20px;
   overflow: hidden;
   height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
   line-height: var(--height);
   font-size: 13px;
   font-weight: var(--font-weight-light);

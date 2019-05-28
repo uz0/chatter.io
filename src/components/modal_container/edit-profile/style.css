@@ -1,9 +1,10 @@
 .modal {
-
+  position: relative;
 }
 
 .modal .form {
   --input-height: 32px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,6 +43,12 @@
   --color: var(--primary-color-hover);
 }
 
+.modal .form .checkbox {
+  flex-shrink: 0;
+  width: 100%;
+  padding-bottom: 22px;
+}
+
 .modal .form .input {
   flex-shrink: 0;
   width: 100%;
@@ -73,11 +80,20 @@
 
 .modal .form .email > .title {
   overflow: hidden;
-  display: block;
-  height: 20px;
+  display: flex;
+  align-items: center;
+  height: 24px;
   font-size: 13px;
   color: var(--text-color);
   font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .email > .title > .confirmed,
+.modal .form .email > .title > .not_confirmed {
+  overflow: hidden;
+  margin-left: 8px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -91,4 +107,87 @@
 }
 
 .modal .form .email > .title > .input {
+}
+
+.modal .form .email > .title > .resend {
+  --height: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  margin-left: auto;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  transition-property: color;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .email > .title > .resend:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form .email > .title > .resend:hover {
+  --color: var(--primary-color-hover);
+}
+
+.modal .form .change_password_button {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.modal .form .change_password_button + .section {
+  margin-top: 20px;
+}
+
+.modal .form .section {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.modal .form .section > .title {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .section > button {
+  --height: 20px;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  transition-property: color;
+}
+
+.modal .form .section > button:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form .section > button:hover {
+  --color: var(--primary-color-hover);
+}
+
+.modal .form .invite_link_text {
+  --height: 20px;
+  overflow: hidden;
+  align-self: flex-start;
+  width: 100%;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--primary-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

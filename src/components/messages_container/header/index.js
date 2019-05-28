@@ -12,7 +12,7 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Header extends Component {
-  showPanelContainer = () => this.props.toggleModal('panel-container');
+  showPanelContainer = () => this.props.toggleModal({ id: 'panel-container' });
 
   closeChat = () => {
     this.props.closeModal('panel-container');
@@ -42,7 +42,9 @@ export default compose(
   withRouter,
 
   connect(
-    null,
+    (state, props) => ({
+      details: state.subscriptions.list[props.chatId],
+    }),
 
     {
       toggleModal: modalActions.toggleModal,

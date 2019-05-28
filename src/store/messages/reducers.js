@@ -1,4 +1,5 @@
 import actions from './actions';
+import { createReducer } from 'redux-starter-kit';
 
 const initialState = {
   chatIds: {},
@@ -8,141 +9,121 @@ const initialState = {
   reply_message_id: null,
 };
 
-export default (state = initialState, action) => {
-  if (action.type === actions.types.loadMessages) {
+export default createReducer(initialState, {
+  [actions.types.loadMessages]: (state, action) => {
     const chatId = action.payload.chatId;
     const isLoaded = action.payload.isLoaded || false;
     const list = action.payload.list;
 
-    let stateChatIds = { ...state.chatIds };
-    let stateList = { ...state.list };
-
-    if (stateChatIds[chatId] && stateChatIds[chatId].isLoaded) {
-      return {
-        ...state,
-        chatIds: stateChatIds,
-        list: stateList,
-      };
+    if (state.chatIds[chatId] && state.chatIds[chatId].isLoaded) {
+      return;
     }
 
-    stateChatIds[chatId] = {
+    state.chatIds[chatId] = {
       isLoaded,
+      hasMore: list.length === 50,
       list: [],
     };
 
     list.forEach(message => {
-      stateList[message.id] = message;
-      stateChatIds[chatId].list.push(message.id);
+      state.list[message.id] = message;
+      state.chatIds[chatId].list.push(message.id);
     });
+  },
 
-    return {
-      ...state,
-      chatIds: stateChatIds,
-      list: stateList,
-    };
-  }
-
-  if (action.type === actions.types.addMessage) {
+  [actions.types.loadMoreMessages]: (state, action) => {
     const chatId = action.payload.chatId;
-    const message = action.payload.message;
 
-    let stateChatIds = { ...state.chatIds };
-    let stateList = { ...state.list };
-
-    if (chatId) {
-      if (!stateChatIds[chatId]) {
-        stateChatIds[chatId] = { list: {}, chatIds: [] };
+    action.payload.list.forEach(message => {
+      if (state.list[message.id]) {
+        return;
       }
 
-      stateChatIds[chatId].list = [(message.id || message.uid), ...stateChatIds[chatId].list];
+      state.list[message.id] = message;
+      state.chatIds[chatId].list.push(message.id);
+    });
+
+    if (action.payload.list.length < 50) {
+      state.chatIds[chatId].hasMore = false;
+    }
+  },
+
+  [actions.types.addMessage]: (state, action) => {
+    const chatId = action.payload.chatId;
+    const messageId = action.payload.message.id || action.payload.message.uid;
+
+    if (chatId && !state.chatIds[chatId]) {
+      state.chatIds[chatId] = {
+        isLoaded: false,
+        hasMore: true,
+        list: [],
+      };
     }
 
-    stateList[message.id || message.uid] = message;
+    if (!state.list[messageId]) {
+      state.list[messageId] = action.payload.message;
+    }
 
-    return {
-      ...state,
-      chatIds: stateChatIds,
-      list: stateList,
-    };
-  }
+    if (chatId && state.chatIds[chatId] && state.chatIds[chatId].list.indexOf(messageId) === -1) {
+      state.chatIds[chatId].list.unshift(messageId);
+    }
+  },
 
-  if (action.type === actions.types.updateMessage) {
+  [actions.types.updateMessage]: (state, action) => {
     const chatId = action.payload.chatId;
     const message = action.payload.message;
 
-    let stateChatIds = { ...state.chatIds };
-    let stateList = { ...state.list };
-
     if (message.uid && message.id) {
-      const uidMessageIndex = stateChatIds[chatId].list.indexOf(message.uid);
-      stateChatIds[chatId].list[uidMessageIndex] = message.id;
-      stateList[message.id] = message;
-      delete stateList[message.uid];
+      const uidMessageIndex = state.chatIds[chatId].list.indexOf(message.uid);
+      state.chatIds[chatId].list[uidMessageIndex] = message.id;
+      state.list[message.id] = message;
+      delete state.list[message.uid];
     }
 
-    stateList[message.id] = {
-      ...stateList[message.id],
-      ...message,
-    };
+    if (message.id && !message.uid) {
+      state.list[message.id] = {
+        ...state.list[message.id],
+        ...message,
+      };
+    }
 
-    return {
-      ...state,
-      chatIds: stateChatIds,
-      list: stateList,
-    };
-  }
+    if (!message.id && message.uid) {
+      state.list[message.uid] = {
+        ...state.list[message.uid],
+        ...message,
+      };
+    }
+  },
 
-  if (action.type === actions.types.addEditMessage) {
-    return {
-      ...state,
-      edit_message_id: action.payload,
-    };
-  }
+  [actions.types.addEditMessage]: (state, action) => {
+    state.edit_message_id = action.payload;
+  },
 
-  if (action.type === actions.types.clearEditMessage) {
-    return {
-      ...state,
-      edit_message_id: null,
-    };
-  }
+  [actions.types.clearEditMessage]: state => {
+    state.edit_message_id = null;
+  },
 
-  if (action.type === actions.types.addReplyMessage) {
-    return {
-      ...state,
-      reply_message_id: action.payload,
-    };
-  }
+  [actions.types.addReplyMessage]: (state, action) => {
+    state.reply_message_id = action.payload;
+  },
 
-  if (action.type === actions.types.clearReplyMessage) {
-    return {
-      ...state,
-      reply_message_id: null,
-    };
-  }
+  [actions.types.clearReplyMessage]: state => {
+    state.reply_message_id = null;
+  },
 
-  if (action.type === actions.types.addForwardMessage) {
-    return {
-      ...state,
-      forward_message_id: action.payload,
-    };
-  }
+  [actions.types.addForwardMessage]: (state, action) => {
+    state.forward_message_id = action.payload;
+  },
 
-  if (action.type === actions.types.clearForwardMessage) {
-    return {
-      ...state,
-      forward_message_id: null,
-    };
-  }
+  [actions.types.clearForwardMessage]: state => {
+    state.forward_message_id = null;
+  },
 
-  if (action.type === actions.types.clearMessages) {
-    return {
-      chatIds: {},
-      list: {},
-      edit_message_id: null,
-      forward_message_id: null,
-      reply_message_id: null,
-    };
-  }
-
-  return state;
-};
+  [actions.types.clearMessages]: state => {
+    state.chatIds = {},
+    state.list = {};
+    state.edit_message_id = null;
+    state.forward_message_id = null;
+    state.reply_message_id = null;
+  },
+});

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import Link from '@/components/link';
 import compose from 'recompose/compose';
 
 import { withNamespaces } from 'react-i18next';
@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
   }
 
   render = () => <div className={style.forgot}>
-    <Link to="/" className={style.logo}>Chatle</Link>
+    <Link to="/" className={style.logo}>Unichat</Link>
     <h1 className={style.title}>{this.props.t('forgot_password')}?</h1>
 
     <Form

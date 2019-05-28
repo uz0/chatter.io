@@ -1,0 +1,26 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  grid-gap: 6px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.list .photo {
+  padding-top: 100%;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px var(--divider-color);
+}
+
+.list .empty {
+  grid-column: 1 / -1;
+  line-height: 1.5;
+  font-size: 15px;
+  text-align: center;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+}

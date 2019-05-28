@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import AddChat from './add-chat';
 import EditProfile from './edit-profile';
 import Forward from './forward';
+import Invite from './invite';
+import LeaveChat from './leave-chat';
+import ChangePassword from './change-password';
 import modalActions from './actions';
 
 export { default as actions } from './actions';
@@ -13,10 +16,13 @@ export { default as reducers } from './reducers';
 class ModalContainer extends Component {
   render() {
     return <Portal>
-      {this.props.modal_ids.map(id => <Fragment key={id}>
-        {id === 'new-chat-modal' && <AddChat close={() => this.props.closeModal(id)} />}
-        {id === 'edit-profile-modal' && <EditProfile close={() => this.props.closeModal(id)} />}
-        {id === 'forward-modal' && <Forward close={() => this.props.closeModal(id)} />}
+      {this.props.modal.ids.map(id => <Fragment key={id}>
+        {id === 'new-chat-modal' && <AddChat options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'edit-profile-modal' && <EditProfile options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'change-password-modal' && <ChangePassword options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'forward-modal' && <Forward options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'invite-modal' && <Invite options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'leave-chat' && <LeaveChat options={this.props.modal.list[id]} close={() => this.props.closeModal(id)} />}
       </Fragment>)}
     </Portal>;
   }
@@ -25,7 +31,7 @@ class ModalContainer extends Component {
 export default compose(
   connect(
     state => ({
-      modal_ids: state.modal_ids,
+      modal: state.modal,
     }),
 
     {

@@ -1,74 +1,137 @@
-import actions from './actions';
 import map from 'lodash/map';
+import filter from 'lodash/filter';
+import find from 'lodash/find';
+import uniq from 'lodash/uniq';
+import { getChatName } from '@/helpers';
+import actions from './actions';
+import { createReducer } from 'redux-starter-kit';
 
 const initialState = {
   ids: [],
   list: {},
+  hover_subscription_id: null,
+  filter_text: '',
+  filtered_ids: [],
+  filtered_messages: {},
+  filtered_contacts_ids: [],
+  filtered_global_users: [],
+  filter_tag: 'all',
 };
 
-export default (state = initialState, action) => {
-  if (action.type === actions.types.loadSubscriptionsIds) {
-    return {
-      ...state,
-      ids: [...state.ids, ...map(action.payload, 'id')],
-    };
-  }
+export default createReducer(initialState, {
+  [actions.types.loadSubscriptionsIds]: (state, action) => {
+    const ids = uniq([...state.ids, ...map(action.payload, 'id')]);
+    state.ids = ids;
+    state.filtered_ids = ids;
+  },
 
-  if (action.type === actions.types.loadSubscription) {
-    let list = {...state.list};
+  [actions.types.loadSubscription]: (state, action) => {
+    state.list[action.payload.id] = action.payload;
+  },
 
-    list[action.payload.id] = action.payload;
+  [actions.types.addSubscription]: (state, action) => {
+    if (state.ids.indexOf(action.payload.id) !== -1) {
+      return;
+    }
 
-    return {
-      ...state,
-      list,
-    };
-  }
+    state.ids.push(action.payload.id);
+    state.filtered_ids.push(action.payload.id);
+    state.list[action.payload.id] = action.payload;
+  },
 
-  if (action.type === actions.types.addSubscription) {
-    let ids = [ ...state.ids ];
-    let list = { ...state.list };
-
-    ids.push(action.payload.id);
-    list[action.payload.id] = action.payload;
-
-    return {
-      ...state,
-      ids,
-      list,
-    };
-  }
-
-  if (action.type === actions.types.updateSubscription) {
-    let list = { ...state.list };
-
-    list[action.payload.id] = {
-      ...list[action.payload.id],
+  [actions.types.updateSubscription]: (state, action) => {
+    state.list[action.payload.id] = {
+      ...state.list[action.payload.id],
       ...action.payload,
     };
+  },
 
-    return {
-      ...state,
-      list,
-    };
-  }
+  [actions.types.setHoverSubscription]: (state, action) => {
+    state.hover_subscription_id = action.payload;
+  },
 
-  if (action.type === actions.types.removeSubscription) {
-    let ids = [ ...state.ids ];
-    ids.splice(ids.indexOf(action.payload), 1);
+  [actions.types.removeSubscription]: (state, action) => {
+    state.ids.splice(state.ids.indexOf(action.payload), 1);
+    delete state.list[action.payload];
 
-    return {
-      ...state,
-      ids,
-    };
-  }
+    if (state.filtered_ids.indexOf(action.payload) !== -1) {
+      state.filtered_ids.splice(state.filtered_ids.indexOf(action.payload), 1);
+    }
+  },
 
-  if (action.type === actions.types.clearSubscriptions) {
-    return {
-      ids: [],
-      list: {},
-    };
-  }
+  [actions.types.search]: (state, action) => {
+    if (action.payload.text) {
+      state.filter_text = action.payload.text;
+    }
 
-  return state;
-};
+    if (action.payload.tag) {
+      state.filter_tag = action.payload.tag;
+    }
+
+    if (!action.payload.text && !action.payload.tag) {
+      state.filter_text = '';
+    }
+
+    state.filtered_ids = state.ids;
+    state.filtered_messages = {};
+    state.filtered_contacts_ids = [];
+    state.filtered_global_users = [];
+
+    if (state.filter_text) {
+      state.filtered_contacts_ids = filter(state.ids, id => getChatName(state.list[id]).toLowerCase().startsWith(state.filter_text.toLowerCase()));
+
+      map(action.payload.messages.list, message => {
+        if (!message.text || message.xtag) {
+          return;
+        }
+
+        if (!message.text.toLowerCase().match(state.filter_text.toLowerCase())) {
+          return;
+        }
+
+        const chatId = find(state.list, { group_id: message.group_id }).id;
+        const messageId = message.id || message.uid;
+
+        if (!state.filtered_messages[chatId]) {
+          state.filtered_messages[chatId] = [messageId];
+        } else {
+          state.filtered_messages[chatId].push(messageId);
+        }
+      });
+
+      state.filtered_ids = filter(state.filtered_ids, id => !!state.filtered_messages[id]);
+    }
+
+    if (state.filter_tag && state.filter_tag !== 'all') {
+      state.filtered_contacts_ids = filter(state.filtered_contacts_ids, id => state.list[id].tags && state.list[id].tags[0] === state.filter_tag);
+      state.filtered_ids = filter(state.filtered_ids, id => state.list[id].tags && state.list[id].tags[0] === state.filter_tag);
+    }
+
+    if (action.payload.global_users) {
+      state.filtered_global_users = filter(action.payload.global_users, user => {
+        let isUserExist = false;
+
+        map(state.filtered_contacts_ids, id => {
+          const subscription = state.list[id];
+
+          if (find(subscription.group.participants, { user_id: user.id })) {
+            isUserExist = true;
+          }
+        });
+
+        return !isUserExist;
+      });
+    }
+  },
+
+  [actions.types.clearSubscriptions]: state => {
+    state.ids = [];
+    state.list = {};
+    state.filter_text = '';
+    state.filtered_ids = [];
+    state.filtered_messages = {};
+    state.filtered_contacts_ids = [];
+    state.filtered_global_users = [];
+    state.filter_tag = 'all';
+  },
+});

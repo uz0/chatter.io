@@ -29,6 +29,18 @@
   margin-left: 12px;
 }
 
+.subscription .content:not(._is-unread) {
+  --title-font-weight: var(--font-weight-medium);
+  --text-font-weight: var(--font-weight-light);
+  --text-content-color: var(--caption-color);
+}
+
+.subscription .content._is-unread {
+  --title-font-weight: var(--font-weight-bold);
+  --text-font-weight: var(--font-weight-bold);
+  --text-content-color: var(--text-color);
+}
+
 .subscription .content .name {
   --height: 20px;
   overflow: hidden;
@@ -37,7 +49,7 @@
   line-height: var(--height);
   font-size: 16px;
   color: var(--text-color);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--title-font-weight);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -52,10 +64,14 @@
   height: var(--message-height);
   line-height: var(--message-height);
   font-size: 14px;
-  font-weight: var(--font-weight-light);
-  color: var(--caption-color);
+  font-weight: var(--text-font-weight);
+  color: var(--text-content-color);
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.subscription .content + * {
+  margin-left: 12px;
 }
 
 .subscription .last_photo {
@@ -91,7 +107,7 @@
   padding-right: 4px;
   line-height: var(--height);
   font-size: 12px;
-  border-radius: 7px;
+  border-radius: calc(var(--height) / 2);
   background-color: var(--divider-color);
   color: var(--caption-color);
 }

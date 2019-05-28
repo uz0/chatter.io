@@ -34,18 +34,34 @@ class Dropdown extends Component {
     const offsetHeight = buttonElement.offsetHeight;
 
     if (top > (window.innerHeight / 2)) {
-      bottom = window.innerHeight - top - buttonElement.offsetWidth;
+      bottom = window.innerHeight - top - buttonElement.offsetHeight;
     }
 
     if (left > (window.innerWidth / 2)) {
       right = window.innerWidth - left - buttonElement.offsetWidth;
     }
 
+    if (top !== 'auto') {
+      top = top + offsetHeight;
+    }
+
+    if (bottom !== 'auto') {
+      bottom = bottom + offsetHeight;
+    }
+
+    // 40  - примерно, с запасом
+    const listHeight = 40 * this.props.items.length;
+
+    if (listHeight + top > window.innerHeight) {
+      top = 'auto';
+      bottom = 0;
+    }
+
     this.props.openDropdown({
       uniqueId: this.props.uniqueId,
 
       options: {
-        ...bottom !== 'auto' ? {bottom: bottom + offsetHeight} : {top: top + offsetHeight},
+        ...bottom !== 'auto' ? {bottom} : {top},
         ...right !== 'auto' ? {right} : {left},
       },
     });

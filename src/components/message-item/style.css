@@ -1,16 +1,19 @@
 .message-item {
+  --message-min-height: 36px;
   display: flex;
   width: 100%;
 }
 
-.message-item:not(:hover) {
+.message-item:not(._is-dropdown-shown):not(:hover) {
   --actions-opacity: 0;
-  --time-opacity: 0;
 }
 
-.message-item:hover {
+.message-item:not(._is-dropdown-shown):hover {
   --actions-opacity: 1;
-  --time-opacity: 1;
+}
+
+.message-item._is-dropdown-shown {
+  --actions-opacity: 1;
 }
 
 .message-item.current-user {
@@ -92,6 +95,19 @@
   flex-direction: column;
   align-items: flex-end;
   max-width: 100%;
+  min-width: 0;
+}
+
+.message-item > .content:not(:hover) + .info {
+  --time-opacity: 0;
+}
+
+.message-item > .content:hover + .info {
+  --time-opacity: 1;
+}
+
+.message-item > .content > .dropdown {
+  max-width: 100%;
 }
 
 .message-item > .content > .deleted_message_text {
@@ -107,59 +123,125 @@
   text-overflow: ellipsis;
 }
 
-.message-item > .content > .message_block {
+.message-item.opponent-user._is-first > .content .message_block {
+  border-bottom-left-radius: 6px;
+}
+.message-item.opponent-user._is-middle > .content .message_block {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.message-item.opponent-user._is-last > .content .message_block {
+  border-top-left-radius: 6px;
+}
+
+.message-item.current-user._is-first > .content .message_block {
+  border-bottom-right-radius: 6px;
+}
+.message-item.current-user._is-middle > .content .message_block {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.message-item.current-user._is-last > .content .message_block {
+  border-top-right-radius: 6px;
+}
+
+.message-item > .content .message_block {
   display: flex;
   flex-direction: column;
-  max-width: 460px;
+  max-width: 500px;
   padding: 8px 13px;
-  min-height: 36px;
+  min-height: var(--message-min-height);
   border-radius: 18px;
   background-color: var(--message-color);
 }
 
-.message-item > .content > .message_block > .message {
+.message-item > .content .message_block > .username {
+  --height: 16px;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.message-item > .content .message_block > .username + .message {
+  margin-top: 6px;
+}
+
+.message-item > .content .message_block > .username + .text {
+  margin-top: 2px;
+}
+
+.message-item > .content .message_block > .message {
   --ref-text-color: var(--message-text-color);
   --ref-message-color: var(--message-color);
   padding-left: 8px;
 }
 
-.message-item > .content > .message_block > .message + .text {
+.message-item > .content .message_block > .message + .text {
   margin-top: 8px;
 }
 
-.message-item > .content > .message_block > .text {
+.message-item > .content .message_block > .text {
   line-height: 1.3;
   font-size: 15px;
   color: var(--message-text-color);
-  font-weight: var(--font-weight-light);
+  letter-spacing: 0.04px;
+  word-break: break-word;
 }
 
-.message-item > .content > .message_block > .text > a {
+.message-item > .content .message_block > .text a {
   color: var(--color);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition-property: color;
 }
 
-.message-item.current-user > .content > .message_block > .text > a:not(:hover) {
+.message-item > .content .message_block > .text span {
+  border-radius: 6px;
+  animation-duration: 3s;
+}
+
+@keyframes hideBackgroundCurrentUserText {
+  from {background-color: rgba(18, 32, 51, 0.52);}
+  to {background-color: transparent;}
+}
+@keyframes hideBackgroundOpponentUserText {
+  from {background-color: #b3b3b3;}
+  to {background-color: transparent;}
+}
+
+.message-item.current-user > .content .message_block > .text a:not(:hover) {
   --color: #fff;
 }
-.message-item.current-user > .content > .message_block > .text > a:hover {
+.message-item.current-user > .content .message_block > .text a:hover {
   --color: var(--error-color);
 }
 
-.message-item.opponent-user > .content > .message_block > .text > a:not(:hover) {
+.message-item.opponent-user > .content .message_block > .text a:not(:hover) {
   --color: var(--primary-color);
 }
-.message-item.opponent-user > .content > .message_block > .text > a:hover {
+.message-item.opponent-user > .content .message_block > .text a:hover {
   --color: var(--primary-color-hover);
 }
 
-.message-item > .content > .message_block > .text + .file {
+
+.message-item.current-user > .content .message_block > .text span {
+  animation-name: hideBackgroundCurrentUserText;
+}
+
+.message-item.opponent-user > .content .message_block > .text span {
+  animation-name: hideBackgroundOpponentUserText;
+}
+
+
+.message-item > .content .message_block > .text + .file {
   margin-top: 10px;
 }
 
-.message-item > .content > .message_block > .file {
+.message-item > .content .message_block > .file {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -167,19 +249,19 @@
   margin-right: auto;
 }
 
-.message-item > .content > .message_block > .file i {
+.message-item > .content .message_block > .file i {
   --icon-size: 32px;
   --icon-color: var(--message-text-color);
   flex-shrink: 0;
 }
 
-.message-item > .content > .message_block > .file > .section {
+.message-item > .content .message_block > .file > .section {
   flex-grow: 1;
   min-width: 0;
   margin-left: 8px;
 }
 
-.message-item > .content > .message_block > .file > .section > .name {
+.message-item > .content .message_block > .file > .section > .name {
   --height: 16px;
   overflow: hidden;
   height: var(--height);
@@ -191,14 +273,14 @@
   text-overflow: ellipsis;
 }
 
-.message-item > .content > .message_block > .file > .section > .subcaption {
+.message-item > .content .message_block > .file > .section > .subcaption {
   --height: 14px;
   display: flex;
   height: var(--height);
   margin-top: 2px;
 }
 
-.message-item > .content > .message_block > .file > .section > .subcaption > .text {
+.message-item > .content .message_block > .file > .section > .subcaption > .text {
   flex-grow: 1;
   overflow: hidden;
   min-width: 0;
@@ -212,7 +294,7 @@
   text-overflow: ellipsis;
 }
 
-.message-item > .content > .message_block > .file > .section > .subcaption > .size {
+.message-item > .content .message_block > .file > .section > .subcaption > .size {
   position: relative;
   flex-shrink: 0;
   height: var(--height);
@@ -225,7 +307,7 @@
   opacity: 0.5;
 }
 
-.message-item > .content > .message_block > .file > .section > .subcaption > .size::before {
+.message-item > .content .message_block > .file > .section > .subcaption > .size::before {
   --size: 4px;
   content: "";
   position: absolute;
@@ -239,22 +321,32 @@
   transform: translateY(-50%);
 }
 
-.message-item > .content > .message_block + .image {
+.message-item > .content .message_block + .gallery {
   margin-top: 2px;
 }
 
-.message-item > .content > .image {
+.message-item > .content > .gallery {
+  display: flex;
+}
+
+.message-item > .content > .gallery > .image {
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  max-height: 280px;
+  width: 150px;
+  height: 150px;
   border-radius: 18px;
-  box-shadow: 0 0 0 1px var(--divider-color);
+  box-shadow: 0 0 0 1px var(--divider-color) inset;
+  cursor: pointer;
 }
 
-.message-item > .content > .image img {
-  max-width: 220px;
+.message-item > .content > .gallery > .image:nth-of-type(n+2) {
+  margin-left: 2px;
+}
+
+.message-item > .content > .gallery > .image > img {
+
 }
 
 .message-item.current-user > .info {
@@ -266,12 +358,15 @@
 }
 
 .message-item > .info {
+  /* может 30? */
+  --avatar-size: 29px;
+  --info-width: calc(var(--avatar-size) + 8px);
   flex-shrink: 0;
   position: relative;
   order: var(--info-order);
   display: flex;
   flex-direction: column;
-  width: 22px;
+  width: var(--info-width);
 }
 
 .message-item.current-user > .info > .time {
@@ -282,11 +377,58 @@
   left: 0;
 }
 
+.message-item > .info > .error_dropdown {
+  margin-top: auto;
+}
+
+.message-item > .info > .error_dropdown > .error_dropdown_button {
+  --height: var(--info-width);
+}
+
+.message-item > .info > .error_dropdown > .error_dropdown_button:not(:hover) {
+  --color: var(--error-color);
+}
+
+.message-item > .info > .error_dropdown > .error_dropdown_button:hover {
+  --color: #a90418;
+}
+
+.message-item > .info > .avatar {
+  --size: var(--avatar-size);
+  --font-size: 11px;
+  margin-top: auto;
+}
+
+.message-item > .info > .avatar + .mark {
+  margin-top: 0;
+}
+
+.message-item > .info > .mark {
+  position: relative;
+  width: 16px;
+  height: 8px;
+  margin-top: auto;
+}
+
+.message-item > .info > .mark > i {
+  --icon-size: 8px;
+  --icon-color: var(--primary-color);
+  position: absolute;
+}
+
+.message-item > .info > .mark > i:nth-of-type(1) {
+  left: 6px;
+}
+
+.message-item > .info > .mark > i:nth-of-type(2) {
+  left: 2px;
+}
+
 .message-item > .info > .time {
   --height: 24px;
   z-index: 1;
   position: absolute;
-  bottom: calc(100% + 4px);
+  top: calc((var(--message-min-height) - var(--height)) / 2);
   height: var(--height);
   padding-left: 6px;
   padding-right: 6px;
@@ -301,18 +443,16 @@
   transition-property: opacity;
 }
 
-.message-item > .info > .avatar {
-  --size: 16px;
-  --font-size: 11px;
-  margin-top: auto;
-}
-
 @media (max-width: 1024px) {
-  .message-item > .actions {
-    --actions-opacity: 1;
+  .message-item > .content .message_block {
+    max-width: 100%;
   }
 
   .message-item > .info > .time {
+    display: none;
+  }
+
+  .message-item > .actions {
     display: none;
   }
 }

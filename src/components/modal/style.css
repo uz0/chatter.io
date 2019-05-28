@@ -6,16 +6,17 @@
   top: 0;
   bottom: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: rgba(0, 0, 0, 0.55);
 }
 
 .wrapper .modal {
   display: flex;
   flex-direction: column;
-  width: 600px;
-  max-height: 650px;
+  width: var(--width, 500px);
+  max-height: 550px;
+  margin-top: 130px;
+  margin-left: auto;
+  margin-right: auto;
   background-color: #fff;
   border-radius: 6px;
 }
@@ -64,10 +65,17 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   height: 54px;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
+}
+
+.wrapper .modal .actions:not(._is-center) {
+  justify-content: flex-end;
+}
+
+.wrapper .modal .actions._is-center {
+  justify-content: center;
 }
 
 .wrapper .modal .actions button {
@@ -83,6 +91,11 @@
   transition-property: color;
 }
 
+.wrapper .modal .actions button[disabled] {
+  pointer-events: none;
+  cursor: auto;
+}
+
 .wrapper .modal .actions button:nth-of-type(n+2) {
   margin-left: 12px;
 }
@@ -95,12 +108,20 @@
   font-weight: var(--font-weight-medium);
 }
 
-.wrapper .modal .actions button:only-child:not(:hover) {
+.wrapper .modal .actions button:only-child:not(._is-danger):hover {
   --color: var(--primary-color);
 }
 
-.wrapper .modal .actions button:only-child:hover {
+.wrapper .modal .actions button:only-child:not(._is-danger):not(:hover) {
   --color: var(--primary-color-hover);
+}
+
+.wrapper .modal .actions button:only-child:._is-danger:not(:hover) {
+  --color: var(--error-color);
+}
+
+.wrapper .modal .actions button:only-child:._is-danger:hover {
+  --color: var(--error-color);
 }
 
 .wrapper .modal .actions button:not(:only-child):not(:last-of-type) {
@@ -119,12 +140,20 @@
   --color: var(--primary-color);
 }
 
-.wrapper .modal .actions button:not(:only-child):last-of-type:not(:hover) {
+.wrapper .modal .actions button:not(:only-child):last-of-type:not(._is-danger):not(:hover) {
   --color: var(--primary-color);
 }
 
-.wrapper .modal .actions button:not(:only-child):last-of-type:hover {
+.wrapper .modal .actions button:not(:only-child):last-of-type:not(._is-danger):hover {
   --color: var(--primary-color-hover);
+}
+
+.wrapper .modal .actions button:not(:only-child):last-of-type._is-danger:not(:hover) {
+  --color: var(--error-color);
+}
+
+.wrapper .modal .actions button:not(:only-child):last-of-type._is-danger:hover {
+  --color: var(--error-color);
 }
 
 @media (max-width: 800px) {
@@ -133,6 +162,7 @@
     height: 100%;
     max-height: 100%;
     border-radius: 0;
+    margin-top: 0;
   }
 
   .wrapper .modal .header {

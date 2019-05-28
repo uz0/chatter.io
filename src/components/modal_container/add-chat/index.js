@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classnames from 'classnames/bind';
 import map from 'lodash/map';
 import get from 'lodash/get';
+import find from 'lodash/find';
+import reject from 'lodash/reject';
+import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 import compose from 'recompose/compose';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
+import Loading from '@/components/loading';
 import Modal from '@/components/modal';
 import Icon from '@/components/icon';
 import { api } from '@';
-import { getOpponentUser } from '@/helpers';
+import { withRouter } from '@/hoc';
+import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
 import SearchInput from '@/components/search-input';
@@ -21,13 +25,30 @@ const cx = classnames.bind(style);
 
 class AddChat extends Component {
   state = {
+    global: [],
     checkedUsers: [],
+    isLoading: false,
     search: '',
   };
 
   onSearchInput = event => {
     event.persist();
-    this.setState({ search: event.target.value });
+    const value = event.target.value;
+    this.setState({ search: value });
+
+    if (value.length >= 5) {
+      this.setState({ isLoading: true });
+
+      api.searchUser({ nick_prefix: value }).then(data => {
+        this.setState({
+          global: data.users,
+          isLoading: false,
+        });
+      }).catch(() => {
+        this.props.showNotification(this.props.t('invalid_character'));
+        this.setState({ isLoading: false });
+      });
+    }
   };
 
   toggleUser = id => () => {
@@ -44,6 +65,7 @@ class AddChat extends Component {
   };
 
   createGroupChat = () => {
+    let sameSubscription = null;
     let name = '';
 
     this.state.checkedUsers.forEach(id => {
@@ -53,46 +75,84 @@ class AddChat extends Component {
 
     name = `${name.substr(0, 30)}${name.length > 30 ? '...' : ''}`;
 
+    this.props.subscriptions_ids.forEach(id => {
+      const subscription = this.props.subscriptions_list[id];
+
+      if (subscription.group.type !== 'room') {
+        return;
+      }
+
+      const participantsWithoutYou = filter(subscription.group.participants, participant => participant.user_id !== this.props.currentUser.id);
+
+      if (isEqual(map(participantsWithoutYou, participant => participant.user_id).sort(), this.state.checkedUsers.sort())) {
+        sameSubscription = subscription;
+      } else if (subscription.group.name === name) {
+        sameSubscription = subscription;
+      }
+    });
+
+    if (sameSubscription) {
+      this.props.pushUrl(`/chat/${sameSubscription.id}`);
+      this.props.close();
+      return;
+    }
+
     api.createRoom({ name, user_ids: this.state.checkedUsers }).then(data => {
-      this.props.router.push(`/chat/${data.subscription.id}`);
+      this.props.pushUrl(`/chat/${data.subscription.id}`);
       this.props.close();
     }).catch(error => {
-      console.log(error);
+      console.error(error);
       this.props.showNotification(this.props.t(error.code));
     });
   };
 
   createPrivateChat = () => {
-    api.addContact({
-      [this.state.search.indexOf('@') !== -1 ? 'email' : 'nick']: this.state.search,
-    }).then(addContactData => api.getPrivateSubscription({ user_id: addContactData.contact.user.id }).then(data => {
+    api.getPrivateSubscription({ user_id: this.state.checkedUsers[0] }).then(data => {
       if (this.props.subscriptions_ids.indexOf(data.subscription.id) === -1) {
+        this.props.addUsers(data.subscription.group.participants);
         this.props.addSubscription(data.subscription);
       }
 
       this.props.close();
-      this.props.router.push(`/chat/user/${addContactData.contact.user.id}`);
-    })).catch(error => this.props.showNotification(this.props.t(error.code)));
+      this.props.pushUrl(`/chat/user/${this.state.checkedUsers[0]}`);
+    });
   };
 
+  clear = () => this.setState({
+    global: [],
+    checkedUsers: [],
+    isLoading: false,
+    search: '',
+  });
+
   create = () => {
-    if (this.state.search) {
+    if (this.state.checkedUsers.length === 1) {
       this.createPrivateChat();
-      return;
     }
 
     if (this.state.checkedUsers.length > 1) {
       this.createGroupChat();
-      return;
     }
   };
 
-  render() {
-    const subscriptions = map(this.props.subscriptions_ids, id => this.props.subscriptions_list[id]);
+  getLocalContacts = () => {
+    let users = [];
+    users = map(this.props.users_ids, id => this.props.users_list[id]);
+    users = reject(users, { id: this.props.currentUser.id });
 
-    const privateSubscriptions = filter(subscriptions,
-      subscription => subscription && subscription.group.type === 'private_chat' && subscription.group.participants.length === 2,
-    );
+    users = filter(users, user => {
+      const nick = user.nick || 'no nick';
+      return nick.toLowerCase().startsWith(this.state.search.toLowerCase());
+    });
+
+    return users;
+  };
+
+  getGlobalContacts = localContacts => filter(this.state.global, user => !find(localContacts, { id: user.id }));
+
+  render() {
+    const localContacts = this.getLocalContacts();
+    const globalContacts = this.getGlobalContacts(localContacts);
 
     return <Modal
       id="new-chat-modal"
@@ -102,40 +162,67 @@ class AddChat extends Component {
       close={this.props.close}
 
       actions={[
-        { text: this.props.t('clear'), onClick: () => {} },
+        { text: this.props.t('clear'), onClick: this.clear },
         { text: this.props.t('create'), onClick: this.create },
       ]}
     >
+      <Loading type="line" className={cx('loading', {'_is-shown': this.state.isLoading})} isShown />
+
       <SearchInput
         value={this.state.search}
         onInput={this.onSearchInput}
         className={style.search}
       />
 
-      {privateSubscriptions.length === 0 &&
-        <p className={style.empty}>{this.props.t('no_results')}</p>
-      }
+      <div className={style.scroll}>
+        {localContacts.length === 0 && globalContacts.length === 0 &&
+          <p className={style.empty}>{this.props.t('no_results')}</p>
+        }
 
-      {privateSubscriptions.length > 0 &&
-        <div className={style.list}>
-          {privateSubscriptions.map(subscription => {
-            const user = getOpponentUser(subscription);
-            const avatar = get(this.props.users_list[user.id], 'avatar.small', '/assets/default-user.jpg');
-            const nick = this.props.users_list[user.id].nick || 'no nick';
-            const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
+        {localContacts.length > 0 &&
+          <Fragment>
+            <h3 className={style.title}>{this.props.t('your_contacts')}</h3>
 
-            return <button
-              key={user.id}
-              className={cx('button', {'_is-checked': isChecked})}
-              onClick={this.toggleUser(user.id)}
-            >
-              <Avatar photo={avatar} className={style.avatar} />
-              <p className={style.name}>{nick}</p>
-              <div className={style.radio}><Icon name="mark" /></div>
-            </button>;
-          })}
-        </div>
-      }
+            {localContacts.map(user => {
+              const avatar = get(user, 'avatar.small', '/assets/default-user.jpg') || '/assets/default-user.jpg';
+              const nick = user.nick || 'no nick';
+              const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
+
+              return <button
+                key={user.id}
+                className={cx('button', {'_is-checked': isChecked})}
+                onClick={this.toggleUser(user.id)}
+              >
+                <Avatar photo={avatar} className={style.avatar} />
+                <p className={style.name}>{nick}</p>
+                <div className={style.radio}><Icon name="mark" /></div>
+              </button>;
+            })}
+          </Fragment>
+        }
+
+        {globalContacts.length > 0 &&
+          <Fragment>
+            <h3 className={style.title}>{this.props.t('global_search')}</h3>
+
+            {globalContacts.map(user => {
+              const avatar = get(user, 'avatar.small', '/assets/default-user.jpg') || '/assets/default-user.jpg';
+              const nick = user.nick || 'no nick';
+              const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
+
+              return <button
+                key={user.id}
+                className={cx('button', {'_is-checked': isChecked})}
+                onClick={this.toggleUser(user.id)}
+              >
+                <Avatar photo={avatar} className={style.avatar} />
+                <p className={style.name}>{nick}</p>
+                <div className={style.radio}><Icon name="mark" /></div>
+              </button>;
+            })}
+          </Fragment>
+        }
+      </div>
     </Modal>;
   }
 }
@@ -146,13 +233,16 @@ export default compose(
 
   connect(
     state => ({
+      currentUser: state.currentUser,
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
+      users_ids: state.users.ids,
       users_list: state.users.list,
     }),
 
     {
       addSubscription: subscriptionsActions.addSubscription,
+      addUsers: usersActions.addUsers,
       showNotification: notificationActions.showNotification,
     },
   ),

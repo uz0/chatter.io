@@ -1,45 +1,57 @@
 .wrapper {
-  height: 90vh;
 }
 
 .modal {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding-top: 12px;
 }
 
-.modal .search {
+.modal > .loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.modal > .loading:not(._is-shown) {
+  --opacity: 0;
+}
+
+.modal > .loading._is-shown {
+  --opacity: 1;
+}
+
+.modal > .search {
   flex-shrink: 0;
   margin-left: var(--layout-padding);
   margin-right: var(--layout-padding);
 }
 
-.modal .empty {
-  --height: 20px;
-  overflow: hidden;
-  flex-shrink: 0;
-  height: var(--height);
-  margin-top: 70px;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
-  line-height: var(--height);
-  font-size: 16px;
-  text-align: center;
-  color: var(--caption-color);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.modal .list {
+.modal > .scroll {
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
-  margin-top: 8px;
+  padding-top: 4px;
   -webkit-overflow-scrolling: touch;
 }
 
-.modal .list .button {
+.modal > .scroll > .title {
+  --height: 44px;
+  overflow: hidden;
+  height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  line-height: var(--height);
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: 0 -1px var(--divider-color) inset;
+}
+
+.modal > .scroll > .button {
   display: flex;
   align-items: center;
   width: 100%;
@@ -50,32 +62,32 @@
   transition-property: background-color;
 }
 
-.modal .list .button:not(:hover) {
+.modal > .scroll > .button:not(:hover) {
   --background-color: transparent;
 }
 
-.modal .list .button:hover {
+.modal > .scroll > .button:hover {
   --background-color: var(--divider-color);
 }
 
-.modal .list .button:not(._is-checked) {
+.modal > .scroll > .button:not(._is-checked) {
   --icon-opacity: 0;
   --radio-background-color: #fff;
   --box-shadow-color: var(--caption-color);
 }
 
-.modal .list .button._is-checked {
+.modal > .scroll > .button._is-checked {
   --icon-opacity: 1;
   --radio-background-color: var(--primary-color);
   --box-shadow-color: var(--primary-color);
 }
 
-.modal .list .button .avatar {
+.modal > .scroll > .button > .avatar {
   --size: 36px;
   flex-shrink: 0;
 }
 
-.modal .list .button .name {
+.modal > .scroll > .button > .name {
   flex-grow: 1;
   overflow: hidden;
   min-width: 0;
@@ -86,7 +98,7 @@
   margin-left: 12px;
 }
 
-.modal .list .button .radio {
+.modal > .scroll > .button > .radio {
   --size: 20px;
   flex-shrink: 0;
   display: flex;
@@ -101,9 +113,24 @@
   transition-property: background-color, box-shadow;
 }
 
-.modal .list .button .radio i {
+.modal > .scroll > .button > .radio i {
   --icon-size: 12px;
   --icon-color: #fff;
   opacity: var(--icon-opacity);
   transition-property: background-color, opacity;
+}
+
+.modal > .scroll > .empty {
+  --height: 60px;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  line-height: var(--height);
+  font-size: 16px;
+  text-align: center;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

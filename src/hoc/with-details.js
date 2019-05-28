@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 
@@ -42,14 +41,6 @@ export default WrappedComponent => {
 
       return details;
     };
-
-    shouldComponentUpdate(nextProps) {
-      const isSubscriptionsIdsNotEmpty = this.props.subscriptions_ids.length > 0;
-      const isSubscriptionsLoaded = isSubscriptionsIdsNotEmpty && Object.keys(this.props.subscriptions_list).length === this.props.subscriptions_ids.length - 1;
-      const isParamsChanged = nextProps.params && !isEqual(this.props.params, nextProps.params);
-
-      return isSubscriptionsLoaded || isParamsChanged;
-    }
 
     render() {
       const details = this.getDetails();

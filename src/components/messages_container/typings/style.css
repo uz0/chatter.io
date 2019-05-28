@@ -1,0 +1,21 @@
+.typings {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  font-weight: var(--font-weight-light);
+  color: var(--caption-color);
+  background-color: var(--background-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: background-color;
+}
+
+.typings:not(._is-typing) {
+  --background-color: transparent;
+}
+
+.typings._is-typing {
+  --background-color: #fff;
+}

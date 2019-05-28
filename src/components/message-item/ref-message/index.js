@@ -13,6 +13,8 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class RefMessage extends Component {
+  _isMounted = false;
+
   state = {
     isLoading: false,
     hasError: false,
@@ -22,15 +24,28 @@ class RefMessage extends Component {
     this.setState({ isLoading: true });
 
     api.getMessage({message_id: (this.props.forwardedId || this.props.repliedId)}).then(data => {
-      this.setState({ isLoading: false });
+      if (this._isMounted) {
+        this.setState({ isLoading: false });
+      }
+
       this.props.addMessage({ message: data.message });
-    }).catch(() => this.setState({ isLoading: false, hasError: true }));
+    }).catch(() => {
+      if (this._isMounted) {
+        this.setState({ isLoading: false, hasError: true });
+      }
+    });
   };
 
   componentDidMount() {
+    this._isMounted = true;
+
     if (!this.props.message) {
       this.loadRefMessage();
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -39,7 +54,15 @@ class RefMessage extends Component {
     const isAttachmentImage = get(this.props, 'message.attachment.content_type', '').match('image/');
 
     return <div className={cx('message', {'_is-forwarded': !!this.props.forwardedId}, this.props.className)}>
-      <p className={style.name}>{nick}</p>
+      <div className={style.title}>
+        <p className={style.name}>{nick}</p>
+
+        <span className={style.type}>
+          {', '}
+          {this.props.forwardedId && this.props.t('forwarded')}
+          {this.props.repliedId && this.props.t('replied')}
+        </span>
+      </div>
 
       {this.props.message && !isMessageDeleted &&
         <div className={style.section}>

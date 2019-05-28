@@ -22,7 +22,9 @@ class Notification extends Component {
   }
 
   render = () => this.props.notification.isShown && <Portal>
-    <div className={classnames(style.notification, { '_is-shown': this.state.isShown })}>{ this.props.notification.text }</div>
+    <div className={style.wrapper}>
+      <div className={classnames(style.notification, { '_is-shown': this.state.isShown })}>{ this.props.notification.text }</div>
+    </div>
   </Portal>;
 }
 

@@ -2,6 +2,7 @@ import isEqual from 'lodash/isEqual';
 import { uid } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
+import { actions as notificationActions } from '@/components/notification';
 
 const updateDraft = params => (dispatch, getState) => {
   const state = getState();
@@ -32,6 +33,10 @@ const sendMessage = params => (dispatch, getState) => {
     message.attachment = params.attachment;
   }
 
+  if (params.upload_id) {
+    message.upload_id = params.upload_id;
+  }
+
   if (params.mentions) {
     message.mentions = params.mentions;
   }
@@ -42,11 +47,20 @@ const sendMessage = params => (dispatch, getState) => {
 
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
 
+  setTimeout(() => {
+    const messagesScrollElement = document.getElementById('messages-scroll');
+
+    if (messagesScrollElement) {
+      messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
+    }
+  });
+
   api.post({
     uid: message.uid,
     subscription_id: subscription.id,
-    ...message.text ? {text: message.text} : {},
-    ...message.attachment ? {attachment: message.attachment.url} : {},
+    text: message.text || ' ',
+    ...message.attachment && !message.upload_id ? {attachment: message.attachment.url} : {},
+    ...message.upload_id ? {upload_id: message.upload_id} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
   }).then(data => {
@@ -57,6 +71,14 @@ const sendMessage = params => (dispatch, getState) => {
     });
   }).catch(error => {
     console.error(error);
+    dispatch(notificationActions.showNotification(error.text));
+
+    dispatch(
+      messagesActions.updateMessage({chatId: subscription.id, message: {
+        ...message,
+        isError: true,
+      }}),
+    );
   });
 };
 
@@ -74,10 +96,48 @@ const updateMessage = params => (dispatch, getState) => {
   api.editMessage({
     message_id: params.edit_message_id,
     text: params.text,
-    ...params.attachment ? {attachment: params.attachment.url} : {},
+    ...params.attachment && !params.upload_id ? {attachment: params.attachment.url} : {},
+    ...params.upload_id ? {upload_id: params.upload_id} : {},
   }).catch(error => {
     console.error(error);
+    dispatch(notificationActions.showNotification(error.text));
   });
 };
 
-export default { updateDraft, sendMessage, updateMessage };
+const resendMessage = params => (dispatch, getState) => {
+  const state = getState();
+  const message = state.messages.list[params.uid];
+
+  dispatch(
+    messagesActions.updateMessage({chatId: params.subscription_id, message: {
+      ...message,
+      isError: false,
+    }}),
+  );
+
+  api.post({
+    uid: params.uid,
+    subscription_id: params.subscription_id,
+    text: message.text || ' ',
+    ...message.attachment ? {attachment: message.attachment.url} : {},
+    ...message.mentions ? {mentions: message.mentions} : {},
+    ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
+  }).then(data => {
+    api.updateSubscription({
+      subscription_id: params.subscription_id,
+      last_read_message_id: data.message.id,
+      draft: '',
+    });
+  }).catch(error => {
+    dispatch(notificationActions.showNotification(error.text));
+
+    dispatch(
+      messagesActions.updateMessage({chatId: params.subscription_id, message: {
+        ...message,
+        isError: true,
+      }}),
+    );
+  });
+};
+
+export default { updateDraft, sendMessage, updateMessage, resendMessage };

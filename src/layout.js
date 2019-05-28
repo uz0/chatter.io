@@ -6,7 +6,7 @@ import Gallery from '@/components/gallery_container';
 import Icon from '@/components/icon';
 import style from './layout-style.css';
 
-class Layout extends Component {
+export class Layout extends Component {
   renderLayout() {
     return <Fragment>
       { this.props.children }
@@ -17,8 +17,7 @@ class Layout extends Component {
 
   renderError() {
     const detailsCode = this.props.error.details && JSON.stringify(this.props.error.details, null, 2);
-    const detailsString = this.props.error.details && this.props.error.details.toString();
-    const argumentsCode = JSON.stringify(this.props.error.request.arguments, null, 2);
+    const argumentsCode = this.props.error.request && JSON.stringify(this.props.error.request.arguments, null, 2);
 
     return <div className={style.error}>
       <Icon name="warning" />
@@ -37,14 +36,7 @@ class Layout extends Component {
       {this.props.error.details &&
         <Fragment>
           <h2 className={style.title}>Details</h2>
-
-          {detailsCode !== '{}' &&
-            <pre className={style.error_text}>{detailsCode}</pre>
-          }
-
-          {detailsCode === '{}' &&
-            <p className={style.error_text}>{detailsString}</p>
-          }
+          <pre className={style.error_text}>{detailsCode}</pre>
         </Fragment>
       }
     </div>;

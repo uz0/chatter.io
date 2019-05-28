@@ -1,108 +1,45 @@
 import React from 'react';
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
+import thunk from 'redux-thunk';
 import { mount, shallow } from 'enzyme';
-import Layout from '@/layout';
+import {Layout} from '@/layout';
+import style from '@/layout-style.css';
 
-const mockStore = configureMockStore();
-const emptyStore = mockStore({});
-
-const storeWithError = mockStore({
-  error: {
-    request: {
-      name: 'Request name',
-    },
-
-    details: 'Error',
-  },
-});
+const mockStore = configureMockStore([thunk]);
+const store = mockStore({});
 
 describe('Layout component', () => {
-  it('should display error page', () => {
-    const layout = mount(<Provider store={storeWithError}>
-      <Layout />
-    </Provider>);
+  it('showing error on error added', () => {
+    const layout = shallow(<Layout>
+      <p>Text</p>
+    </Layout>);
 
-    expect(layout.exists(<h1>Error</h1>));
+    expect(layout.contains(<p>Text</p>)).toEqual(true);
+    expect(layout.contains(<h1>Error</h1>)).toEqual(false);
+
+    layout.setProps({
+      error: {
+        details: 'Error',
+      },
+    });
+
+    expect(layout.contains(<p id="children-text">Text</p>)).toEqual(false);
+    expect(layout.contains(<h1>Error</h1>)).toEqual(true);
   });
 
-  it('shouldn`t display error page', () => {
-    const layout = mount(<Provider store={emptyStore}>
-      <Layout />
-    </Provider>);
+  it('error page shows all elements of error', () => {
+    const error = {
+      request: {
+        name: 'login',
+        arguments: { auth_token: 'token' },
+      },
 
-    expect(!layout.exists(<h1>Error</h1>));
+      details: 'Error',
+    };
+
+    const layout = shallow(<Layout error={error} />);
+    expect(layout.contains(<h2 className={style.title}>Request</h2>)).toEqual(true);
+    expect(layout.contains(<h2 className={style.title}>Details</h2>)).toEqual(true);
   });
 });
-
-
-
-
-// import {resolveBy, select} from 'reselector';
-
-// const resolve = resolveBy(require.resolve);
-// const {SignIn: SignInSelector} = resolve('../components/sign-in_container');
-
-// const signInButton = select`${SignInSelector} a[href="/sign-in/"]`;
-// const signUpButton = select`${SignInSelector} a[href="/sign-up/"]`;
-
-// // const url = 'https://demo-chat.universa.io';
-// const url = 'http://localhost:8080/';
-
-// jest.setTimeout(31000);
-
-// describe('Index page', () => {
-//   beforeAll(async () => {
-//     await page.goto(url);
-//     await page.waitForNavigation();
-//   });
-
-//   it('should display "Log In" button in viewport', async () => {
-//     await page.waitForSelector(signInButton, {visible: true});
-//     // expect(button.isIntersectingViewport()).toEqual(true);
-//     await expect(page).toMatch('Log in');
-//   });
-
-//   it('should display "Sign Up" button in viewport', async () => {
-//     await page.waitForSelector(signUpButton, {visible: true});
-
-//     await expect(page).toMatch('Sign Up');
-//   });
-
-//   it('should not display "qweqwe." text on page', async () => {
-
-//     await expect(page).not.toMatch('qweqwe.');
-//   });
-// });
-
-
-// react-puppeteer free way
-
-// import puppeteer from 'puppeteer';
-//
-// let page;
-// let browser;
-// const width = 1920;
-// const height = 1080;
-// const APP = "http://0.0.0.0:8080";
-//
-// beforeAll(async () => {
-//   browser = await puppeteer.launch({
-//     headless: false,
-//     slowMo: 80,
-//     args: [`--window-size=${width},${height}`],
-//   });
-//   page = await browser.newPage();
-//   await page.setViewport({ width, height });
-// });
-//
-// describe("qwe", () => {
-//   test("qwe", async () => {
-//     await page.goto(APP);
-//     await expect(page).toMatch('Sign Upqwe');
-//   }, 16000);
-// });
-//
-// afterAll(() => {
-//   browser.close();
-// });

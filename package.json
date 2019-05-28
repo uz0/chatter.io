@@ -6,6 +6,18 @@
     "type": "git",
     "url": "git+https://github.com/uz0/chatter.io"
   },
+  "scripts": {
+    "test": "jest --coverage",
+    "jest": "jest",
+    "start": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --hot --inline --progress",
+    "prebuild": "npm run clean",
+    "build": "cross-env NODE_ENV=production webpack -p",
+    "postbuild": "npm run copy",
+    "clean": "rimraf build",
+    "copy": "ncp public build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
   "author": "dcversus <dcversus@gmail.com>",
   "dependencies": {
     "autoprefixer": "^6.3.7",
@@ -80,18 +92,5 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1"
-  },
-  "scripts": {
-    "test": "npm run build && npm-run-all --parallel serve jest",
-    "serve": "http-server build",
-    "start": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --hot --inline --progress",
-    "jest": "jest --coverage",
-    "prebuild": "npm run clean",
-    "build": "cross-env NODE_ENV=production webpack -p",
-    "postbuild": "npm run copy",
-    "clean": "rimraf build",
-    "copy": "ncp public build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
   }
 }

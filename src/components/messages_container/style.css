@@ -66,15 +66,11 @@
   margin-top: 2px;
 }
 
-.messages .list .typings {
-  position: sticky;
-  flex-shrink: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+.messages .list .loading {
 }
 
-.messages .list .loading {
+.messages .typings {
+  flex-shrink: 0;
 }
 
 .messages .input {

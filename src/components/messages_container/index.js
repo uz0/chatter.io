@@ -343,12 +343,12 @@ class Messages extends Component {
           <p className={style.empty}>{this.props.t('there_is_no_messages')}</p>
         }
 
-        {this.props.details &&
-          <Typings className={style.typings} subscription_id={this.props.details.id} />
-        }
-
         <Loading isShown={!isMessagesLoaded} className={style.loading} />
       </div>
+
+      {this.props.details &&
+        <Typings className={style.typings} subscription_id={this.props.details.id} />
+      }
 
       {this.props.details && this.props.details.role !== 'ro' &&
         <MessageInput

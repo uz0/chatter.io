@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import get from 'lodash/get';
 import { connect } from 'react-redux';
 import Button from '@/components/button';
 import actions from './actions';
@@ -141,8 +142,8 @@ class Gallery extends Component {
 export default compose(
   connect(
     state => ({
-      images: state.gallery.images,
-      index: state.gallery.index,
+      images: get(state, 'gallery.images', []),
+      index: get(state, 'gallery.index', 0),
       isMobile: state.device === 'touch',
     }),
 

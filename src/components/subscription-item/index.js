@@ -56,6 +56,8 @@ class SubscriptionItem extends Component {
       this.props.loadSubscription(data.subscription);
       this.props.addUsers(data.subscription.group.participants);
       this.loadInviteCode(data.subscription);
+    }).catch(error => {
+      console.error(error);
     });
   };
 

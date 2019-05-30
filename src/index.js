@@ -3,6 +3,7 @@ import { actions as storeActions } from '@/store';
 import routes from '@/routes';
 import store from '@/store';
 import mobileDetect from 'mobile-detect';
+import testData from '@/__tests__/__data__';
 
 import 'normalize.css';
 import './style/index.css';
@@ -13,11 +14,15 @@ window.version = 13;
 const md = new mobileDetect(window.navigator.userAgent);
 const isMobile = !!md.mobile();
 
-store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
+if (store) {
+  store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
+}
 
-const init = () => render(
+const target = document.getElementById('app');
+
+const init = () => target && render(
   routes(),
-  document.getElementById('app'),
+  target,
 );
 
 let api;
@@ -61,16 +66,22 @@ const localInterface = {
 try {
   api = window.UniversaChatApi(apiArguments, localInterface);
 } catch (error) {
-  store.dispatch(storeActions.setError({
-    details: error,
+  if (store) {
+    store.dispatch(storeActions.setError({
+      details: error,
 
-    request: {
-      name: 'UniversaChatApi',
-      arguments: apiArguments,
-    },
-  }));
+      request: {
+        name: 'UniversaChatApi',
+        arguments: apiArguments,
+      },
+    }));
 
-  init();
+    init();
+  }
+}
+
+if (!api) {
+  api = testData.UniversaChatApi();
 }
 
 export { isMobile, api };

@@ -1,0 +1,403 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Messages component renders correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Messages
+    currentUser={
+      Object {
+        "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+        "avatar": Object {
+          "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+          "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+        },
+        "confirmed_at": "2018-10-16T12:06:32Z",
+        "email": "efim1382@gmail.com",
+        "id": 55,
+        "is_confirmed": true,
+        "nick": "efim1382",
+        "searchable_nick": true,
+      }
+    }
+    details={
+      Object {
+        "created_at": "2018-10-17T14:15:05Z",
+        "draft": "",
+        "group": Object {
+          "created_at": "2018-10-17T14:15:05Z",
+          "icon": null,
+          "id": 5,
+          "invite_code": null,
+          "is_deleted": false,
+          "name": null,
+          "participants": Array [
+            Object {
+              "created_at": "2018-10-17T14:15:05Z",
+              "draft": "",
+              "group_id": 5,
+              "id": 69,
+              "last_mentioned_in_message_id": null,
+              "last_read_message_id": 5705,
+              "mute_until": null,
+              "role": "rw",
+              "tags": null,
+              "user": Object {
+                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                "avatar": Object {
+                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                },
+                "confirmed_at": "2018-10-16T12:06:32Z",
+                "email": "efim1382@gmail.com",
+                "id": 55,
+                "is_confirmed": true,
+                "nick": "efim1382",
+                "searchable_nick": true,
+              },
+              "user_id": 55,
+            },
+            Object {
+              "created_at": "2018-10-17T14:15:05Z",
+              "draft": "",
+              "group_id": 5,
+              "id": 70,
+              "last_mentioned_in_message_id": null,
+              "last_read_message_id": 2482,
+              "mute_until": null,
+              "role": "rw",
+              "user": Object {
+                "avatar": Object {
+                  "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                  "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                },
+                "id": 59,
+                "is_confirmed": false,
+                "nick": "ivan ivanov",
+              },
+              "user_id": 55,
+            },
+          ],
+          "type": "private_chat",
+          "updated_at": "2018-10-17T14:15:05Z",
+        },
+        "group_id": 5,
+        "id": 69,
+        "last_mentioned_in_message_id": null,
+        "last_read_message_id": 5705,
+        "mute_until": null,
+        "role": "rw",
+        "tags": null,
+        "user": Object {
+          "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+          "avatar": Object {
+            "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+            "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+          },
+          "confirmed_at": "2018-10-16T12:06:32Z",
+          "email": "efim1382@gmail.com",
+          "id": 55,
+          "is_confirmed": true,
+          "nick": "efim1382",
+          "searchable_nick": true,
+        },
+        "user_id": 55,
+      }
+    }
+    isGalleryOpen={false}
+    params={Object {}}
+    setError={[Function]}
+    subscriptions_ids={Array []}
+    t={[Function]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <withRouter(Connect(Header))
+          chatId={69}
+          className="header"
+        />,
+        <div
+          className="list"
+          id="messages-scroll"
+        >
+          <p
+            className="empty"
+          />
+          <Loading
+            className="loading"
+            isShown={true}
+          />
+        </div>,
+        <Connect(LoadNamespace(Connect(Wrapped)))
+          className="typings"
+          subscription_id={69}
+        />,
+        <LoadNamespace(Connect(Connect(MessageInput)))
+          className="input"
+          scrollListMessagesToBottom={[Function]}
+          subscription_id={69}
+        />,
+      ],
+      "className": "messages",
+      "data-e2c53d2c": true,
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "chatId": 69,
+          "className": "header",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            undefined,
+            false,
+            <p
+              className="empty"
+            />,
+            <Loading
+              className="loading"
+              isShown={true}
+            />,
+          ],
+          "className": "list",
+          "id": "messages-scroll",
+        },
+        "ref": [Function],
+        "rendered": Array [
+          undefined,
+          false,
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": undefined,
+              "className": "empty",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "p",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "loading",
+              "isShown": true,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "className": "typings",
+          "subscription_id": 69,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "className": "input",
+          "scrollListMessagesToBottom": [Function],
+          "subscription_id": 69,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <withRouter(Connect(Header))
+            chatId={69}
+            className="header"
+          />,
+          <div
+            className="list"
+            id="messages-scroll"
+          >
+            <p
+              className="empty"
+            />
+            <Loading
+              className="loading"
+              isShown={true}
+            />
+          </div>,
+          <Connect(LoadNamespace(Connect(Wrapped)))
+            className="typings"
+            subscription_id={69}
+          />,
+          <LoadNamespace(Connect(Connect(MessageInput)))
+            className="input"
+            scrollListMessagesToBottom={[Function]}
+            subscription_id={69}
+          />,
+        ],
+        "className": "messages",
+        "data-e2c53d2c": true,
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "chatId": 69,
+            "className": "header",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              undefined,
+              false,
+              <p
+                className="empty"
+              />,
+              <Loading
+                className="loading"
+                isShown={true}
+              />,
+            ],
+            "className": "list",
+            "id": "messages-scroll",
+          },
+          "ref": [Function],
+          "rendered": Array [
+            undefined,
+            false,
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": undefined,
+                "className": "empty",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "p",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "className": "loading",
+                "isShown": true,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "className": "typings",
+            "subscription_id": 69,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "className": "input",
+            "scrollListMessagesToBottom": [Function],
+            "subscription_id": 69,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+  Symbol(enzyme.__childContext__): null,
+}
+`;

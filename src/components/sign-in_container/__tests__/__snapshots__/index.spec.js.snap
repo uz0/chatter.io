@@ -1,0 +1,602 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignIn component renders correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <SignIn
+    t={[Function]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <withRouter(CustomLink)
+          className="logo"
+          to="/"
+        >
+          Unichat
+        </withRouter(CustomLink)>,
+        <nav>
+          <withRouter(CustomLink)
+            className="active_link"
+            to="/sign-in"
+          />
+          <withRouter(CustomLink)
+            to="/sign-up"
+          />
+        </nav>,
+        <Connect(Form)
+          actions={
+            Array [
+              Object {
+                "appearance": "_basic-primary",
+                "onClick": [Function],
+                "text": "undefined",
+                "type": "submit",
+              },
+              Object {
+                "text": "undefined?",
+                "to": "/forgot-password",
+              },
+            ]
+          }
+          className="form"
+          disabled={false}
+          error=""
+          model="login"
+        >
+          <Connect(Input)
+            class="light"
+            className="input"
+            disabled={false}
+            model="login.email"
+            type="email"
+            validations={
+              Array [
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+              ]
+            }
+          />
+          <Connect(Input)
+            class="light"
+            className="input"
+            disabled={false}
+            model="login.password"
+            type="password"
+            validations={
+              Array [
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+              ]
+            }
+          />
+        </Connect(Form)>,
+      ],
+      "className": "login",
+      "data-6f1ad961": true,
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": "Unichat",
+          "className": "logo",
+          "to": "/",
+        },
+        "ref": null,
+        "rendered": "Unichat",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <withRouter(CustomLink)
+              className="active_link"
+              to="/sign-in"
+            />,
+            <withRouter(CustomLink)
+              to="/sign-up"
+            />,
+          ],
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": undefined,
+              "className": "active_link",
+              "to": "/sign-in",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": undefined,
+              "to": "/sign-up",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "nav",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "actions": Array [
+            Object {
+              "appearance": "_basic-primary",
+              "onClick": [Function],
+              "text": "undefined",
+              "type": "submit",
+            },
+            Object {
+              "text": "undefined?",
+              "to": "/forgot-password",
+            },
+          ],
+          "children": Array [
+            <Connect(Input)
+              class="light"
+              className="input"
+              disabled={false}
+              model="login.email"
+              type="email"
+              validations={
+                Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+            />,
+            <Connect(Input)
+              class="light"
+              className="input"
+              disabled={false}
+              model="login.password"
+              type="password"
+              validations={
+                Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+            />,
+          ],
+          "className": "form",
+          "disabled": false,
+          "error": "",
+          "model": "login",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "class": "light",
+              "className": "input",
+              "disabled": false,
+              "model": "login.email",
+              "placeholder": undefined,
+              "type": "email",
+              "validations": Array [
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+              ],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "class": "light",
+              "className": "input",
+              "disabled": false,
+              "model": "login.password",
+              "placeholder": undefined,
+              "type": "password",
+              "validations": Array [
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+              ],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <withRouter(CustomLink)
+            className="logo"
+            to="/"
+          >
+            Unichat
+          </withRouter(CustomLink)>,
+          <nav>
+            <withRouter(CustomLink)
+              className="active_link"
+              to="/sign-in"
+            />
+            <withRouter(CustomLink)
+              to="/sign-up"
+            />
+          </nav>,
+          <Connect(Form)
+            actions={
+              Array [
+                Object {
+                  "appearance": "_basic-primary",
+                  "onClick": [Function],
+                  "text": "undefined",
+                  "type": "submit",
+                },
+                Object {
+                  "text": "undefined?",
+                  "to": "/forgot-password",
+                },
+              ]
+            }
+            className="form"
+            disabled={false}
+            error=""
+            model="login"
+          >
+            <Connect(Input)
+              class="light"
+              className="input"
+              disabled={false}
+              model="login.email"
+              type="email"
+              validations={
+                Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+            />
+            <Connect(Input)
+              class="light"
+              className="input"
+              disabled={false}
+              model="login.password"
+              type="password"
+              validations={
+                Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+            />
+          </Connect(Form)>,
+        ],
+        "className": "login",
+        "data-6f1ad961": true,
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": "Unichat",
+            "className": "logo",
+            "to": "/",
+          },
+          "ref": null,
+          "rendered": "Unichat",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <withRouter(CustomLink)
+                className="active_link"
+                to="/sign-in"
+              />,
+              <withRouter(CustomLink)
+                to="/sign-up"
+              />,
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": undefined,
+                "className": "active_link",
+                "to": "/sign-in",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": undefined,
+                "to": "/sign-up",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "nav",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "actions": Array [
+              Object {
+                "appearance": "_basic-primary",
+                "onClick": [Function],
+                "text": "undefined",
+                "type": "submit",
+              },
+              Object {
+                "text": "undefined?",
+                "to": "/forgot-password",
+              },
+            ],
+            "children": Array [
+              <Connect(Input)
+                class="light"
+                className="input"
+                disabled={false}
+                model="login.email"
+                type="email"
+                validations={
+                  Array [
+                    Object {
+                      "action": [Function],
+                      "text": undefined,
+                    },
+                    Object {
+                      "action": [Function],
+                      "text": undefined,
+                    },
+                  ]
+                }
+              />,
+              <Connect(Input)
+                class="light"
+                className="input"
+                disabled={false}
+                model="login.password"
+                type="password"
+                validations={
+                  Array [
+                    Object {
+                      "action": [Function],
+                      "text": undefined,
+                    },
+                    Object {
+                      "action": [Function],
+                      "text": undefined,
+                    },
+                    Object {
+                      "action": [Function],
+                      "text": undefined,
+                    },
+                  ]
+                }
+              />,
+            ],
+            "className": "form",
+            "disabled": false,
+            "error": "",
+            "model": "login",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "class": "light",
+                "className": "input",
+                "disabled": false,
+                "model": "login.email",
+                "placeholder": undefined,
+                "type": "email",
+                "validations": Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "class": "light",
+                "className": "input",
+                "disabled": false,
+                "model": "login.password",
+                "placeholder": undefined,
+                "type": "password",
+                "validations": Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+  Symbol(enzyme.__childContext__): null,
+}
+`;

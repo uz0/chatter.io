@@ -1,12 +1,7 @@
 import React from 'react';
-import configureMockStore from "redux-mock-store";
-import thunk from 'redux-thunk';
 import { shallow } from 'enzyme';
 import { Layout } from '@/layout';
 import style from '@/layout-style.css';
-
-const mockStore = configureMockStore([thunk]);
-const store = mockStore({});
 
 describe('Layout component', () => {
   it('showing error on error added', () => {

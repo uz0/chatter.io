@@ -16,6 +16,7 @@ module.exports =  {
   'collectCoverageFrom': [
     'src/**/*.{js,jsx}',
   ],
-  // 'preset': 'jest-puppeteer',
+
+  modulePathIgnorePatterns: ['__data__'],
   'setupTestFrameworkScriptFile': './setupTestFrameworkScriptFile.js',
 };

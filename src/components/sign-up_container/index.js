@@ -14,7 +14,7 @@ import Validators from '@/components/form/validators';
 
 import style from './style.css';
 
-class SignUp extends Component {
+export class SignUp extends Component {
   state = {
     commonError: {},
     isLoading: false,

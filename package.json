@@ -7,8 +7,9 @@
     "url": "git+https://github.com/uz0/chatter.io"
   },
   "scripts": {
-    "test": "jest --coverage",
-    "jest": "jest",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage",
+    "test:update-snapshots": "npm run test -- -u",
     "start": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --hot --inline --progress",
     "prebuild": "npm run clean",
     "build": "cross-env NODE_ENV=production webpack -p",

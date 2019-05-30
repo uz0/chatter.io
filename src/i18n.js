@@ -3,7 +3,7 @@ import { en, ru } from '../i18n';
 import { reactI18nextModule } from 'react-i18next';
 
 i18n.use(reactI18nextModule).init({
-  debug    : true,
+  debug    : process.env.NODE_ENV === 'development',
   lng      : 'en',
   react    : {defaultTransParent: 'div', wait: true},
   resources: {en, ru},

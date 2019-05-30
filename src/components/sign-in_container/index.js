@@ -13,7 +13,7 @@ import { api } from '@';
 import { withRouter } from '@/hoc';
 import style from './style.css';
 
-class SignIn extends Component {
+export class SignIn extends Component {
   state = {
     commonError: {},
     isLoading: false,

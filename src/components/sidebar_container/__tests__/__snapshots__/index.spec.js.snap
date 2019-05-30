@@ -1,0 +1,705 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sidebar component renders correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Sidebar
+    currentUser={
+      Object {
+        "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+        "avatar": Object {
+          "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+          "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+        },
+        "confirmed_at": "2018-10-16T12:06:32Z",
+        "email": "efim1382@gmail.com",
+        "id": 55,
+        "is_confirmed": true,
+        "nick": "efim1382",
+        "searchable_nick": true,
+      }
+    }
+    sorted_subscriptions_ids={Array []}
+    subscriptions_ids={Array []}
+    t={[Function]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="header"
+        >
+          <h1>
+            Unichat
+          </h1>
+          <Connect(Dropdown)
+            className="dropdown"
+            items={
+              Array [
+                Object {
+                  "onClick": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "onClick": [Function],
+                  "text": undefined,
+                },
+              ]
+            }
+            uniqueId="sidebar-user-dropdown"
+          >
+            <button
+              className="image"
+              style={
+                Object {
+                  "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                }
+              }
+            />
+          </Connect(Dropdown)>
+          <Button
+            appearance="_fab-divider"
+            className="button"
+            icon="add-chat"
+            onClick={[Function]}
+          />
+        </div>,
+        <LoadNamespace(SearchInput)
+          className="search"
+          onInput={[Function]}
+        />,
+        <div
+          className="navigation"
+        >
+          <button
+            className=""
+            onClick={[Function]}
+          />
+          <button
+            className=""
+            onClick={[Function]}
+          />
+          <button
+            className=""
+            onClick={[Function]}
+          />
+        </div>,
+        undefined,
+        <div
+          className="list"
+        >
+          <p
+            className="empty"
+          />
+        </div>,
+        <Loading
+          className="loading"
+          isShown={true}
+        />,
+      ],
+      "className": "sidebar",
+      "data-c5c61f8c": true,
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <h1>
+              Unichat
+            </h1>,
+            <Connect(Dropdown)
+              className="dropdown"
+              items={
+                Array [
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+              uniqueId="sidebar-user-dropdown"
+            >
+              <button
+                className="image"
+                style={
+                  Object {
+                    "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                  }
+                }
+              />
+            </Connect(Dropdown)>,
+            <Button
+              appearance="_fab-divider"
+              className="button"
+              icon="add-chat"
+              onClick={[Function]}
+            />,
+          ],
+          "className": "header",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Unichat",
+            },
+            "ref": null,
+            "rendered": "Unichat",
+            "type": "h1",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": <button
+                className="image"
+                style={
+                  Object {
+                    "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                  }
+                }
+              />,
+              "className": "dropdown",
+              "items": Array [
+                Object {
+                  "onClick": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "onClick": [Function],
+                  "text": undefined,
+                },
+              ],
+              "uniqueId": "sidebar-user-dropdown",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": "image",
+                "style": Object {
+                  "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                },
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "button",
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "appearance": "_fab-divider",
+              "className": "button",
+              "icon": "add-chat",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "className": "search",
+          "onInput": [Function],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <button
+              className=""
+              onClick={[Function]}
+            />,
+            <button
+              className=""
+              onClick={[Function]}
+            />,
+            <button
+              className=""
+              onClick={[Function]}
+            />,
+          ],
+          "className": "navigation",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": undefined,
+              "className": "",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "button",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": undefined,
+              "className": "",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "button",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": undefined,
+              "className": "",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "button",
+          },
+        ],
+        "type": "div",
+      },
+      undefined,
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            Array [],
+            <p
+              className="empty"
+            />,
+          ],
+          "className": "list",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": undefined,
+              "className": "empty",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "p",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "className": "loading",
+          "isShown": true,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="header"
+          >
+            <h1>
+              Unichat
+            </h1>
+            <Connect(Dropdown)
+              className="dropdown"
+              items={
+                Array [
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+              uniqueId="sidebar-user-dropdown"
+            >
+              <button
+                className="image"
+                style={
+                  Object {
+                    "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                  }
+                }
+              />
+            </Connect(Dropdown)>
+            <Button
+              appearance="_fab-divider"
+              className="button"
+              icon="add-chat"
+              onClick={[Function]}
+            />
+          </div>,
+          <LoadNamespace(SearchInput)
+            className="search"
+            onInput={[Function]}
+          />,
+          <div
+            className="navigation"
+          >
+            <button
+              className=""
+              onClick={[Function]}
+            />
+            <button
+              className=""
+              onClick={[Function]}
+            />
+            <button
+              className=""
+              onClick={[Function]}
+            />
+          </div>,
+          undefined,
+          <div
+            className="list"
+          >
+            <p
+              className="empty"
+            />
+          </div>,
+          <Loading
+            className="loading"
+            isShown={true}
+          />,
+        ],
+        "className": "sidebar",
+        "data-c5c61f8c": true,
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <h1>
+                Unichat
+              </h1>,
+              <Connect(Dropdown)
+                className="dropdown"
+                items={
+                  Array [
+                    Object {
+                      "onClick": [Function],
+                      "text": undefined,
+                    },
+                    Object {
+                      "onClick": [Function],
+                      "text": undefined,
+                    },
+                  ]
+                }
+                uniqueId="sidebar-user-dropdown"
+              >
+                <button
+                  className="image"
+                  style={
+                    Object {
+                      "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                    }
+                  }
+                />
+              </Connect(Dropdown)>,
+              <Button
+                appearance="_fab-divider"
+                className="button"
+                icon="add-chat"
+                onClick={[Function]}
+              />,
+            ],
+            "className": "header",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Unichat",
+              },
+              "ref": null,
+              "rendered": "Unichat",
+              "type": "h1",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": <button
+                  className="image"
+                  style={
+                    Object {
+                      "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                    }
+                  }
+                />,
+                "className": "dropdown",
+                "items": Array [
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                ],
+                "uniqueId": "sidebar-user-dropdown",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "className": "image",
+                  "style": Object {
+                    "--bg-image": "url(https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg)",
+                  },
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "button",
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "appearance": "_fab-divider",
+                "className": "button",
+                "icon": "add-chat",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "className": "search",
+            "onInput": [Function],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <button
+                className=""
+                onClick={[Function]}
+              />,
+              <button
+                className=""
+                onClick={[Function]}
+              />,
+              <button
+                className=""
+                onClick={[Function]}
+              />,
+            ],
+            "className": "navigation",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": undefined,
+                "className": "",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "button",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": undefined,
+                "className": "",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "button",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": undefined,
+                "className": "",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "button",
+            },
+          ],
+          "type": "div",
+        },
+        undefined,
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              Array [],
+              <p
+                className="empty"
+              />,
+            ],
+            "className": "list",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": undefined,
+                "className": "empty",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "p",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "loading",
+            "isShown": true,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+  Symbol(enzyme.__childContext__): null,
+}
+`;

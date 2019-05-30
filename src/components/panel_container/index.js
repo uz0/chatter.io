@@ -23,7 +23,7 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class Panel extends Component {
+export class Panel extends Component {
   state = {
     collapseActive: 'people',
     chatName: '',

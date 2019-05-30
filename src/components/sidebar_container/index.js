@@ -26,7 +26,7 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class Sidebar extends Component {
+export class Sidebar extends Component {
   isSubscriptionInViewPort = element => {
     const parent = element.parentElement;
     const elementRect = element.getBoundingClientRect();

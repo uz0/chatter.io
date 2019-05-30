@@ -59,12 +59,16 @@
   align-items: center;
   width: 20px;
   height: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--ref-text-color) inset;
+}
+
+.message > .section > .file._is-image {
   background-image: var(--image);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px var(--ref-text-color) inset;
+  cursor: pointer;
 }
 
 .message > .section > .file > i {

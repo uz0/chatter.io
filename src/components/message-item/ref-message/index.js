@@ -8,6 +8,7 @@ import Icon from '@/components/icon';
 import Loading from '@/components/loading';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
+import { actions as galleryActions } from '@/components/gallery_container';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -35,6 +36,11 @@ class RefMessage extends Component {
       }
     });
   };
+
+  openGallery = () => this.props.openGallery({
+    images: [this.props.message.attachment.url],
+    index: 0,
+  });
 
   componentDidMount() {
     this._isMounted = true;
@@ -68,8 +74,9 @@ class RefMessage extends Component {
         <div className={style.section}>
           {this.props.message.attachment &&
             <div
-              className={style.file}
-              {...isAttachmentImage ? { style: {'--image': 'url(/assets/default-image.jpg)'} } : {}}
+              className={cx('file', {'_is-image': isAttachmentImage})}
+              {...isAttachmentImage ? {style: {'--image': `url(${this.props.message.attachment.preview})`}} : {}}
+              {...isAttachmentImage ? {onClick: this.openGallery} : {}}
             >
               {!isAttachmentImage &&
                 <Icon name="attach" />
@@ -107,6 +114,7 @@ export default compose(
 
     {
       addMessage: messagesActions.addMessage,
+      openGallery: galleryActions.openGallery,
     },
   ),
 

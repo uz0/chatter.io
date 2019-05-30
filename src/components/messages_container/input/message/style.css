@@ -45,6 +45,11 @@
   color: var(--text-color);
 }
 
+.message .message_content .text span {
+  font-weight: var(--font-weight-medium);
+  font-size: 13px;
+}
+
 .message .close {
   --height: 30px;
   --icon-size: 10px;

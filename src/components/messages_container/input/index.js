@@ -202,7 +202,7 @@ class MessageInput extends Component {
           url: '',
         },
       });
-    });
+    }, 1);
 
     const reader = new FileReader();
 
@@ -330,13 +330,7 @@ class MessageInput extends Component {
 
     scrollMessagesBottom(() => {
       this.textareaRef.style.height = '20px';
-
-      if (this.textareaRef.scrollHeight > 20) {
-        this.textareaRef.style.height = this.textareaRef.scrollHeight + 10 + 'px';
-        this.inputWrapperRef.style.marginTop =  '10px';
-      } else {
-        this.inputWrapperRef.style.marginTop =  0;
-      }
+      this.textareaRef.style.height = `${this.textareaRef.scrollHeight}px`;
     });
   };
 

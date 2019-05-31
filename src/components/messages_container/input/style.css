@@ -20,6 +20,7 @@
 }
 
 .input .section {
+  position: relative;
   flex-grow: 1;
   min-width: 0;
   margin-left: 4px;
@@ -27,6 +28,13 @@
   padding-right: 16px;
   border-radius: 19px;
   background-color: var(--divider-color);
+}
+
+.input .section > .suggestion {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: 100%;
 }
 
 .input .section .message {

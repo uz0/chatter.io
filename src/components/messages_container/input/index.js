@@ -11,6 +11,7 @@ import Icon from '@/components/icon';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import throttle from 'lodash/throttle';
+import Suggestion from './suggestion';
 import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
@@ -32,6 +33,7 @@ class MessageInput extends Component {
     currentChunk: null,
     value: this.props.draft || '',
     isFileLoading: false,
+    isSuggestionShown: false,
   };
 
   onTextareaKeyDown = event => {
@@ -237,6 +239,98 @@ class MessageInput extends Component {
     return text;
   };
 
+  setMention = nick => {
+    const currentCursorPosition = this.textareaRef.selectionStart;
+    const lastChar = this.state.value[currentCursorPosition - 1];
+    const start = this.state.value.substr(0, currentCursorPosition);
+
+    if (lastChar === '@') {
+      let end = this.state.value.substr(currentCursorPosition);
+
+      if (end.length > 0 && end[0] !== ' ') {
+        end = ` ${end}`;
+      }
+
+      const value = `${start}${nick}${end}`;
+      this.setState({ value, isSuggestionShown: false });
+      return;
+    }
+
+    const lastMentionIndex = start.lastIndexOf('@');
+
+    if (lastMentionIndex !== -1) {
+      const start = this.state.value.substr(0, lastMentionIndex);
+      let end = this.state.value.substr(lastMentionIndex);
+      const firstDelimiterInEnd = end.indexOf(' ');
+
+      if (firstDelimiterInEnd !== -1) {
+        end = end.substr(firstDelimiterInEnd);
+      } else {
+        end = '';
+      }
+
+      const value = `${start}@${nick}${end}`;
+      this.setState({ value, isSuggestionShown: false });
+      return;
+    }
+  };
+
+  checkIsSuggestionShown = value => {
+    if (!this.props.isGroup) {
+      return false;
+    }
+
+    if (!value) {
+      return false;
+    }
+
+    const currentCursorPosition = this.textareaRef.selectionStart;
+    const lastChar = value[currentCursorPosition - 1];
+    const prevChar = value[currentCursorPosition - 2];
+
+    if (lastChar === '@') {
+      if (value.length === 1) {
+        return true;
+      }
+
+      if (prevChar === ' ') {
+        return true;
+      }
+    }
+
+    if (lastChar === ' ') {
+      return false;
+    }
+
+    return this.state.isSuggestionShown;
+  };
+
+  closeSuggestion = () => this.setState({ isSuggestionShown: false });
+
+  getCurrentMentionSearch = () => {
+    if (!this.textareaRef) {
+      return;
+    }
+
+    const currentCursorPosition = this.textareaRef.selectionStart;
+
+    if (this.state.value[currentCursorPosition - 1] === '@' && this.state.value[currentCursorPosition] === ' ') {
+      return;
+    }
+
+    const start = this.state.value.substr(0, currentCursorPosition);
+    const lastMentionIndex = start.lastIndexOf('@');
+
+    if (lastMentionIndex === -1) {
+      return;
+    }
+
+    const end = this.state.value.substr(lastMentionIndex + 1);
+    const firstDelimiterInEnd = end.indexOf(' ');
+    const nick = end.substr(0, firstDelimiterInEnd === -1 ? end.length : firstDelimiterInEnd);
+    return nick;
+  };
+
   parseMentions = text => {
     if (!text) {
       return null;
@@ -355,7 +449,12 @@ class MessageInput extends Component {
 
   onInput = event => {
     this.calcTextareaHeight();
-    this.setState({ value: event.target.value });
+    const isShown = this.checkIsSuggestionShown(event.target.value);
+
+    this.setState({
+      value: event.target.value,
+      ...isShown !== this.state.isSuggestionShown ? { isSuggestionShown: isShown } : {},
+    });
 
     if (!this.props.edit_message_id && !this.props.reply_message_id) {
       setTimeout(() => this.throttleUpdateDraft(this.state.value));
@@ -422,6 +521,7 @@ class MessageInput extends Component {
       this.setState({
         value: nextProps.draft ? nextProps.draft : '',
         attachment: null,
+        isSuggestionShown: false,
       });
 
       setTimeout(() => this.textareaRef.focus());
@@ -444,6 +544,7 @@ class MessageInput extends Component {
     const messageId = this.props.reply_message_id || this.props.edit_message_id;
     const sendButtonName = this.props.edit_message_id ? this.props.t('edit') : this.props.t('send');
     const progress = this.getProgressText();
+    const currentMentionSearch = this.getCurrentMentionSearch();
 
     return <div className={cx('input', this.props.className)}>
       <Button
@@ -461,6 +562,16 @@ class MessageInput extends Component {
       />
 
       <div className={style.section}>
+        {this.state.isSuggestionShown &&
+          <Suggestion
+            subscription_id={this.props.subscription_id}
+            onSelect={this.setMention}
+            className={style.suggestion}
+            search={currentMentionSearch}
+            onClose={this.closeSuggestion}
+          />
+        }
+
         {messageId &&
           <Message className={style.message} id={messageId} onClose={this.closeMessage} />
         }
@@ -513,6 +624,7 @@ export default compose(
   connect(
     (state, props) => ({
       draft: get(state.subscriptions.list[props.subscription_id], 'draft', ''),
+      isGroup: get(state.subscriptions.list[props.subscription_id], 'group.type', '') === 'room',
       edit_message_id: state.messages.edit_message_id,
       reply_message_id: state.messages.reply_message_id,
       users_ids: state.users.ids,

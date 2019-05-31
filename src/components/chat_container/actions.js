@@ -76,8 +76,8 @@ const notificationReceived = notification => (dispatch, getState) => {
 
         body: JSON.stringify({
           notification: {
-            title: `${userName} | ${chatName}`,
-            body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
+            title: chatName,
+            body: `${userName}: ${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
             click_action: location.href,
             icon,
             sound: 'default',

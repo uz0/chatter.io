@@ -25,7 +25,7 @@ export class Suggestion extends Component {
           return;
         }
 
-        if (this.props.search && !user.nick.match(this.props.search)) {
+        if (this.props.search && !user.nick.toLowerCase().startsWith(this.props.search.toLowerCase())) {
           return;
         }
 

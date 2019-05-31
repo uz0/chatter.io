@@ -14,7 +14,7 @@ import Validators from '@/components/form/validators';
 
 import style from './style.css';
 
-class ForgotPassword extends Component {
+export class ForgotPassword extends Component {
   state = {
     commonError: {},
     isLoading: false,

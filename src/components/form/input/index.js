@@ -9,7 +9,7 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class Input extends Component {
+export class Input extends Component {
   onInput = event => {
     if (!this.props.modelData.isBlured) {
       this.props.formChange(this.props.model, {

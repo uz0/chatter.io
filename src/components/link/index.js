@@ -14,7 +14,7 @@ const CustomLink = ({
     search = '?' + Object.keys(query).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
   }
 
-  if (!query) {
+  if (!query && location) {
     search = location.search;
   }
 

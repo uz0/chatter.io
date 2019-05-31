@@ -1,0 +1,379 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForgotPassword component renders correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ForgotPassword
+    location={
+      Object {
+        "query": Object {},
+      }
+    }
+    t={[Function]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <withRouter(CustomLink)
+          className="logo"
+          to="/"
+        >
+          Unichat
+        </withRouter(CustomLink)>,
+        <h1
+          className="title"
+        >
+          ?
+        </h1>,
+        <Connect(Form)
+          actions={
+            Array [
+              Object {
+                "appearance": "_basic-primary",
+                "onClick": [Function],
+                "text": "undefined",
+                "type": "submit",
+              },
+            ]
+          }
+          className="form"
+          disabled={false}
+          error=""
+          model="forgot"
+        >
+          <Connect(Input)
+            className="input"
+            disabled={false}
+            model="forgot.email"
+            type="email"
+            validations={
+              Array [
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+              ]
+            }
+          />
+        </Connect(Form)>,
+      ],
+      "className": "forgot",
+      "data-9cdaf621": true,
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": "Unichat",
+          "className": "logo",
+          "to": "/",
+        },
+        "ref": null,
+        "rendered": "Unichat",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            undefined,
+            "?",
+          ],
+          "className": "title",
+        },
+        "ref": null,
+        "rendered": Array [
+          undefined,
+          "?",
+        ],
+        "type": "h1",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "actions": Array [
+            Object {
+              "appearance": "_basic-primary",
+              "onClick": [Function],
+              "text": "undefined",
+              "type": "submit",
+            },
+          ],
+          "children": Array [
+            <Connect(Input)
+              className="input"
+              disabled={false}
+              model="forgot.email"
+              type="email"
+              validations={
+                Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+            />,
+            undefined,
+            undefined,
+          ],
+          "className": "form",
+          "disabled": false,
+          "error": "",
+          "model": "forgot",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "className": "input",
+              "disabled": false,
+              "model": "forgot.email",
+              "placeholder": undefined,
+              "type": "email",
+              "validations": Array [
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "action": [Function],
+                  "text": undefined,
+                },
+              ],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          undefined,
+          undefined,
+        ],
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <withRouter(CustomLink)
+            className="logo"
+            to="/"
+          >
+            Unichat
+          </withRouter(CustomLink)>,
+          <h1
+            className="title"
+          >
+            ?
+          </h1>,
+          <Connect(Form)
+            actions={
+              Array [
+                Object {
+                  "appearance": "_basic-primary",
+                  "onClick": [Function],
+                  "text": "undefined",
+                  "type": "submit",
+                },
+              ]
+            }
+            className="form"
+            disabled={false}
+            error=""
+            model="forgot"
+          >
+            <Connect(Input)
+              className="input"
+              disabled={false}
+              model="forgot.email"
+              type="email"
+              validations={
+                Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+            />
+          </Connect(Form)>,
+        ],
+        "className": "forgot",
+        "data-9cdaf621": true,
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": "Unichat",
+            "className": "logo",
+            "to": "/",
+          },
+          "ref": null,
+          "rendered": "Unichat",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              undefined,
+              "?",
+            ],
+            "className": "title",
+          },
+          "ref": null,
+          "rendered": Array [
+            undefined,
+            "?",
+          ],
+          "type": "h1",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "actions": Array [
+              Object {
+                "appearance": "_basic-primary",
+                "onClick": [Function],
+                "text": "undefined",
+                "type": "submit",
+              },
+            ],
+            "children": Array [
+              <Connect(Input)
+                className="input"
+                disabled={false}
+                model="forgot.email"
+                type="email"
+                validations={
+                  Array [
+                    Object {
+                      "action": [Function],
+                      "text": undefined,
+                    },
+                    Object {
+                      "action": [Function],
+                      "text": undefined,
+                    },
+                  ]
+                }
+              />,
+              undefined,
+              undefined,
+            ],
+            "className": "form",
+            "disabled": false,
+            "error": "",
+            "model": "forgot",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "className": "input",
+                "disabled": false,
+                "model": "forgot.email",
+                "placeholder": undefined,
+                "type": "email",
+                "validations": Array [
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "action": [Function],
+                    "text": undefined,
+                  },
+                ],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            undefined,
+            undefined,
+          ],
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+  Symbol(enzyme.__childContext__): null,
+}
+`;

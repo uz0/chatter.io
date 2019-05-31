@@ -5,6 +5,7 @@ export default {translation: {
   admin: 'Admin',
   all: 'All',
   auth_failed: 'Password is invalid',
+  b: 'B',
   cancel: 'Cancel',
   can_be_found_in_the_search: 'Can be found in the search',
   category: 'Category',

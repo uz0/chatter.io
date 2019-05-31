@@ -7,6 +7,7 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
 import config from '@/config';
+import { getChatName } from '@/helpers';
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -50,6 +51,18 @@ const notificationReceived = notification => (dispatch, getState) => {
       return;
     }
 
+    const chatName = getChatName(subscription);
+    const userName = user.nick || 'no nick';
+    const userPhoto = get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`);
+
+    let icon;
+
+    if (subscription.group.type === 'private_chat') {
+      icon = userPhoto;
+    } else {
+      icon = get(subscription.group, 'icon.small', userPhoto);
+    }
+
     try {
       const currentToken = await messaging.getToken();
 
@@ -63,10 +76,10 @@ const notificationReceived = notification => (dispatch, getState) => {
 
         body: JSON.stringify({
           notification: {
-            title: 'New Message',
+            title: `${userName} | ${chatName}`,
             body: `${message.text.substr(0, 50)}${message.text.length > 50 ? '...' : ''}`,
             click_action: location.href,
-            icon: get(user, 'avatar.small', `${location.host}/assets/default-user.jpg`),
+            icon,
             sound: 'default',
           },
 

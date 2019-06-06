@@ -71,15 +71,21 @@
   color: var(--caption-color);
 }
 
-.input .section .input_wrapper .input_content .preview {
+.input .section .input_wrapper .input_content .gallery_preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 70px);
+  grid-gap: 6px;
+  margin-top: 6px;
+}
+
+.input .section .input_wrapper .input_content .gallery_preview .preview {
   --size: 70px;
+  flex-shrink: 0;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: var(--size);
   height: var(--size);
-  margin-top: 6px;
   border-radius: 4px;
   background-color: #dedede;
   background-image: var(--image);
@@ -88,13 +94,13 @@
   background-position: center;
 }
 
-.input .section .input_wrapper .input_content .preview > i {
+.input .section .input_wrapper .input_content .gallery_preview .preview > i {
   --icon-size: 24px;
   --icon-color: var(--caption-color);
   flex-shrink: 0;
 }
 
-.input .section .input_wrapper .input_content .preview button {
+.input .section .input_wrapper .input_content .gallery_preview .preview button {
   --size: 18px;
   z-index: 3;
   position: absolute;
@@ -110,20 +116,20 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 }
 
-.input .section .input_wrapper .input_content .preview button:not(:hover) {
+.input .section .input_wrapper .input_content .gallery_preview .preview button:not(:hover) {
   --icon-color: var(--caption-color);
 }
 
-.input .section .input_wrapper .input_content .preview button:hover {
+.input .section .input_wrapper .input_content .gallery_preview .preview button:hover {
   --icon-color: var(--text-color);
 }
 
-.input .section .input_wrapper .input_content .preview button i {
+.input .section .input_wrapper .input_content .gallery_preview .preview button i {
   --icon-size: 8px;
   flex-shrink: 0;
 }
 
-.input .section .input_wrapper .input_content .preview .progress {
+.input .section .input_wrapper .input_content .gallery_preview .preview .progress {
   --height: 20px;
   z-index: 3;
   overflow: hidden;
@@ -141,7 +147,7 @@
   text-overflow: ellipsis;
 }
 
-.input .section .input_wrapper .input_content .preview .file_loading {
+.input .section .input_wrapper .input_content .gallery_preview .preview .file_loading {
   --loading-background-color: rgba(0, 0, 0, 0.4);
   --spinner-size: 30px;
   --spinner-section-color: #fff;

@@ -1,4 +1,3 @@
-import isEqual from 'lodash/isEqual';
 import { uid } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
@@ -29,8 +28,8 @@ const sendMessage = params => (dispatch, getState) => {
     message.text = params.text;
   }
 
-  if (params.attachment) {
-    message.attachment = params.attachment;
+  if (params.attachments) {
+    message.attachments = params.attachments;
   }
 
   if (params.upload_id) {
@@ -59,7 +58,6 @@ const sendMessage = params => (dispatch, getState) => {
     uid: message.uid,
     subscription_id: subscription.id,
     text: message.text || ' ',
-    ...message.attachment && !message.upload_id ? {attachment: message.attachment.url} : {},
     ...message.upload_id ? {upload_id: message.upload_id} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
@@ -87,7 +85,8 @@ const updateMessage = params => (dispatch, getState) => {
   const updatingMessage = state.messages.list[state.messages.edit_message_id];
 
   const isTextEqual = params.text === updatingMessage.text;
-  const isAttachmentsEqual = isEqual(params.attachment, updatingMessage.attachment);
+  // refactore
+  const isAttachmentsEqual = false;
 
   if (isTextEqual && isAttachmentsEqual) {
     return;
@@ -96,7 +95,6 @@ const updateMessage = params => (dispatch, getState) => {
   api.editMessage({
     message_id: params.edit_message_id,
     text: params.text,
-    ...params.attachment && !params.upload_id ? {attachment: params.attachment.url} : {},
     ...params.upload_id ? {upload_id: params.upload_id} : {},
   }).catch(error => {
     console.error(error);
@@ -119,7 +117,7 @@ const resendMessage = params => (dispatch, getState) => {
     uid: params.uid,
     subscription_id: params.subscription_id,
     text: message.text || ' ',
-    ...message.attachment ? {attachment: message.attachment.url} : {},
+    ...message.upload_id ? {upload_id: message.upload_id} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
   }).then(data => {

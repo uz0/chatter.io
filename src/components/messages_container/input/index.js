@@ -3,19 +3,19 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
 import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
 import Icon from '@/components/icon';
 import Loading from '@/components/loading';
-import Validators from '@/components/form/validators';
 import throttle from 'lodash/throttle';
 import Suggestion from './suggestion';
 import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
-import { scrollMessagesBottom } from '@/helpers';
+import { scrollMessagesBottom, uid } from '@/helpers';
 import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
@@ -28,11 +28,8 @@ const bytesSize = 64000;
 
 class MessageInput extends Component {
   state = {
-    attachment: null,
-    upload_id: null,
-    currentChunk: null,
+    attachments: [],
     value: this.props.draft || '',
-    isFileLoading: false,
     isSuggestionShown: false,
   };
 
@@ -78,7 +75,7 @@ class MessageInput extends Component {
 
   resetAttachment = () => {
     this.attachInputRef.value = '';
-    this.setState({ attachment: null, upload_id: null, currentChunk: null, isFileLoading: false });
+    this.setState({ attachments: [] });
   };
 
   getBlobBase = blob => new Promise(resolve => {
@@ -109,73 +106,16 @@ class MessageInput extends Component {
     reader.readAsArrayBuffer(file);
   });
 
-  loadFileByChunks = async file => {
-    try {
-      this.setState({ isFileLoading: true });
-      const firstResponse = await this.loadFirstChunk(file);
-      await this.loadLastChunks(file, firstResponse);
-
-      if (this.state.isFileLoading) {
-        this.setState({ upload_id: firstResponse.upload_id, currentChunk: null, isFileLoading: false });
-      }
-    } catch (error) {
-      console.error(error);
-      this.props.showNotification(error.text);
-      this.resetAttachment();
-    }
-  };
-
-  loadFirstChunk = async file => {
-    let blob = file.slice(0, bytesSize);
-    let chunk = await this.getBlobBase(blob);
-    const checksum = await this.getFileChecksum(file);
-    this.setState({ currentChunk: bytesSize });
-
-    return api.attachmentByChunks({
-      file_chunk: chunk,
-      upload_id: null,
-      file_size: file.size,
-      file_checksum: checksum,
-      file_name: file.name,
-    });
-  };
-
-  loadLastChunks = async (file, firstResponse) => {
-    const checksum = await this.getFileChecksum(file);
-
-    for (let i = bytesSize; i <= file.size; i += bytesSize) {
-      if (!this.state.isFileLoading) {
-        break;
-      }
-
-      this.setState({ currentChunk: i });
-      let blob = file.slice(i, i + bytesSize);
-      let chunk = await this.getBlobBase(blob);
-
-      await api.attachmentByChunks({
-        file_chunk: chunk,
-        upload_id: firstResponse.upload_id,
-        file_size: file.size,
-        file_checksum: checksum,
-        file_name: file.name,
-      });
-    }
-  };
-
   onAttachFileChange = event => {
-    const file = event.target.files[0];
+    let isSizeValid = true;
 
-    if (!file) {
-      return;
-    }
+    [].forEach.call(event.target.files, file => {
+      if (file.size > 209715200) {
+        isSizeValid = false;
+      }
+    });
 
-    if (file.size === 0) {
-      this.props.showNotification(this.props.t('you_cannot_upload_empty_files'));
-      return;
-    }
-
-    // 200 мб
-    if (file.size > 209715200) {
+    if (!isSizeValid) {
       this.props.showNotification(
         this.props.t(
           'validation_max_size',
@@ -191,34 +131,180 @@ class MessageInput extends Component {
       return;
     }
 
-    if (Validators.fileMaxSize(200000)(file)) {
-      this.loadFileByChunks(file);
+    let attachments = [];
+
+    [].forEach.call(event.target.files, file => {
+      attachments.push({
+        uid: uid(),
+        byte_size: file.size,
+        content_type: file.type,
+        preview: '',
+        url: '',
+        upload_id: null,
+        isLoading: true,
+      });
+    });
+
+    this.setState({ attachments });
+
+    [].forEach.call(event.target.files, (file, index) => {
+      const attachment = attachments[index];
+      setTimeout(() => this.loadFileByChunks(file, attachment.uid));
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        attachments[index].preview = reader.result;
+        attachments[index].url = reader.result;
+        this.setState({ attachments });
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    this.attachInputRef.value = '';
+  };
+
+  updateAttachmentState = (uid, data) => {
+    let attachments = this.state.attachments;
+    const index = findIndex(attachments, { uid });
+
+    if (index === -1) {
+      return;
     }
 
-    scrollMessagesBottom(() => {
-      this.setState({
-        attachment: {
-          byte_size: file.size,
-          content_type: file.type,
-          preview: '',
-          url: '',
-        },
-      });
-    }, 1);
-
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      this.setState({
-        attachment: {
-          ...this.state.attachment,
-          preview: reader.result,
-          url: reader.result,
-        },
-      });
+    attachments[index] = {
+      ...attachments[index],
+      ...data,
     };
 
-    reader.readAsDataURL(file);
+    this.setState({ attachments });
+  };
+
+  loadFileByChunks = async (file, uid) => {
+    try {
+      if (file.size <= bytesSize) {
+        await this.loadFullFile(file, uid);
+        return;
+      }
+
+      await this.loadMainPartFile(file, uid);
+    } catch (error) {
+      console.error(error);
+      this.props.showNotification(error.text);
+      this.resetAttachment();
+    }
+  };
+
+  loadFullFile = async (file, uid) => {
+    const chunk = await this.getBlobBase(file);
+    const checksum = await this.getFileChecksum(file);
+
+    const response = await api.attachmentByChunks({
+      file_chunk: chunk,
+      upload_id: null,
+      file_size: file.size,
+      file_checksum: checksum,
+      file_name: file.name,
+    });
+
+    this.updateAttachmentState(uid, {
+      currentChunk: file.size,
+      isLoading: false,
+      upload_id: response.upload_id,
+    });
+  };
+
+  loadMainPartFile = async (file, uid) => {
+    let attachment = find(this.state.attachments, { uid });
+    let blob = file.slice(0, bytesSize);
+    let chunk = await this.getBlobBase(blob);
+    const checksum = await this.getFileChecksum(file);
+
+    const response = await api.attachmentByChunks({
+      file_chunk: chunk,
+      upload_id: null,
+      file_size: file.size,
+      file_checksum: checksum,
+      file_name: file.name,
+    });
+
+    attachment.currentChunk = bytesSize;
+    attachment.upload_id = response.upload_id;
+
+    if (file.size <= bytesSize) {
+      attachment.isLoading = false;
+    }
+
+    this.updateAttachmentState(uid, attachment);
+
+    if (file.size - bytesSize < bytesSize) {
+      this.loadLastChunk(file, uid);
+      return;
+    }
+
+    for (let i = bytesSize; i <= file.size; i += bytesSize) {
+      const currentStateAttachment = find(this.state.attachments, { uid });
+
+      if (!currentStateAttachment) {
+        break;
+      }
+
+      attachment.currentChunk = i;
+      this.updateAttachmentState(uid, attachment);
+
+      blob = file.slice(i, i + bytesSize);
+      chunk = await this.getBlobBase(blob);
+
+      await api.attachmentByChunks({
+        file_chunk: chunk,
+        upload_id: response.upload_id,
+        file_size: file.size,
+        file_checksum: checksum,
+        file_name: file.name,
+      });
+    }
+
+    const rest = file.size - attachment.currentChunk + bytesSize;
+
+    if (rest > 0 && rest < bytesSize) {
+      this.loadLastChunk(file, uid);
+      return;
+    }
+
+    attachment.currentChunk = file.size;
+    attachment.isLoading = false;
+    this.updateAttachmentState(uid, attachment);
+  };
+
+  loadLastChunk = async (file, uid) => {
+    const currentStateAttachment = find(this.state.attachments, { uid });
+
+    if (!currentStateAttachment) {
+      return;
+    }
+
+    const blob = file.slice(currentStateAttachment.currentChunk, file.size);
+    const chunk = await this.getBlobBase(blob);
+    const checksum = await this.getFileChecksum(file);
+
+    await api.attachmentByChunks({
+      file_chunk: chunk,
+      upload_id: currentStateAttachment.upload_id,
+      file_size: file.size,
+      file_checksum: checksum,
+      file_name: file.name,
+    });
+
+    this.updateAttachmentState(uid, {
+      currentChunk: file.size,
+      isLoading: false,
+    });
+  };
+
+  removeAttachment = index => () => {
+    let attachments = this.state.attachments;
+    attachments.splice(index, 1);
+    this.setState({ attachments });
   };
 
   getFilteredMessage = value => {
@@ -357,30 +443,30 @@ class MessageInput extends Component {
     return mentions || null;
   };
 
-  editMessage = ({ text, attachment, upload_id }) => {
+  editMessage = ({ text, attachments, upload_id }) => {
     this.props.updateMessage({
       ...text ? {text} : {},
-      ...attachment ? {attachment} : {},
+      ...attachments ? {attachments} : {},
       ...upload_id ? {upload_id} : {},
       ...this.props.edit_message_id ? {edit_message_id: this.props.edit_message_id} : {},
     });
 
     this.props.clearEditMessage();
-    this.setState({ value: '', attachment: null, upload_id: null, currentChunk: null });
+    this.setState({ value: '', attachments: [] });
     setTimeout(() => this.calcTextareaHeight());
   };
 
-  sendMessage = ({ text, attachment, mentions, upload_id }) => {
+  sendMessage = ({ text, attachments, mentions, upload_id }) => {
     this.props.sendMessage({
       ...text ? {text} : {},
-      ...attachment ? {attachment} : {},
+      ...attachments ? {attachments} : {},
       ...mentions ? {mentions} : {},
       ...upload_id ? {upload_id} : {},
       ...this.props.reply_message_id ? {reply_message_id: this.props.reply_message_id} : {},
       subscription_id: this.props.subscription_id,
     });
 
-    this.setState({ value: '', attachment: null, upload_id: null, currentChunk: null });
+    this.setState({ value: '', attachments: [] });
     setTimeout(() => this.calcTextareaHeight());
 
     if (this.props.reply_message_id) {
@@ -389,23 +475,32 @@ class MessageInput extends Component {
   };
 
   onSendButtonClick = () => {
-    if (this.state.isFileLoading) {
-      return;
+    let upload_id = [];
+    let attachments = [];
+
+    if (this.state.attachments) {
+      this.state.attachments.forEach(attachment => {
+        upload_id.push(attachment.upload_id);
+
+        attachments.push({
+          byte_size: attachment.byte_size,
+          content_type: attachment.content_type,
+          url: attachment.url,
+        });
+      });
     }
 
     this.textareaRef.focus();
     const text = this.getFilteredMessage(this.state.value);
-    const attachment = this.state.attachment;
-    const upload_id = this.state.upload_id;
     const mentions = this.parseMentions(text);
 
-    if (!text && !attachment) {
+    if (!text && !attachments) {
       this.props.showNotification('No data to send');
       return;
     }
 
     if (this.props.edit_message_id) {
-      this.editMessage({ text, attachment, upload_id });
+      this.editMessage({ text, attachments, upload_id });
       return;
     }
 
@@ -413,7 +508,7 @@ class MessageInput extends Component {
       text,
       mentions,
       upload_id,
-      attachment,
+      attachments,
     });
   };
 
@@ -429,7 +524,11 @@ class MessageInput extends Component {
   };
 
   isSendButtonShown = () => {
-    if (this.state.isFileLoading) {
+    if (find(this.state.attachments, { isLoading: true })) {
+      return false;
+    }
+
+    if (this.state.attachments.length > 0 && find(this.state.attachments, attachment => !attachment.upload_id)) {
       return false;
     }
 
@@ -437,7 +536,7 @@ class MessageInput extends Component {
       return true;
     }
 
-    if (this.state.attachment) {
+    if (this.state.attachments.length > 0) {
       return true;
     }
 
@@ -476,31 +575,31 @@ class MessageInput extends Component {
     });
   };
 
-  getProgressText = () => {
-    if (!this.state.currentChunk || !this.state.attachment) {
+  getProgressText = attachment => {
+    if (!attachment || !attachment.currentChunk) {
       return null;
     }
 
     let type = '';
     let formattedChunkSize = null;
     let formattedFullSize = null;
-    const fullSize = this.state.attachment.byte_size;
+    const fullSize = attachment.byte_size;
 
     if (fullSize < 1024) {
       type = this.props.t('b');
-      formattedChunkSize = this.state.currentChunk;
+      formattedChunkSize = attachment.currentChunk;
       formattedFullSize = fullSize;
     }
 
     if (fullSize >= 1024 && fullSize < 1048576) {
       type = this.props.t('kb');
-      formattedChunkSize = Math.ceil(this.state.currentChunk / 1024);
+      formattedChunkSize = Math.ceil(attachment.currentChunk / 1024);
       formattedFullSize = Math.ceil(fullSize / 1024);
     }
 
     if (fullSize >= 1048576) {
       type = this.props.t('mb');
-      formattedChunkSize = Math.ceil(this.state.currentChunk / 1048576);
+      formattedChunkSize = Math.ceil(attachment.currentChunk / 1048576);
       formattedFullSize = Math.ceil(fullSize / 1048576);
     }
 
@@ -511,7 +610,7 @@ class MessageInput extends Component {
     if (nextProps.editing_message && !isEqual(this.props.editing_message, nextProps.editing_message)) {
       this.setState({
         ...nextProps.editing_message.text ? {value: nextProps.editing_message.text} : {},
-        ...nextProps.editing_message.attachment ? {attachment: nextProps.editing_message.attachment} : {},
+        ...nextProps.editing_message.attachments ? {attachments: nextProps.editing_message.attachments} : {},
       });
 
       setTimeout(() => this.textareaRef.focus());
@@ -540,10 +639,8 @@ class MessageInput extends Component {
 
   render() {
     const isSendButtonShown = this.isSendButtonShown();
-    const isAttachmentImage = this.state.attachment && this.state.attachment.content_type.match('image/');
     const messageId = this.props.reply_message_id || this.props.edit_message_id;
     const sendButtonName = this.props.edit_message_id ? this.props.t('edit') : this.props.t('send');
-    const progress = this.getProgressText();
     const currentMentionSearch = this.getCurrentMentionSearch();
 
     return <div className={cx('input', this.props.className)}>
@@ -559,6 +656,7 @@ class MessageInput extends Component {
         type="file"
         ref={node => this.attachInputRef = node}
         onChange={this.onAttachFileChange}
+        multiple
       />
 
       <div className={style.section}>
@@ -587,24 +685,32 @@ class MessageInput extends Component {
               onKeyDown={this.onTextareaKeyDown}
             />
 
-            {this.state.attachment &&
-              <div
-                className={style.preview}
-                {...isAttachmentImage ? { style: {'--image': `url(${this.state.attachment.preview})`} } : {}}
-              >
-                {!isAttachmentImage &&
-                  <Icon name="attach" />
-                }
+            {this.state.attachments.length > 0 &&
+              <div className={style.gallery_preview}>
+                {this.state.attachments.map((attachment, index) => {
+                  const isAttachmentImage = attachment.content_type.match('image/');
+                  const progress = this.getProgressText(attachment);
 
-                <button onClick={this.resetAttachment}>
-                  <Icon name="close" />
-                </button>
+                  return <div
+                    key={index}
+                    className={style.preview}
+                    {...isAttachmentImage ? { style: {'--image': `url(${attachment.url})`} } : {}}
+                  >
+                    {!isAttachmentImage &&
+                      <Icon name="attach" />
+                    }
 
-                {this.state.isFileLoading &&
-                  <p className={style.progress}>{progress}</p>
-                }
+                    <button onClick={this.removeAttachment(index)}>
+                      <Icon name="close" />
+                    </button>
 
-                <Loading className={style.file_loading} isShown={this.state.isFileLoading} />
+                    {attachment.isLoading &&
+                      <p className={style.progress}>{progress}</p>
+                    }
+
+                    <Loading className={style.file_loading} isShown={attachment.isLoading} />
+                  </div>;
+                })}
               </div>
             }
           </div>

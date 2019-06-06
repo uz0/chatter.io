@@ -249,6 +249,10 @@
   margin-right: auto;
 }
 
+.message-item > .content .message_block > .file + .file {
+  margin-top: 8px;
+}
+
 .message-item > .content .message_block > .file i {
   --icon-size: 32px;
   --icon-color: var(--message-text-color);
@@ -327,6 +331,7 @@
 
 .message-item > .content > .gallery {
   display: flex;
+  flex-direction: column;
 }
 
 .message-item > .content > .gallery > .image {
@@ -334,15 +339,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 18px;
   box-shadow: 0 0 0 1px var(--divider-color) inset;
   cursor: pointer;
 }
 
 .message-item > .content > .gallery > .image:nth-of-type(n+2) {
-  margin-left: 2px;
+  margin-top: 2px;
 }
 
 .message-item > .content > .gallery > .image > img {

@@ -8,6 +8,11 @@ const Username = ({
   message,
 }) => {
   const user = users_list[message.user_id];
+
+  if (!user) {
+    return null;
+  }
+
   const userName = user.nick || 'no nick';
 
   return <p className={className}>{userName}</p>;

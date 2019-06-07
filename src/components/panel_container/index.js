@@ -15,7 +15,7 @@ import PhotosList from './photos-list';
 import ContentEditable from 'react-contenteditable';
 import { api } from '@';
 import { withDetails } from '@/hoc';
-import { getChatName, copy } from '@/helpers';
+import { getChatName, copy, getOpponentUser, getLastActive } from '@/helpers';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
@@ -220,6 +220,16 @@ class Panel extends Component {
     }).catch(error => this.props.showNotification(this.props.t(error.code)));
   };
 
+  getLastActive = chat => {
+    if (chat.group.type !== 'private_chat') {
+      return null;
+    }
+
+    const opponent = getOpponentUser(chat);
+    const user = this.props.users_list[opponent.id];
+    return getLastActive(user, () => this.forceUpdate());
+  };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.details && nextProps.details.group.name !== this.state.chatName) {
       this.setState({ chatName: nextProps.details.group.name });
@@ -231,6 +241,7 @@ class Panel extends Component {
   </Fragment>;
 
   renderPanel = () => {
+    const lastActive = this.props.details.group.type === 'private_chat' && this.getLastActive(this.props.details);
     const chatName = getChatName(this.props.details);
     const countParticipants = this.props.details.group.participants.length;
     const currentUserParticipant = this.props.currentUser && find(this.props.details.group.participants, { user_id: this.props.currentUser.id });
@@ -281,7 +292,7 @@ class Panel extends Component {
             }
 
             {!isChatRoom &&
-              this.props.t('not_active')
+              lastActive
             }
           </p>
         </div>

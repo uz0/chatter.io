@@ -103,8 +103,8 @@ class MessageItem extends Component {
   updateMessage = () => this.props.addEditMessage(this.props.message.id);
   replyMessage = () => this.props.addReplyMessage(this.props.message.forwarded_message_id || this.props.message.id);
 
-  openUpdateMessage = () => scrollMessagesBottom(this.updateMessage);
-  openReplyMessage = () => scrollMessagesBottom(this.replyMessage);
+  openUpdateMessage = () => scrollMessagesBottom(this.updateMessage, 1);
+  openReplyMessage = () => scrollMessagesBottom(this.replyMessage, 1);
 
   openForwardModal = () => {
     this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);

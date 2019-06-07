@@ -6,7 +6,7 @@ import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Icon from '@/components/icon';
 import { actions as modalActions} from '@/components/modal_container';
-import { getChatName } from '@/helpers';
+import { getChatName, getOpponentUser, getLastActive } from '@/helpers';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -19,9 +19,21 @@ class Header extends Component {
     this.props.router.push('/chat');
   };
 
+  getLastActive = chat => {
+    if (chat.group.type !== 'private_chat') {
+      return null;
+    }
+
+    const opponent = getOpponentUser(chat);
+    const user = this.props.users_list[opponent.id];
+    return getLastActive(user, () => this.forceUpdate());
+  };
+
   render() {
     const name = getChatName(this.props.details);
     const count = this.props.details.group.participants.length;
+    const isChatPrivate = this.props.details.group.type === 'private_chat';
+    const lastActive = this.getLastActive(this.props.details);
 
     return <div className={cx('header', this.props.className)}>
       <button className={style.back} onClick={this.closeChat}>
@@ -32,7 +44,14 @@ class Header extends Component {
 
       <div className={style.section}>
         <button onClick={this.showPanelContainer}>{name}</button>
-        <p className={style.count}>{count} people</p>
+
+        {!isChatPrivate &&
+          <p className={style.count}>{count} people</p>
+        }
+
+        {isChatPrivate &&
+          <p className={style.count}>{lastActive}</p>
+        }
       </div>
     </div>;
   }
@@ -44,6 +63,7 @@ export default compose(
   connect(
     (state, props) => ({
       details: state.subscriptions.list[props.chatId],
+      users_list: state.users.list,
     }),
 
     {

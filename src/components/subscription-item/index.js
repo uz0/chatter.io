@@ -46,15 +46,32 @@ class SubscriptionItem extends Component {
     });
   };
 
+  addUsers = participants => {
+    this.props.addUsers(participants);
+
+    participants.forEach(async participant => {
+      const user = this.props.users_list[participant.user_id];
+
+      if (user && !user.last_active_at) {
+        const response = await api.getLastActiveAt({user_id: participant.user_id});
+
+        this.props.updateUser({
+          ...user,
+          last_active_at: response.last_active_at,
+        });
+      }
+    });
+  };
+
   loadSubscription = () => {
     if (this.props.subscription) {
-      this.props.addUsers(this.props.subscription.group.participants);
+      this.addUsers(this.props.subscription.group.participants);
       return;
     }
 
     api.getSubscription({ subscription_id: this.props.id }).then(data => {
       this.props.loadSubscription(data.subscription);
-      this.props.addUsers(data.subscription.group.participants);
+      this.addUsers(data.subscription.group.participants);
       this.loadInviteCode(data.subscription);
     });
   };
@@ -147,6 +164,7 @@ export default compose(
       return {
         currentUser: state.currentUser,
         subscription: state.subscriptions.list[props.id] || null,
+        users_list: state.users.list,
         ...lastMessage ? { lastMessage } : {},
       };
     },
@@ -156,6 +174,7 @@ export default compose(
       updateSubscription: subscriptionsActions.updateSubscription,
       loadMessages: messagesActions.loadMessages,
       addUsers: usersActions.addUsers,
+      updateUser: usersActions.updateUser,
     },
   ),
 

@@ -10,6 +10,7 @@ import config from '@/config';
 import { getChatName } from '@/helpers';
 
 const notificationReceived = notification => (dispatch, getState) => {
+  console.log(notification);
   const state = getState();
 
   if (notification.object_type === 'message') {
@@ -130,6 +131,20 @@ const notificationReceived = notification => (dispatch, getState) => {
   }
 
   function onUser() {
+    if (notification.event === 'is_online') {
+      dispatch(usersActions.updateUser({
+        ...notification.object,
+        last_active_at: new Date().toISOString(),
+      }));
+    }
+
+    if (notification.event === 'is_offline') {
+      dispatch(usersActions.updateUser({
+        ...notification.object,
+        last_active_at: new Date().toISOString(),
+      }));
+    }
+
     if (notification.event === 'changed') {
       if (state.users.list[notification.object.id]) {
         dispatch(usersActions.updateUser(notification.object));

@@ -623,6 +623,14 @@ class MessageInput extends Component {
         isSuggestionShown: false,
       });
 
+      if (this.props.reply_message_id) {
+        this.props.clearReplyMessage();
+      }
+
+      if (this.props.edit_message_id) {
+        this.props.clearEditMessage();
+      }
+
       setTimeout(() => this.textareaRef.focus());
     }
   }

@@ -10,7 +10,6 @@ import config from '@/config';
 import { getChatName } from '@/helpers';
 
 const notificationReceived = notification => (dispatch, getState) => {
-  console.log(notification);
   const state = getState();
 
   if (notification.object_type === 'message') {

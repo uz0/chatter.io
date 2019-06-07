@@ -39,7 +39,7 @@ class Messages extends Component {
       return [];
     }
 
-    if (!this.props.chatIds || !this.props.chatIds.isLoaded) {
+    if (!this.props.chatIds) {
       return [];
     }
 

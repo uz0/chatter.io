@@ -46,21 +46,31 @@ class SubscriptionItem extends Component {
     });
   };
 
-  addUsers = participants => {
+  addUsers = async participants => {
     this.props.addUsers(participants);
 
-    participants.forEach(async participant => {
-      const user = this.props.users_list[participant.user_id];
+    for (let i = 0; i < participants.length; i++) {
+      const user = this.props.users_list[participants[i].user_id];
 
-      if (user && !user.last_active_at) {
-        const response = await api.getLastActiveAt({user_id: participant.user_id});
-
-        this.props.updateUser({
-          ...user,
-          last_active_at: response.last_active_at,
-        });
+      if (!user || user.id === this.props.currentUser.id) {
+        continue;
       }
-    });
+
+      if ('last_active_at' in this.props.users_list[participants[i].user_id]) {
+        return;
+      }
+
+      const response = await api.getLastActiveAt({user_id: participants[i].user_id});
+
+      if ('last_active_at' in this.props.users_list[participants[i].user_id]) {
+        return;
+      }
+
+      this.props.updateUser({
+        ...user,
+        last_active_at: response.last_active_at,
+      });
+    }
   };
 
   loadSubscription = () => {

@@ -25,6 +25,11 @@ class Header extends Component {
     }
 
     const opponent = getOpponentUser(chat);
+
+    if (!opponent) {
+      return null;
+    }
+
     const user = this.props.users_list[opponent.id];
     return getLastActive(user, () => this.forceUpdate());
   };

@@ -30,11 +30,20 @@ class SignUp extends Component {
     this.props.setCurrentUser(data.user);
     window.localStorage.setItem('authToken', data.user.auth_token);
     window.localStorage.setItem('currentUser', JSON.stringify(data.user));
-    this.props.showNotification(this.props.t('registered_success'));
+
+    this.props.showNotification({
+      type: 'success',
+      text: this.props.t('registered_success'),
+    });
+
     this.props.pushUrl('/chat');
   }).catch(error => {
     this.setState({ commonError: this.props.t(error.code), isLoading: false });
-    this.props.showNotification(this.props.t(error.code));
+
+    this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    });
   });
 
   submit = event => {
@@ -43,7 +52,12 @@ class SignUp extends Component {
 
     if (this.props.formData.password.value !== this.props.formData.confirmPassword.value) {
       this.setState({ commonError: {text: this.props.t('passwords_not_equal')}, isLoading: false });
-      this.props.showNotification(this.props.t('passwords_not_equal'));
+
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('passwords_not_equal'),
+      });
+
       return;
     }
 
@@ -52,7 +66,11 @@ class SignUp extends Component {
       password: this.props.formData.password.value,
     }).then(() => this.login()).catch(error => {
       this.setState({ commonError: this.props.t(error.code), isLoading: false });
-      this.props.showNotification(this.props.t(error.code));
+
+      this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      });
     });
   }
 

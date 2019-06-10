@@ -117,7 +117,10 @@ class MessageItem extends Component {
   });
 
   onDelete = () => api.deleteMessage({ message_id: this.props.message.id })
-    .catch(error => this.props.showNotification(this.props.t(error.code)));
+    .catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
 
   isParticipantsReadedChanged = nextProps => {
     if (!this.props.details || !nextProps.details) {

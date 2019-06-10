@@ -105,7 +105,10 @@ class Sidebar extends Component {
     window.localStorage.removeItem('authToken');
     window.localStorage.removeItem('currentUser');
     this.props.pushUrl('/sign-in');
-  }).catch(error => this.props.showNotification(this.props.t(error.text)));
+  }).catch(error => this.props.showNotification({
+    type: 'error',
+    text: this.props.t(error.code),
+  }));
 
   getSubscriptionHref = subscription => {
     if (subscription.group.type === 'private_chat' && !isEmpty(getOpponentUser(subscription))) {

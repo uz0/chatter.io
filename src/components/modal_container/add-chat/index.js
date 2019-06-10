@@ -45,7 +45,11 @@ class AddChat extends Component {
           isLoading: false,
         });
       }).catch(() => {
-        this.props.showNotification(this.props.t('invalid_character'));
+        this.props.showNotification({
+          type: 'error',
+          text: this.props.t('invalid_character'),
+        });
+
         this.setState({ isLoading: false });
       });
     }
@@ -102,7 +106,11 @@ class AddChat extends Component {
       this.props.close();
     }).catch(error => {
       console.error(error);
-      this.props.showNotification(this.props.t(error.code));
+
+      this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      });
     });
   };
 

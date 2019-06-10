@@ -19,7 +19,11 @@ class Invite extends Component {
   inviteUser = user_id => () => {
     api.invite({ subscription_id: this.props.details.id, user_id })
       .then(() => this.props.close())
-      .catch(error => error.text && this.props.showNotification(this.props.t(error.code)));
+
+      .catch(error => error.text && this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      }));
   };
 
   render() {

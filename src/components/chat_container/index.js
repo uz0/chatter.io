@@ -48,7 +48,11 @@ class Chat extends Component {
           this.props.pushUrl(`/chat/user/${data.contact.user.id}`, null);
         });
       }).catch(() => {
-        this.props.showNotification('user_not_defined');
+        this.props.showNotification({
+          type: 'error',
+          text: 'user_not_defined',
+        });
+
         this.props.pushUrl('/chat', null);
       });
     }

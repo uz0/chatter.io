@@ -1,15 +1,6 @@
-const types = {
-  showNotification: 'showNotification',
-  hideNotification: 'hideNotification',
-};
+import { actionsCreator } from '@/helpers';
 
-const showNotification = text => ({
-  type: types.showNotification,
-  text,
-});
-
-const hideNotification = () => ({
-  type: types.hideNotification,
-});
-
-export default {showNotification, hideNotification, types};
+export default actionsCreator([
+  'showNotification',
+  'hideNotification',
+]);

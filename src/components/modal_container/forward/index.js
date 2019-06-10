@@ -38,7 +38,10 @@ class Forward extends Component {
       this.props.clearForwardMessage();
       this.props.close();
       this.props.router.push(href);
-    }).catch(error => this.props.showNotification(this.props.t(error.code)));
+    }).catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
   };
 
   render() {

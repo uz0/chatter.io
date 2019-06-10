@@ -116,8 +116,10 @@ class MessageInput extends Component {
     });
 
     if (!isSizeValid) {
-      this.props.showNotification(
-        this.props.t(
+      this.props.showNotification({
+        type: 'info',
+
+        text: this.props.t(
           'validation_max_size',
 
           {
@@ -126,7 +128,7 @@ class MessageInput extends Component {
             size_type: this.props.t('mb').toLowerCase(),
           },
         ),
-      );
+      });
 
       return;
     }
@@ -190,7 +192,12 @@ class MessageInput extends Component {
       await this.loadMainPartFile(file, uid);
     } catch (error) {
       console.error(error);
-      this.props.showNotification(error.text);
+
+      this.props.showNotification({
+        type: 'error',
+        text: error.text,
+      });
+
       this.resetAttachment();
     }
   };
@@ -495,7 +502,10 @@ class MessageInput extends Component {
     const mentions = this.parseMentions(text);
 
     if (!text && !attachments) {
-      this.props.showNotification('No data to send');
+      this.props.showNotification({
+        type: 'info',
+        text: 'No data to send',
+      });
       return;
     }
 

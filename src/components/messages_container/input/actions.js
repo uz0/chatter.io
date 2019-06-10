@@ -69,7 +69,11 @@ const sendMessage = params => (dispatch, getState) => {
     });
   }).catch(error => {
     console.error(error);
-    dispatch(notificationActions.showNotification(error.text));
+
+    dispatch(notificationActions.showNotification({
+      type: 'error',
+      text: error.text,
+    }));
 
     dispatch(
       messagesActions.updateMessage({chatId: subscription.id, message: {
@@ -98,7 +102,11 @@ const updateMessage = params => (dispatch, getState) => {
     ...params.upload_id ? {upload_id: params.upload_id} : {},
   }).catch(error => {
     console.error(error);
-    dispatch(notificationActions.showNotification(error.text));
+
+    dispatch(notificationActions.showNotification({
+      type: 'error',
+      text: error.text,
+    }));
   });
 };
 
@@ -127,7 +135,10 @@ const resendMessage = params => (dispatch, getState) => {
       draft: '',
     });
   }).catch(error => {
-    dispatch(notificationActions.showNotification(error.text));
+    dispatch(notificationActions.showNotification({
+      type: 'error',
+      text: error.text,
+    }));
 
     dispatch(
       messagesActions.updateMessage({chatId: params.subscription_id, message: {

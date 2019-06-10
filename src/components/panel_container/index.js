@@ -77,7 +77,11 @@ class Panel extends Component {
       });
     }).catch(error => {
       console.log(error);
-      this.props.showNotification(this.props.t(error.code));
+
+      this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      });
     });
   };
 
@@ -110,7 +114,10 @@ class Panel extends Component {
       if (this.props.isMobile) {
         this.props.closeModal('panel-container');
       }
-    })).catch(error => this.props.showNotification(this.props.t(error.code)));
+    })).catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
   };
 
   addPeople = event => {
@@ -143,7 +150,10 @@ class Panel extends Component {
         participants,
       },
     });
-  }).catch(error => this.props.showNotification(this.props.t(error.code)));
+  }).catch(error => this.props.showNotification({
+    type: 'error',
+    text: this.props.t(error.code),
+  }));
 
   toggleMute = () => {
     let date;
@@ -156,7 +166,11 @@ class Panel extends Component {
 
     api.updateSubscription({ subscription_id: this.props.details.id, mute_until: date })
       .then(() => this.props.updateSubscription({ id: this.props.details.id, mute_until: this.props.details.mute_until ? null : date }))
-      .catch(error => error.text && this.props.showNotification(this.props.t(error.code)));
+
+      .catch(error => error.text && this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      }));
   };
 
   onAvatarInputChange = event => {
@@ -167,19 +181,31 @@ class Panel extends Component {
     }
 
     if (Validators.fileMaxSize(200000)(file)) {
-      this.props.showNotification(this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }),
+      });
+
       this.chatAvatarInputRef.value = '';
       return;
     }
 
     if (Validators.fileType('image')(file)) {
-      this.props.showNotification(this.props.t('file_type', { type: this.props.t('image') }));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('file_type', { type: this.props.t('image') }),
+      });
+
       this.chatAvatarInputRef.value = '';
       return;
     }
 
     if (Validators.fileExtensions(['jpeg', 'png'])(file)) {
-      this.props.showNotification(this.props.t('file_extensions', { extensions: '"jpeg", "png"' }));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('file_extensions', { extensions: '"jpeg", "png"' }),
+      });
+
       this.chatAvatarInputRef.value = '';
       return;
     }
@@ -198,7 +224,10 @@ class Panel extends Component {
         });
 
         this.chatAvatarInputRef.value = '';
-      }).catch(error => this.props.showNotification(this.props.t(error.code)));
+      }).catch(error => this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      }));
     };
 
     reader.readAsDataURL(file);
@@ -217,7 +246,10 @@ class Panel extends Component {
       });
 
       this.chatAvatarInputRef.value = '';
-    }).catch(error => this.props.showNotification(this.props.t(error.code)));
+    }).catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
   };
 
   getLastActive = chat => {

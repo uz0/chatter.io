@@ -43,7 +43,7 @@ class Notification extends Component {
   hideAfterAnimation = () => setTimeout(() => {
     this.setState({ isInDom: false });
     this.props.hide();
-  }, 300);
+  }, 100);
 
   close = () => {
     clearTimeout(this.timeout);

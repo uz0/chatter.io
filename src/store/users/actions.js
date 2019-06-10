@@ -13,7 +13,7 @@ const diff = actions.updateUser;
 actions.updateUser = params => (dispatch, getState) => {
   const state = getState();
 
-  if (!params.id) {
+  if (!state.currentUser || !params.id) {
     return;
   }
 

@@ -18,14 +18,14 @@
   padding: 12px var(--layout-padding);
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 1px 1px 3px 1px var(--divider-color), 0 0 0 1px var(--divider-color) inset;
+  box-shadow: 1px 1px 1px 0px #a9a9a9, 0 0 0 1px var(--divider-color) inset;
   pointer-events: auto;
 }
 
 .wrapper > .notification:not(._is-shown) {
   transform: scaleX(0);
   animation-name: hide;
-  animation-duration: 0.3s;
+  animation-duration: 0.1s;
   animation-timing-function: ease-in-out;
 }
 
@@ -114,5 +114,7 @@
     top: 0;
     right: 0;
     width: 100%;
+    border-radius: 0;
+    box-shadow: 0 2px var(--divider-color);
   }
 }

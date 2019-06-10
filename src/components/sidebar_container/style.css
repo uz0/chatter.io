@@ -120,7 +120,7 @@
   bottom: 0;
   background-image: url('/assets/subscription-preview.svg');
   background-repeat: repeat-y;
-  background-size: 100% 66px;
+  background-size: 100% auto;
   opacity: var(--preview-opacity);
   transition-property: opacity;
   pointer-events: none;

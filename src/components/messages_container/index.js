@@ -17,7 +17,6 @@ import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
 import Typings from './typings';
 import MessageItem from '@/components/message-item';
-import Loading from '@/components/loading';
 import { withDetails } from '@/hoc';
 import { uid } from '@/helpers';
 import { api } from '@';
@@ -286,7 +285,6 @@ class Messages extends Component {
     }
 
     const groupedMessages = this.getGroupedMessages() || [];
-    const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
     const isHasMoreMessages = this.props.chatIds && this.props.chatIds.hasMore;
 
     return <div className={cx('messages', this.props.className)}>
@@ -342,8 +340,6 @@ class Messages extends Component {
         {groupedMessages.length === 0 &&
           <p className={style.empty}>{this.props.t('there_is_no_messages')}</p>
         }
-
-        <Loading isShown={!isMessagesLoaded} className={style.loading} />
       </div>
 
       {this.props.details &&

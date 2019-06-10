@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
+import find from 'lodash/find';
 import get from 'lodash/get';
 import uniq from 'lodash/uniq';
 import isEmpty from 'lodash/isEmpty';
@@ -11,7 +12,6 @@ import SubscriptionItem from '@/components/subscription-item';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Button from '@/components/button';
 import SearchInput from '@/components/search-input';
-import Loading from '@/components/loading';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
@@ -27,6 +27,10 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Sidebar extends Component {
+  state = {
+    isLoading: false,
+  };
+
   isSubscriptionInViewPort = element => {
     const parent = element.parentElement;
     const elementRect = element.getBoundingClientRect();
@@ -178,18 +182,19 @@ class Sidebar extends Component {
       return;
     }
 
-    const getSubscriptionsArguments = { short: true };
-
     try {
-      const shortSubscriptions = await api.getSubscriptions(getSubscriptionsArguments);
-      this.props.loadSubscriptionsIds(shortSubscriptions.subscriptions);
+      this.setState({ isLoading: true });
+      const response = await api.getSubscriptions();
+      this.props.loadSubscriptions(response.subscriptions);
+      this.setState({ isLoading: false });
     } catch (error) {
+      this.setState({ isLoading: false });
+
       this.props.setError({
         details: error,
 
         request: {
           name: 'getSubscriptions',
-          arguments: getSubscriptionsArguments,
         },
       });
     }
@@ -204,6 +209,7 @@ class Sidebar extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    const isLoadingStateChanged = this.state.isLoading !== nextState.isLoading;
     const isSortedSubscriptionsLoaded = this.props.sorted_subscriptions_ids.length === 0 && nextProps.sorted_subscriptions_ids.length > 0;
     const isSubscriptionsChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
@@ -220,6 +226,7 @@ class Sidebar extends Component {
     const isFiltering = isFilteredIdsChanged || isFilteredContactsChanged || isFilteredMessagesChanged || isFilteredGlobalUsersChanged;
 
     return isSortedSubscriptionsLoaded ||
+      isLoadingStateChanged ||
       isSubscriptionsChanged ||
       isMessagesChanged ||
       isFiltering ||
@@ -231,9 +238,8 @@ class Sidebar extends Component {
   }
 
   render() {
-    const isChatsLoaded = this.props.subscriptions_ids.length > 0 &&
-      this.props.subscriptions_ids.length === Object.keys(this.props.subscriptions_list).length;
-
+    const isHasSubscriptionsWithNotLoadedAddData = !!find(this.props.subscriptions_list, subscription => !subscription.is_add_data_loaded);
+    const isSubscriptionsLoading = this.state.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
     const photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
 
     return <div className={cx('sidebar', this.props.className)}>
@@ -336,7 +342,7 @@ class Sidebar extends Component {
       }
 
       {!this.props.subscriptions_filter_text &&
-        <div className={style.list}>
+        <div className={cx('list', {'_is-loading': isSubscriptionsLoading})}>
           {this.props.sorted_subscriptions_ids &&
             this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
               key={id}
@@ -345,13 +351,8 @@ class Sidebar extends Component {
               withLoadData
               withDataId
             />)}
-
-          {this.props.sorted_subscriptions_ids.length === 0 &&
-            <p className={style.empty}>{this.props.t('no_chats')}</p>}
         </div>
       }
-
-      <Loading isShown={!isChatsLoaded} className={style.loading} />
     </div>;
   }
 }
@@ -377,7 +378,7 @@ export default compose(
 
     {
       addSubscription: subscriptionsActions.addSubscription,
-      loadSubscriptionsIds: subscriptionsActions.loadSubscriptionsIds,
+      loadSubscriptions: subscriptionsActions.loadSubscriptions,
       toggleModal: modalActions.toggleModal,
       setCurrentUser: storeActions.setCurrentUser,
       showNotification: notificationActions.showNotification,

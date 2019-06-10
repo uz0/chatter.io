@@ -3,9 +3,8 @@ import { actionsCreator } from '@/helpers';
 import { actions as notificationActions } from '@/components/notification';
 
 const actions = actionsCreator([
-  'loadSubscriptionsIds',
+  'loadSubscriptions',
   'clearSubscriptions',
-  'loadSubscription',
   'addSubscription',
   'updateSubscription',
   'setHoverSubscription',

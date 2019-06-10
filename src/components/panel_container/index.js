@@ -10,7 +10,6 @@ import Validators from '@/components/form/validators';
 import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
-import Loading from '@/components/loading';
 import PhotosList from './photos-list';
 import ContentEditable from 'react-contenteditable';
 import { api } from '@';
@@ -273,10 +272,6 @@ class Panel extends Component {
     }
   }
 
-  renderLoading = () => <Fragment>
-    <Loading isShown className={style.loading} />
-  </Fragment>;
-
   renderPanel = () => {
     const lastActive = this.props.details.group.type === 'private_chat' && this.getLastActive(this.props.details);
     const chatName = getChatName(this.props.details);
@@ -463,7 +458,6 @@ class Panel extends Component {
 
   render() {
     return <div className={cx('panel', this.props.className, { '_is-shown': this.props.isShown })}>
-      {!this.props.details && this.renderLoading()}
       {this.props.details && this.renderPanel()}
     </div>;
   }

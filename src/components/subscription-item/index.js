@@ -48,30 +48,23 @@ class SubscriptionItem extends Component {
   };
 
   addUsers = async participants => {
-    this.props.addUsers(participants);
-
     for (let i = 0; i < participants.length; i++) {
-      const user = this.props.users_list[participants[i].user_id];
+      const user = participants[i].user;
 
       if (!user || user.id === this.props.currentUser.id) {
         continue;
       }
 
-      if ('last_active_at' in this.props.users_list[participants[i].user_id]) {
-        return;
+      if (this.props.users_list[user.id] && 'last_active_at' in this.props.users_list[user.id]) {
+        continue;
       }
 
-      const response = await api.getLastActiveAt({user_id: participants[i].user_id});
+      const response = await api.getLastActiveAt({user_id: user.id});
 
-      if ('last_active_at' in this.props.users_list[participants[i].user_id]) {
-        return;
-      }
-
-      this.props.updateUser({
-        ...user,
-        last_active_at: response.last_active_at,
-      });
+      participants[i].user['last_active_at'] = response.last_active_at;
     }
+
+    this.props.addUsers(participants);
   };
 
   click = () => this.props.onClick(this.props.subscription);

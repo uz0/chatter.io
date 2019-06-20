@@ -25,7 +25,10 @@ export class ForgotPassword extends Component {
     const isPasswordsEqual = this.props.location.query.password_reset_token && this.props.formData.password.value === this.props.formData.confirmPassword.value;
 
     if (this.props.location.query.password_reset_token && !isPasswordsEqual) {
-      this.props.showNotification(this.props.t('passwords_not_equal'));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('passwords_not_equal'),
+      });
       return;
     }
 
@@ -33,19 +36,34 @@ export class ForgotPassword extends Component {
       api.resetPassword({token: this.props.location.query.password_reset_token, password: this.props.formData.password.value})
         .then(() => {
           this.props.formReset('forgot');
-          this.props.showNotification(this.props.t('password_has_been_reset'));
+
+          this.props.showNotification({
+            type: 'success',
+            text: this.props.t('passwords_not_equal'),
+          });
+
           this.props.router.push('/sign-in');
         })
 
-        .catch(error => this.props.showNotification(this.props.t(error.code)));
+        .catch(error => this.props.showNotification({
+          type: 'error',
+          text: this.props.t(error.code),
+        }));
     } else {
       api.requestPasswordReset({email: this.props.formData.email.value})
         .then(() => {
           this.props.formReset('forgot');
-          this.props.showNotification(this.props.t('check_your_email'));
+
+          this.props.showNotification({
+            type: 'success',
+            text: this.props.t('check_your_email'),
+          });
         })
 
-        .catch(error => this.props.showNotification(this.props.t(error.code)));
+        .catch(error => this.props.showNotification({
+          type: 'error',
+          text: this.props.t(error.code),
+        }));
     }
   }
 

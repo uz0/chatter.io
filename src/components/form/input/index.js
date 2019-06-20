@@ -75,6 +75,7 @@ export class Input extends Component {
         className={style.input}
         // при автокомплите возникает ошибка uncontrolled input
         onChange={() => {}}
+        id={this.props.id}
         onBlur={this.onBlur}
         onInput={this.onInput}
         value={this.props.value || ''}

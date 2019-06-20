@@ -57,29 +57,47 @@ class EditProfile extends Component {
       ...searchable_nick.isTouched ? { searchable_nick: searchable_nick.value } : {},
     }).then(() => {
       this.setState({ isLoading: false });
-      this.props.showNotification(this.props.t('profile_updated'));
+
+      this.props.showNotification({
+        type: 'success',
+        text: this.props.t('profile_updated'),
+      });
+
       this.props.formReset('profile');
       this.props.close();
     }).catch(error => {
       this.setState({ isLoading: false });
 
       if (error.text === 'nick is in use') {
-        this.props.showNotification(this.props.t('nick_in_use'));
+        this.props.showNotification({
+          type: 'error',
+          text: this.props.t('nick_in_use'),
+        });
+
         return;
       }
 
-      this.props.showNotification(this.props.t(error.code));
+      this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      });
     });
   };
 
   openChangePasswordModal = () => this.props.toggleModal({ id: 'change-password-modal' });
 
   resend = () => api.resendConfirmation({ email: this.props.currentUser.email }).then(() => {
-    this.props.showNotification(this.props.t('confirmation_resended'));
+    this.props.showNotification({
+      type: 'success',
+      text: this.props.t('confirmation_resended'),
+    });
   });
 
   copyInviteLink = () => copy(`${location.origin}/joinuser/${this.props.currentUser.nick.replace(' ', '+')}`, () => {
-    this.props.showNotification(this.props.t('invite_code_copied'));
+    this.props.showNotification({
+      type: 'success',
+      text: this.props.t('invite_code_copied'),
+    });
   });
 
   isActionDisabled = () => {

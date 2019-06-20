@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import Link from '@/components/link';
 import moment from 'moment';
 import get from 'lodash/get';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
 import find from 'lodash/find';
 import reject from 'lodash/reject';
 import isEqual from 'lodash/isEqual';
@@ -28,36 +30,36 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class MessageItem extends Component {
-  getFileName = () => {
-    if (!this.props.message.attachment) {
+  getFileName = file => {
+    if (!file) {
       return null;
     }
 
-    const lastIndex = this.props.message.attachment.url.lastIndexOf('/');
-    return this.props.message.attachment.url.substring(lastIndex + 1);
+    const lastIndex = file.url.lastIndexOf('/');
+    return file.url.substring(lastIndex + 1);
   };
 
-  getFileSize = () => {
-    if (!this.props.message.attachment) {
+  getFileSize = file => {
+    if (!file) {
       return null;
     }
 
     let formattedSize = '';
     let type = '';
 
-    if (this.props.message.attachment.byte_size < 1024) {
+    if (file.byte_size < 1024) {
       type = this.props.t('b');
-      formattedSize = this.props.message.attachment.byte_size;
+      formattedSize = file.byte_size;
     }
 
-    if (this.props.message.attachment.byte_size >= 1024 && this.props.message.attachment.byte_size < 1048576) {
+    if (file.byte_size >= 1024 && file.byte_size < 1048576) {
       type = this.props.t('kb');
-      formattedSize = Math.ceil(this.props.message.attachment.byte_size / 1024);
+      formattedSize = Math.ceil(file.byte_size / 1024);
     }
 
-    if (this.props.message.attachment.byte_size >= 1048576) {
+    if (file.byte_size >= 1048576) {
       type = this.props.t('mb');
-      formattedSize = Math.ceil(this.props.message.attachment.byte_size / 1048576);
+      formattedSize = Math.ceil(file.byte_size / 1048576);
     }
 
     return `${formattedSize} ${type}`;
@@ -101,8 +103,8 @@ class MessageItem extends Component {
   updateMessage = () => this.props.addEditMessage(this.props.message.id);
   replyMessage = () => this.props.addReplyMessage(this.props.message.forwarded_message_id || this.props.message.id);
 
-  openUpdateMessage = () => scrollMessagesBottom(this.updateMessage);
-  openReplyMessage = () => scrollMessagesBottom(this.replyMessage);
+  openUpdateMessage = () => scrollMessagesBottom(this.updateMessage, 1);
+  openReplyMessage = () => scrollMessagesBottom(this.replyMessage, 1);
 
   openForwardModal = () => {
     this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);
@@ -115,7 +117,10 @@ class MessageItem extends Component {
   });
 
   onDelete = () => api.deleteMessage({ message_id: this.props.message.id })
-    .catch(error => this.props.showNotification(this.props.t(error.code)));
+    .catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
 
   isParticipantsReadedChanged = nextProps => {
     if (!this.props.details || !nextProps.details) {
@@ -191,11 +196,8 @@ class MessageItem extends Component {
   }
 
   renderMessageBlock = () => {
-    const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
-    const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
+    const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/'));
     const messageText = this.renderMessageText(this.props.message);
-    const fileName = this.getFileName();
-    const fileSize = this.getFileSize();
 
     const isUserNameShown = this.props.details.group.type === 'room' &&
       (this.props.type === 'first' || this.props.type === 'single') &&
@@ -218,33 +220,40 @@ class MessageItem extends Component {
         <p className={style.text} dangerouslySetInnerHTML={{__html: messageText}} />
       }
 
-      {isMessageHasFile &&
-        <Link to={this.props.message.attachment.url} target="_blank" className={style.file}>
-          <Icon name="add-chat" />
+      {files &&
+        <Fragment>
+          {files.map(file => {
+            const fileName = this.getFileName(file);
+            const fileSize = this.getFileSize(file);
 
-          <div className={style.section}>
-            <p className={style.name}>File</p>
+            return <Link key={file.url} to={file.url} target="_blank" className={style.file}>
+              <Icon name="add-chat" />
 
-            <div className={style.subcaption}>
-              <p className={style.text}>{fileName}</p>
-              <span className={style.size}>{fileSize}</span>
-            </div>
-          </div>
-        </Link>
+              <div className={style.section}>
+                <p className={style.name}>File</p>
+
+                <div className={style.subcaption}>
+                  <p className={style.text}>{fileName}</p>
+                  <span className={style.size}>{fileSize}</span>
+                </div>
+              </div>
+            </Link>;
+          })}
+        </Fragment>
       }
     </div>;
   };
 
   render() {
+    const images = this.props.message.attachments && filter(this.props.message.attachments, attachment => attachment.content_type.match('image/'));
+    const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/')) || [];
     const isMessageDeleted = !!this.props.message.deleted_at;
-    const isMessageHasImage = this.props.message.attachment && this.props.message.attachment.content_type.match('image/');
-    const isMessageHasFile = this.props.message.attachment && !isMessageHasImage;
     const isMessageHasText = (this.props.message.text || '').replace(/\s/g,'').length > 0;
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
     const isMarkShown = this.props.message.user_id === this.props.currentUser.id && !this.props.message.isError;
     const isAvatarShown = (this.props.type === 'last' || this.props.type === 'single') && !this.props.message.isError;
 
-    const isMessageTextBlockShown = isMessageHasFile || isMessageHasText ||
+    const isMessageTextBlockShown = files.length > 0 || isMessageHasText ||
       this.props.message.forwarded_message_id ||
       this.props.message.in_reply_to_message_id;
 
@@ -334,38 +343,23 @@ class MessageItem extends Component {
             </Dropdown>
           }
 
-          {isMessageHasImage &&
+          {images &&
             <div className={style.gallery}>
-              {!(this.props.isMobile && !isMessageHasText) &&
-                <div
+              {images.map((image, index) => {
+                const imagesUrls = map(images, image => image.url);
+
+                return <div
+                  key={image.url}
                   className={style.image}
 
                   onClick={() => this.props.openGallery({
-                    images: [this.props.message.attachment.url],
-                    index: 0,
+                    images: imagesUrls,
+                    index,
                   })}
                 >
-                  <img src={this.props.message.attachment.url} />
-                </div>
-              }
-
-              {this.props.isMobile && !isMessageHasText &&
-                <Dropdown
-                  uniqueId={`message-${this.props.message.id}-image-0`}
-                  className={style.image}
-
-                  items={[
-                    ...actionsItems,
-
-                    {icon: 'full-screen', text: this.props.t('open'), onClick: () => this.props.openGallery({
-                      images: [this.props.message.attachment.url],
-                      index: 0,
-                    })},
-                  ]}
-                >
-                  <img src={this.props.message.attachment.url} />
-                </Dropdown>
-              }
+                  <img src={image.url} />
+                </div>;
+              })}
             </div>
           }
         </div>

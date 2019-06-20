@@ -10,12 +10,11 @@ import Validators from '@/components/form/validators';
 import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
-import Loading from '@/components/loading';
 import PhotosList from './photos-list';
 import ContentEditable from 'react-contenteditable';
 import { api } from '@';
 import { withDetails } from '@/hoc';
-import { getChatName, copy } from '@/helpers';
+import { getChatName, copy, getOpponentUser, getLastActive } from '@/helpers';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
@@ -77,7 +76,11 @@ export class Panel extends Component {
       });
     }).catch(error => {
       console.log(error);
-      this.props.showNotification(this.props.t(error.code));
+
+      this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      });
     });
   };
 
@@ -110,7 +113,10 @@ export class Panel extends Component {
       if (this.props.isMobile) {
         this.props.closeModal('panel-container');
       }
-    })).catch(error => this.props.showNotification(this.props.t(error.code)));
+    })).catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
   };
 
   addPeople = event => {
@@ -143,7 +149,10 @@ export class Panel extends Component {
         participants,
       },
     });
-  }).catch(error => this.props.showNotification(this.props.t(error.code)));
+  }).catch(error => this.props.showNotification({
+    type: 'error',
+    text: this.props.t(error.code),
+  }));
 
   toggleMute = () => {
     let date;
@@ -156,7 +165,11 @@ export class Panel extends Component {
 
     api.updateSubscription({ subscription_id: this.props.details.id, mute_until: date })
       .then(() => this.props.updateSubscription({ id: this.props.details.id, mute_until: this.props.details.mute_until ? null : date }))
-      .catch(error => error.text && this.props.showNotification(this.props.t(error.code)));
+
+      .catch(error => error.text && this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      }));
   };
 
   onAvatarInputChange = event => {
@@ -167,19 +180,31 @@ export class Panel extends Component {
     }
 
     if (Validators.fileMaxSize(200000)(file)) {
-      this.props.showNotification(this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }),
+      });
+
       this.chatAvatarInputRef.value = '';
       return;
     }
 
     if (Validators.fileType('image')(file)) {
-      this.props.showNotification(this.props.t('file_type', { type: this.props.t('image') }));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('file_type', { type: this.props.t('image') }),
+      });
+
       this.chatAvatarInputRef.value = '';
       return;
     }
 
     if (Validators.fileExtensions(['jpeg', 'png'])(file)) {
-      this.props.showNotification(this.props.t('file_extensions', { extensions: '"jpeg", "png"' }));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('file_extensions', { extensions: '"jpeg", "png"' }),
+      });
+
       this.chatAvatarInputRef.value = '';
       return;
     }
@@ -198,7 +223,10 @@ export class Panel extends Component {
         });
 
         this.chatAvatarInputRef.value = '';
-      }).catch(error => this.props.showNotification(this.props.t(error.code)));
+      }).catch(error => this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      }));
     };
 
     reader.readAsDataURL(file);
@@ -217,7 +245,25 @@ export class Panel extends Component {
       });
 
       this.chatAvatarInputRef.value = '';
-    }).catch(error => this.props.showNotification(this.props.t(error.code)));
+    }).catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
+  };
+
+  getLastActive = chat => {
+    if (chat.group.type !== 'private_chat') {
+      return null;
+    }
+
+    const opponent = getOpponentUser(chat);
+
+    if (!opponent) {
+      return null;
+    }
+
+    const user = this.props.users_list[opponent.id];
+    return getLastActive(user, () => this.forceUpdate());
   };
 
   componentWillReceiveProps(nextProps) {
@@ -226,11 +272,8 @@ export class Panel extends Component {
     }
   }
 
-  renderLoading = () => <Fragment>
-    <Loading isShown className={style.loading} />
-  </Fragment>;
-
   renderPanel = () => {
+    const lastActive = this.props.details.group.type === 'private_chat' && this.getLastActive(this.props.details);
     const chatName = getChatName(this.props.details);
     const countParticipants = this.props.details.group.participants.length;
     const currentUserParticipant = this.props.currentUser && find(this.props.details.group.participants, { user_id: this.props.currentUser.id });
@@ -281,7 +324,7 @@ export class Panel extends Component {
             }
 
             {!isChatRoom &&
-              this.props.t('not_active')
+              lastActive
             }
           </p>
         </div>
@@ -415,7 +458,6 @@ export class Panel extends Component {
 
   render() {
     return <div className={cx('panel', this.props.className, { '_is-shown': this.props.isShown })}>
-      {!this.props.details && this.renderLoading()}
       {this.props.details && this.renderPanel()}
     </div>;
   }

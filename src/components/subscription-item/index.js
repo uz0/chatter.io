@@ -20,9 +20,10 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class SubscriptionItem extends Component {
-  loadLastMessage = () => {
-    api.getMessages({ subscription_id: this.props.id, limit: 1 }).then(data => {
-      this.props.loadMessages({chatId: this.props.id, list: data.messages});
+  loadLastMessage = subscription => {
+    api.getMessages({ subscription_id: subscription.id, limit: 1 }).then(data => {
+      this.props.loadMessages({chatId: subscription.id, list: data.messages});
+      this.props.updateSubscription({ ...subscription, is_add_data_loaded: true });
     });
   };
 
@@ -46,45 +47,46 @@ class SubscriptionItem extends Component {
     });
   };
 
-  loadSubscription = () => {
-    if (this.props.subscription) {
-      this.props.addUsers(this.props.subscription.group.participants);
-      return;
+  addUsers = async participants => {
+    for (let i = 0; i < participants.length; i++) {
+      const user = participants[i].user;
+
+      if (!user || user.id === this.props.currentUser.id) {
+        continue;
+      }
+
+      if (this.props.users_list[user.id] && 'last_active_at' in this.props.users_list[user.id]) {
+        continue;
+      }
+
+      const response = await api.getLastActiveAt({user_id: user.id});
+
+      participants[i].user['last_active_at'] = response.last_active_at;
     }
 
-    api.getSubscription({ subscription_id: this.props.id }).then(data => {
-      this.props.loadSubscription(data.subscription);
-      this.props.addUsers(data.subscription.group.participants);
-      this.loadInviteCode(data.subscription);
-    }).catch(error => {
-      console.error(error);
-    });
+    this.props.addUsers(participants);
   };
 
   click = () => this.props.onClick(this.props.subscription);
 
   componentWillMount() {
-    if (this.props.withLoadData && !this.props.subscription) {
-      this.loadLastMessage();
-      this.loadSubscription();
+    if (this.props.withLoadData && !this.props.subscription.is_add_data_loaded) {
+      this.loadLastMessage(this.props.subscription);
+      this.addUsers(this.props.subscription.group.participants);
+      this.loadInviteCode(this.props.subscription);
     }
   }
 
   shouldComponentUpdate(nextProps) {
-    const isSubscriptionLoaded = !this.props.subscription && !!nextProps.subscription;
     const isLastMessageChanged = !isEqual(this.props.lastMessage, nextProps.lastMessage);
     const isSubscriptionChanged = !isEqual(this.props.subscription, nextProps.subscription);
     const isTypingsChanged = !isEqual(this.props.typings, nextProps.typings);
     const isClassNameChanged = !isEqual(this.props.className, nextProps.className);
 
-    return isSubscriptionLoaded || isLastMessageChanged || isSubscriptionChanged || isTypingsChanged || isClassNameChanged;
+    return isLastMessageChanged || isSubscriptionChanged || isTypingsChanged || isClassNameChanged;
   }
 
   render() {
-    if (!this.props.subscription) {
-      return null;
-    }
-
     const chatName = getChatName(this.props.subscription);
     let href = '';
 
@@ -149,15 +151,16 @@ export default compose(
       return {
         currentUser: state.currentUser,
         subscription: state.subscriptions.list[props.id] || null,
+        users_list: state.users.list,
         ...lastMessage ? { lastMessage } : {},
       };
     },
 
     {
-      loadSubscription: subscriptionsActions.loadSubscription,
       updateSubscription: subscriptionsActions.updateSubscription,
       loadMessages: messagesActions.loadMessages,
       addUsers: usersActions.addUsers,
+      updateUser: usersActions.updateUser,
     },
   ),
 

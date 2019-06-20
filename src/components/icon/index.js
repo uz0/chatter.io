@@ -23,6 +23,8 @@ import leaveIcon from '@/assets/icons/leave.svg';
 import fullScreenIcon from '@/assets/icons/full-screen.svg';
 import thinArrowLeftIcon from '@/assets/icons/thin-arrow-left.svg';
 import thinArrowRightIcon from '@/assets/icons/thin-arrow-right.svg';
+import exclamationIcon from '@/assets/icons/exclamation.svg';
+import infoIcon from '@/assets/icons/info.svg';
 
 const cx = classnames.bind(style);
 
@@ -113,6 +115,14 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'full-screen' &&
     <ReactSvgInjector src={fullScreenIcon} />
+  }
+
+  {name === 'info' &&
+    <ReactSvgInjector src={infoIcon} />
+  }
+
+  {name === 'exclamation' &&
+    <ReactSvgInjector src={exclamationIcon} />
   }
 </i>;
 

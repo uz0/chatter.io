@@ -44,7 +44,11 @@ class EditProfile extends Component {
     }
 
     if (password.value !== confirm_password.value) {
-      this.props.showNotification(this.props.t('passwords_not_equal'));
+      this.props.showNotification({
+        type: 'info',
+        text: this.props.t('passwords_not_equal'),
+      });
+
       return;
     }
 
@@ -55,14 +59,23 @@ class EditProfile extends Component {
       password: password.value,
     }).then(() => {
       this.setState({ isLoading: false });
-      this.props.showNotification(this.props.t('password_updated'));
+
+      this.props.showNotification({
+        type: 'success',
+        text: this.props.t('password_updated'),
+      });
+
       this.props.formChange('profile.current_password', defaultInputData);
       this.props.formChange('profile.password', defaultInputData);
       this.props.formChange('profile.confirm_password', defaultInputData);
       this.props.close();
     }).catch(error => {
       this.setState({ isLoading: false });
-      this.props.showNotification(this.props.t(error.code));
+
+      this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      });
     });
   };
 

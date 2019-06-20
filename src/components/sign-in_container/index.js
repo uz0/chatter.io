@@ -33,11 +33,20 @@ export class SignIn extends Component {
       this.props.setCurrentUser(data.user);
       window.localStorage.setItem('authToken', data.user.auth_token);
       window.localStorage.setItem('currentUser', JSON.stringify(data.user));
-      this.props.showNotification(this.props.t('you_logged_success'));
+
+      this.props.showNotification({
+        type: 'success',
+        text: this.props.t('you_logged_success'),
+      });
+
       this.props.pushUrl('/chat');
     }).catch(error => {
       this.setState({ commonError: this.props.t(error.code), isLoading: false });
-      this.props.showNotification(this.props.t(error.code));
+
+      this.props.showNotification({
+        type: 'error',
+        text: this.props.t(error.code),
+      });
     });
   }
 
@@ -70,7 +79,7 @@ export class SignIn extends Component {
       >
         <Input
           type="email"
-          class="light"
+          id="email"
           placeholder={this.props.t('email')}
           model="login.email"
           disabled={this.state.isLoading}
@@ -91,7 +100,7 @@ export class SignIn extends Component {
 
         <Input
           type="password"
-          class="light"
+          id="password"
           placeholder={this.props.t('password')}
           model="login.password"
           disabled={this.state.isLoading}

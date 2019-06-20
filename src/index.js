@@ -29,7 +29,7 @@ let api;
 const apiArguments = { token: process.env.TOKEN };
 
 const localInterface = {
-  onInitialized() {
+  async onInitialized() {
     const authToken = window.localStorage.getItem('authToken');
 
     if (!authToken) {
@@ -38,10 +38,9 @@ const localInterface = {
     }
 
     try {
-      api.login({ auth_token: authToken }).then(data => {
-        store.dispatch(storeActions.setCurrentUser(data.user));
-        init();
-      });
+      const loginResponse = await api.login({ auth_token: authToken });
+      store.dispatch(storeActions.setCurrentUser(loginResponse.user));
+      init();
     } catch (error) {
       store.dispatch(storeActions.setError({
         details: error,

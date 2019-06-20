@@ -13,6 +13,10 @@ const diff = actions.updateUser;
 actions.updateUser = params => (dispatch, getState) => {
   const state = getState();
 
+  if (!state.currentUser || !params.id) {
+    return;
+  }
+
   if (state.currentUser.id === params.id) {
     dispatch(storeActions.setCurrentUser({
       ...state.currentUser,

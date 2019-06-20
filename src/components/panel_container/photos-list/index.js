@@ -3,11 +3,12 @@ import Link from '@/components/link';
 import compose from 'recompose/compose';
 import map from 'lodash/map';
 import get from 'lodash/get';
+import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
-import { getOpponentUser } from '@/helpers';
+import { getOpponentUser, uid } from '@/helpers';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
@@ -17,7 +18,7 @@ class Photos extends Component {
   render() {
     let messages = this.props.messages;
 
-    messages = filter(messages, message => message.attachment && message.attachment.content_type.match('image/'));
+    messages = filter(messages, message => message.attachments && find(message.attachments, attachment => attachment.content_type.match('image/')));
     messages = filter(messages, message => !message.deleted_at);
 
     const isImagesExist = messages.length > 0;
@@ -33,12 +34,18 @@ class Photos extends Component {
 
     return <div className={cx(style.list, this.props.className)}>
       {isImagesExist &&
-        messages.map(message => <Link
-          key={message.id || message.uid}
-          to={`${href}/${message.id || message.uid}`}
-          className={style.photo}
-          style={{ '--image': `url(${message.attachment.preview})` }}
-        />)
+        messages.map(message => message.attachments.map(attachment => {
+          if (!attachment.content_type.match('image/')) {
+            return;
+          }
+
+          return <Link
+            key={uid()}
+            to={`${href}/${message.id || message.uid}`}
+            className={style.photo}
+            style={{ '--image': `url(${attachment.url})` }}
+          />;
+        }))
       }
 
       {!isImagesExist &&

@@ -7,6 +7,17 @@
     "url": "git+https://github.com/uz0/chatter.io"
   },
   "author": "dcversus <dcversus@gmail.com>",
+  "scripts": {
+    "jest": " jest --coverage",
+    "start": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --hot --inline --progress",
+    "prebuild": "npm run clean",
+    "build": "cross-env NODE_ENV=production webpack -p",
+    "postbuild": "npm run copy",
+    "clean": "rimraf build",
+    "copy": "ncp public build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
   "dependencies": {
     "autoprefixer": "^6.3.7",
     "babel": "^6.23.0",
@@ -19,16 +30,24 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
+    "chai": "^4.0.2",
     "classnames": "^2.2.6",
     "crc-32": "^1.2.0",
     "eslint-import-resolver-babel-module": "^5.0.1",
+    "expect-puppeteer": "^3.5.1",
     "gh-pages": "^2.0.1",
     "html-webpack-plugin": "^3.2.0",
     "i18next": "^14.0.1",
+    "jest": "^24.1.0",
+    "jest-cli": "^23.6.0",
+    "jest-config": "^23.6.0",
+    "jest-puppeteer": "^3.9.0",
     "lodash": "^4.17.11",
     "mobile-detect": "^1.4.3",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
+    "puppeteer": "^1.12.2",
+    "reselector": "^0.12.0",
     "react": "^16.2.0",
     "react-contenteditable": "^3.2.6",
     "react-dom": "^16.2.0",
@@ -64,15 +83,5 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1"
-  },
-  "scripts": {
-    "start": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --hot --inline --progress",
-    "prebuild": "npm run clean",
-    "build": "cross-env NODE_ENV=production webpack -p",
-    "postbuild": "npm run copy",
-    "clean": "rimraf build",
-    "copy": "ncp public build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
   }
 }

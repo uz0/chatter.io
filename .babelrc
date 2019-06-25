@@ -6,6 +6,7 @@
     "react"
   ],
   "plugins": [
+    ["reselector/babel"],
     ["transform-decorators-legacy"],
     ["transform-runtime"],
     ["module-resolver", {

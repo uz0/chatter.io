@@ -68,7 +68,7 @@ export class SignIn extends Component {
 
       <Form
         actions={[
-          { text: `${this.props.t('log_in')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit' },
+          { text: `${this.props.t('log_in')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit', id: 'submit' },
           { text: `${this.props.t('forgot_password')}?`, to: '/forgot-password' },
         ]}
 

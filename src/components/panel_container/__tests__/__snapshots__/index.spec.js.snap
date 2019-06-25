@@ -104,9 +104,1693 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": Array [
-        false,
-        <React.Fragment>
+      "children": <React.Fragment>
+        <Button
+          appearance="_icon-transparent"
+          className="close"
+          icon="arrow-left"
+          onClick={[Function]}
+        />
+        <div
+          className="scroll"
+        >
+          <div
+            className="header"
+          >
+            <div
+              className="avatar_container"
+            >
+              <Connect(SubscriptionAvatar)
+                className="avatar"
+                subscription={
+                  Object {
+                    "created_at": "2018-10-17T14:15:05Z",
+                    "draft": "",
+                    "group": Object {
+                      "created_at": "2018-10-17T14:15:05Z",
+                      "icon": null,
+                      "id": 5,
+                      "invite_code": null,
+                      "is_deleted": false,
+                      "name": null,
+                      "participants": Array [
+                        Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group_id": 5,
+                          "id": 69,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 5705,
+                          "mute_until": null,
+                          "role": "rw",
+                          "tags": null,
+                          "user": Object {
+                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                            },
+                            "confirmed_at": "2018-10-16T12:06:32Z",
+                            "email": "efim1382@gmail.com",
+                            "id": 55,
+                            "is_confirmed": true,
+                            "nick": "efim1382",
+                            "searchable_nick": true,
+                          },
+                          "user_id": 55,
+                        },
+                        Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group_id": 5,
+                          "id": 70,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 2482,
+                          "mute_until": null,
+                          "role": "rw",
+                          "user": Object {
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                            },
+                            "id": 59,
+                            "is_confirmed": false,
+                            "nick": "ivan ivanov",
+                          },
+                          "user_id": 55,
+                        },
+                      ],
+                      "type": "private_chat",
+                      "updated_at": "2018-10-17T14:15:05Z",
+                    },
+                    "group_id": 5,
+                    "id": 69,
+                    "last_mentioned_in_message_id": null,
+                    "last_read_message_id": 5705,
+                    "mute_until": null,
+                    "role": "rw",
+                    "tags": null,
+                    "user": Object {
+                      "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                      "avatar": Object {
+                        "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                        "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                      },
+                      "confirmed_at": "2018-10-16T12:06:32Z",
+                      "email": "efim1382@gmail.com",
+                      "id": 55,
+                      "is_confirmed": true,
+                      "nick": "efim1382",
+                      "searchable_nick": true,
+                    },
+                    "user_id": 55,
+                  }
+                }
+              />
+            </div>
+            <input
+              className="change_photo_input"
+              onChange={[Function]}
+              type="file"
+            />
+            <p
+              className="name"
+            >
+              no nick
+            </p>
+            <p
+              className="subcaption"
+            />
+          </div>
+          <button
+            className="setting_button"
+            onClick={[Function]}
+          >
+            <Icon
+              name="unmute"
+            />
+            <p
+              className="text"
+            />
+          </button>
+          <Connect(Dropdown)
+            className="dropdown"
+            items={
+              Array [
+                Object {
+                  "onClick": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "onClick": [Function],
+                  "text": undefined,
+                },
+                Object {
+                  "onClick": [Function],
+                  "text": undefined,
+                },
+              ]
+            }
+            uniqueId="panel-category-dropdown"
+          >
+            <button
+              className="setting_button"
+            >
+              <Icon
+                name="folder"
+              />
+              <p
+                className="text"
+              />
+            </button>
+          </Connect(Dropdown)>
+          <div
+            className="collapse"
+          >
+            <button
+              className="collapse_button"
+              onClick={[Function]}
+            >
+              <span
+                className="title"
+              />
+              <Icon
+                name="arrow-down"
+              />
+            </button>
+            <div
+              className="collapse_list"
+            >
+              <LoadNamespace(Connect(Photos))
+                className="photos_list"
+                details={
+                  Object {
+                    "created_at": "2018-10-17T14:15:05Z",
+                    "draft": "",
+                    "group": Object {
+                      "created_at": "2018-10-17T14:15:05Z",
+                      "icon": null,
+                      "id": 5,
+                      "invite_code": null,
+                      "is_deleted": false,
+                      "name": null,
+                      "participants": Array [
+                        Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group_id": 5,
+                          "id": 69,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 5705,
+                          "mute_until": null,
+                          "role": "rw",
+                          "tags": null,
+                          "user": Object {
+                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                            },
+                            "confirmed_at": "2018-10-16T12:06:32Z",
+                            "email": "efim1382@gmail.com",
+                            "id": 55,
+                            "is_confirmed": true,
+                            "nick": "efim1382",
+                            "searchable_nick": true,
+                          },
+                          "user_id": 55,
+                        },
+                        Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group_id": 5,
+                          "id": 70,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 2482,
+                          "mute_until": null,
+                          "role": "rw",
+                          "user": Object {
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                            },
+                            "id": 59,
+                            "is_confirmed": false,
+                            "nick": "ivan ivanov",
+                          },
+                          "user_id": 55,
+                        },
+                      ],
+                      "type": "private_chat",
+                      "updated_at": "2018-10-17T14:15:05Z",
+                    },
+                    "group_id": 5,
+                    "id": 69,
+                    "last_mentioned_in_message_id": null,
+                    "last_read_message_id": 5705,
+                    "mute_until": null,
+                    "role": "rw",
+                    "tags": null,
+                    "user": Object {
+                      "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                      "avatar": Object {
+                        "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                        "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                      },
+                      "confirmed_at": "2018-10-16T12:06:32Z",
+                      "email": "efim1382@gmail.com",
+                      "id": 55,
+                      "is_confirmed": true,
+                      "nick": "efim1382",
+                      "searchable_nick": true,
+                    },
+                    "user_id": 55,
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </React.Fragment>,
+      "className": "panel",
+      "data-a7b16d8c": true,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": Array [
+          <Button
+            appearance="_icon-transparent"
+            className="close"
+            icon="arrow-left"
+            onClick={[Function]}
+          />,
+          <div
+            className="scroll"
+          >
+            <div
+              className="header"
+            >
+              <div
+                className="avatar_container"
+              >
+                <Connect(SubscriptionAvatar)
+                  className="avatar"
+                  subscription={
+                    Object {
+                      "created_at": "2018-10-17T14:15:05Z",
+                      "draft": "",
+                      "group": Object {
+                        "created_at": "2018-10-17T14:15:05Z",
+                        "icon": null,
+                        "id": 5,
+                        "invite_code": null,
+                        "is_deleted": false,
+                        "name": null,
+                        "participants": Array [
+                          Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "draft": "",
+                            "group_id": 5,
+                            "id": 69,
+                            "last_mentioned_in_message_id": null,
+                            "last_read_message_id": 5705,
+                            "mute_until": null,
+                            "role": "rw",
+                            "tags": null,
+                            "user": Object {
+                              "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                              "avatar": Object {
+                                "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                              },
+                              "confirmed_at": "2018-10-16T12:06:32Z",
+                              "email": "efim1382@gmail.com",
+                              "id": 55,
+                              "is_confirmed": true,
+                              "nick": "efim1382",
+                              "searchable_nick": true,
+                            },
+                            "user_id": 55,
+                          },
+                          Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "draft": "",
+                            "group_id": 5,
+                            "id": 70,
+                            "last_mentioned_in_message_id": null,
+                            "last_read_message_id": 2482,
+                            "mute_until": null,
+                            "role": "rw",
+                            "user": Object {
+                              "avatar": Object {
+                                "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                              },
+                              "id": 59,
+                              "is_confirmed": false,
+                              "nick": "ivan ivanov",
+                            },
+                            "user_id": 55,
+                          },
+                        ],
+                        "type": "private_chat",
+                        "updated_at": "2018-10-17T14:15:05Z",
+                      },
+                      "group_id": 5,
+                      "id": 69,
+                      "last_mentioned_in_message_id": null,
+                      "last_read_message_id": 5705,
+                      "mute_until": null,
+                      "role": "rw",
+                      "tags": null,
+                      "user": Object {
+                        "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                        "avatar": Object {
+                          "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                          "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                        },
+                        "confirmed_at": "2018-10-16T12:06:32Z",
+                        "email": "efim1382@gmail.com",
+                        "id": 55,
+                        "is_confirmed": true,
+                        "nick": "efim1382",
+                        "searchable_nick": true,
+                      },
+                      "user_id": 55,
+                    }
+                  }
+                />
+              </div>
+              <input
+                className="change_photo_input"
+                onChange={[Function]}
+                type="file"
+              />
+              <p
+                className="name"
+              >
+                no nick
+              </p>
+              <p
+                className="subcaption"
+              />
+            </div>
+            <button
+              className="setting_button"
+              onClick={[Function]}
+            >
+              <Icon
+                name="unmute"
+              />
+              <p
+                className="text"
+              />
+            </button>
+            <Connect(Dropdown)
+              className="dropdown"
+              items={
+                Array [
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                ]
+              }
+              uniqueId="panel-category-dropdown"
+            >
+              <button
+                className="setting_button"
+              >
+                <Icon
+                  name="folder"
+                />
+                <p
+                  className="text"
+                />
+              </button>
+            </Connect(Dropdown)>
+            <div
+              className="collapse"
+            >
+              <button
+                className="collapse_button"
+                onClick={[Function]}
+              >
+                <span
+                  className="title"
+                />
+                <Icon
+                  name="arrow-down"
+                />
+              </button>
+              <div
+                className="collapse_list"
+              >
+                <LoadNamespace(Connect(Photos))
+                  className="photos_list"
+                  details={
+                    Object {
+                      "created_at": "2018-10-17T14:15:05Z",
+                      "draft": "",
+                      "group": Object {
+                        "created_at": "2018-10-17T14:15:05Z",
+                        "icon": null,
+                        "id": 5,
+                        "invite_code": null,
+                        "is_deleted": false,
+                        "name": null,
+                        "participants": Array [
+                          Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "draft": "",
+                            "group_id": 5,
+                            "id": 69,
+                            "last_mentioned_in_message_id": null,
+                            "last_read_message_id": 5705,
+                            "mute_until": null,
+                            "role": "rw",
+                            "tags": null,
+                            "user": Object {
+                              "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                              "avatar": Object {
+                                "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                              },
+                              "confirmed_at": "2018-10-16T12:06:32Z",
+                              "email": "efim1382@gmail.com",
+                              "id": 55,
+                              "is_confirmed": true,
+                              "nick": "efim1382",
+                              "searchable_nick": true,
+                            },
+                            "user_id": 55,
+                          },
+                          Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "draft": "",
+                            "group_id": 5,
+                            "id": 70,
+                            "last_mentioned_in_message_id": null,
+                            "last_read_message_id": 2482,
+                            "mute_until": null,
+                            "role": "rw",
+                            "user": Object {
+                              "avatar": Object {
+                                "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                              },
+                              "id": 59,
+                              "is_confirmed": false,
+                              "nick": "ivan ivanov",
+                            },
+                            "user_id": 55,
+                          },
+                        ],
+                        "type": "private_chat",
+                        "updated_at": "2018-10-17T14:15:05Z",
+                      },
+                      "group_id": 5,
+                      "id": 69,
+                      "last_mentioned_in_message_id": null,
+                      "last_read_message_id": 5705,
+                      "mute_until": null,
+                      "role": "rw",
+                      "tags": null,
+                      "user": Object {
+                        "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                        "avatar": Object {
+                          "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                          "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                        },
+                        "confirmed_at": "2018-10-16T12:06:32Z",
+                        "email": "efim1382@gmail.com",
+                        "id": 55,
+                        "is_confirmed": true,
+                        "nick": "efim1382",
+                        "searchable_nick": true,
+                      },
+                      "user_id": 55,
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "appearance": "_icon-transparent",
+            "className": "close",
+            "icon": "arrow-left",
+            "onClick": [Function],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="header"
+              >
+                <div
+                  className="avatar_container"
+                >
+                  <Connect(SubscriptionAvatar)
+                    className="avatar"
+                    subscription={
+                      Object {
+                        "created_at": "2018-10-17T14:15:05Z",
+                        "draft": "",
+                        "group": Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "icon": null,
+                          "id": 5,
+                          "invite_code": null,
+                          "is_deleted": false,
+                          "name": null,
+                          "participants": Array [
+                            Object {
+                              "created_at": "2018-10-17T14:15:05Z",
+                              "draft": "",
+                              "group_id": 5,
+                              "id": 69,
+                              "last_mentioned_in_message_id": null,
+                              "last_read_message_id": 5705,
+                              "mute_until": null,
+                              "role": "rw",
+                              "tags": null,
+                              "user": Object {
+                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                "avatar": Object {
+                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                },
+                                "confirmed_at": "2018-10-16T12:06:32Z",
+                                "email": "efim1382@gmail.com",
+                                "id": 55,
+                                "is_confirmed": true,
+                                "nick": "efim1382",
+                                "searchable_nick": true,
+                              },
+                              "user_id": 55,
+                            },
+                            Object {
+                              "created_at": "2018-10-17T14:15:05Z",
+                              "draft": "",
+                              "group_id": 5,
+                              "id": 70,
+                              "last_mentioned_in_message_id": null,
+                              "last_read_message_id": 2482,
+                              "mute_until": null,
+                              "role": "rw",
+                              "user": Object {
+                                "avatar": Object {
+                                  "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                  "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                },
+                                "id": 59,
+                                "is_confirmed": false,
+                                "nick": "ivan ivanov",
+                              },
+                              "user_id": 55,
+                            },
+                          ],
+                          "type": "private_chat",
+                          "updated_at": "2018-10-17T14:15:05Z",
+                        },
+                        "group_id": 5,
+                        "id": 69,
+                        "last_mentioned_in_message_id": null,
+                        "last_read_message_id": 5705,
+                        "mute_until": null,
+                        "role": "rw",
+                        "tags": null,
+                        "user": Object {
+                          "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                          "avatar": Object {
+                            "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                            "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                          },
+                          "confirmed_at": "2018-10-16T12:06:32Z",
+                          "email": "efim1382@gmail.com",
+                          "id": 55,
+                          "is_confirmed": true,
+                          "nick": "efim1382",
+                          "searchable_nick": true,
+                        },
+                        "user_id": 55,
+                      }
+                    }
+                  />
+                </div>
+                <input
+                  className="change_photo_input"
+                  onChange={[Function]}
+                  type="file"
+                />
+                <p
+                  className="name"
+                >
+                  no nick
+                </p>
+                <p
+                  className="subcaption"
+                />
+              </div>,
+              false,
+              <button
+                className="setting_button"
+                onClick={[Function]}
+              >
+                <Icon
+                  name="unmute"
+                />
+                <p
+                  className="text"
+                />
+              </button>,
+              <Connect(Dropdown)
+                className="dropdown"
+                items={
+                  Array [
+                    Object {
+                      "onClick": [Function],
+                      "text": undefined,
+                    },
+                    Object {
+                      "onClick": [Function],
+                      "text": undefined,
+                    },
+                    Object {
+                      "onClick": [Function],
+                      "text": undefined,
+                    },
+                  ]
+                }
+                uniqueId="panel-category-dropdown"
+              >
+                <button
+                  className="setting_button"
+                >
+                  <Icon
+                    name="folder"
+                  />
+                  <p
+                    className="text"
+                  />
+                </button>
+              </Connect(Dropdown)>,
+              false,
+              false,
+              <div
+                className="collapse"
+              >
+                <button
+                  className="collapse_button"
+                  onClick={[Function]}
+                >
+                  <span
+                    className="title"
+                  />
+                  <Icon
+                    name="arrow-down"
+                  />
+                </button>
+                <div
+                  className="collapse_list"
+                >
+                  <LoadNamespace(Connect(Photos))
+                    className="photos_list"
+                    details={
+                      Object {
+                        "created_at": "2018-10-17T14:15:05Z",
+                        "draft": "",
+                        "group": Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "icon": null,
+                          "id": 5,
+                          "invite_code": null,
+                          "is_deleted": false,
+                          "name": null,
+                          "participants": Array [
+                            Object {
+                              "created_at": "2018-10-17T14:15:05Z",
+                              "draft": "",
+                              "group_id": 5,
+                              "id": 69,
+                              "last_mentioned_in_message_id": null,
+                              "last_read_message_id": 5705,
+                              "mute_until": null,
+                              "role": "rw",
+                              "tags": null,
+                              "user": Object {
+                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                "avatar": Object {
+                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                },
+                                "confirmed_at": "2018-10-16T12:06:32Z",
+                                "email": "efim1382@gmail.com",
+                                "id": 55,
+                                "is_confirmed": true,
+                                "nick": "efim1382",
+                                "searchable_nick": true,
+                              },
+                              "user_id": 55,
+                            },
+                            Object {
+                              "created_at": "2018-10-17T14:15:05Z",
+                              "draft": "",
+                              "group_id": 5,
+                              "id": 70,
+                              "last_mentioned_in_message_id": null,
+                              "last_read_message_id": 2482,
+                              "mute_until": null,
+                              "role": "rw",
+                              "user": Object {
+                                "avatar": Object {
+                                  "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                  "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                },
+                                "id": 59,
+                                "is_confirmed": false,
+                                "nick": "ivan ivanov",
+                              },
+                              "user_id": 55,
+                            },
+                          ],
+                          "type": "private_chat",
+                          "updated_at": "2018-10-17T14:15:05Z",
+                        },
+                        "group_id": 5,
+                        "id": 69,
+                        "last_mentioned_in_message_id": null,
+                        "last_read_message_id": 5705,
+                        "mute_until": null,
+                        "role": "rw",
+                        "tags": null,
+                        "user": Object {
+                          "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                          "avatar": Object {
+                            "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                            "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                          },
+                          "confirmed_at": "2018-10-16T12:06:32Z",
+                          "email": "efim1382@gmail.com",
+                          "id": 55,
+                          "is_confirmed": true,
+                          "nick": "efim1382",
+                          "searchable_nick": true,
+                        },
+                        "user_id": 55,
+                      }
+                    }
+                  />
+                </div>
+              </div>,
+            ],
+            "className": "scroll",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    className="avatar_container"
+                  >
+                    <Connect(SubscriptionAvatar)
+                      className="avatar"
+                      subscription={
+                        Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group": Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "icon": null,
+                            "id": 5,
+                            "invite_code": null,
+                            "is_deleted": false,
+                            "name": null,
+                            "participants": Array [
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 69,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 5705,
+                                "mute_until": null,
+                                "role": "rw",
+                                "tags": null,
+                                "user": Object {
+                                  "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                  },
+                                  "confirmed_at": "2018-10-16T12:06:32Z",
+                                  "email": "efim1382@gmail.com",
+                                  "id": 55,
+                                  "is_confirmed": true,
+                                  "nick": "efim1382",
+                                  "searchable_nick": true,
+                                },
+                                "user_id": 55,
+                              },
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 70,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 2482,
+                                "mute_until": null,
+                                "role": "rw",
+                                "user": Object {
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                  },
+                                  "id": 59,
+                                  "is_confirmed": false,
+                                  "nick": "ivan ivanov",
+                                },
+                                "user_id": 55,
+                              },
+                            ],
+                            "type": "private_chat",
+                            "updated_at": "2018-10-17T14:15:05Z",
+                          },
+                          "group_id": 5,
+                          "id": 69,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 5705,
+                          "mute_until": null,
+                          "role": "rw",
+                          "tags": null,
+                          "user": Object {
+                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                            },
+                            "confirmed_at": "2018-10-16T12:06:32Z",
+                            "email": "efim1382@gmail.com",
+                            "id": 55,
+                            "is_confirmed": true,
+                            "nick": "efim1382",
+                            "searchable_nick": true,
+                          },
+                          "user_id": 55,
+                        }
+                      }
+                    />
+                  </div>,
+                  <input
+                    className="change_photo_input"
+                    onChange={[Function]}
+                    type="file"
+                  />,
+                  false,
+                  <p
+                    className="name"
+                  >
+                    no nick
+                  </p>,
+                  <p
+                    className="subcaption"
+                  />,
+                ],
+                "className": "header",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <Connect(SubscriptionAvatar)
+                        className="avatar"
+                        subscription={
+                          Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "draft": "",
+                            "group": Object {
+                              "created_at": "2018-10-17T14:15:05Z",
+                              "icon": null,
+                              "id": 5,
+                              "invite_code": null,
+                              "is_deleted": false,
+                              "name": null,
+                              "participants": Array [
+                                Object {
+                                  "created_at": "2018-10-17T14:15:05Z",
+                                  "draft": "",
+                                  "group_id": 5,
+                                  "id": 69,
+                                  "last_mentioned_in_message_id": null,
+                                  "last_read_message_id": 5705,
+                                  "mute_until": null,
+                                  "role": "rw",
+                                  "tags": null,
+                                  "user": Object {
+                                    "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                    "avatar": Object {
+                                      "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                      "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                    },
+                                    "confirmed_at": "2018-10-16T12:06:32Z",
+                                    "email": "efim1382@gmail.com",
+                                    "id": 55,
+                                    "is_confirmed": true,
+                                    "nick": "efim1382",
+                                    "searchable_nick": true,
+                                  },
+                                  "user_id": 55,
+                                },
+                                Object {
+                                  "created_at": "2018-10-17T14:15:05Z",
+                                  "draft": "",
+                                  "group_id": 5,
+                                  "id": 70,
+                                  "last_mentioned_in_message_id": null,
+                                  "last_read_message_id": 2482,
+                                  "mute_until": null,
+                                  "role": "rw",
+                                  "user": Object {
+                                    "avatar": Object {
+                                      "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                      "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                    },
+                                    "id": 59,
+                                    "is_confirmed": false,
+                                    "nick": "ivan ivanov",
+                                  },
+                                  "user_id": 55,
+                                },
+                              ],
+                              "type": "private_chat",
+                              "updated_at": "2018-10-17T14:15:05Z",
+                            },
+                            "group_id": 5,
+                            "id": 69,
+                            "last_mentioned_in_message_id": null,
+                            "last_read_message_id": 5705,
+                            "mute_until": null,
+                            "role": "rw",
+                            "tags": null,
+                            "user": Object {
+                              "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                              "avatar": Object {
+                                "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                              },
+                              "confirmed_at": "2018-10-16T12:06:32Z",
+                              "email": "efim1382@gmail.com",
+                              "id": 55,
+                              "is_confirmed": true,
+                              "nick": "efim1382",
+                              "searchable_nick": true,
+                            },
+                            "user_id": 55,
+                          }
+                        }
+                      />,
+                      false,
+                      false,
+                    ],
+                    "className": "avatar_container",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "className": "avatar",
+                        "subscription": Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group": Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "icon": null,
+                            "id": 5,
+                            "invite_code": null,
+                            "is_deleted": false,
+                            "name": null,
+                            "participants": Array [
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 69,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 5705,
+                                "mute_until": null,
+                                "role": "rw",
+                                "tags": null,
+                                "user": Object {
+                                  "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                  },
+                                  "confirmed_at": "2018-10-16T12:06:32Z",
+                                  "email": "efim1382@gmail.com",
+                                  "id": 55,
+                                  "is_confirmed": true,
+                                  "nick": "efim1382",
+                                  "searchable_nick": true,
+                                },
+                                "user_id": 55,
+                              },
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 70,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 2482,
+                                "mute_until": null,
+                                "role": "rw",
+                                "user": Object {
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                  },
+                                  "id": 59,
+                                  "is_confirmed": false,
+                                  "nick": "ivan ivanov",
+                                },
+                                "user_id": 55,
+                              },
+                            ],
+                            "type": "private_chat",
+                            "updated_at": "2018-10-17T14:15:05Z",
+                          },
+                          "group_id": 5,
+                          "id": 69,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 5705,
+                          "mute_until": null,
+                          "role": "rw",
+                          "tags": null,
+                          "user": Object {
+                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                            },
+                            "confirmed_at": "2018-10-16T12:06:32Z",
+                            "email": "efim1382@gmail.com",
+                            "id": 55,
+                            "is_confirmed": true,
+                            "nick": "efim1382",
+                            "searchable_nick": true,
+                          },
+                          "user_id": 55,
+                        },
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    false,
+                    false,
+                  ],
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "className": "change_photo_input",
+                    "onChange": [Function],
+                    "type": "file",
+                  },
+                  "ref": [Function],
+                  "rendered": null,
+                  "type": "input",
+                },
+                false,
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "no nick",
+                    "className": "name",
+                  },
+                  "ref": null,
+                  "rendered": "no nick",
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      false,
+                      null,
+                    ],
+                    "className": "subcaption",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    false,
+                    null,
+                  ],
+                  "type": "p",
+                },
+              ],
+              "type": "div",
+            },
+            false,
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  null,
+                  <Icon
+                    name="unmute"
+                  />,
+                  <p
+                    className="text"
+                  />,
+                ],
+                "className": "setting_button",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": Array [
+                null,
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "name": "unmute",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": undefined,
+                    "className": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "p",
+                },
+              ],
+              "type": "button",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": <button
+                  className="setting_button"
+                >
+                  <Icon
+                    name="folder"
+                  />
+                  <p
+                    className="text"
+                  />
+                </button>,
+                "className": "dropdown",
+                "items": Array [
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                  Object {
+                    "onClick": [Function],
+                    "text": undefined,
+                  },
+                ],
+                "uniqueId": "panel-category-dropdown",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <Icon
+                      name="folder"
+                    />,
+                    <p
+                      className="text"
+                    />,
+                    null,
+                  ],
+                  "className": "setting_button",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "name": "folder",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": undefined,
+                      "className": "text",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "p",
+                  },
+                  null,
+                ],
+                "type": "button",
+              },
+              "type": [Function],
+            },
+            false,
+            false,
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <button
+                    className="collapse_button"
+                    onClick={[Function]}
+                  >
+                    <span
+                      className="title"
+                    />
+                    <Icon
+                      name="arrow-down"
+                    />
+                  </button>,
+                  <div
+                    className="collapse_list"
+                  >
+                    <LoadNamespace(Connect(Photos))
+                      className="photos_list"
+                      details={
+                        Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group": Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "icon": null,
+                            "id": 5,
+                            "invite_code": null,
+                            "is_deleted": false,
+                            "name": null,
+                            "participants": Array [
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 69,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 5705,
+                                "mute_until": null,
+                                "role": "rw",
+                                "tags": null,
+                                "user": Object {
+                                  "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                  },
+                                  "confirmed_at": "2018-10-16T12:06:32Z",
+                                  "email": "efim1382@gmail.com",
+                                  "id": 55,
+                                  "is_confirmed": true,
+                                  "nick": "efim1382",
+                                  "searchable_nick": true,
+                                },
+                                "user_id": 55,
+                              },
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 70,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 2482,
+                                "mute_until": null,
+                                "role": "rw",
+                                "user": Object {
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                  },
+                                  "id": 59,
+                                  "is_confirmed": false,
+                                  "nick": "ivan ivanov",
+                                },
+                                "user_id": 55,
+                              },
+                            ],
+                            "type": "private_chat",
+                            "updated_at": "2018-10-17T14:15:05Z",
+                          },
+                          "group_id": 5,
+                          "id": 69,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 5705,
+                          "mute_until": null,
+                          "role": "rw",
+                          "tags": null,
+                          "user": Object {
+                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                            },
+                            "confirmed_at": "2018-10-16T12:06:32Z",
+                            "email": "efim1382@gmail.com",
+                            "id": 55,
+                            "is_confirmed": true,
+                            "nick": "efim1382",
+                            "searchable_nick": true,
+                          },
+                          "user_id": 55,
+                        }
+                      }
+                    />
+                  </div>,
+                ],
+                "className": "collapse",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <span
+                        className="title"
+                      />,
+                      <Icon
+                        name="arrow-down"
+                      />,
+                    ],
+                    "className": "collapse_button",
+                    "onClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": undefined,
+                        "className": "title",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": "span",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "name": "arrow-down",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": "button",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <LoadNamespace(Connect(Photos))
+                      className="photos_list"
+                      details={
+                        Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "draft": "",
+                          "group": Object {
+                            "created_at": "2018-10-17T14:15:05Z",
+                            "icon": null,
+                            "id": 5,
+                            "invite_code": null,
+                            "is_deleted": false,
+                            "name": null,
+                            "participants": Array [
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 69,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 5705,
+                                "mute_until": null,
+                                "role": "rw",
+                                "tags": null,
+                                "user": Object {
+                                  "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                  },
+                                  "confirmed_at": "2018-10-16T12:06:32Z",
+                                  "email": "efim1382@gmail.com",
+                                  "id": 55,
+                                  "is_confirmed": true,
+                                  "nick": "efim1382",
+                                  "searchable_nick": true,
+                                },
+                                "user_id": 55,
+                              },
+                              Object {
+                                "created_at": "2018-10-17T14:15:05Z",
+                                "draft": "",
+                                "group_id": 5,
+                                "id": 70,
+                                "last_mentioned_in_message_id": null,
+                                "last_read_message_id": 2482,
+                                "mute_until": null,
+                                "role": "rw",
+                                "user": Object {
+                                  "avatar": Object {
+                                    "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                    "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                  },
+                                  "id": 59,
+                                  "is_confirmed": false,
+                                  "nick": "ivan ivanov",
+                                },
+                                "user_id": 55,
+                              },
+                            ],
+                            "type": "private_chat",
+                            "updated_at": "2018-10-17T14:15:05Z",
+                          },
+                          "group_id": 5,
+                          "id": 69,
+                          "last_mentioned_in_message_id": null,
+                          "last_read_message_id": 5705,
+                          "mute_until": null,
+                          "role": "rw",
+                          "tags": null,
+                          "user": Object {
+                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                            "avatar": Object {
+                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                            },
+                            "confirmed_at": "2018-10-16T12:06:32Z",
+                            "email": "efim1382@gmail.com",
+                            "id": 55,
+                            "is_confirmed": true,
+                            "nick": "efim1382",
+                            "searchable_nick": true,
+                          },
+                          "user_id": 55,
+                        }
+                      }
+                    />,
+                    "className": "collapse_list",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "photos_list",
+                      "details": Object {
+                        "created_at": "2018-10-17T14:15:05Z",
+                        "draft": "",
+                        "group": Object {
+                          "created_at": "2018-10-17T14:15:05Z",
+                          "icon": null,
+                          "id": 5,
+                          "invite_code": null,
+                          "is_deleted": false,
+                          "name": null,
+                          "participants": Array [
+                            Object {
+                              "created_at": "2018-10-17T14:15:05Z",
+                              "draft": "",
+                              "group_id": 5,
+                              "id": 69,
+                              "last_mentioned_in_message_id": null,
+                              "last_read_message_id": 5705,
+                              "mute_until": null,
+                              "role": "rw",
+                              "tags": null,
+                              "user": Object {
+                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                                "avatar": Object {
+                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                                },
+                                "confirmed_at": "2018-10-16T12:06:32Z",
+                                "email": "efim1382@gmail.com",
+                                "id": 55,
+                                "is_confirmed": true,
+                                "nick": "efim1382",
+                                "searchable_nick": true,
+                              },
+                              "user_id": 55,
+                            },
+                            Object {
+                              "created_at": "2018-10-17T14:15:05Z",
+                              "draft": "",
+                              "group_id": 5,
+                              "id": 70,
+                              "last_mentioned_in_message_id": null,
+                              "last_read_message_id": 2482,
+                              "mute_until": null,
+                              "role": "rw",
+                              "user": Object {
+                                "avatar": Object {
+                                  "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
+                                  "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
+                                },
+                                "id": 59,
+                                "is_confirmed": false,
+                                "nick": "ivan ivanov",
+                              },
+                              "user_id": 55,
+                            },
+                          ],
+                          "type": "private_chat",
+                          "updated_at": "2018-10-17T14:15:05Z",
+                        },
+                        "group_id": 5,
+                        "id": 69,
+                        "last_mentioned_in_message_id": null,
+                        "last_read_message_id": 5705,
+                        "mute_until": null,
+                        "role": "rw",
+                        "tags": null,
+                        "user": Object {
+                          "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
+                          "avatar": Object {
+                            "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
+                            "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
+                          },
+                          "confirmed_at": "2018-10-16T12:06:32Z",
+                          "email": "efim1382@gmail.com",
+                          "id": 55,
+                          "is_confirmed": true,
+                          "nick": "efim1382",
+                          "searchable_nick": true,
+                        },
+                        "user_id": 55,
+                      },
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": "div",
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": Symbol(react.fragment),
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <React.Fragment>
           <Button
             appearance="_icon-transparent"
             className="close"
@@ -374,14 +2058,11 @@ ShallowWrapper {
             </div>
           </div>
         </React.Fragment>,
-      ],
-      "className": "panel",
-      "data-a7b16d8c": true,
-    },
-    "ref": null,
-    "rendered": Array [
-      false,
-      Object {
+        "className": "panel",
+        "data-a7b16d8c": true,
+      },
+      "ref": null,
+      "rendered": Object {
         "instance": null,
         "key": undefined,
         "nodeType": "function",
@@ -1288,14 +2969,14 @@ ShallowWrapper {
                     "props": Object {
                       "children": Array [
                         false,
-                        undefined,
+                        null,
                       ],
                       "className": "subcaption",
                     },
                     "ref": null,
                     "rendered": Array [
                       false,
-                      undefined,
+                      null,
                     ],
                     "type": "p",
                   },
@@ -1787,1699 +3468,6 @@ ShallowWrapper {
         ],
         "type": Symbol(react.fragment),
       },
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          false,
-          <React.Fragment>
-            <Button
-              appearance="_icon-transparent"
-              className="close"
-              icon="arrow-left"
-              onClick={[Function]}
-            />
-            <div
-              className="scroll"
-            >
-              <div
-                className="header"
-              >
-                <div
-                  className="avatar_container"
-                >
-                  <Connect(SubscriptionAvatar)
-                    className="avatar"
-                    subscription={
-                      Object {
-                        "created_at": "2018-10-17T14:15:05Z",
-                        "draft": "",
-                        "group": Object {
-                          "created_at": "2018-10-17T14:15:05Z",
-                          "icon": null,
-                          "id": 5,
-                          "invite_code": null,
-                          "is_deleted": false,
-                          "name": null,
-                          "participants": Array [
-                            Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group_id": 5,
-                              "id": 69,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 5705,
-                              "mute_until": null,
-                              "role": "rw",
-                              "tags": null,
-                              "user": Object {
-                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                },
-                                "confirmed_at": "2018-10-16T12:06:32Z",
-                                "email": "efim1382@gmail.com",
-                                "id": 55,
-                                "is_confirmed": true,
-                                "nick": "efim1382",
-                                "searchable_nick": true,
-                              },
-                              "user_id": 55,
-                            },
-                            Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group_id": 5,
-                              "id": 70,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 2482,
-                              "mute_until": null,
-                              "role": "rw",
-                              "user": Object {
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                },
-                                "id": 59,
-                                "is_confirmed": false,
-                                "nick": "ivan ivanov",
-                              },
-                              "user_id": 55,
-                            },
-                          ],
-                          "type": "private_chat",
-                          "updated_at": "2018-10-17T14:15:05Z",
-                        },
-                        "group_id": 5,
-                        "id": 69,
-                        "last_mentioned_in_message_id": null,
-                        "last_read_message_id": 5705,
-                        "mute_until": null,
-                        "role": "rw",
-                        "tags": null,
-                        "user": Object {
-                          "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                          "avatar": Object {
-                            "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                            "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                          },
-                          "confirmed_at": "2018-10-16T12:06:32Z",
-                          "email": "efim1382@gmail.com",
-                          "id": 55,
-                          "is_confirmed": true,
-                          "nick": "efim1382",
-                          "searchable_nick": true,
-                        },
-                        "user_id": 55,
-                      }
-                    }
-                  />
-                </div>
-                <input
-                  className="change_photo_input"
-                  onChange={[Function]}
-                  type="file"
-                />
-                <p
-                  className="name"
-                >
-                  no nick
-                </p>
-                <p
-                  className="subcaption"
-                />
-              </div>
-              <button
-                className="setting_button"
-                onClick={[Function]}
-              >
-                <Icon
-                  name="unmute"
-                />
-                <p
-                  className="text"
-                />
-              </button>
-              <Connect(Dropdown)
-                className="dropdown"
-                items={
-                  Array [
-                    Object {
-                      "onClick": [Function],
-                      "text": undefined,
-                    },
-                    Object {
-                      "onClick": [Function],
-                      "text": undefined,
-                    },
-                    Object {
-                      "onClick": [Function],
-                      "text": undefined,
-                    },
-                  ]
-                }
-                uniqueId="panel-category-dropdown"
-              >
-                <button
-                  className="setting_button"
-                >
-                  <Icon
-                    name="folder"
-                  />
-                  <p
-                    className="text"
-                  />
-                </button>
-              </Connect(Dropdown)>
-              <div
-                className="collapse"
-              >
-                <button
-                  className="collapse_button"
-                  onClick={[Function]}
-                >
-                  <span
-                    className="title"
-                  />
-                  <Icon
-                    name="arrow-down"
-                  />
-                </button>
-                <div
-                  className="collapse_list"
-                >
-                  <LoadNamespace(Connect(Photos))
-                    className="photos_list"
-                    details={
-                      Object {
-                        "created_at": "2018-10-17T14:15:05Z",
-                        "draft": "",
-                        "group": Object {
-                          "created_at": "2018-10-17T14:15:05Z",
-                          "icon": null,
-                          "id": 5,
-                          "invite_code": null,
-                          "is_deleted": false,
-                          "name": null,
-                          "participants": Array [
-                            Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group_id": 5,
-                              "id": 69,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 5705,
-                              "mute_until": null,
-                              "role": "rw",
-                              "tags": null,
-                              "user": Object {
-                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                },
-                                "confirmed_at": "2018-10-16T12:06:32Z",
-                                "email": "efim1382@gmail.com",
-                                "id": 55,
-                                "is_confirmed": true,
-                                "nick": "efim1382",
-                                "searchable_nick": true,
-                              },
-                              "user_id": 55,
-                            },
-                            Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group_id": 5,
-                              "id": 70,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 2482,
-                              "mute_until": null,
-                              "role": "rw",
-                              "user": Object {
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                },
-                                "id": 59,
-                                "is_confirmed": false,
-                                "nick": "ivan ivanov",
-                              },
-                              "user_id": 55,
-                            },
-                          ],
-                          "type": "private_chat",
-                          "updated_at": "2018-10-17T14:15:05Z",
-                        },
-                        "group_id": 5,
-                        "id": 69,
-                        "last_mentioned_in_message_id": null,
-                        "last_read_message_id": 5705,
-                        "mute_until": null,
-                        "role": "rw",
-                        "tags": null,
-                        "user": Object {
-                          "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                          "avatar": Object {
-                            "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                            "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                          },
-                          "confirmed_at": "2018-10-16T12:06:32Z",
-                          "email": "efim1382@gmail.com",
-                          "id": 55,
-                          "is_confirmed": true,
-                          "nick": "efim1382",
-                          "searchable_nick": true,
-                        },
-                        "user_id": 55,
-                      }
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-          </React.Fragment>,
-        ],
-        "className": "panel",
-        "data-a7b16d8c": true,
-      },
-      "ref": null,
-      "rendered": Array [
-        false,
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "function",
-          "props": Object {
-            "children": Array [
-              <Button
-                appearance="_icon-transparent"
-                className="close"
-                icon="arrow-left"
-                onClick={[Function]}
-              />,
-              <div
-                className="scroll"
-              >
-                <div
-                  className="header"
-                >
-                  <div
-                    className="avatar_container"
-                  >
-                    <Connect(SubscriptionAvatar)
-                      className="avatar"
-                      subscription={
-                        Object {
-                          "created_at": "2018-10-17T14:15:05Z",
-                          "draft": "",
-                          "group": Object {
-                            "created_at": "2018-10-17T14:15:05Z",
-                            "icon": null,
-                            "id": 5,
-                            "invite_code": null,
-                            "is_deleted": false,
-                            "name": null,
-                            "participants": Array [
-                              Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "draft": "",
-                                "group_id": 5,
-                                "id": 69,
-                                "last_mentioned_in_message_id": null,
-                                "last_read_message_id": 5705,
-                                "mute_until": null,
-                                "role": "rw",
-                                "tags": null,
-                                "user": Object {
-                                  "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                  "avatar": Object {
-                                    "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                    "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                  },
-                                  "confirmed_at": "2018-10-16T12:06:32Z",
-                                  "email": "efim1382@gmail.com",
-                                  "id": 55,
-                                  "is_confirmed": true,
-                                  "nick": "efim1382",
-                                  "searchable_nick": true,
-                                },
-                                "user_id": 55,
-                              },
-                              Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "draft": "",
-                                "group_id": 5,
-                                "id": 70,
-                                "last_mentioned_in_message_id": null,
-                                "last_read_message_id": 2482,
-                                "mute_until": null,
-                                "role": "rw",
-                                "user": Object {
-                                  "avatar": Object {
-                                    "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                    "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                  },
-                                  "id": 59,
-                                  "is_confirmed": false,
-                                  "nick": "ivan ivanov",
-                                },
-                                "user_id": 55,
-                              },
-                            ],
-                            "type": "private_chat",
-                            "updated_at": "2018-10-17T14:15:05Z",
-                          },
-                          "group_id": 5,
-                          "id": 69,
-                          "last_mentioned_in_message_id": null,
-                          "last_read_message_id": 5705,
-                          "mute_until": null,
-                          "role": "rw",
-                          "tags": null,
-                          "user": Object {
-                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                            "avatar": Object {
-                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                            },
-                            "confirmed_at": "2018-10-16T12:06:32Z",
-                            "email": "efim1382@gmail.com",
-                            "id": 55,
-                            "is_confirmed": true,
-                            "nick": "efim1382",
-                            "searchable_nick": true,
-                          },
-                          "user_id": 55,
-                        }
-                      }
-                    />
-                  </div>
-                  <input
-                    className="change_photo_input"
-                    onChange={[Function]}
-                    type="file"
-                  />
-                  <p
-                    className="name"
-                  >
-                    no nick
-                  </p>
-                  <p
-                    className="subcaption"
-                  />
-                </div>
-                <button
-                  className="setting_button"
-                  onClick={[Function]}
-                >
-                  <Icon
-                    name="unmute"
-                  />
-                  <p
-                    className="text"
-                  />
-                </button>
-                <Connect(Dropdown)
-                  className="dropdown"
-                  items={
-                    Array [
-                      Object {
-                        "onClick": [Function],
-                        "text": undefined,
-                      },
-                      Object {
-                        "onClick": [Function],
-                        "text": undefined,
-                      },
-                      Object {
-                        "onClick": [Function],
-                        "text": undefined,
-                      },
-                    ]
-                  }
-                  uniqueId="panel-category-dropdown"
-                >
-                  <button
-                    className="setting_button"
-                  >
-                    <Icon
-                      name="folder"
-                    />
-                    <p
-                      className="text"
-                    />
-                  </button>
-                </Connect(Dropdown)>
-                <div
-                  className="collapse"
-                >
-                  <button
-                    className="collapse_button"
-                    onClick={[Function]}
-                  >
-                    <span
-                      className="title"
-                    />
-                    <Icon
-                      name="arrow-down"
-                    />
-                  </button>
-                  <div
-                    className="collapse_list"
-                  >
-                    <LoadNamespace(Connect(Photos))
-                      className="photos_list"
-                      details={
-                        Object {
-                          "created_at": "2018-10-17T14:15:05Z",
-                          "draft": "",
-                          "group": Object {
-                            "created_at": "2018-10-17T14:15:05Z",
-                            "icon": null,
-                            "id": 5,
-                            "invite_code": null,
-                            "is_deleted": false,
-                            "name": null,
-                            "participants": Array [
-                              Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "draft": "",
-                                "group_id": 5,
-                                "id": 69,
-                                "last_mentioned_in_message_id": null,
-                                "last_read_message_id": 5705,
-                                "mute_until": null,
-                                "role": "rw",
-                                "tags": null,
-                                "user": Object {
-                                  "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                  "avatar": Object {
-                                    "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                    "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                  },
-                                  "confirmed_at": "2018-10-16T12:06:32Z",
-                                  "email": "efim1382@gmail.com",
-                                  "id": 55,
-                                  "is_confirmed": true,
-                                  "nick": "efim1382",
-                                  "searchable_nick": true,
-                                },
-                                "user_id": 55,
-                              },
-                              Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "draft": "",
-                                "group_id": 5,
-                                "id": 70,
-                                "last_mentioned_in_message_id": null,
-                                "last_read_message_id": 2482,
-                                "mute_until": null,
-                                "role": "rw",
-                                "user": Object {
-                                  "avatar": Object {
-                                    "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                    "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                  },
-                                  "id": 59,
-                                  "is_confirmed": false,
-                                  "nick": "ivan ivanov",
-                                },
-                                "user_id": 55,
-                              },
-                            ],
-                            "type": "private_chat",
-                            "updated_at": "2018-10-17T14:15:05Z",
-                          },
-                          "group_id": 5,
-                          "id": 69,
-                          "last_mentioned_in_message_id": null,
-                          "last_read_message_id": 5705,
-                          "mute_until": null,
-                          "role": "rw",
-                          "tags": null,
-                          "user": Object {
-                            "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                            "avatar": Object {
-                              "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                              "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                            },
-                            "confirmed_at": "2018-10-16T12:06:32Z",
-                            "email": "efim1382@gmail.com",
-                            "id": 55,
-                            "is_confirmed": true,
-                            "nick": "efim1382",
-                            "searchable_nick": true,
-                          },
-                          "user_id": 55,
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>,
-            ],
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "class",
-              "props": Object {
-                "appearance": "_icon-transparent",
-                "className": "close",
-                "icon": "arrow-left",
-                "onClick": [Function],
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [
-                  <div
-                    className="header"
-                  >
-                    <div
-                      className="avatar_container"
-                    >
-                      <Connect(SubscriptionAvatar)
-                        className="avatar"
-                        subscription={
-                          Object {
-                            "created_at": "2018-10-17T14:15:05Z",
-                            "draft": "",
-                            "group": Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "icon": null,
-                              "id": 5,
-                              "invite_code": null,
-                              "is_deleted": false,
-                              "name": null,
-                              "participants": Array [
-                                Object {
-                                  "created_at": "2018-10-17T14:15:05Z",
-                                  "draft": "",
-                                  "group_id": 5,
-                                  "id": 69,
-                                  "last_mentioned_in_message_id": null,
-                                  "last_read_message_id": 5705,
-                                  "mute_until": null,
-                                  "role": "rw",
-                                  "tags": null,
-                                  "user": Object {
-                                    "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                    "avatar": Object {
-                                      "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                      "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                    },
-                                    "confirmed_at": "2018-10-16T12:06:32Z",
-                                    "email": "efim1382@gmail.com",
-                                    "id": 55,
-                                    "is_confirmed": true,
-                                    "nick": "efim1382",
-                                    "searchable_nick": true,
-                                  },
-                                  "user_id": 55,
-                                },
-                                Object {
-                                  "created_at": "2018-10-17T14:15:05Z",
-                                  "draft": "",
-                                  "group_id": 5,
-                                  "id": 70,
-                                  "last_mentioned_in_message_id": null,
-                                  "last_read_message_id": 2482,
-                                  "mute_until": null,
-                                  "role": "rw",
-                                  "user": Object {
-                                    "avatar": Object {
-                                      "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                      "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                    },
-                                    "id": 59,
-                                    "is_confirmed": false,
-                                    "nick": "ivan ivanov",
-                                  },
-                                  "user_id": 55,
-                                },
-                              ],
-                              "type": "private_chat",
-                              "updated_at": "2018-10-17T14:15:05Z",
-                            },
-                            "group_id": 5,
-                            "id": 69,
-                            "last_mentioned_in_message_id": null,
-                            "last_read_message_id": 5705,
-                            "mute_until": null,
-                            "role": "rw",
-                            "tags": null,
-                            "user": Object {
-                              "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                              "avatar": Object {
-                                "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                              },
-                              "confirmed_at": "2018-10-16T12:06:32Z",
-                              "email": "efim1382@gmail.com",
-                              "id": 55,
-                              "is_confirmed": true,
-                              "nick": "efim1382",
-                              "searchable_nick": true,
-                            },
-                            "user_id": 55,
-                          }
-                        }
-                      />
-                    </div>
-                    <input
-                      className="change_photo_input"
-                      onChange={[Function]}
-                      type="file"
-                    />
-                    <p
-                      className="name"
-                    >
-                      no nick
-                    </p>
-                    <p
-                      className="subcaption"
-                    />
-                  </div>,
-                  false,
-                  <button
-                    className="setting_button"
-                    onClick={[Function]}
-                  >
-                    <Icon
-                      name="unmute"
-                    />
-                    <p
-                      className="text"
-                    />
-                  </button>,
-                  <Connect(Dropdown)
-                    className="dropdown"
-                    items={
-                      Array [
-                        Object {
-                          "onClick": [Function],
-                          "text": undefined,
-                        },
-                        Object {
-                          "onClick": [Function],
-                          "text": undefined,
-                        },
-                        Object {
-                          "onClick": [Function],
-                          "text": undefined,
-                        },
-                      ]
-                    }
-                    uniqueId="panel-category-dropdown"
-                  >
-                    <button
-                      className="setting_button"
-                    >
-                      <Icon
-                        name="folder"
-                      />
-                      <p
-                        className="text"
-                      />
-                    </button>
-                  </Connect(Dropdown)>,
-                  false,
-                  false,
-                  <div
-                    className="collapse"
-                  >
-                    <button
-                      className="collapse_button"
-                      onClick={[Function]}
-                    >
-                      <span
-                        className="title"
-                      />
-                      <Icon
-                        name="arrow-down"
-                      />
-                    </button>
-                    <div
-                      className="collapse_list"
-                    >
-                      <LoadNamespace(Connect(Photos))
-                        className="photos_list"
-                        details={
-                          Object {
-                            "created_at": "2018-10-17T14:15:05Z",
-                            "draft": "",
-                            "group": Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "icon": null,
-                              "id": 5,
-                              "invite_code": null,
-                              "is_deleted": false,
-                              "name": null,
-                              "participants": Array [
-                                Object {
-                                  "created_at": "2018-10-17T14:15:05Z",
-                                  "draft": "",
-                                  "group_id": 5,
-                                  "id": 69,
-                                  "last_mentioned_in_message_id": null,
-                                  "last_read_message_id": 5705,
-                                  "mute_until": null,
-                                  "role": "rw",
-                                  "tags": null,
-                                  "user": Object {
-                                    "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                    "avatar": Object {
-                                      "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                      "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                    },
-                                    "confirmed_at": "2018-10-16T12:06:32Z",
-                                    "email": "efim1382@gmail.com",
-                                    "id": 55,
-                                    "is_confirmed": true,
-                                    "nick": "efim1382",
-                                    "searchable_nick": true,
-                                  },
-                                  "user_id": 55,
-                                },
-                                Object {
-                                  "created_at": "2018-10-17T14:15:05Z",
-                                  "draft": "",
-                                  "group_id": 5,
-                                  "id": 70,
-                                  "last_mentioned_in_message_id": null,
-                                  "last_read_message_id": 2482,
-                                  "mute_until": null,
-                                  "role": "rw",
-                                  "user": Object {
-                                    "avatar": Object {
-                                      "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                      "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                    },
-                                    "id": 59,
-                                    "is_confirmed": false,
-                                    "nick": "ivan ivanov",
-                                  },
-                                  "user_id": 55,
-                                },
-                              ],
-                              "type": "private_chat",
-                              "updated_at": "2018-10-17T14:15:05Z",
-                            },
-                            "group_id": 5,
-                            "id": 69,
-                            "last_mentioned_in_message_id": null,
-                            "last_read_message_id": 5705,
-                            "mute_until": null,
-                            "role": "rw",
-                            "tags": null,
-                            "user": Object {
-                              "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                              "avatar": Object {
-                                "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                              },
-                              "confirmed_at": "2018-10-16T12:06:32Z",
-                              "email": "efim1382@gmail.com",
-                              "id": 55,
-                              "is_confirmed": true,
-                              "nick": "efim1382",
-                              "searchable_nick": true,
-                            },
-                            "user_id": 55,
-                          }
-                        }
-                      />
-                    </div>
-                  </div>,
-                ],
-                "className": "scroll",
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": Array [
-                      <div
-                        className="avatar_container"
-                      >
-                        <Connect(SubscriptionAvatar)
-                          className="avatar"
-                          subscription={
-                            Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group": Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "icon": null,
-                                "id": 5,
-                                "invite_code": null,
-                                "is_deleted": false,
-                                "name": null,
-                                "participants": Array [
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 69,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 5705,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "tags": null,
-                                    "user": Object {
-                                      "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                      },
-                                      "confirmed_at": "2018-10-16T12:06:32Z",
-                                      "email": "efim1382@gmail.com",
-                                      "id": 55,
-                                      "is_confirmed": true,
-                                      "nick": "efim1382",
-                                      "searchable_nick": true,
-                                    },
-                                    "user_id": 55,
-                                  },
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 70,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 2482,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "user": Object {
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                      },
-                                      "id": 59,
-                                      "is_confirmed": false,
-                                      "nick": "ivan ivanov",
-                                    },
-                                    "user_id": 55,
-                                  },
-                                ],
-                                "type": "private_chat",
-                                "updated_at": "2018-10-17T14:15:05Z",
-                              },
-                              "group_id": 5,
-                              "id": 69,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 5705,
-                              "mute_until": null,
-                              "role": "rw",
-                              "tags": null,
-                              "user": Object {
-                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                },
-                                "confirmed_at": "2018-10-16T12:06:32Z",
-                                "email": "efim1382@gmail.com",
-                                "id": 55,
-                                "is_confirmed": true,
-                                "nick": "efim1382",
-                                "searchable_nick": true,
-                              },
-                              "user_id": 55,
-                            }
-                          }
-                        />
-                      </div>,
-                      <input
-                        className="change_photo_input"
-                        onChange={[Function]}
-                        type="file"
-                      />,
-                      false,
-                      <p
-                        className="name"
-                      >
-                        no nick
-                      </p>,
-                      <p
-                        className="subcaption"
-                      />,
-                    ],
-                    "className": "header",
-                  },
-                  "ref": null,
-                  "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": Array [
-                          <Connect(SubscriptionAvatar)
-                            className="avatar"
-                            subscription={
-                              Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "draft": "",
-                                "group": Object {
-                                  "created_at": "2018-10-17T14:15:05Z",
-                                  "icon": null,
-                                  "id": 5,
-                                  "invite_code": null,
-                                  "is_deleted": false,
-                                  "name": null,
-                                  "participants": Array [
-                                    Object {
-                                      "created_at": "2018-10-17T14:15:05Z",
-                                      "draft": "",
-                                      "group_id": 5,
-                                      "id": 69,
-                                      "last_mentioned_in_message_id": null,
-                                      "last_read_message_id": 5705,
-                                      "mute_until": null,
-                                      "role": "rw",
-                                      "tags": null,
-                                      "user": Object {
-                                        "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                        "avatar": Object {
-                                          "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                          "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                        },
-                                        "confirmed_at": "2018-10-16T12:06:32Z",
-                                        "email": "efim1382@gmail.com",
-                                        "id": 55,
-                                        "is_confirmed": true,
-                                        "nick": "efim1382",
-                                        "searchable_nick": true,
-                                      },
-                                      "user_id": 55,
-                                    },
-                                    Object {
-                                      "created_at": "2018-10-17T14:15:05Z",
-                                      "draft": "",
-                                      "group_id": 5,
-                                      "id": 70,
-                                      "last_mentioned_in_message_id": null,
-                                      "last_read_message_id": 2482,
-                                      "mute_until": null,
-                                      "role": "rw",
-                                      "user": Object {
-                                        "avatar": Object {
-                                          "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                          "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                        },
-                                        "id": 59,
-                                        "is_confirmed": false,
-                                        "nick": "ivan ivanov",
-                                      },
-                                      "user_id": 55,
-                                    },
-                                  ],
-                                  "type": "private_chat",
-                                  "updated_at": "2018-10-17T14:15:05Z",
-                                },
-                                "group_id": 5,
-                                "id": 69,
-                                "last_mentioned_in_message_id": null,
-                                "last_read_message_id": 5705,
-                                "mute_until": null,
-                                "role": "rw",
-                                "tags": null,
-                                "user": Object {
-                                  "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                  "avatar": Object {
-                                    "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                    "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                  },
-                                  "confirmed_at": "2018-10-16T12:06:32Z",
-                                  "email": "efim1382@gmail.com",
-                                  "id": 55,
-                                  "is_confirmed": true,
-                                  "nick": "efim1382",
-                                  "searchable_nick": true,
-                                },
-                                "user_id": 55,
-                              }
-                            }
-                          />,
-                          false,
-                          false,
-                        ],
-                        "className": "avatar_container",
-                      },
-                      "ref": null,
-                      "rendered": Array [
-                        Object {
-                          "instance": null,
-                          "key": undefined,
-                          "nodeType": "class",
-                          "props": Object {
-                            "className": "avatar",
-                            "subscription": Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group": Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "icon": null,
-                                "id": 5,
-                                "invite_code": null,
-                                "is_deleted": false,
-                                "name": null,
-                                "participants": Array [
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 69,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 5705,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "tags": null,
-                                    "user": Object {
-                                      "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                      },
-                                      "confirmed_at": "2018-10-16T12:06:32Z",
-                                      "email": "efim1382@gmail.com",
-                                      "id": 55,
-                                      "is_confirmed": true,
-                                      "nick": "efim1382",
-                                      "searchable_nick": true,
-                                    },
-                                    "user_id": 55,
-                                  },
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 70,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 2482,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "user": Object {
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                      },
-                                      "id": 59,
-                                      "is_confirmed": false,
-                                      "nick": "ivan ivanov",
-                                    },
-                                    "user_id": 55,
-                                  },
-                                ],
-                                "type": "private_chat",
-                                "updated_at": "2018-10-17T14:15:05Z",
-                              },
-                              "group_id": 5,
-                              "id": 69,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 5705,
-                              "mute_until": null,
-                              "role": "rw",
-                              "tags": null,
-                              "user": Object {
-                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                },
-                                "confirmed_at": "2018-10-16T12:06:32Z",
-                                "email": "efim1382@gmail.com",
-                                "id": 55,
-                                "is_confirmed": true,
-                                "nick": "efim1382",
-                                "searchable_nick": true,
-                              },
-                              "user_id": 55,
-                            },
-                          },
-                          "ref": null,
-                          "rendered": null,
-                          "type": [Function],
-                        },
-                        false,
-                        false,
-                      ],
-                      "type": "div",
-                    },
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "className": "change_photo_input",
-                        "onChange": [Function],
-                        "type": "file",
-                      },
-                      "ref": [Function],
-                      "rendered": null,
-                      "type": "input",
-                    },
-                    false,
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": "no nick",
-                        "className": "name",
-                      },
-                      "ref": null,
-                      "rendered": "no nick",
-                      "type": "p",
-                    },
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": Array [
-                          false,
-                          undefined,
-                        ],
-                        "className": "subcaption",
-                      },
-                      "ref": null,
-                      "rendered": Array [
-                        false,
-                        undefined,
-                      ],
-                      "type": "p",
-                    },
-                  ],
-                  "type": "div",
-                },
-                false,
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": Array [
-                      null,
-                      <Icon
-                        name="unmute"
-                      />,
-                      <p
-                        className="text"
-                      />,
-                    ],
-                    "className": "setting_button",
-                    "onClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": Array [
-                    null,
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "function",
-                      "props": Object {
-                        "name": "unmute",
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
-                    },
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": undefined,
-                        "className": "text",
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": "p",
-                    },
-                  ],
-                  "type": "button",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "children": <button
-                      className="setting_button"
-                    >
-                      <Icon
-                        name="folder"
-                      />
-                      <p
-                        className="text"
-                      />
-                    </button>,
-                    "className": "dropdown",
-                    "items": Array [
-                      Object {
-                        "onClick": [Function],
-                        "text": undefined,
-                      },
-                      Object {
-                        "onClick": [Function],
-                        "text": undefined,
-                      },
-                      Object {
-                        "onClick": [Function],
-                        "text": undefined,
-                      },
-                    ],
-                    "uniqueId": "panel-category-dropdown",
-                  },
-                  "ref": null,
-                  "rendered": Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": Array [
-                        <Icon
-                          name="folder"
-                        />,
-                        <p
-                          className="text"
-                        />,
-                        null,
-                      ],
-                      "className": "setting_button",
-                    },
-                    "ref": null,
-                    "rendered": Array [
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "function",
-                        "props": Object {
-                          "name": "folder",
-                        },
-                        "ref": null,
-                        "rendered": null,
-                        "type": [Function],
-                      },
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "host",
-                        "props": Object {
-                          "children": undefined,
-                          "className": "text",
-                        },
-                        "ref": null,
-                        "rendered": null,
-                        "type": "p",
-                      },
-                      null,
-                    ],
-                    "type": "button",
-                  },
-                  "type": [Function],
-                },
-                false,
-                false,
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": Array [
-                      <button
-                        className="collapse_button"
-                        onClick={[Function]}
-                      >
-                        <span
-                          className="title"
-                        />
-                        <Icon
-                          name="arrow-down"
-                        />
-                      </button>,
-                      <div
-                        className="collapse_list"
-                      >
-                        <LoadNamespace(Connect(Photos))
-                          className="photos_list"
-                          details={
-                            Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group": Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "icon": null,
-                                "id": 5,
-                                "invite_code": null,
-                                "is_deleted": false,
-                                "name": null,
-                                "participants": Array [
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 69,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 5705,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "tags": null,
-                                    "user": Object {
-                                      "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                      },
-                                      "confirmed_at": "2018-10-16T12:06:32Z",
-                                      "email": "efim1382@gmail.com",
-                                      "id": 55,
-                                      "is_confirmed": true,
-                                      "nick": "efim1382",
-                                      "searchable_nick": true,
-                                    },
-                                    "user_id": 55,
-                                  },
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 70,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 2482,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "user": Object {
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                      },
-                                      "id": 59,
-                                      "is_confirmed": false,
-                                      "nick": "ivan ivanov",
-                                    },
-                                    "user_id": 55,
-                                  },
-                                ],
-                                "type": "private_chat",
-                                "updated_at": "2018-10-17T14:15:05Z",
-                              },
-                              "group_id": 5,
-                              "id": 69,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 5705,
-                              "mute_until": null,
-                              "role": "rw",
-                              "tags": null,
-                              "user": Object {
-                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                },
-                                "confirmed_at": "2018-10-16T12:06:32Z",
-                                "email": "efim1382@gmail.com",
-                                "id": 55,
-                                "is_confirmed": true,
-                                "nick": "efim1382",
-                                "searchable_nick": true,
-                              },
-                              "user_id": 55,
-                            }
-                          }
-                        />
-                      </div>,
-                    ],
-                    "className": "collapse",
-                  },
-                  "ref": null,
-                  "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": Array [
-                          <span
-                            className="title"
-                          />,
-                          <Icon
-                            name="arrow-down"
-                          />,
-                        ],
-                        "className": "collapse_button",
-                        "onClick": [Function],
-                      },
-                      "ref": null,
-                      "rendered": Array [
-                        Object {
-                          "instance": null,
-                          "key": undefined,
-                          "nodeType": "host",
-                          "props": Object {
-                            "children": undefined,
-                            "className": "title",
-                          },
-                          "ref": null,
-                          "rendered": null,
-                          "type": "span",
-                        },
-                        Object {
-                          "instance": null,
-                          "key": undefined,
-                          "nodeType": "function",
-                          "props": Object {
-                            "name": "arrow-down",
-                          },
-                          "ref": null,
-                          "rendered": null,
-                          "type": [Function],
-                        },
-                      ],
-                      "type": "button",
-                    },
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": <LoadNamespace(Connect(Photos))
-                          className="photos_list"
-                          details={
-                            Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "draft": "",
-                              "group": Object {
-                                "created_at": "2018-10-17T14:15:05Z",
-                                "icon": null,
-                                "id": 5,
-                                "invite_code": null,
-                                "is_deleted": false,
-                                "name": null,
-                                "participants": Array [
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 69,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 5705,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "tags": null,
-                                    "user": Object {
-                                      "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                      },
-                                      "confirmed_at": "2018-10-16T12:06:32Z",
-                                      "email": "efim1382@gmail.com",
-                                      "id": 55,
-                                      "is_confirmed": true,
-                                      "nick": "efim1382",
-                                      "searchable_nick": true,
-                                    },
-                                    "user_id": 55,
-                                  },
-                                  Object {
-                                    "created_at": "2018-10-17T14:15:05Z",
-                                    "draft": "",
-                                    "group_id": 5,
-                                    "id": 70,
-                                    "last_mentioned_in_message_id": null,
-                                    "last_read_message_id": 2482,
-                                    "mute_until": null,
-                                    "role": "rw",
-                                    "user": Object {
-                                      "avatar": Object {
-                                        "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                        "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                      },
-                                      "id": 59,
-                                      "is_confirmed": false,
-                                      "nick": "ivan ivanov",
-                                    },
-                                    "user_id": 55,
-                                  },
-                                ],
-                                "type": "private_chat",
-                                "updated_at": "2018-10-17T14:15:05Z",
-                              },
-                              "group_id": 5,
-                              "id": 69,
-                              "last_mentioned_in_message_id": null,
-                              "last_read_message_id": 5705,
-                              "mute_until": null,
-                              "role": "rw",
-                              "tags": null,
-                              "user": Object {
-                                "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                "avatar": Object {
-                                  "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                  "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                },
-                                "confirmed_at": "2018-10-16T12:06:32Z",
-                                "email": "efim1382@gmail.com",
-                                "id": 55,
-                                "is_confirmed": true,
-                                "nick": "efim1382",
-                                "searchable_nick": true,
-                              },
-                              "user_id": 55,
-                            }
-                          }
-                        />,
-                        "className": "collapse_list",
-                      },
-                      "ref": null,
-                      "rendered": Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "class",
-                        "props": Object {
-                          "className": "photos_list",
-                          "details": Object {
-                            "created_at": "2018-10-17T14:15:05Z",
-                            "draft": "",
-                            "group": Object {
-                              "created_at": "2018-10-17T14:15:05Z",
-                              "icon": null,
-                              "id": 5,
-                              "invite_code": null,
-                              "is_deleted": false,
-                              "name": null,
-                              "participants": Array [
-                                Object {
-                                  "created_at": "2018-10-17T14:15:05Z",
-                                  "draft": "",
-                                  "group_id": 5,
-                                  "id": 69,
-                                  "last_mentioned_in_message_id": null,
-                                  "last_read_message_id": 5705,
-                                  "mute_until": null,
-                                  "role": "rw",
-                                  "tags": null,
-                                  "user": Object {
-                                    "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                                    "avatar": Object {
-                                      "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                      "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                                    },
-                                    "confirmed_at": "2018-10-16T12:06:32Z",
-                                    "email": "efim1382@gmail.com",
-                                    "id": 55,
-                                    "is_confirmed": true,
-                                    "nick": "efim1382",
-                                    "searchable_nick": true,
-                                  },
-                                  "user_id": 55,
-                                },
-                                Object {
-                                  "created_at": "2018-10-17T14:15:05Z",
-                                  "draft": "",
-                                  "group_id": 5,
-                                  "id": 70,
-                                  "last_mentioned_in_message_id": null,
-                                  "last_read_message_id": 2482,
-                                  "mute_until": null,
-                                  "role": "rw",
-                                  "user": Object {
-                                    "avatar": Object {
-                                      "full": "https://chat.mainnetwork.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/inline_image.png",
-                                      "small": "https://chat.mainnetwork.io/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBIdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--33756fcf602882ff40d7f4dc9fac66adbc1345c8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lOTWpBd2VESXdNRDRHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--5bd2204cbe8e3e554111dab5bd87656de36a7063/inline_image.png",
-                                    },
-                                    "id": 59,
-                                    "is_confirmed": false,
-                                    "nick": "ivan ivanov",
-                                  },
-                                  "user_id": 55,
-                                },
-                              ],
-                              "type": "private_chat",
-                              "updated_at": "2018-10-17T14:15:05Z",
-                            },
-                            "group_id": 5,
-                            "id": 69,
-                            "last_mentioned_in_message_id": null,
-                            "last_read_message_id": 5705,
-                            "mute_until": null,
-                            "role": "rw",
-                            "tags": null,
-                            "user": Object {
-                              "auth_token": "Qli089GxuOrWGAAVYzcVJH1px_lRHO6Wf0Ke_icqf8kpndF0Fz_b02li8",
-                              "avatar": Object {
-                                "full": "https://chat.mainnetwork.io/rails/active_storage/b…9eb29647350acdf569189259ae78b83/inline_image.jpeg",
-                                "small": "https://chat.mainnetwork.io/rails/active_storage/r…e8e3e554111dab5bd87656de36a7063/inline_image.jpeg",
-                              },
-                              "confirmed_at": "2018-10-16T12:06:32Z",
-                              "email": "efim1382@gmail.com",
-                              "id": 55,
-                              "is_confirmed": true,
-                              "nick": "efim1382",
-                              "searchable_nick": true,
-                            },
-                            "user_id": 55,
-                          },
-                        },
-                        "ref": null,
-                        "rendered": null,
-                        "type": [Function],
-                      },
-                      "type": "div",
-                    },
-                  ],
-                  "type": "div",
-                },
-              ],
-              "type": "div",
-            },
-          ],
-          "type": Symbol(react.fragment),
-        },
-      ],
       "type": "div",
     },
   ],

@@ -41,6 +41,7 @@ ShallowWrapper {
             Array [
               Object {
                 "appearance": "_basic-primary",
+                "id": "submit",
                 "onClick": [Function],
                 "text": "undefined",
                 "type": "submit",
@@ -57,9 +58,9 @@ ShallowWrapper {
           model="login"
         >
           <Connect(Input)
-            class="light"
             className="input"
             disabled={false}
+            id="email"
             model="login.email"
             type="email"
             validations={
@@ -76,9 +77,9 @@ ShallowWrapper {
             }
           />
           <Connect(Input)
-            class="light"
             className="input"
             disabled={false}
+            id="password"
             model="login.password"
             type="password"
             validations={
@@ -171,6 +172,7 @@ ShallowWrapper {
           "actions": Array [
             Object {
               "appearance": "_basic-primary",
+              "id": "submit",
               "onClick": [Function],
               "text": "undefined",
               "type": "submit",
@@ -182,9 +184,9 @@ ShallowWrapper {
           ],
           "children": Array [
             <Connect(Input)
-              class="light"
               className="input"
               disabled={false}
+              id="email"
               model="login.email"
               type="email"
               validations={
@@ -201,9 +203,9 @@ ShallowWrapper {
               }
             />,
             <Connect(Input)
-              class="light"
               className="input"
               disabled={false}
+              id="password"
               model="login.password"
               type="password"
               validations={
@@ -236,9 +238,9 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "class": "light",
               "className": "input",
               "disabled": false,
+              "id": "email",
               "model": "login.email",
               "placeholder": undefined,
               "type": "email",
@@ -262,9 +264,9 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "class": "light",
               "className": "input",
               "disabled": false,
+              "id": "password",
               "model": "login.password",
               "placeholder": undefined,
               "type": "password",
@@ -320,6 +322,7 @@ ShallowWrapper {
               Array [
                 Object {
                   "appearance": "_basic-primary",
+                  "id": "submit",
                   "onClick": [Function],
                   "text": "undefined",
                   "type": "submit",
@@ -336,9 +339,9 @@ ShallowWrapper {
             model="login"
           >
             <Connect(Input)
-              class="light"
               className="input"
               disabled={false}
+              id="email"
               model="login.email"
               type="email"
               validations={
@@ -355,9 +358,9 @@ ShallowWrapper {
               }
             />
             <Connect(Input)
-              class="light"
               className="input"
               disabled={false}
+              id="password"
               model="login.password"
               type="password"
               validations={
@@ -450,6 +453,7 @@ ShallowWrapper {
             "actions": Array [
               Object {
                 "appearance": "_basic-primary",
+                "id": "submit",
                 "onClick": [Function],
                 "text": "undefined",
                 "type": "submit",
@@ -461,9 +465,9 @@ ShallowWrapper {
             ],
             "children": Array [
               <Connect(Input)
-                class="light"
                 className="input"
                 disabled={false}
+                id="email"
                 model="login.email"
                 type="email"
                 validations={
@@ -480,9 +484,9 @@ ShallowWrapper {
                 }
               />,
               <Connect(Input)
-                class="light"
                 className="input"
                 disabled={false}
+                id="password"
                 model="login.password"
                 type="password"
                 validations={
@@ -515,9 +519,9 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "class": "light",
                 "className": "input",
                 "disabled": false,
+                "id": "email",
                 "model": "login.email",
                 "placeholder": undefined,
                 "type": "email",
@@ -541,9 +545,9 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "class": "light",
                 "className": "input",
                 "disabled": false,
+                "id": "password",
                 "model": "login.password",
                 "placeholder": undefined,
                 "type": "password",

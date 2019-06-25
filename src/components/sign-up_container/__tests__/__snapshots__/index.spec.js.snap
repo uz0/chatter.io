@@ -55,6 +55,7 @@ ShallowWrapper {
           <Connect(Input)
             className="input"
             disabled={false}
+            id="email"
             model="register.email"
             type="email"
             validations={
@@ -73,6 +74,7 @@ ShallowWrapper {
           <Connect(Input)
             className="input"
             disabled={false}
+            id="password"
             model="register.password"
             type="password"
             validations={
@@ -95,6 +97,7 @@ ShallowWrapper {
           <Connect(Input)
             className="input"
             disabled={false}
+            id="confirm_password"
             model="register.confirmPassword"
             type="password"
             validations={
@@ -196,6 +199,7 @@ ShallowWrapper {
             <Connect(Input)
               className="input"
               disabled={false}
+              id="email"
               model="register.email"
               type="email"
               validations={
@@ -214,6 +218,7 @@ ShallowWrapper {
             <Connect(Input)
               className="input"
               disabled={false}
+              id="password"
               model="register.password"
               type="password"
               validations={
@@ -236,6 +241,7 @@ ShallowWrapper {
             <Connect(Input)
               className="input"
               disabled={false}
+              id="confirm_password"
               model="register.confirmPassword"
               type="password"
               validations={
@@ -270,6 +276,7 @@ ShallowWrapper {
             "props": Object {
               "className": "input",
               "disabled": false,
+              "id": "email",
               "model": "register.email",
               "placeholder": undefined,
               "type": "email",
@@ -295,6 +302,7 @@ ShallowWrapper {
             "props": Object {
               "className": "input",
               "disabled": false,
+              "id": "password",
               "model": "register.password",
               "placeholder": undefined,
               "type": "password",
@@ -324,6 +332,7 @@ ShallowWrapper {
             "props": Object {
               "className": "input",
               "disabled": false,
+              "id": "confirm_password",
               "model": "register.confirmPassword",
               "placeholder": undefined,
               "type": "password",
@@ -393,6 +402,7 @@ ShallowWrapper {
             <Connect(Input)
               className="input"
               disabled={false}
+              id="email"
               model="register.email"
               type="email"
               validations={
@@ -411,6 +421,7 @@ ShallowWrapper {
             <Connect(Input)
               className="input"
               disabled={false}
+              id="password"
               model="register.password"
               type="password"
               validations={
@@ -433,6 +444,7 @@ ShallowWrapper {
             <Connect(Input)
               className="input"
               disabled={false}
+              id="confirm_password"
               model="register.confirmPassword"
               type="password"
               validations={
@@ -534,6 +546,7 @@ ShallowWrapper {
               <Connect(Input)
                 className="input"
                 disabled={false}
+                id="email"
                 model="register.email"
                 type="email"
                 validations={
@@ -552,6 +565,7 @@ ShallowWrapper {
               <Connect(Input)
                 className="input"
                 disabled={false}
+                id="password"
                 model="register.password"
                 type="password"
                 validations={
@@ -574,6 +588,7 @@ ShallowWrapper {
               <Connect(Input)
                 className="input"
                 disabled={false}
+                id="confirm_password"
                 model="register.confirmPassword"
                 type="password"
                 validations={
@@ -608,6 +623,7 @@ ShallowWrapper {
               "props": Object {
                 "className": "input",
                 "disabled": false,
+                "id": "email",
                 "model": "register.email",
                 "placeholder": undefined,
                 "type": "email",
@@ -633,6 +649,7 @@ ShallowWrapper {
               "props": Object {
                 "className": "input",
                 "disabled": false,
+                "id": "password",
                 "model": "register.password",
                 "placeholder": undefined,
                 "type": "password",
@@ -662,6 +679,7 @@ ShallowWrapper {
               "props": Object {
                 "className": "input",
                 "disabled": false,
+                "id": "confirm_password",
                 "model": "register.confirmPassword",
                 "placeholder": undefined,
                 "type": "password",

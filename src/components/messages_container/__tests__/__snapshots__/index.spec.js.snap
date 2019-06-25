@@ -135,10 +135,6 @@ ShallowWrapper {
           <p
             className="empty"
           />
-          <Loading
-            className="loading"
-            isShown={true}
-          />
         </div>,
         <Connect(LoadNamespace(Connect(Wrapped)))
           className="typings"
@@ -178,10 +174,6 @@ ShallowWrapper {
             <p
               className="empty"
             />,
-            <Loading
-              className="loading"
-              isShown={true}
-            />,
           ],
           "className": "list",
           "id": "messages-scroll",
@@ -201,18 +193,6 @@ ShallowWrapper {
             "ref": null,
             "rendered": null,
             "type": "p",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "className": "loading",
-              "isShown": true,
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
           },
         ],
         "type": "div",
@@ -263,10 +243,6 @@ ShallowWrapper {
             <p
               className="empty"
             />
-            <Loading
-              className="loading"
-              isShown={true}
-            />
           </div>,
           <Connect(LoadNamespace(Connect(Wrapped)))
             className="typings"
@@ -306,10 +282,6 @@ ShallowWrapper {
               <p
                 className="empty"
               />,
-              <Loading
-                className="loading"
-                isShown={true}
-              />,
             ],
             "className": "list",
             "id": "messages-scroll",
@@ -329,18 +301,6 @@ ShallowWrapper {
               "ref": null,
               "rendered": null,
               "type": "p",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "className": "loading",
-                "isShown": true,
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
             },
           ],
           "type": "div",

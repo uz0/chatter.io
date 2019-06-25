@@ -98,15 +98,7 @@ ShallowWrapper {
         </div>,
         undefined,
         <div
-          className="list"
-        >
-          <p
-            className="empty"
-          />
-        </div>,
-        <Loading
-          className="loading"
-          isShown={true}
+          className="list _is-loading"
         />,
       ],
       "className": "sidebar",
@@ -313,42 +305,12 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            Array [],
-            <p
-              className="empty"
-            />,
-          ],
-          "className": "list",
+          "children": Array [],
+          "className": "list _is-loading",
         },
         "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": undefined,
-              "className": "empty",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": "p",
-          },
-        ],
+        "rendered": Array [],
         "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "function",
-        "props": Object {
-          "className": "loading",
-          "isShown": true,
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
       },
     ],
     "type": "div",
@@ -420,15 +382,7 @@ ShallowWrapper {
           </div>,
           undefined,
           <div
-            className="list"
-          >
-            <p
-              className="empty"
-            />
-          </div>,
-          <Loading
-            className="loading"
-            isShown={true}
+            className="list _is-loading"
           />,
         ],
         "className": "sidebar",
@@ -635,42 +589,12 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              Array [],
-              <p
-                className="empty"
-              />,
-            ],
-            "className": "list",
+            "children": Array [],
+            "className": "list _is-loading",
           },
           "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": undefined,
-                "className": "empty",
-              },
-              "ref": null,
-              "rendered": null,
-              "type": "p",
-            },
-          ],
+          "rendered": Array [],
           "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "function",
-          "props": Object {
-            "className": "loading",
-            "isShown": true,
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
         },
       ],
       "type": "div",

@@ -14,6 +14,7 @@ class Button extends Component {
     appearance={this.props.appearance}
     onClick={this.props.onClick}
     {...this.props.disabled ? {disabled: true} : {}}
+    id={this.props.id}
   >
     {this.props.icon && <Icon name={this.props.icon} />}
     {this.props.text && <span>{ this.props.text }</span>}

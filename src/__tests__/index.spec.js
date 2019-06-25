@@ -4,6 +4,7 @@ import { Layout } from '@/layout';
 import style from '@/layout-style.css';
 import puppeteer from 'puppeteer';
 
+
 describe('Layout component', () => {
   it('showing error on error added', () => {
     const layout = shallow(<Layout>
@@ -41,9 +42,12 @@ describe('Layout component', () => {
 
 describe('Pupetteer', () => {
   test('Login form works correctly', async () => {
+    jest.setTimeout(30000);
+
     let browser = await puppeteer.launch({
       headless: false,
     });
+
     let page = await browser.newPage();
 
     page.emulate({
@@ -55,19 +59,16 @@ describe('Pupetteer', () => {
     });
 
     await page.goto('http://localhost:8080/sign-in');
-describe('When the user enters the correct login and password', function() {
-   it('should display an username', function(done) {
-       browser
-           .setValue('#username', 'hoffasha@gmail.com')
-           .setValue('#password', 'nastya227')
-           .click('#Log in')
-           .waitForExist('.user-panel');
+    await page.waitForSelector('#email');
+    await page.focus('#email');
+    await page.keyboard.type('hoffasha@gmail.com');
 
-       expect(browser.getText('user-panel__placeholder'))
-           .toBe('Unichat');
-
-       browser.call(done);
-   });
-});
-  }, 25000);
+    await page.focus('#password');
+    await page.waitFor(3000);
+    await page.keyboard.type('nastya227');
+    await page.waitFor(3000);
+    await page.click('button[type="submit"]');
+    await page.waitFor(200);
+    await page.click('button[type="submit"]');
+  });
 });

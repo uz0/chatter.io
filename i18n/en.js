@@ -35,6 +35,7 @@ export default {translation: {
   edit_message: 'Edit message',
   edit_photo: 'Edit photo',
   edit_profile: 'Edit profile',
+  profile: 'Profile',
   edited_at: 'Edited at',
   error: 'Error',
   email: 'Email',

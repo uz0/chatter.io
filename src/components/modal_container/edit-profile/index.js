@@ -131,16 +131,18 @@ class EditProfile extends Component {
     const invite_link = this.props.currentUser.nick && `${location.origin}/joinuser/${this.props.currentUser.nick.replace(' ', '+')}`;
     const photo = get(this.props.formData, 'avatar.value') || get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
 
+    const actions = [
+      { text: 'Change password', onClick: this.openChangePasswordModal },
+      { text: this.props.t('update'), onClick: this.submit, disabled: isActionDisabled },
+    ];
+
     return <Modal
       id="edit-profile-modal"
-      title={this.props.t('edit_profile')}
+      title={this.props.t('profile')}
       className={style.modal}
       wrapClassName={style.wrapper}
       close={this.props.close}
-
-      actions={[
-        { text: this.props.t('update'), onClick: this.submit, disabled: isActionDisabled },
-      ]}
+      actions={actions}
     >
       <Form
         model="profile"
@@ -176,7 +178,7 @@ class EditProfile extends Component {
           model="profile.nick"
           defaultValue={this.props.currentUser.nick}
           className={style.input}
-          title="Change nickname"
+          title="Nickname"
 
           validations={[
             {
@@ -191,35 +193,6 @@ class EditProfile extends Component {
           ]}
         />
 
-        <div className={cx('email', { '_is-confirmed': !!this.props.currentUser.confirmed_at })}>
-          <div className={style.title}>
-            Email
-
-            {this.props.currentUser.confirmed_at &&
-              <span className={style.confirmed}> {this.props.t('confirmed')}</span>}
-
-            {!this.props.currentUser.confirmed_at &&
-              <span className={style.not_confirmed}> {this.props.t('not_confirmed')}</span>}
-
-            {!this.props.currentUser.confirmed_at &&
-              <button
-                type="button"
-                onClick={this.resend}
-                className={style.resend}
-              >{this.props.t('send_confirmation_again')}</button>
-            }
-          </div>
-
-          <Input
-            type="email"
-            placeholder={this.props.t('email')}
-            model="login.email"
-            defaultValue={this.props.currentUser.email}
-            className={style.input}
-            disabled
-          />
-        </div>
-
         <Checkbox
           className={style.checkbox}
           label={this.props.t('can_be_found_in_the_search')}
@@ -227,22 +200,36 @@ class EditProfile extends Component {
           defaultValue={this.props.currentUser.searchable_nick}
         />
 
-        <Button
-          appearance="_basic-primary"
-          type="button"
-          text="Change password"
-          className={style.change_password_button}
-          onClick={this.openChangePasswordModal}
+        <Input
+          placeholder={this.props.t('email')}
+          type="email"
+          model="profile.email"
+          defaultValue={this.props.currentUser.email}
+          className={style.input}
+          title="Email"
         />
 
-        {this.props.currentUser.nick && <Fragment>
-          <div className={style.section}>
-            <p className={style.title}>{this.props.t('invite_link')}</p>
-            <button type="button" onClick={this.copyInviteLink}>Copy</button>
-          </div>
+        <div className={style.email_additional}>
+          {this.props.currentUser.confirmed_at &&
+            <span className={style.confirmed}>{this.props.t('confirmed')}</span>}
 
-          <p className={style.invite_link_text}>{invite_link}</p>
-        </Fragment>}
+          {!this.props.currentUser.confirmed_at &&
+            <span className={style.not_confirmed}>{this.props.t('not_confirmed')}</span>}
+
+          {!this.props.currentUser.confirmed_at &&
+            <button
+              type="button"
+              onClick={this.resend}
+              className={style.resend}
+            >{this.props.t('send_confirmation_again')}</button>
+          }
+        </div>
+
+        {this.props.currentUser.nick && <div className={style.invite}>
+          <p className={style.label}>Your invation link</p>
+          <p className={style.url}>{invite_link}</p>
+          <button className={style.copy} type="button" onClick={this.copyInviteLink}>Copy</button>
+        </div>}
 
         <Loading isShown={this.state.isLoading} />
       </Form>

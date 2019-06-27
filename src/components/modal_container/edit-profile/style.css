@@ -3,7 +3,7 @@
 }
 
 .modal .form {
-  --input-height: 32px;
+  --input-height: 40px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,11 @@
 .modal .form .checkbox {
   flex-shrink: 0;
   width: 100%;
-  padding-bottom: 22px;
+  margin-top: 12px;
+}
+
+.modal .form .checkbox + .input {
+  margin-top: 28px;
 }
 
 .modal .form .input {
@@ -59,62 +63,42 @@
 }
 
 .modal .form .input input {
-  font-size: 15px;
-  font-weight: var(--font-weight-light);
   border-radius: 10px;
   background-color: var(--divider-color);
 }
 
-.modal .form .email {
+.modal .form .email_additional {
+  --height: 24px;
   flex-shrink: 0;
-  width: 100%;
-}
-
-.modal .form .email:not(._is-confirmed) {
-
-}
-
-.modal .form .email._is-confirmed {
-
-}
-
-.modal .form .email > .title {
-  overflow: hidden;
   display: flex;
   align-items: center;
-  height: 24px;
-  font-size: 13px;
-  color: var(--text-color);
-  font-weight: var(--font-weight-light);
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  width: 100%;
+  margin-top: 6px;
 }
 
-.modal .form .email > .title > .confirmed,
-.modal .form .email > .title > .not_confirmed {
+.modal .form .email_additional .confirmed,
+.modal .form .email_additional .not_confirmed {
   overflow: hidden;
-  margin-left: 8px;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.modal .form .email > .title > .confirmed {
+.modal .form .email_additional .confirmed {
   color: #42c539;
 }
 
-.modal .form .email > .title > .not_confirmed {
+.modal .form .email_additional .not_confirmed {
   color: var(--error-color);
 }
 
-.modal .form .email > .title > .input {
-}
-
-.modal .form .email > .title > .resend {
-  --height: 24px;
+.modal .form .email_additional .resend {
   flex-shrink: 0;
   overflow: hidden;
   height: var(--height);
-  margin-left: auto;
+  margin-left: 12px;
   line-height: var(--height);
   font-size: 13px;
   color: var(--color);
@@ -123,23 +107,67 @@
   text-overflow: ellipsis;
 }
 
-.modal .form .email > .title > .resend:not(:hover) {
+.modal .form .email_additional .resend:not(:hover) {
   --color: var(--primary-color);
 }
 
-.modal .form .email > .title > .resend:hover {
+.modal .form .email_additional .resend:hover {
   --color: var(--primary-color-hover);
 }
 
-.modal .form .change_password_button {
+.modal .form .invite {
   flex-shrink: 0;
-  align-self: flex-start;
-}
-
-.modal .form .change_password_button + .section {
+  width: 100%;
   margin-top: 20px;
 }
 
+.modal .form .invite .label {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .invite .url {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .invite .copy {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  font-weight: var(--font-weight-light);
+  transition-property: color;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .invite .copy:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form .invite .copy:hover {
+  --color: var(--primary-color-hover);
+}
+
+/*
 .modal .form .section {
   flex-shrink: 0;
   display: flex;
@@ -191,3 +219,4 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+*/

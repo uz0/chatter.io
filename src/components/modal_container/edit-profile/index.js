@@ -82,6 +82,12 @@ class EditProfile extends Component {
 
   openChangePasswordModal = () => this.props.toggleModal({ id: 'change-password-modal' });
 
+  deletePhoto = () => this.props.formChange('profile.avatar', {
+    ...this.props.formData.avatar,
+    value: null,
+    isTouched: true,
+  });
+
   resend = () => api.resendConfirmation({ email: this.props.currentUser.email }).then(() => {
     this.props.showNotification({
       type: 'success',
@@ -125,7 +131,13 @@ class EditProfile extends Component {
   render() {
     const isActionDisabled = this.isActionDisabled();
     const invite_link = this.props.currentUser.nick && `${location.origin}/joinuser/${this.props.currentUser.nick.replace(' ', '+')}`;
-    const photo = get(this.props.formData, 'avatar.value') || get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
+    let photo = get(this.props.formData, 'avatar.value');
+
+    if (!photo && !get(this.props.formData, 'avatar.isTouched')) {
+      photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
+    }
+
+    const letter = (!photo && this.props.currentUser.nick) && this.props.currentUser.nick[0];
 
     const actions = [
       { text: 'Change password', onClick: this.openChangePasswordModal },
@@ -144,30 +156,38 @@ class EditProfile extends Component {
         model="profile"
         className={style.form}
       >
-        <Avatar photo={photo} className={style.avatar} />
+        <Avatar
+          {...photo ? {photo} : {}}
+          {...letter ? {letter} : {}}
+          className={style.avatar}
+        />
 
-        <File
-          model="profile.avatar"
+        <div className={style.photo_actions}>
+          <File
+            model="profile.avatar"
 
-          validations={[
-            {
-              action: Validators.fileMaxSize(200000),
-              text: this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }),
-            },
+            validations={[
+              {
+                action: Validators.fileMaxSize(200000),
+                text: this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }),
+              },
 
-            {
-              action: Validators.fileExtensions(['jpeg', 'png']),
-              text: this.props.t('file_extensions', { extensions: '"jpeg", "png"' }),
-            },
+              {
+                action: Validators.fileExtensions(['jpeg', 'png']),
+                text: this.props.t('file_extensions', { extensions: '"jpeg", "png"' }),
+              },
 
-            {
-              action: Validators.fileType('image'),
-              text: this.props.t('file_type', { type: this.props.t('image') }),
-            },
-          ]}
-        >
-          <button type="button" className={style.edit}>Edit</button>
-        </File>
+              {
+                action: Validators.fileType('image'),
+                text: this.props.t('file_type', { type: this.props.t('image') }),
+              },
+            ]}
+          >
+            <button type="button" className={style.edit}>Change</button>
+          </File>
+
+          <button type="button" className={style.delete} onClick={this.deletePhoto}>Delete</button>
+        </div>
 
         <Input
           placeholder={this.props.t('nick')}
@@ -246,6 +266,7 @@ export default compose(
     }),
 
     {
+      formChange: formActions.formChange,
       formReset: formActions.formReset,
       toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,

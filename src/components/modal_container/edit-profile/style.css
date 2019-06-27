@@ -14,33 +14,48 @@
 }
 
 .modal .form > .avatar {
-  --size: 100px;
+  --size: 82px;
   flex-shrink: 0;
+  font-size: 30px;
+  text-transform: uppercase;
 }
 
-.modal .form .edit {
+.modal .form .photo_actions {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.modal .form .photo_actions .edit,
+.modal .form .photo_actions .delete {
   --height: 24px;
   flex-shrink: 0;
   overflow: hidden;
   height: var(--height);
-  margin-top: 12px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 6px;
+  padding-right: 6px;
   line-height: var(--height);
   font-size: 15px;
-  font-weight: var(--font-weight-medium);
   color: var(--color);
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
 }
 
-.modal .form .edit:not(:hover) {
+.modal .form .photo_actions .edit:not(:hover) {
   --color: var(--primary-color);
 }
 
-.modal .form .edit:hover {
+.modal .form .photo_actions .edit:hover {
   --color: var(--primary-color-hover);
+}
+
+.modal .form .photo_actions .delete:not(:hover) {
+  --color: var(--text-color);
+}
+
+.modal .form .photo_actions .delete:hover {
+  --color: var(--error-color);
 }
 
 .modal .form .checkbox {

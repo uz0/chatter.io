@@ -1,12 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
-import classnames from 'classnames/bind';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Avatar from '@/components/avatar';
-import Button from '@/components/button';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
@@ -20,8 +18,6 @@ import { actions as notificationActions } from '@/components/notification';
 import { actions as modalActions } from '@/components/modal_container';
 import { withNamespaces } from 'react-i18next';
 import style from './style.css';
-
-const cx = classnames.bind(style);
 
 class EditProfile extends Component {
   state = {
@@ -225,11 +221,13 @@ class EditProfile extends Component {
           }
         </div>
 
-        {this.props.currentUser.nick && <div className={style.invite}>
-          <p className={style.label}>Your invation link</p>
-          <p className={style.url}>{invite_link}</p>
-          <button className={style.copy} type="button" onClick={this.copyInviteLink}>Copy</button>
-        </div>}
+        {this.props.currentUser.nick &&
+          <div className={style.invite}>
+            <p className={style.label}>Your invation link</p>
+            <p className={style.url}>{invite_link}</p>
+            <button className={style.copy} type="button" onClick={this.copyInviteLink}>Copy</button>
+          </div>
+        }
 
         <Loading isShown={this.state.isLoading} />
       </Form>

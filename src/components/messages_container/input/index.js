@@ -140,6 +140,7 @@ class MessageInput extends Component {
         uid: uid(),
         byte_size: file.size,
         content_type: file.type,
+        file_name: file.name,
         preview: '',
         url: '',
         upload_id: null,
@@ -613,7 +614,11 @@ class MessageInput extends Component {
       formattedFullSize = Math.ceil(fullSize / 1048576);
     }
 
-    return `${formattedChunkSize} / ${formattedFullSize} ${type}`;
+    if (attachment.currentChunk < attachment.byte_size) {
+      return `${formattedChunkSize} / ${formattedFullSize} ${type}`;
+    }
+
+    return `${formattedFullSize} ${type}`;
   };
 
   componentWillReceiveProps(nextProps) {
@@ -660,6 +665,8 @@ class MessageInput extends Component {
     const messageId = this.props.reply_message_id || this.props.edit_message_id;
     const sendButtonName = this.props.edit_message_id ? this.props.t('edit') : this.props.t('send');
     const currentMentionSearch = this.getCurrentMentionSearch();
+    const withFiles = !!find(this.state.attachments, attachment => attachment.content_type.indexOf('image/') === -1);
+    const withImages = !!find(this.state.attachments, attachment => attachment.content_type.indexOf('image/') !== -1);
 
     return <div className={cx('input', this.props.className)}>
       <Button
@@ -703,11 +710,15 @@ class MessageInput extends Component {
               onKeyDown={this.onTextareaKeyDown}
             />
 
-            {this.state.attachments.length > 0 &&
+            {withImages &&
               <div className={style.gallery_preview}>
                 {this.state.attachments.map((attachment, index) => {
                   const isAttachmentImage = attachment.content_type.match('image/');
                   const progress = this.getProgressText(attachment);
+
+                  if (!isAttachmentImage) {
+                    return;
+                  }
 
                   return <div
                     key={index}
@@ -727,6 +738,37 @@ class MessageInput extends Component {
                     }
 
                     <Loading className={style.file_loading} isShown={attachment.isLoading} />
+                  </div>;
+                })}
+              </div>
+            }
+
+            {withFiles &&
+              <div className={style.uploaded_files}>
+                {this.state.attachments.map((attachment, index) => {
+                  const isAttachmentImage = attachment.content_type.match('image/');
+                  const isLoading = attachment.currentChunk < attachment.byte_size;
+                  const progress = this.getProgressText(attachment);
+
+                  if (isAttachmentImage) {
+                    return;
+                  }
+
+                  return <div className={style.file_item} key={index}>
+                    {isLoading &&
+                      <Loading className={style.file_loading} isShown />
+                    }
+
+                    {!isLoading &&
+                      <Icon name="file" />
+                    }
+
+                    <p className={style.title}>{attachment.file_name}</p>
+                    <span className={style.size}>{progress}</span>
+
+                    <button className={style.delete} onClick={this.removeAttachment(index)}>
+                      <Icon name="close" />
+                    </button>
                   </div>;
                 })}
               </div>

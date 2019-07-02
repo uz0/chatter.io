@@ -54,7 +54,10 @@ class Panel extends Component {
   };
 
   copyInviteLink = () => copy(`${location.origin}/invite/${this.props.details.invite_code}`, () => {
-    this.props.showNotification(this.props.t('invite_code_copied'));
+    this.props.showNotification({
+      type: 'success',
+      text: this.props.t('invite_code_copied'),
+    });
   });
 
   onChatNameBlur = () => {

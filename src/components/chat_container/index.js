@@ -44,7 +44,12 @@ class Chat extends Component {
       api.addContact({nick: this.props.router.location.query.inviteuser.replace('+', ' ')}).then(data => {
         api.getPrivateSubscription({user_id: data.contact.user.id}).then(getChatData => {
           this.props.addUsers(getChatData.subscription.group.participants);
-          this.props.addSubscription(getChatData.subscription);
+
+          this.props.addSubscription({
+            ...getChatData.subscription,
+            is_add_data_loaded: true,
+          });
+
           this.props.pushUrl(`/chat/user/${data.contact.user.id}`, null);
         });
       }).catch(() => {
@@ -60,7 +65,12 @@ class Chat extends Component {
     if (this.props.router.location.query.invitecode) {
       api.useInviteCode({ code: this.props.router.location.query.invitecode }).then(data => {
         this.props.addUsers(data.subscription.group.participants);
-        this.props.addSubscription(data.subscription);
+
+        this.props.addSubscription({
+          ...data.subscription,
+          is_add_data_loaded: true,
+        });
+
         this.props.pushUrl(`/chat/${data.subscription.id}`, null);
       });
     }

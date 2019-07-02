@@ -483,6 +483,10 @@ class MessageInput extends Component {
   };
 
   onSendButtonClick = () => {
+    if (!this.isSendButtonShown()) {
+      return;
+    }
+
     let upload_id = [];
     let attachments = [];
 
@@ -543,7 +547,7 @@ class MessageInput extends Component {
       return false;
     }
 
-    if (this.state.value) {
+    if (this.state.value && `${this.state.value}`.replace(/^\s+/, '').replace(/\s+$/, '').length > 0) {
       return true;
     }
 

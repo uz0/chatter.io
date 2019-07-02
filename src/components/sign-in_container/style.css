@@ -69,6 +69,14 @@
   margin-right: auto;
 }
 
+.login .form .input:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
+.login .form .input + :not(.input) {
+  margin-top: 12px;
+}
+
 @media (max-width: 700px) {
   .login .form {
     width: 100%;

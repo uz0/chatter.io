@@ -355,17 +355,18 @@
 }
 
 .message-item.current-user > .info {
+  --info-width: 20px;
   align-items: flex-end;
 }
 
 .message-item.opponent-user > .info {
+  --info-width: calc(var(--avatar-size) + 8px);
   align-items: flex-start;
 }
 
 .message-item > .info {
   /* может 30? */
   --avatar-size: 29px;
-  --info-width: calc(var(--avatar-size) + 8px);
   flex-shrink: 0;
   position: relative;
   order: var(--info-order);

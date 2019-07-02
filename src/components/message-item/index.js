@@ -251,7 +251,10 @@ class MessageItem extends Component {
     const isMessageHasText = (this.props.message.text || '').replace(/\s/g,'').length > 0;
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
     const isMarkShown = this.props.message.user_id === this.props.currentUser.id && !this.props.message.isError;
-    const isAvatarShown = (this.props.type === 'last' || this.props.type === 'single') && !this.props.message.isError;
+
+    const isAvatarShown = (this.props.type === 'last' || this.props.type === 'single') &&
+      !this.props.message.isError &&
+      this.props.message.user_id !== this.props.currentUser.id;
 
     const isMessageTextBlockShown = files.length > 0 || isMessageHasText ||
       this.props.message.forwarded_message_id ||

@@ -7,7 +7,7 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
 import config from '@/config';
-import { getChatName } from '@/helpers';
+import { getChatName, scrollMessagesBottom } from '@/helpers';
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -236,14 +236,9 @@ const notificationReceived = notification => (dispatch, getState) => {
       if (state.messages.list[notification.object.uid] || state.messages.list[notification.object.id]) {
         dispatch(messagesActions.updateMessage({chatId: messageSubscription.id, message: notification.object}));
       } else {
-        const messagesScrollElement = document.getElementById('messages-scroll');
-        const isScrolledToBottom = messagesScrollElement && messagesScrollElement.scrollTop === (messagesScrollElement.scrollHeight - messagesScrollElement.offsetHeight);
-
-        dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
-
-        if (isScrolledToBottom) {
-          messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
-        }
+        scrollMessagesBottom(() => {
+          dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
+        });
       }
     }
 

@@ -9,6 +9,10 @@ const cx = classnames.bind(style);
 
 class Xtag extends Component {
   render() {
+    if (!this.props.message) {
+      return null;
+    }
+
     const author = this.props.users_list[this.props.message.user_id];
     const ref = this.props.users_list[this.props.message.reference.id];
 

@@ -74,97 +74,104 @@ class ForgotPassword extends Component {
     }
   }
 
-  render = () => <div className={style.forgot}>
-    <Link to="/" className={style.logo}>Unichat</Link>
-    <h1 className={style.title}>{this.props.t('forgot_password')}?</h1>
+  render = () => {
+    let actions = [];
 
-    <Form
-      actions={[
-        {text: `${this.props.t('send_recovery_link')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'},
-      ]}
+    if (this.props.location.query.password_reset_token) {
+      actions.push({text: `${this.props.t('change')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'});
+    } else {
+      actions.push({text: `${this.props.t('send_recovery_link')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'});
+    }
 
-      error={this.state.commonError.text || ''}
-      model="forgot"
-      disabled={this.state.isLoading}
-      className={style.form}
-    >
-      {!this.props.location.query.password_reset_token &&
-        <Input
-          type="email"
-          placeholder={this.props.t('email')}
-          model="forgot.email"
-          disabled={this.state.isLoading}
-          className={style.input}
+    return <div className={style.forgot}>
+      <Link to="/" className={style.logo}>Unichat</Link>
+      <h1 className={style.title}>{this.props.t('forgot_password')}?</h1>
 
-          validations={[
-            {
-              action: Validators.required,
-              text: this.props.t('validation_required', { field: this.props.t('email') }),
-            },
+      <Form
+        actions={actions}
+        error={this.state.commonError.text || ''}
+        model="forgot"
+        disabled={this.state.isLoading}
+        className={style.form}
+      >
+        {!this.props.location.query.password_reset_token &&
+          <Input
+            type="email"
+            placeholder={this.props.t('email')}
+            model="forgot.email"
+            disabled={this.state.isLoading}
+            className={style.input}
 
-            {
-              action: Validators.email,
-              text: this.props.t('validation_correct', { field: this.props.t('email') }),
-            },
-          ]}
-        />
-      }
+            validations={[
+              {
+                action: Validators.required,
+                text: this.props.t('validation_required', { field: this.props.t('email') }),
+              },
 
-      {this.props.location.query.password_reset_token &&
-        <Input
-          type="password"
-          placeholder={this.props.t('new_password')}
-          model="forgot.password"
-          disabled={this.state.isLoading}
-          className={style.input}
+              {
+                action: Validators.email,
+                text: this.props.t('validation_correct', { field: this.props.t('email') }),
+              },
+            ]}
+          />
+        }
 
-          validations={[
-            {
-              action: Validators.required,
-              text: this.props.t('validation_required', { field: this.props.t('password') }),
-            },
+        {this.props.location.query.password_reset_token &&
+          <Input
+            type="password"
+            placeholder={this.props.t('new_password')}
+            model="forgot.password"
+            disabled={this.state.isLoading}
+            className={style.input}
 
-            {
-              action: Validators.minLength(6),
-              text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
-            },
+            validations={[
+              {
+                action: Validators.required,
+                text: this.props.t('validation_required', { field: this.props.t('password') }),
+              },
 
-            {
-              action: Validators.contains(' '),
-              text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
-            },
-          ]}
-        />
-      }
+              {
+                action: Validators.minLength(6),
+                text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
+              },
 
-      {this.props.location.query.password_reset_token &&
-        <Input
-          type="password"
-          placeholder={this.props.t('confirm_password')}
-          model="forgot.confirmPassword"
-          disabled={this.state.isLoading}
-          className={style.input}
+              {
+                action: Validators.contains(' '),
+                text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
+              },
+            ]}
+          />
+        }
 
-          validations={[
-            {
-              action: Validators.required,
-              text: this.props.t('validation_required', { field: this.props.t('password') }),
-            },
+        {this.props.location.query.password_reset_token &&
+          <Input
+            type="password"
+            placeholder={this.props.t('confirm_password')}
+            model="forgot.confirmPassword"
+            disabled={this.state.isLoading}
+            className={style.input}
 
-            {
-              action: Validators.minLength(6),
-              text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
-            },
+            validations={[
+              {
+                action: Validators.required,
+                text: this.props.t('validation_required', { field: this.props.t('password') }),
+              },
 
-            {
-              action: Validators.contains(' '),
-              text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
-            },
-          ]}
-        />
-      }
-    </Form>
-  </div>;
+              {
+                action: Validators.minLength(6),
+                text: this.props.t('validation_min_length', { field: this.props.t('password'), count: 6 }),
+              },
+
+              {
+                action: Validators.contains(' '),
+                text: this.props.t('validation_contains_spaces', { field: this.props.t('password') }),
+              },
+            ]}
+          />
+        }
+      </Form>
+    </div>;
+  }
 }
 
 export default compose(

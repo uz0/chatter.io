@@ -37,10 +37,14 @@ class RefMessage extends Component {
     });
   };
 
-  openGallery = () => this.props.openGallery({
-    images: [this.props.message.attachment.url],
-    index: 0,
-  });
+  openGallery = event => {
+    event.stopPropagation();
+
+    this.props.openGallery({
+      images: [this.props.message.attachment.url],
+      index: 0,
+    });
+  };
 
   componentDidMount() {
     this._isMounted = true;

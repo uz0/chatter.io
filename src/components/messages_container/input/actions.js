@@ -46,13 +46,11 @@ const sendMessage = params => (dispatch, getState) => {
 
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
 
-  setTimeout(() => {
-    const messagesScrollElement = document.getElementById('messages-scroll');
+  const messagesScrollElement = document.getElementById('messages-scroll');
 
-    if (messagesScrollElement) {
-      messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
-    }
-  });
+  if (messagesScrollElement) {
+    messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
+  }
 
   api.post({
     uid: message.uid,

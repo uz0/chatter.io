@@ -5,9 +5,12 @@ export default async (action, time) => {
     return;
   }
 
-  const isMessagesListScrolledBottom = messagesListRef.offsetHeight + messagesListRef.scrollTop === messagesListRef.scrollHeight;
+  const isMessagesListScrolledBottom = messagesListRef.offsetHeight + messagesListRef.scrollTop + 50 >= messagesListRef.scrollHeight;
   const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
-  action();
+
+  if (action) {
+    action();
+  }
 
   if (time) {
     await wait(time);

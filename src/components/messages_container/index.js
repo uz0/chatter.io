@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
@@ -18,7 +18,7 @@ import UnreadDelimiter from './unread-delimiter';
 import Typings from './typings';
 import MessageItem from '@/components/message-item';
 import { withDetails } from '@/hoc';
-import { uid } from '@/helpers';
+import { scrollMessagesBottom } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
@@ -32,7 +32,6 @@ class Messages extends Component {
     isNewMessagesLoading: false,
   };
 
-  // need refactoring
   getGroupedMessages = () => {
     if (!this.props.details) {
       return [];
@@ -47,57 +46,42 @@ class Messages extends Component {
       message => moment(message.created_at).format('YYYY-MM-DD'),
     );
 
-    let array = [];
     const dates = Object.keys(groupedByDate).sort();
+    let groupedMessages = [];
 
-    dates.forEach(key => {
-      array.push({ type: 'dateDelimiter', date: key });
+    dates.forEach(date => {
+      groupedMessages.push({ type: 'dateDelimiter', date });
+      const messagesPerDay = groupedByDate[date].sort((prev, next) => new Date(prev.created_at) - new Date(next.created_at));
 
-      let messages = [];
+      messagesPerDay.forEach((message, index) => {
+        const message_id = message.id || message.uid;
+        const isMessageOpponent = message.user_id !== this.props.currentUser.id;
+        const isPrevMessageIsLastRead = messagesPerDay[index - 1] && messagesPerDay[index - 1].id === this.props.details.last_read_message_id;
+        const isOpponentMessageUnread = isMessageOpponent && isPrevMessageIsLastRead;
 
-      groupedByDate[key].reverse().forEach(message => {
         if (message.xtag) {
-          if (messages.length > 0) {
-            array.push({ type: 'messages', messages_ids: messages });
-          }
-
-          array.push({ type: 'xtagDelimiter', message_id: message.id });
-          messages = [];
+          groupedMessages.push({ type: 'xtagDelimiter', message_id });
           return;
         }
 
-        messages.push(message.id || message.uid);
-
-        if (this.props.details.last_read_message_id === message.id &&
-          this.props.lastMessage &&
-          this.props.lastMessage.id !== message.id &&
-          message.user_id !== this.props.currentUser.id
-        ) {
-          messages.push('unreadDelimiter');
+        if (isOpponentMessageUnread) {
+          groupedMessages.push({ type: 'unreadDelimiter' });
         }
-      });
 
-      if (messages.length > 0) {
-        array.push({ type: 'messages', messages_ids: messages });
-      }
+        groupedMessages.push({ type: 'message', message_id });
+      });
     });
 
-    let formatted = [];
-
-    array.reverse().forEach(item => {
-      if (item.type !== 'messages') {
-        formatted.push(item);
+    groupedMessages.forEach((grouped, index) => {
+      if (grouped.type !== 'message') {
         return;
       }
 
-      if (item.type === 'messages') {
-        item.messages_ids.reverse().forEach(id => {
-          formatted.push({ type: 'message', message_id: id });
-        });
-      }
+      const messageType = this.getMessageType(groupedMessages, index);
+      grouped['message_type'] = messageType;
     });
 
-    return formatted;
+    return groupedMessages;
   };
 
   loadMessages = props => {
@@ -108,20 +92,12 @@ class Messages extends Component {
       this.setState({ isMessagesLoading: false });
       this.scrollListMessagesToBottom();
     });
-  }
+  };
 
   getMessageType = (groupedMessages, index) => {
-    if (groupedMessages[index].type !== 'message') {
-      return;
-    }
-
     const last_message_id = groupedMessages[index - 1] && groupedMessages[index - 1].type === 'message' ? groupedMessages[index - 1].message_id : null;
     const message_id = groupedMessages[index].message_id;
     const next_message_id = groupedMessages[index + 1] && groupedMessages[index + 1].type === 'message' ? groupedMessages[index + 1].message_id : null;
-
-    if (message_id === 'unreadDelimiter') {
-      return;
-    }
 
     if (!last_message_id && !next_message_id) {
       return 'single';
@@ -208,7 +184,7 @@ class Messages extends Component {
     }
 
     if (this.props.details && isMessagesLoaded) {
-      this.scrollListMessagesToBottom();
+      scrollMessagesBottom();
     }
   }
 
@@ -219,7 +195,7 @@ class Messages extends Component {
     // если перешли в другой чат - нужно опускать скролл вниз
     // скролл опускается вниз в this.loadMessages, но она не сработает если там уже загружены сообщения
     if (this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id && this.listRef) {
-      setTimeout(() => this.scrollListMessagesToBottom());
+      scrollMessagesBottom();
     }
 
     // если страница загружается сразу с открытым чатом, details еще не успевает прийти, ловим тут
@@ -284,8 +260,9 @@ class Messages extends Component {
       });
     }
 
-    const groupedMessages = this.getGroupedMessages() || [];
+    const groupedMessages = this.getGroupedMessages();
     const isHasMoreMessages = this.props.chatIds && this.props.chatIds.hasMore;
+    const isMessagesShown = this.props.details && groupedMessages.length > 0;
 
     return <div className={cx('messages', this.props.className)}>
       {this.props.details &&
@@ -306,38 +283,30 @@ class Messages extends Component {
           />
         }
 
-        {groupedMessages.length > 0 && groupedMessages.reverse().map((grouped, index) => {
-          const type = this.getMessageType(groupedMessages, index);
-
-          return <Fragment key={uid()}>
-            {grouped.type === 'unreadDelimiter' &&
-              <UnreadDelimiter className={cx('item')} />
+        {isMessagesShown &&
+          groupedMessages.map(grouped => {
+            if (grouped.type === 'unreadDelimiter') {
+              return <UnreadDelimiter key="unread-delimiter" className={style.item} />;
             }
 
-            {grouped.type === 'xtagDelimiter' &&
-              <XtagDelimiter id={grouped.message_id} className={cx('item')} />
+            if (grouped.type === 'xtagDelimiter') {
+              return <XtagDelimiter key={grouped.message_id} id={grouped.message_id} className={style.item} />;
             }
 
-            {grouped.type === 'dateDelimiter' &&
-              <DateDelimiter date={grouped.date} className={cx('item')} />
+            if (grouped.type === 'dateDelimiter') {
+              return <DateDelimiter key={grouped.date} date={grouped.date} className={style.item} />;
             }
 
-            {grouped.type === 'message' && grouped.message_id === 'unreadDelimiter' &&
-              <UnreadDelimiter className={cx('item')} />
-            }
+            return <MessageItem
+              key={grouped.message_id}
+              id={grouped.message_id}
+              className={cx('message', 'item')}
+              type={grouped.message_type}
+            />;
+          })
+        }
 
-            {grouped.type === 'message' && grouped.message_id !== 'unreadDelimiter' &&
-              <MessageItem
-                key={grouped.message_id}
-                id={grouped.message_id}
-                className={cx('message', 'item')}
-                type={type}
-              />
-            }
-          </Fragment>;
-        })}
-
-        {groupedMessages.length === 0 &&
+        {!isMessagesShown &&
           <p className={style.empty}>{this.props.t('there_is_no_messages')}</p>
         }
       </div>
@@ -350,7 +319,7 @@ class Messages extends Component {
         <MessageInput
           subscription_id={this.props.details.id}
           className={style.input}
-          scrollListMessagesToBottom={this.scrollListMessagesToBottom}
+          scrollListMessagesToBottom={scrollMessagesBottom}
         />
       }
     </div>;

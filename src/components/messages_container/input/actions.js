@@ -99,7 +99,7 @@ const updateMessage = params => (dispatch, getState) => {
   api.editMessage({
     message_id: params.edit_message_id,
     text: params.text,
-    ...params.upload_id ? {upload_id: params.upload_id} : {},
+    upload_id: params.upload_id,
   }).catch(error => {
     console.error(error);
 

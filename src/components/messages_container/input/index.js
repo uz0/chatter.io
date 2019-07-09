@@ -543,7 +543,7 @@ class MessageInput extends Component {
       return false;
     }
 
-    if (this.state.attachments.length > 0 && find(this.state.attachments, attachment => !attachment.upload_id)) {
+    if (!this.props.edit_message_id && this.state.attachments.length > 0 && find(this.state.attachments, attachment => !attachment.upload_id)) {
       return false;
     }
 

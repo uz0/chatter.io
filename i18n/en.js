@@ -137,6 +137,7 @@ export default {translation: {
   type_something: 'Type something',
   typing: 'Typing',
   unread_messages: 'Unread messages',
+  open_gallery: 'Open gallery',
   update: 'Update',
   update_profile: 'Update profile',
   validation_contains_spaces: '{{field}} should not contains spaces',

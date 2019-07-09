@@ -8,6 +8,7 @@ import { withNamespaces } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Link from '@/components/link';
 import Icon from '@/components/icon';
+import { withRouter } from '@/hoc';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -83,6 +84,23 @@ class MessageBlock extends Component {
     return text;
   };
 
+  onMessageClick = event => {
+    const targetLink = event.target.closest('a');
+
+    if (!targetLink) {
+      return;
+    }
+
+    event.preventDefault();
+    let href = targetLink.href;
+
+    if (href.indexOf(location.origin) !== -1) {
+      href = href.replace(location.origin, '');
+    }
+
+    this.props.pushUrl(href);
+  };
+
   render() {
     const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/'));
     const messageText = this.renderMessageText(this.props.message);
@@ -120,7 +138,7 @@ class MessageBlock extends Component {
       }
 
       {messageText &&
-        <p className={style.text} dangerouslySetInnerHTML={{__html: messageText}} />
+        <p className={style.text} dangerouslySetInnerHTML={{__html: messageText}} onClick={this.onMessageClick} />
       }
 
       {files &&
@@ -149,6 +167,7 @@ class MessageBlock extends Component {
 }
 
 export default compose(
+  withRouter,
   withNamespaces('translation'),
 
   connect(

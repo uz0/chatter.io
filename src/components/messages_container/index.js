@@ -68,7 +68,7 @@ class Messages extends Component {
           groupedMessages.push({ type: 'unreadDelimiter' });
         }
 
-        groupedMessages.push({ type: 'message', message_id });
+        groupedMessages.push({ type: 'message', message_id, message_uid: message.uid });
       });
     });
 
@@ -298,7 +298,7 @@ class Messages extends Component {
             }
 
             return <MessageItem
-              key={grouped.message_id}
+              key={grouped.message_uid}
               id={grouped.message_id}
               className={cx('message', 'item')}
               type={grouped.message_type}

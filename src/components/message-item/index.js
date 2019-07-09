@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import Link from '@/components/link';
 import moment from 'moment';
 import get from 'lodash/get';
 import map from 'lodash/map';
@@ -16,12 +15,9 @@ import Icon from '@/components/icon';
 import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
 import MessageBlock from './message-block';
-import RefMessage from './ref-message';
-import Username from './username';
 import { scrollMessagesBottom } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
-import { actions as dropdownActions } from '@/components/dropdown';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
@@ -248,19 +244,17 @@ class MessageItem extends Component {
 
           {isGalleryShownWithoutDropdown &&
             <div className={style.gallery}>
-              {images.map((image, index) => {
-                return <div
-                  key={image.url}
-                  className={style.image}
+              {images.map((image, index) => <div
+                key={image.url}
+                className={style.image}
 
-                  onClick={() => this.props.openGallery({
-                    images: imagesUrls,
-                    index,
-                  })}
-                >
-                  <img src={image.url} />
-                </div>;
-              })}
+                onClick={() => this.props.openGallery({
+                  images: imagesUrls,
+                  index,
+                })}
+              >
+                <img src={image.url} />
+              </div>)}
             </div>
           }
 
@@ -271,16 +265,12 @@ class MessageItem extends Component {
               items={actionsItems}
             >
               <div className={style.gallery}>
-                {images.map((image, index) => {
-                  const imagesUrls = map(images, image => image.url);
-
-                  return <div
-                    key={image.url}
-                    className={style.image}
-                  >
-                    <img src={image.url} />
-                  </div>;
-                })}
+                {images.map(image => <div
+                  key={image.url}
+                  className={style.image}
+                >
+                  <img src={image.url} />
+                </div>)}
               </div>
             </Dropdown>
           }
@@ -337,7 +327,6 @@ export default compose(
       addEditMessage: messagesActions.addEditMessage,
       addReplyMessage: messagesActions.addReplyMessage,
       addForwardMessage: messagesActions.addForwardMessage,
-      openDropdown: dropdownActions.openDropdown,
       resendMessage: inputActions.resendMessage,
       toggleModal: modalActions.toggleModal,
       openGallery: galleryActions.openGallery,

@@ -106,10 +106,12 @@ class MessageInput extends Component {
     reader.readAsArrayBuffer(file);
   });
 
-  onAttachFileChange = event => {
+  onAttachFileChange = event => this.attachFiles(event.target.files);
+
+  attachFiles = files => {
     let isSizeValid = true;
 
-    [].forEach.call(event.target.files, file => {
+    [].forEach.call(files, file => {
       if (file.size > 209715200) {
         isSizeValid = false;
       }
@@ -135,7 +137,7 @@ class MessageInput extends Component {
 
     let attachments = [];
 
-    [].forEach.call(event.target.files, file => {
+    [].forEach.call(files, file => {
       attachments.push({
         uid: uid(),
         byte_size: file.size,
@@ -150,7 +152,7 @@ class MessageInput extends Component {
 
     this.setState({ attachments });
 
-    [].forEach.call(event.target.files, (file, index) => {
+    [].forEach.call(files, (file, index) => {
       const attachment = attachments[index];
       setTimeout(() => this.loadFileByChunks(file, attachment.uid));
       const reader = new FileReader();
@@ -575,6 +577,24 @@ class MessageInput extends Component {
     }
   };
 
+  onPaste = event => {
+    event.persist();
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    let files = [];
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') === 0) {
+        files.push(items[i].getAsFile());
+      }
+    }
+
+    if (files.length === 0) {
+      return;
+    }
+
+    this.attachFiles(files);
+  };
+
   closeMessage = () => {
     if (this.props.edit_message_id) {
       this.props.clearEditMessage();
@@ -712,6 +732,7 @@ class MessageInput extends Component {
               onInput={this.onInput}
               onChange={() => {}}
               onKeyDown={this.onTextareaKeyDown}
+              onPaste={this.onPaste}
             />
 
             {withImages &&

@@ -62,6 +62,7 @@ class RefMessage extends Component {
     const nick = get(this.props, 'user.nick', 'no nick') || 'no nick';
     const isMessageDeleted = this.props.message && this.props.message.deleted_at;
     const isAttachmentImage = get(this.props, 'message.attachment.content_type', '').match('image/');
+    const formattedText = this.props.message.text.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g, ' ');
 
     return <div className={cx('message', {'_is-forwarded': !!this.props.forwardedId}, this.props.className)}>
       <div className={style.title}>
@@ -89,7 +90,7 @@ class RefMessage extends Component {
           }
 
           {this.props.message.text &&
-            <p className={style.text}>{this.props.message.text}</p>
+            <p className={style.text}>{formattedText}</p>
           }
         </div>
       }

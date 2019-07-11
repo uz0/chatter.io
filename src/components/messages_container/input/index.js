@@ -349,6 +349,7 @@ class MessageInput extends Component {
 
       const value = `${start}${nick}${end}`;
       this.setState({ value, isSuggestionShown: false });
+      this.textareaRef.focus();
       return;
     }
 
@@ -367,6 +368,7 @@ class MessageInput extends Component {
 
       const value = `${start}@${nick}${end}`;
       this.setState({ value, isSuggestionShown: false });
+      this.textareaRef.focus();
       return;
     }
   };

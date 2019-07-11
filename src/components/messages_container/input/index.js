@@ -19,6 +19,7 @@ import { scrollMessagesBottom, uid } from '@/helpers';
 import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
+import { actions as dropdownActions } from '@/components/dropdown';
 import style from './style.css';
 
 export { default as actions } from './actions';
@@ -30,7 +31,6 @@ class MessageInput extends Component {
   state = {
     attachments: [],
     value: this.props.draft || '',
-    isSuggestionShown: false,
   };
 
   onTextareaKeyDown = event => {
@@ -58,7 +58,7 @@ class MessageInput extends Component {
       this.setNewLineTextarea();
     }
 
-    if (event.keyCode === 13 && !event.shiftKey && document.activeElement === this.textareaRef) {
+    if (event.keyCode === 13 && !this.props.isSuggestionShown && !event.shiftKey && document.activeElement === this.textareaRef) {
       this.onSendButtonClick();
     }
   };
@@ -348,7 +348,8 @@ class MessageInput extends Component {
       }
 
       const value = `${start}${nick}${end}`;
-      this.setState({ value, isSuggestionShown: false });
+      this.setState({ value });
+      this.closeSuggestion();
       this.textareaRef.focus();
       return;
     }
@@ -367,7 +368,8 @@ class MessageInput extends Component {
       }
 
       const value = `${start}@${nick}${end}`;
-      this.setState({ value, isSuggestionShown: false });
+      this.setState({ value });
+      this.closeSuggestion();
       this.textareaRef.focus();
       return;
     }
@@ -400,10 +402,11 @@ class MessageInput extends Component {
       return false;
     }
 
-    return this.state.isSuggestionShown;
+    return this.props.isSuggestionShown;
   };
 
-  closeSuggestion = () => this.setState({ isSuggestionShown: false });
+  openSuggestion = () => this.props.openDropdown({uniqueId: 'suggestion-dropdown'});
+  closeSuggestion = () => this.props.closeDropdown('suggestion-dropdown');
 
   getCurrentMentionSearch = () => {
     if (!this.textareaRef) {
@@ -569,10 +572,15 @@ class MessageInput extends Component {
     this.calcTextareaHeight();
     const isShown = this.checkIsSuggestionShown(event.target.value);
 
-    this.setState({
-      value: event.target.value,
-      ...isShown !== this.state.isSuggestionShown ? { isSuggestionShown: isShown } : {},
-    });
+    if (isShown !== this.props.isSuggestionShown) {
+      if (isShown) {
+        this.openSuggestion();
+      } else {
+        this.closeSuggestion();
+      }
+    }
+
+    this.setState({ value: event.target.value });
 
     if (!this.props.edit_message_id && !this.props.reply_message_id) {
       setTimeout(() => this.throttleUpdateDraft(this.state.value));
@@ -661,8 +669,11 @@ class MessageInput extends Component {
       this.setState({
         value: nextProps.draft ? nextProps.draft : '',
         attachment: null,
-        isSuggestionShown: false,
       });
+
+      if (this.props.isSuggestionShown) {
+        this.closeSuggestion();
+      }
 
       if (this.props.reply_message_id) {
         this.props.clearReplyMessage();
@@ -711,7 +722,7 @@ class MessageInput extends Component {
       />
 
       <div className={style.section}>
-        {this.state.isSuggestionShown &&
+        {this.props.isSuggestionShown &&
           <Suggestion
             subscription_id={this.props.subscription_id}
             onSelect={this.setMention}
@@ -823,6 +834,7 @@ export default compose(
       users_ids: state.users.ids,
       users_list: state.users.list,
       isMobile: state.device === 'touch',
+      isSuggestionShown: get(state.dropdown, 'suggestion-dropdown.isShown', false),
     }),
 
     {
@@ -831,6 +843,8 @@ export default compose(
       updateMessage: inputActions.updateMessage,
       clearEditMessage: messagesActions.clearEditMessage,
       clearReplyMessage: messagesActions.clearReplyMessage,
+      openDropdown: dropdownActions.openDropdown,
+      closeDropdown: dropdownActions.closeDropdown,
       showNotification: notificationActions.showNotification,
     },
   ),

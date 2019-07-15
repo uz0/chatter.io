@@ -1,0 +1,376 @@
+.panel {
+  z-index: 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
+  margin-right: var(--margin-right);
+  background-color: #fff;
+  transition-property: margin-right;
+}
+
+.panel:not(._is-shown) {
+  --margin-right: calc(var(--panel-width) * -1);
+}
+
+.panel._is-shown {
+  --margin-right: 0;
+}
+
+.panel > .loading {
+  --left: 1px;
+}
+
+.panel > .close {
+  --height: var(--info-height);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.panel > .scroll {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.panel > .scroll > .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 22px var(--layout-padding);
+}
+
+.panel > .scroll > .header > .avatar_container {
+  --avatar-size: 70px;
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: calc(var(--avatar-size) / 2);
+}
+
+.panel > .scroll > .header > .avatar_container:not(:hover) {
+  --button-opacity: 0;
+}
+
+.panel > .scroll > .header > .avatar_container:hover {
+  --button-opacity: 1;
+}
+
+.panel > .scroll > .header > .avatar_container .avatar {
+  --size: var(--avatar-size);
+}
+
+.panel > .scroll > .header > .avatar_container .edit {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.63);
+  text-align: center;
+  font-size: 14px;
+  font-weight: var(--font-weight-light);
+  color: #fff;
+  opacity: var(--button-opacity);
+  border-radius: calc(var(--avatar-size) / 2);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: opacity;
+}
+
+.panel > .scroll > .header > .avatar_container .close {
+  --size: 18px;
+  --icon-size: 10px;
+  --icon-color: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  opacity: var(--button-opacity);
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--caption-color);
+  transition-property: opacity;
+}
+
+.panel > .scroll > .header > .change_photo_input {
+  visibility: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.panel > .scroll > .header > .name {
+  --height: 20px;
+  max-width: 100%;
+  min-width: 20px;
+  height: var(--height);
+  margin-top: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--text-color);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.panel > .scroll > .header > .name:not(:focus) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.panel > .scroll > .header > .name:focus {
+  text-overflow: unset;
+  outline: none;
+}
+
+.panel > .scroll > .header > .subcaption {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 2px;
+  line-height: var(--height);
+  font-size: 14px;
+  color: var(--caption-color);
+  text-align: center;
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.panel > .scroll > .dropdown {
+  flex-shrink: 0;
+}
+
+.panel > .scroll .setting_button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  text-align: left;
+}
+
+.panel > .scroll .setting_button:not(.leave) {
+  --icon-size: 24px;
+  --icon-color: var(--primary-color);
+}
+
+.panel > .scroll .setting_button:not(.leave):not(:hover) {
+  --color: var(--text-color);
+}
+
+.panel > .scroll .setting_button:not(.leave):hover {
+  --color: var(--primary-color);
+}
+
+.panel > .scroll .setting_button.leave {
+  --icon-size: 14px;
+  --icon-color: var(--color);
+}
+
+.panel > .scroll .setting_button.leave:not(:hover) {
+  --color: var(--caption-color);
+}
+
+.panel > .scroll .setting_button.leave:hover {
+  --color: var(--error-color);
+}
+
+.panel > .scroll .setting_button i {
+  flex-shrink: 0;
+  width: 24px;
+}
+
+.panel > .scroll .setting_button .text {
+  --height: 18px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 18px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.panel > .scroll .setting_button span {
+  flex-shrink: 0;
+  margin-left: 12px;
+  font-size: 13px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+}
+
+.panel > .scroll .setting_button + .collapse,
+.panel > .scroll .dropdown + .collapse {
+  margin-top: 20px;
+}
+
+.panel > .scroll > .collapse {
+  box-shadow: 0 1px var(--divider-color) inset;
+}
+
+.panel > .scroll > .collapse:not(._is-open) {
+  --list-display: none;
+  --icon-transform: none;
+}
+
+.panel > .scroll > .collapse._is-open {
+  --list-display: block;
+  --icon-transform: rotate(-180deg);
+}
+
+.panel > .scroll > .collapse > .collapse_button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.panel > .scroll > .collapse > .collapse_button:not(:hover) {
+  --color: var(--caption-color);
+  --icon-color: #cfd1d4;
+}
+
+.panel > .scroll > .collapse > .collapse_button:hover {
+  --icon-color: var(--primary-color);
+  --color: var(--primary-color);
+}
+
+.panel > .scroll > .collapse > .collapse_button .title {
+  --height: 16px;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  margin-right: 12px;
+  line-height: var(--height);
+  font-size: 14px;
+  color: var(--color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.panel > .scroll > .collapse > .collapse_button .title + i,
+.panel > .scroll > .collapse > .collapse_button .title + .button {
+  margin-left: auto;
+}
+
+.panel > .scroll > .collapse > .collapse_button .button {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  padding-left: 4px;
+  padding-right: 4px;
+  line-height: var(--height);
+  font-size: 14px;
+  color: var(--color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.panel > .scroll > .collapse > .collapse_button .button:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.panel > .scroll > .collapse > .collapse_button .button:hover {
+  --color: var(--primary-color-hover);
+}
+
+.panel > .scroll > .collapse > .collapse_button .button + i {
+  margin-left: 12px;
+}
+
+.panel > .scroll > .collapse > .collapse_button i {
+  --icon-size: 14px;
+  flex-shrink: 0;
+  transform: var(--icon-transform);
+  transition-property: background-color, transform;
+}
+
+.panel > .scroll > .collapse > .collapse_list {
+  display: var(--list-display);
+  padding-top: 8px;
+  padding-bottom: 26px;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person:not(:hover) {
+  --background-color: transparent;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person:hover {
+  --background-color: var(--divider-color);
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person > .avatar {
+  --size: 30px;
+  flex-shrink: 0;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person > p {
+  --height: 20px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 6px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person > span {
+  --height: 20px;
+  flex-shrink: 0;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 6px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person > .dropdown {
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .person > .dropdown > button {
+  --icon-size: 12px;
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.panel > .scroll > .collapse > .collapse_list > .photos_list {
+  width: 100%;
+}

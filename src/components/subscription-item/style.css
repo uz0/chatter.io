@@ -1,0 +1,113 @@
+.subscription {
+  display: flex;
+  align-items: center;
+  padding: 8px var(--layout-padding);
+  background-color: var(--background-color);
+  transition-property: background-color;
+  cursor: pointer;
+}
+
+.subscription:not(:global(._is-active)):not(:hover) {
+  --background-color: transparent;
+}
+
+.subscription:not(:global(._is-active)):hover {
+  --background-color: var(--divider-color);
+}
+
+.subscription:global(._is-active) {
+  --background-color: var(--divider-color);
+}
+
+.subscription .avatar {
+  flex-shrink: 0;
+}
+
+.subscription .content {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 12px;
+}
+
+.subscription .content:not(._is-unread) {
+  --title-font-weight: var(--font-weight-medium);
+  --text-font-weight: var(--font-weight-light);
+  --text-content-color: var(--caption-color);
+}
+
+.subscription .content._is-unread {
+  --title-font-weight: var(--font-weight-bold);
+  --text-font-weight: var(--font-weight-bold);
+  --text-content-color: var(--text-color);
+}
+
+.subscription .content .name {
+  --height: 20px;
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--text-color);
+  font-weight: var(--title-font-weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.subscription .content .message {
+  --message-height: 16px;
+  margin-top: 4px;
+}
+
+.subscription .content .text {
+  overflow: hidden;
+  height: var(--message-height);
+  line-height: var(--message-height);
+  font-size: 14px;
+  font-weight: var(--text-font-weight);
+  color: var(--text-content-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.subscription .content + * {
+  margin-left: 12px;
+}
+
+.subscription .last_photo {
+  --size: 14px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-image: var(--photo);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.subscription .point {
+  --size: 12px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--primary-color);
+}
+
+.subscription .last_photo + .last_count {
+  margin-left: 2px;
+}
+
+.subscription .last_count {
+  --height: 14px;
+  flex-shrink: 0;
+  height: var(--height);
+  padding-left: 4px;
+  padding-right: 4px;
+  line-height: var(--height);
+  font-size: 12px;
+  border-radius: calc(var(--height) / 2);
+  background-color: var(--divider-color);
+  color: var(--caption-color);
+}

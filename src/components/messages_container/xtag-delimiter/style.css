@@ -1,0 +1,17 @@
+.xtag {
+  --height: 36px;
+  overflow: hidden;
+  width: 100%;
+  min-height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  text-align: center;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.xtag strong {
+  font-weight: var(--font-weight-medium);
+}

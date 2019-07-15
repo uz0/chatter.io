@@ -1,0 +1,171 @@
+.wrapper {
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.wrapper .modal {
+  display: flex;
+  flex-direction: column;
+  width: var(--width, 500px);
+  max-height: 550px;
+  margin-top: 130px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  border-radius: 6px;
+}
+
+.wrapper .modal .header {
+  --header-height: 46px;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+  padding-left: var(--header-height);
+  padding-right: var(--header-height);
+}
+
+.wrapper .modal .header .title {
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  font-size: 16px;
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wrapper .modal .header .close {
+  --height: var(--header-height);
+  --icon-size: 10px;
+  position: absolute;
+  right: var(--layout-padding);
+  top: 0;
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.wrapper .modal .content {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wrapper .modal .actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 54px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.wrapper .modal .actions:not(._is-center) {
+  justify-content: flex-end;
+}
+
+.wrapper .modal .actions._is-center {
+  justify-content: center;
+}
+
+.wrapper .modal .actions button {
+  --height: 24px;
+  --button-padding: 8px;
+  flex-shrink: 0;
+  height: var(--height);
+  padding-left: 8px;
+  padding-right: 8px;
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--color);
+  transition-property: color;
+}
+
+.wrapper .modal .actions button[disabled] {
+  pointer-events: none;
+  cursor: auto;
+}
+
+.wrapper .modal .actions button:nth-of-type(n+2) {
+  margin-left: 12px;
+}
+
+.wrapper .modal .actions button:last-of-type {
+  margin-right: calc(var(--button-padding) * -1);
+}
+
+.wrapper .modal .actions button:only-child {
+  font-weight: var(--font-weight-medium);
+}
+
+.wrapper .modal .actions button:only-child:not(._is-danger):hover {
+  --color: var(--primary-color);
+}
+
+.wrapper .modal .actions button:only-child:not(._is-danger):not(:hover) {
+  --color: var(--primary-color-hover);
+}
+
+.wrapper .modal .actions button:only-child:._is-danger:not(:hover) {
+  --color: var(--error-color);
+}
+
+.wrapper .modal .actions button:only-child:._is-danger:hover {
+  --color: var(--error-color);
+}
+
+.wrapper .modal .actions button:not(:only-child):not(:last-of-type) {
+  font-weight: var(--font-weight-light);
+}
+
+.wrapper .modal .actions button:not(:only-child):last-of-type {
+  font-weight: var(--font-weight-medium);
+}
+
+.wrapper .modal .actions button:not(:only-child):not(:last-of-type):not(:hover) {
+  --color: var(--caption-color);
+}
+
+.wrapper .modal .actions button:not(:only-child):not(:last-of-type):hover {
+  --color: var(--primary-color);
+}
+
+.wrapper .modal .actions button:not(:only-child):last-of-type:not(._is-danger):not(:hover) {
+  --color: var(--primary-color);
+}
+
+.wrapper .modal .actions button:not(:only-child):last-of-type:not(._is-danger):hover {
+  --color: var(--primary-color-hover);
+}
+
+.wrapper .modal .actions button:not(:only-child):last-of-type._is-danger:not(:hover) {
+  --color: var(--error-color);
+}
+
+.wrapper .modal .actions button:not(:only-child):last-of-type._is-danger:hover {
+  --color: var(--error-color);
+}
+
+@media (max-width: 800px) {
+  .wrapper .modal {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    margin-top: 0;
+  }
+
+  .wrapper .modal .header {
+    box-shadow: 0 -1px var(--divider-color) inset;
+  }
+}

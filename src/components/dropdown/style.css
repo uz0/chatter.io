@@ -1,0 +1,84 @@
+.dropdown {
+
+}
+
+.dropdown > button {}
+
+.list {
+  position: fixed;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.07);
+}
+
+.list > button {
+  display: flex;
+  align-items: center;
+  min-width: 120px;
+  height: 26px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.list > button:not(._is-danger) {
+  --color: var(--text-color);
+}
+
+.list > button._is-danger {
+  --color: var(--error-color);
+}
+
+.list > button:not(:hover) {
+  --background-color: transparent;
+}
+
+.list > button:hover {
+  --background-color: var(--divider-color);
+}
+
+.list > button > i {
+  --icon-color: var(--color);
+  --icon-size: 14px;
+  flex-shrink: 0;
+}
+
+.list > button > i + span {
+  margin-left: 8px;
+}
+
+.list > button > span {
+  --height: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+@media (max-width: 800px) {
+  .list {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .list > button {
+    min-width: 160px;
+    height: 38px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .list > button > i {
+    --icon-size: 20px;
+  }
+}

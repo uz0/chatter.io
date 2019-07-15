@@ -1,0 +1,31 @@
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  pointer-events: none;
+}
+
+.icon svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.icon svg.arrow_left {
+  transform: rotate(180deg);
+}
+
+.icon svg.arrow_down {
+  transform: rotate(90deg);
+}
+
+.icon svg:not(.stroke) path {
+  fill: var(--icon-color);
+  transition-property: fill;
+}
+
+.icon svg.stroke path {
+  stroke: var(--icon-color);
+  transition-property: stroke;
+}

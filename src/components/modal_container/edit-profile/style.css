@@ -1,0 +1,183 @@
+.modal {
+  position: relative;
+}
+
+.modal .form {
+  --input-height: 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.modal .form > .avatar {
+  --size: 82px;
+  flex-shrink: 0;
+  font-size: 30px;
+  text-transform: uppercase;
+}
+
+.modal .form .photo_actions {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.modal .form .photo_actions .edit,
+.modal .form .photo_actions .delete {
+  --height: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  padding-left: 6px;
+  padding-right: 6px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.modal .form .photo_actions .edit:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form .photo_actions .edit:hover {
+  --color: var(--primary-color-hover);
+}
+
+.modal .form .photo_actions .delete:not(:hover) {
+  --color: var(--text-color);
+}
+
+.modal .form .photo_actions .delete:hover {
+  --color: var(--error-color);
+}
+
+.modal .form .checkbox {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.modal .form .checkbox + .input {
+  margin-top: 28px;
+}
+
+.modal .form .input {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.modal .form .input:first-of-type {
+  margin-top: 30px;
+}
+
+.modal .form .input input {
+  border-radius: 10px;
+  background-color: var(--divider-color);
+}
+
+.modal .form .email_additional {
+  --height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.modal .form .email_additional .confirmed,
+.modal .form .email_additional .not_confirmed {
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .email_additional .confirmed {
+  color: #42c539;
+}
+
+.modal .form .email_additional .not_confirmed {
+  color: var(--error-color);
+}
+
+.modal .form .email_additional .resend {
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  transition-property: color;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .email_additional .resend:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form .email_additional .resend:hover {
+  --color: var(--primary-color-hover);
+}
+
+.modal .form .invite {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.modal .form .invite .label {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .invite .url {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 16px;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .invite .copy {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 8px;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  font-weight: var(--font-weight-light);
+  transition-property: color;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal .form .invite .copy:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal .form .invite .copy:hover {
+  --color: var(--primary-color-hover);
+}

@@ -1,0 +1,109 @@
+.loading.ring {
+  --spinner-size: 40px;
+  visibility: var(--visibility);
+  position: absolute;
+  z-index: 2;
+  left: var(--left, 0);
+  right: var(--right, 0);
+  top: var(--top, 0);
+  bottom: var(--bottom, 0);
+  background-color: var(--loading-background-color, #fff);
+  border-radius: inherit;
+  opacity: var(--opacity);
+  transition-property: visibility, opacity;
+  pointer-events: var(--pointer-events);
+  contain: strict;
+}
+
+.loading.ring::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - var(--spinner-size) / 2);
+  top: calc(50% - var(--spinner-size) / 2);
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border: 2px solid var(--spinner-border-color, var(--primary-color));
+  border-top-color: var(--spinner-section-color, #fff);
+  border-radius: 50%;
+  animation-name: loading-ring;
+  animation-duration: .4s;
+  animation-iteration-count: infinite;
+  animation-play-state: var(--animation-play-state);
+  animation-timing-function: linear;
+  pointer-events: none;
+}
+
+.loading.line {
+  --line-loading-height: 3px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: var(--line-loading-height);
+  background-color: var(--divider-color);
+  opacity: var(--opacity);
+  visibility: var(--visibility);
+  transition-property: visibility, opacity;
+  pointer-events: var(--pointer-events);
+}
+
+.loading.line::before {
+  content: "";
+  position: absolute;
+  left: -200px;
+  width: 200px;
+  height: var(--line-loading-height);
+  background-color: var(--primary-color);
+  animation-name: loading-line;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-play-state: var(--animation-play-state);
+  animation-timing-function: linear;
+}
+
+.loading:not(._is-shown) {
+  --opacity: 0;
+  --pointer-events: none;
+  --animation-play-state: paused;
+}
+
+.loading._is-shown {
+  --opacity: 1;
+  --pointer-events: auto;
+  --animation-play-state: running;
+}
+
+@keyframes loading-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-line {
+  from {
+    left: -200px;
+    width: 30%;
+  }
+
+  50% {
+    width: 30%;
+  }
+
+  70% {
+    width: 70%;
+  }
+
+  80% {
+    left: 50%;
+  }
+
+  95% {
+    left: 120%;
+  }
+
+  to {
+    left: 100%;
+  }
+}

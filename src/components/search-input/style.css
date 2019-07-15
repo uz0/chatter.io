@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  background-color: var(--divider-color);
+}
+
+.wrapper i {
+  --icon-size: 16px;
+  --icon-color: var(--caption-color);
+}
+
+.wrapper input {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 10px;
+  border: 0;
+  color: var(--text-color);
+  font-weight: var(--font-weight-light);
+  background-color: transparent;
+  font-size: 15px;
+}
+
+.wrapper input::placeholder {
+  color: var(--caption-color);
+}

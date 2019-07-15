@@ -1,0 +1,85 @@
+.register {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  background-color: #122033;
+}
+
+.register .logo {
+  font-family: var(--font-family-title);
+  font-size: 30px;
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+}
+
+.register nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register nav a {
+  --height: 40px;
+  position: relative;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color);
+  transition-property: color;
+}
+
+.register nav a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #fff;
+  opacity: var(--line-opacity);
+  transition-property: opacity;
+}
+
+.register nav a:nth-of-type(n+2) {
+  margin-left: 20px;
+}
+
+.register nav a:not(.active_link) {
+  --color: #a0a7b0;
+  --line-opacity: 0;
+}
+
+.register nav a.active_link {
+  --color: #fff;
+  --line-opacity: 1;
+}
+
+.register .form {
+  width: 400px;
+  margin-top: 34px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register .form .input:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
+.register .form .input + :not(.input) {
+  margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+  .register .form {
+    width: 100%;
+  }
+}
+

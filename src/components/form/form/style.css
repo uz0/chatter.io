@@ -1,0 +1,60 @@
+.form {
+  display: block;
+}
+
+.form .divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--divider-color);
+}
+
+.form .divider + .error {
+  margin-top: 12px;
+}
+
+.form .error {
+  display: block;
+  font-size: 12px;
+  color: var(--error-color);
+}
+
+.form .error + .actions {
+  margin-top: 12px;
+}
+
+.form .actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form .actions button {
+  --height: 46px;
+  flex-shrink: 0;
+  width: 100%;
+  font-size: 15px;
+}
+
+.form .actions a {
+  --height: 36px;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: var(--height);
+  font-size: 16px;
+  color: #a0a7b0;
+  transition-property: color;
+}
+
+.form .actions a:not(:hover) {
+  --color: #707070;
+}
+
+.form .actions a:hover {
+  --color: #fff;
+}

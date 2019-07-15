@@ -1,0 +1,59 @@
+.container {
+  --switch-height: 27px;
+  --switch-width: calc(var(--switch-height) * 1.9);
+  display: flex;
+  align-items: center;
+  height: var(--input-height);
+}
+
+.container > .checkbox_wrapper {
+}
+
+.container > .checkbox_wrapper > input {
+  position: absolute;
+  visibility: hidden;
+}
+
+.container > .checkbox_wrapper > .switch {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  border-radius: calc(var(--switch-height) / 2);
+  background-color: var(--background-color);
+  cursor: pointer;
+  transition-property: background-color;
+}
+
+.container > .checkbox_wrapper > .switch:not(._is-checked) {
+  --background-color: var(--divider-color);
+  --circle-color: var(--caption-color);
+  --circle-margin-left: 0;
+}
+
+.container > .checkbox_wrapper > .switch._is-checked {
+  --background-color: var(--divider-color);
+  --circle-color: var(--primary-color);
+  --circle-margin-left: calc(var(--switch-width) - var(--switch-height));
+}
+
+.container > .checkbox_wrapper > .switch > .circle {
+  width: var(--switch-height);
+  height: var(--switch-height);
+  margin-left: var(--circle-margin-left);
+  border-radius: calc(var(--switch-height) / 2);
+  background-color: var(--circle-color);
+  transition-property: background-color, margin-left;
+}
+
+.container > .label {
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  margin-left: 12px;
+  font-size: 16px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -1,12 +1,18 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
-  mode: 'development', // по идее это потом можно будет удалить
+  entry: path.join(__dirname, 'src/index.js'),
 
   output: {
     filename: 'app.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist'),
+  },
+
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 8080,
   },
 
   module: {
@@ -21,4 +27,11 @@ module.exports = {
       },
     ],
   },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.join(__dirname, 'src/index.html'),
+    })
+  ],
 };

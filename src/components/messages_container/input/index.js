@@ -665,6 +665,10 @@ class MessageInput extends Component {
       setTimeout(() => this.textareaRef.focus());
     }
 
+    if (nextProps.reply_message_id && this.propsreply_message_id !== nextProps.reply_message_id) {
+      setTimeout(() => this.textareaRef.focus());
+    }
+
     if (this.props.subscription_id !== nextProps.subscription_id) {
       this.setState({
         value: nextProps.draft ? nextProps.draft : '',

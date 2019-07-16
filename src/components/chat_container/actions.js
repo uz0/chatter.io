@@ -238,7 +238,7 @@ const notificationReceived = notification => (dispatch, getState) => {
       } else {
         scrollMessagesBottom(() => {
           dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
-        });
+        }, 0);
       }
     }
 

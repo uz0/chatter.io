@@ -229,7 +229,12 @@ class MessageItem extends Component {
       {!isMessageDeleted &&
         <div className={style.content}>
           {isMessageBlockShown &&
-            <MessageBlock id={this.props.id} chatId={this.props.details.id} className={style.message_block} />
+            <MessageBlock
+              id={this.props.id}
+              chatId={this.props.details.id}
+              type={this.props.type}
+              className={style.message_block}
+            />
           }
 
           {isMessageBlockShownWithDropdown &&

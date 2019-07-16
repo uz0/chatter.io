@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+import Link from '@/components/link';
 
 const Username = ({
   className,
@@ -15,7 +16,7 @@ const Username = ({
 
   const userName = user.nick || 'no nick';
 
-  return <p className={className}>{userName}</p>;
+  return <Link to={`/chat/user/${user.id}`} className={className}>{userName}</Link>;
 };
 
 export default compose(

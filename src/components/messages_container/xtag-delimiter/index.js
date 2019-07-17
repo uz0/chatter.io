@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
@@ -9,6 +9,10 @@ const cx = classnames.bind(style);
 
 class Xtag extends Component {
   render() {
+    if (!this.props.message) {
+      return null;
+    }
+
     const author = this.props.users_list[this.props.message.user_id];
     const ref = this.props.users_list[this.props.message.reference.id];
 
@@ -51,7 +55,7 @@ class Xtag extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

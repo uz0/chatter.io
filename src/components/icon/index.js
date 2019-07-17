@@ -25,6 +25,7 @@ import thinArrowLeftIcon from '@/assets/icons/thin-arrow-left.svg';
 import thinArrowRightIcon from '@/assets/icons/thin-arrow-right.svg';
 import exclamationIcon from '@/assets/icons/exclamation.svg';
 import infoIcon from '@/assets/icons/info.svg';
+import fileIcon from '@/assets/icons/file.svg';
 
 const cx = classnames.bind(style);
 
@@ -123,6 +124,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'exclamation' &&
     <ReactSvgInjector src={exclamationIcon} />
+  }
+
+  {name === 'file' &&
+    <ReactSvgInjector src={fileIcon} />
   }
 </i>;
 

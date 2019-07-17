@@ -69,7 +69,10 @@ class Input extends Component {
   render = () => <div className={style.file}>
     <input type="file" onChange={this.onChange} ref={node => this.inputRef = node} />
     {React.cloneElement(this.props.children, { onClick: this.openFileBrowser })}
-    <p className={style.error}>{ this.props.modelError }</p>
+
+    {this.props.modelError &&
+      <p className={style.error}>{ this.props.modelError }</p>
+    }
   </div>;
 }
 

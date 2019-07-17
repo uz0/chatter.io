@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { withRouter } from 'react-router';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Icon from '@/components/icon';
 import { actions as modalActions} from '@/components/modal_container';
+import { withRouter } from '@/hoc';
 import { getChatName, getOpponentUser, getLastActive } from '@/helpers';
 import style from './style.css';
 
@@ -16,7 +16,7 @@ class Header extends Component {
 
   closeChat = () => {
     this.props.closeModal('panel-container');
-    this.props.router.push('/chat');
+    this.props.pushUrl('/chat');
   };
 
   getLastActive = chat => {

@@ -64,27 +64,33 @@ class Input extends Component {
     });
   }
 
-  render = () => <div className={cx('container', this.props.className)}>
-    {this.props.title && <p className={style.title}>{this.props.title}</p>}
+  render = () => {
+    const error = this.props.modelError || this.props.error;
 
-    <div className={cx('section', { '_is-disabled': this.props.disabled })}>
-      {this.props.icon && this.props.icon}
+    return <div className={cx('container', this.props.className)}>
+      {this.props.title && <p className={style.title}>{this.props.title}</p>}
 
-      <input
-        type={this.props.type || 'text'}
-        className={style.input}
-        // при автокомплите возникает ошибка uncontrolled input
-        onChange={() => {}}
-        onBlur={this.onBlur}
-        onInput={this.onInput}
-        value={this.props.value || ''}
-        placeholder={this.props.placeholder}
-        {...this.props.disabled ? { disabled: true } : {}}
-      />
-    </div>
+      <div className={cx('section', { '_is-disabled': this.props.disabled })}>
+        {this.props.icon && this.props.icon}
 
-    <p className={style.error}>{ this.props.modelError || this.props.error }</p>
-  </div>;
+        <input
+          type={this.props.type || 'text'}
+          className={style.input}
+          // при автокомплите возникает ошибка uncontrolled input
+          onChange={() => {}}
+          onBlur={this.onBlur}
+          onInput={this.onInput}
+          value={this.props.value || ''}
+          placeholder={this.props.placeholder}
+          {...this.props.disabled ? { disabled: true } : {}}
+        />
+      </div>
+
+      {error &&
+        <p className={style.error}>{error}</p>
+      }
+    </div>;
+  }
 }
 
 export default connect(

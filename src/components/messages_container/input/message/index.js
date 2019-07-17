@@ -19,13 +19,15 @@ class Message extends Component {
       <div className={style.message_content}>
         <p className={style.name}>{nick}</p>
 
-        {isMessageHasText &&
-          <p className={style.text}>{this.props.message.text}</p>
-        }
-
-        {isMessageHasAttachment &&
+        {(isMessageHasText || isMessageHasAttachment) &&
           <p className={style.text}>
-            <span>{attachment}</span>
+            {isMessageHasAttachment &&
+              <span>{attachment}</span>
+            }
+
+            {isMessageHasText &&
+              this.props.message.text
+            }
           </p>
         }
       </div>

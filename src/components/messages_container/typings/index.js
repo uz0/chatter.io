@@ -13,7 +13,7 @@ class Typings extends Component {
     const isTypingsHasBeenShown = isEmpty(this.props.typings) && !isEmpty(nextProps.typings);
 
     if (isTypingsHasBeenShown) {
-      const messagesScrollElement = document.getElementById('messages-scroll');
+      const messagesScrollElement = document.querySelector('#messages-scroll');
       const isScrolledToBottom = messagesScrollElement && messagesScrollElement.scrollTop === (messagesScrollElement.scrollHeight - messagesScrollElement.offsetHeight);
 
       if (isScrolledToBottom) {

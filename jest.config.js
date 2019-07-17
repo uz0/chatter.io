@@ -16,5 +16,4 @@ module.exports =  {
     'src/**/*.{js,jsx}',
   ],
   'preset': 'jest-puppeteer',
-  'setupTestFrameworkScriptFile': './setupTestFrameworkScriptFile.js',
 };

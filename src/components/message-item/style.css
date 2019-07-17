@@ -145,196 +145,20 @@
   border-top-right-radius: 6px;
 }
 
-.message-item > .content .message_block {
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  padding: 8px 13px;
-  min-height: var(--message-min-height);
-  border-radius: 18px;
-  background-color: var(--message-color);
-}
-
-.message-item > .content .message_block > .username {
-  --height: 16px;
-  height: var(--height);
-  line-height: var(--height);
-  font-size: 13px;
-  color: var(--primary-color);
-  font-weight: var(--font-weight-medium);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.message-item > .content .message_block > .username + .message {
-  margin-top: 6px;
-}
-
-.message-item > .content .message_block > .username + .text {
-  margin-top: 2px;
-}
-
-.message-item > .content .message_block > .message {
-  --ref-text-color: var(--message-text-color);
-  --ref-message-color: var(--message-color);
-  padding-left: 8px;
-}
-
-.message-item > .content .message_block > .message + .text {
-  margin-top: 8px;
-}
-
-.message-item > .content .message_block > .text {
-  line-height: 1.3;
-  font-size: 15px;
-  color: var(--message-text-color);
-  letter-spacing: 0.04px;
-  word-break: break-word;
-}
-
-.message-item > .content .message_block > .text a {
-  color: var(--color);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  transition-property: color;
-}
-
-.message-item > .content .message_block > .text span {
-  border-radius: 6px;
-  animation-duration: 3s;
-}
-
-@keyframes hideBackgroundCurrentUserText {
-  from {background-color: rgba(18, 32, 51, 0.52);}
-  to {background-color: transparent;}
-}
-@keyframes hideBackgroundOpponentUserText {
-  from {background-color: #b3b3b3;}
-  to {background-color: transparent;}
-}
-
-.message-item.current-user > .content .message_block > .text a:not(:hover) {
-  --color: #fff;
-}
-.message-item.current-user > .content .message_block > .text a:hover {
-  --color: var(--error-color);
-}
-
-.message-item.opponent-user > .content .message_block > .text a:not(:hover) {
-  --color: var(--primary-color);
-}
-.message-item.opponent-user > .content .message_block > .text a:hover {
-  --color: var(--primary-color-hover);
-}
-
-
-.message-item.current-user > .content .message_block > .text span {
-  animation-name: hideBackgroundCurrentUserText;
-}
-
-.message-item.opponent-user > .content .message_block > .text span {
-  animation-name: hideBackgroundOpponentUserText;
-}
-
-
-.message-item > .content .message_block > .text + .file {
-  margin-top: 10px;
-}
-
-.message-item > .content .message_block > .file {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  max-width: 100%;
-  margin-right: auto;
-}
-
-.message-item > .content .message_block > .file + .file {
-  margin-top: 8px;
-}
-
-.message-item > .content .message_block > .file i {
-  --icon-size: 32px;
-  --icon-color: var(--message-text-color);
-  flex-shrink: 0;
-}
-
-.message-item > .content .message_block > .file > .section {
-  flex-grow: 1;
-  min-width: 0;
-  margin-left: 8px;
-}
-
-.message-item > .content .message_block > .file > .section > .name {
-  --height: 16px;
-  overflow: hidden;
-  height: var(--height);
-  line-height: var(--height);
-  font-size: 15px;
-  color: var(--message-text-color);
-  font-weight: var(--font-weight-bold);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.message-item > .content .message_block > .file > .section > .subcaption {
-  --height: 14px;
-  display: flex;
-  height: var(--height);
-  margin-top: 2px;
-}
-
-.message-item > .content .message_block > .file > .section > .subcaption > .text {
-  flex-grow: 1;
-  overflow: hidden;
-  min-width: 0;
-  height: var(--height);
-  line-height: var(--height);
-  font-size: 13px;
-  color: var(--message-text-color);
-  font-weight: var(--font-weight-light);
-  opacity: 0.5;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.message-item > .content .message_block > .file > .section > .subcaption > .size {
-  position: relative;
-  flex-shrink: 0;
-  height: var(--height);
-  margin-left: 4px;
-  padding-left: 8px;
-  line-height: var(--height);
-  font-size: 13px;
-  color: var(--message-text-color);
-  font-weight: var(--font-weight-light);
-  opacity: 0.5;
-}
-
-.message-item > .content .message_block > .file > .section > .subcaption > .size::before {
-  --size: 4px;
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: var(--size);
-  height: var(--size);
-  border-radius: calc(var(--size) / 2);
-  background-color: var(--message-text-color);
-  opacity: 0.5;
-  transform: translateY(-50%);
-}
-
 .message-item > .content .message_block + .gallery {
   margin-top: 2px;
 }
 
-.message-item > .content > .gallery {
+.message-item > .content > .gallery_dropdown {
+
+}
+
+.message-item > .content .gallery {
   display: flex;
   flex-direction: column;
 }
 
-.message-item > .content > .gallery > .image {
+.message-item > .content .gallery > .image {
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -346,26 +170,27 @@
   cursor: pointer;
 }
 
-.message-item > .content > .gallery > .image:nth-of-type(n+2) {
+.message-item > .content .gallery > .image:nth-of-type(n+2) {
   margin-top: 2px;
 }
 
-.message-item > .content > .gallery > .image > img {
+.message-item > .content .gallery > .image > img {
 
 }
 
 .message-item.current-user > .info {
+  --info-width: 20px;
   align-items: flex-end;
 }
 
 .message-item.opponent-user > .info {
+  --info-width: calc(var(--avatar-size) + 8px);
   align-items: flex-start;
 }
 
 .message-item > .info {
   /* может 30? */
   --avatar-size: 29px;
-  --info-width: calc(var(--avatar-size) + 8px);
   flex-shrink: 0;
   position: relative;
   order: var(--info-order);
@@ -398,13 +223,16 @@
   --color: #a90418;
 }
 
-.message-item > .info > .avatar {
-  --size: var(--avatar-size);
-  --font-size: 11px;
+.message-item > .info > .avatar_wrap {
   margin-top: auto;
 }
 
-.message-item > .info > .avatar + .mark {
+.message-item > .info > .avatar_wrap > .avatar {
+  --size: var(--avatar-size);
+  --font-size: 11px;
+}
+
+.message-item > .info > .avatar_wrap + .mark {
   margin-top: 0;
 }
 

@@ -5,7 +5,7 @@ import Link from '@/components/link';
 import Form from '@/components/form/form';
 import Validators from '@/components/form/validators';
 import Input from '@/components/form/input';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as formActions } from '@/components/form';
 import { actions as storeActions } from '@/store';
@@ -130,7 +130,7 @@ class SignIn extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

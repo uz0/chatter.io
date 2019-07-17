@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import classnames from 'classnames/bind';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Icon from '@/components/icon';
 import style from './style.css';
 
@@ -24,5 +24,5 @@ class SearchInput extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 )(SearchInput);

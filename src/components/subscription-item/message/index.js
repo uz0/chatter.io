@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import compose from 'recompose/compose';
 import classnames from 'classnames/bind';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -113,7 +113,7 @@ class Message extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

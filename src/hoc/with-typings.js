@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 
@@ -42,7 +42,7 @@ export default getChat => WrappedComponent => {
   }
 
   return compose(
-    withNamespaces('translation'),
+    withTranslation(),
 
     connect(
       state => ({

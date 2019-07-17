@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import isEmpty from 'lodash/isEmpty';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import SubscriptionItem from '@/components/subscription-item';
 import { api } from '@';
 import { uid, getOpponentUser } from '@/helpers';
-import { withSortedSubscriptions  } from '@/hoc';
+import { withRouter, withSortedSubscriptions  } from '@/hoc';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as notificationActions } from '@/components/notification';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import style from './style.css';
 
 class Forward extends Component {
@@ -37,7 +36,7 @@ class Forward extends Component {
 
       this.props.clearForwardMessage();
       this.props.close();
-      this.props.router.push(href);
+      this.props.pushUrl(href);
     }).catch(error => this.props.showNotification({
       type: 'error',
       text: this.props.t(error.code),
@@ -63,7 +62,7 @@ class Forward extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

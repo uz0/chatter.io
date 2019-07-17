@@ -45,14 +45,11 @@ const sendMessage = params => (dispatch, getState) => {
   }
 
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
+  const messagesScrollElement = document.querySelector('#messages-scroll');
 
-  setTimeout(() => {
-    const messagesScrollElement = document.getElementById('messages-scroll');
-
-    if (messagesScrollElement) {
-      messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
-    }
-  });
+  if (messagesScrollElement) {
+    messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
+  }
 
   api.post({
     uid: message.uid,
@@ -99,7 +96,7 @@ const updateMessage = params => (dispatch, getState) => {
   api.editMessage({
     message_id: params.edit_message_id,
     text: params.text,
-    ...params.upload_id ? {upload_id: params.upload_id} : {},
+    upload_id: params.upload_id,
   }).catch(error => {
     console.error(error);
 

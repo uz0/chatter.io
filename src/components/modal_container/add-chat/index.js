@@ -8,7 +8,7 @@ import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Loading from '@/components/loading';
 import Modal from '@/components/modal';
 import Icon from '@/components/icon';
@@ -237,7 +237,7 @@ class AddChat extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

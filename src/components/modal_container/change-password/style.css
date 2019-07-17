@@ -23,6 +23,10 @@
   width: 100%;
 }
 
+.modal .form .input:nth-of-type(n+2) {
+  margin-top: 12px;
+}
+
 .modal .form .input input {
   font-size: 15px;
   font-weight: var(--font-weight-light);

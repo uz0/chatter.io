@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import uniq from 'lodash/uniq';
@@ -44,7 +44,10 @@ class Sidebar extends Component {
   };
 
   handleDocumentKeyDown = event => {
-    const isChatOpen = this.props.params.chatId || this.props.params.userId;
+    const params = new URLSearchParams(this.props.location.search);
+    const chatId = params.get('chatId');
+    const userId = params.get('userId');
+    const isChatOpen = chatId || userId;
 
     if (!isChatOpen && event.keyCode === 13) {
       if (this.props.hover_subscription_id) {
@@ -375,7 +378,7 @@ class Sidebar extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

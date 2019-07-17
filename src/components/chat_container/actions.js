@@ -7,7 +7,7 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
 import config from '@/config';
-import { getChatName } from '@/helpers';
+import { getChatName, scrollMessagesBottom } from '@/helpers';
 
 const notificationReceived = notification => (dispatch, getState) => {
   const state = getState();
@@ -161,7 +161,11 @@ const notificationReceived = notification => (dispatch, getState) => {
 
       api.getSubscription({subscription_id: notification.object.id}).then(data => {
         dispatch(usersActions.addUsers(data.subscription.group.participants));
-        dispatch(subscriptionsActions.addSubscription(data.subscription));
+
+        dispatch(subscriptionsActions.addSubscription({
+          ...data.subscription,
+          is_add_data_loaded: true,
+        }));
 
         const currentUserParticipant = state.currentUser && find(data.subscription.group.participants, { user_id: state.currentUser.id });
         const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
@@ -232,14 +236,9 @@ const notificationReceived = notification => (dispatch, getState) => {
       if (state.messages.list[notification.object.uid] || state.messages.list[notification.object.id]) {
         dispatch(messagesActions.updateMessage({chatId: messageSubscription.id, message: notification.object}));
       } else {
-        const messagesScrollElement = document.getElementById('messages-scroll');
-        const isScrolledToBottom = messagesScrollElement && messagesScrollElement.scrollTop === (messagesScrollElement.scrollHeight - messagesScrollElement.offsetHeight);
-
-        dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
-
-        if (isScrolledToBottom) {
-          messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
-        }
+        scrollMessagesBottom(() => {
+          dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
+        }, 0);
       }
     }
 

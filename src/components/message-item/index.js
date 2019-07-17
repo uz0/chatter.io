@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import Link from '@/components/link';
 import moment from 'moment';
 import get from 'lodash/get';
 import map from 'lodash/map';
@@ -10,17 +9,16 @@ import reject from 'lodash/reject';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import SubscriptionAvatar from '@/components/subscription-avatar';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
+import Link from '@/components/link';
 import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
-import RefMessage from './ref-message';
-import Username from './username';
+import MessageBlock from './message-block';
 import { scrollMessagesBottom } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
-import { actions as dropdownActions } from '@/components/dropdown';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
@@ -30,76 +28,6 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class MessageItem extends Component {
-  getFileName = file => {
-    if (!file) {
-      return null;
-    }
-
-    const lastIndex = file.url.lastIndexOf('/');
-    return file.url.substring(lastIndex + 1);
-  };
-
-  getFileSize = file => {
-    if (!file) {
-      return null;
-    }
-
-    let formattedSize = '';
-    let type = '';
-
-    if (file.byte_size < 1024) {
-      type = this.props.t('b');
-      formattedSize = file.byte_size;
-    }
-
-    if (file.byte_size >= 1024 && file.byte_size < 1048576) {
-      type = this.props.t('kb');
-      formattedSize = Math.ceil(file.byte_size / 1024);
-    }
-
-    if (file.byte_size >= 1048576) {
-      type = this.props.t('mb');
-      formattedSize = Math.ceil(file.byte_size / 1048576);
-    }
-
-    return `${formattedSize} ${type}`;
-  };
-
-  renderMessageText = message => {
-    let text = message.text;
-
-    if (!text) {
-      return;
-    }
-
-    if (!text.replace(/\s/g, '').length) {
-      return;
-    }
-
-    if (message.mentions) {
-      message.mentions.forEach(mention => {
-        let link = '';
-
-        if (mention.user_id === this.props.currentUser.id) {
-          link = `<a>@${mention.text}</a>`;
-        } else {
-          link = `<a href="/chat/user/${mention.user_id}">@${mention.text}</a>`;
-        }
-
-        text = text.split(`@${mention.text}`).join(link);
-      });
-    }
-
-    // eslint-disable-next-line no-useless-escape
-    const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-
-    if (text.match(linkreg)) {
-      text = text.replace(linkreg, '<a href="$1" target="_blank">$1</a>');
-    }
-
-    return text;
-  };
-
   updateMessage = () => this.props.addEditMessage(this.props.message.id);
   replyMessage = () => this.props.addReplyMessage(this.props.message.forwarded_message_id || this.props.message.id);
 
@@ -195,72 +123,40 @@ class MessageItem extends Component {
       isRefMessageDeletedChanged;
   }
 
-  renderMessageBlock = () => {
-    const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/'));
-    const messageText = this.renderMessageText(this.props.message);
-
-    const isUserNameShown = this.props.details.group.type === 'room' &&
-      (this.props.type === 'first' || this.props.type === 'single') &&
-      this.props.message.user_id !== this.props.currentUser.id;
-
-    return <div className={style.message_block}>
-      {isUserNameShown &&
-        <Username className={style.username} message={this.props.message} />
-      }
-
-      {(this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id) &&
-        <RefMessage
-          className={style.message}
-          {...this.props.message.forwarded_message_id ? { forwardedId: this.props.message.forwarded_message_id } : {}}
-          {...this.props.message.in_reply_to_message_id ? { repliedId: this.props.message.in_reply_to_message_id } : {}}
-        />
-      }
-
-      {messageText &&
-        <p className={style.text} dangerouslySetInnerHTML={{__html: messageText}} />
-      }
-
-      {files &&
-        <Fragment>
-          {files.map(file => {
-            const fileName = this.getFileName(file);
-            const fileSize = this.getFileSize(file);
-
-            return <Link key={file.url} to={file.url} target="_blank" className={style.file}>
-              <Icon name="add-chat" />
-
-              <div className={style.section}>
-                <p className={style.name}>File</p>
-
-                <div className={style.subcaption}>
-                  <p className={style.text}>{fileName}</p>
-                  <span className={style.size}>{fileSize}</span>
-                </div>
-              </div>
-            </Link>;
-          })}
-        </Fragment>
-      }
-    </div>;
-  };
-
   render() {
-    const images = this.props.message.attachments && filter(this.props.message.attachments, attachment => attachment.content_type.match('image/'));
+    const errorDropdownActions = [{text: this.props.t('resend'), onClick: this.resendMessage}];
+    const time = moment(this.props.message.created_at).format('HH:mm');
+    const images = this.props.message.attachments && filter(this.props.message.attachments, attachment => attachment.content_type.match('image/')) || [];
     const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/')) || [];
+
+
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasText = (this.props.message.text || '').replace(/\s/g,'').length > 0;
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
     const isMarkShown = this.props.message.user_id === this.props.currentUser.id && !this.props.message.isError;
-    const isAvatarShown = (this.props.type === 'last' || this.props.type === 'single') && !this.props.message.isError;
+
+    const isAvatarShown = (this.props.type === 'last' || this.props.type === 'single') &&
+      !this.props.message.isError &&
+      this.props.message.user_id !== this.props.currentUser.id;
 
     const isMessageTextBlockShown = files.length > 0 || isMessageHasText ||
       this.props.message.forwarded_message_id ||
       this.props.message.in_reply_to_message_id;
 
+    const isMessageBlockShown = (isMessageTextBlockShown && !this.props.isMobile && this.props.details.group.type === 'global_channel') ||
+      (isMessageTextBlockShown && !this.props.isMobile && this.props.details.group.type !== 'global_channel') ||
+      (isMessageTextBlockShown && this.props.isMobile && this.props.details.group.type === 'global_channel');
+
+    const isMessageBlockShownWithDropdown = isMessageTextBlockShown && this.props.isMobile && this.props.details.group.type !== 'global_channel';
+
+    const isGalleryShownWithDropdown = images.length > 0 && !isMessageTextBlockShown && this.props.isMobile && this.props.details.group.type !== 'global_channel';
+    const isGalleryShownWithoutDropdown = images.length > 0 && !isGalleryShownWithDropdown;
+
     const isMessageInCurrentHour = moment().diff(moment(this.props.message.created_at), 'hours') === 0;
     const isActionsShown = !isMessageDeleted && !this.props.isMobile && !this.props.isRefMessageDeleted && this.props.details.group.type !== 'global_channel';
     const isReaded = this.isReaded();
     const isCurrentUserAdmin = this.props.details.role === 'admin';
+    const imagesUrls = map(images, image => image.url);
 
     let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
 
@@ -274,6 +170,18 @@ class MessageItem extends Component {
 
     if ((isMessageCurrentUser && isMessageInCurrentHour) || isCurrentUserAdmin) {
       actionsItems.push({ icon: 'delete', text: this.props.t('delete'), onClick: this.onDelete, isDanger: true });
+    }
+
+    if (isGalleryShownWithDropdown) {
+      actionsItems.unshift({
+        icon: 'full-screen',
+        text: this.props.t('open_gallery'),
+
+        onClick: () => this.props.openGallery({
+          images: imagesUrls,
+          index: 0,
+        }),
+      });
     }
 
     return <div
@@ -321,70 +229,79 @@ class MessageItem extends Component {
 
       {!isMessageDeleted &&
         <div className={style.content}>
-          {isMessageTextBlockShown && !this.props.isMobile && this.props.details.group.type === 'global_channel' &&
-            this.renderMessageBlock()
+          {isMessageBlockShown &&
+            <MessageBlock
+              id={this.props.id}
+              chatId={this.props.details.id}
+              type={this.props.type}
+              className={style.message_block}
+            />
           }
 
-          {isMessageTextBlockShown && !this.props.isMobile && this.props.details.group.type !== 'global_channel' &&
-            this.renderMessageBlock()
-          }
-
-          {isMessageTextBlockShown && this.props.isMobile && this.props.details.group.type === 'global_channel' &&
-            this.renderMessageBlock()
-          }
-
-          {isMessageTextBlockShown && this.props.isMobile && this.props.details.group.type !== 'global_channel' &&
+          {isMessageBlockShownWithDropdown &&
             <Dropdown
               uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
               className={style.dropdown}
               items={actionsItems}
             >
-              {this.renderMessageBlock()}
+              <MessageBlock id={this.props.id} chatId={this.props.details.id} className={style.message_block} />
             </Dropdown>
           }
 
-          {images &&
+          {isGalleryShownWithoutDropdown &&
             <div className={style.gallery}>
-              {images.map((image, index) => {
-                const imagesUrls = map(images, image => image.url);
+              {images.map((image, index) => <div
+                key={image.url}
+                className={style.image}
 
-                return <div
+                onClick={() => this.props.openGallery({
+                  images: imagesUrls,
+                  index,
+                })}
+              >
+                <img src={image.url} />
+              </div>)}
+            </div>
+          }
+
+          {isGalleryShownWithDropdown &&
+            <Dropdown
+              uniqueId={`message-dropdown-${this.props.message.uid || this.props.message.id}`}
+              className={style.gallery_dropdown}
+              items={actionsItems}
+            >
+              <div className={style.gallery}>
+                {images.map(image => <div
                   key={image.url}
                   className={style.image}
-
-                  onClick={() => this.props.openGallery({
-                    images: imagesUrls,
-                    index,
-                  })}
                 >
                   <img src={image.url} />
-                </div>;
-              })}
-            </div>
+                </div>)}
+              </div>
+            </Dropdown>
           }
         </div>
       }
 
       <div className={style.info}>
         {!isMessageDeleted &&
-          <span className={style.time}>{moment(this.props.message.created_at).format('HH:mm')}</span>
+          <span className={style.time}>{time}</span>
         }
 
         {isAvatarShown &&
-          <SubscriptionAvatar
-            userId={this.props.message.user_id}
-            className={style.avatar}
-          />
+          <Link to={`/chat/user/${this.props.message.user_id}`} className={style.avatar_wrap}>
+            <SubscriptionAvatar
+              userId={this.props.message.user_id}
+              className={style.avatar}
+            />
+          </Link>
         }
 
         {this.props.message.isError &&
           <Dropdown
             uniqueId={`message-error-dropdown-${this.props.message.uid || this.props.message.id}`}
             className={style.error_dropdown}
-
-            items={[
-              { text: this.props.t('resend'), onClick: this.resendMessage },
-            ]}
+            items={errorDropdownActions}
           >
             <Button appearance="_icon-transparent" icon="warning" className={style.error_dropdown_button} />
           </Dropdown>
@@ -405,7 +322,7 @@ class MessageItem extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({
@@ -418,7 +335,6 @@ export default compose(
       addEditMessage: messagesActions.addEditMessage,
       addReplyMessage: messagesActions.addReplyMessage,
       addForwardMessage: messagesActions.addForwardMessage,
-      openDropdown: dropdownActions.openDropdown,
       resendMessage: inputActions.resendMessage,
       toggleModal: modalActions.toggleModal,
       openGallery: galleryActions.openGallery,

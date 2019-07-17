@@ -1,14 +1,19 @@
 {
-  "sourceMaps": true,
+  "env": {
+    "test": {
+      "plugins": ["@babel/plugin-transform-runtime"]
+    }
+  },
+
   "presets": [
-    ["es2015", { "loose":true }],
-    "stage-0",
-    "react"
+    "@babel/preset-env",
+    "@babel/preset-react"
   ],
+
   "plugins": [
-    ["reselector/babel"],
-    ["transform-decorators-legacy"],
-    ["transform-runtime"],
+    "reselector/babel",
+    "@babel/plugin-proposal-class-properties",
+
     ["module-resolver", {
       "alias": {
         "@": "./src"

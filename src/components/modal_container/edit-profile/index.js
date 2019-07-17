@@ -47,7 +47,7 @@ class EditProfile extends Component {
     this.setState({ isLoading: true });
 
     api.updateMe({
-      ...avatar.value && avatar.isTouched ? { avatar: avatar.value } : {},
+      ...avatar.isTouched ? { avatar: avatar.value } : {},
       ...nick.value && nick.isTouched ? { nick: nick.value } : {},
       ...searchable_nick.isTouched ? { searchable_nick: searchable_nick.value } : {},
     }).then(() => {
@@ -83,7 +83,7 @@ class EditProfile extends Component {
 
   deletePhoto = () => this.props.formChange('profile.avatar', {
     ...this.props.formData.avatar,
-    value: null,
+    value: '',
     isTouched: true,
   });
 

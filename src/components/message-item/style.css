@@ -223,13 +223,16 @@
   --color: #a90418;
 }
 
-.message-item > .info > .avatar {
-  --size: var(--avatar-size);
-  --font-size: 11px;
+.message-item > .info > .avatar_wrap {
   margin-top: auto;
 }
 
-.message-item > .info > .avatar + .mark {
+.message-item > .info > .avatar_wrap > .avatar {
+  --size: var(--avatar-size);
+  --font-size: 11px;
+}
+
+.message-item > .info > .avatar_wrap + .mark {
   margin-top: 0;
 }
 

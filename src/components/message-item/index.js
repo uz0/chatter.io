@@ -12,6 +12,7 @@ import SubscriptionAvatar from '@/components/subscription-avatar';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
+import Link from '@/components/link';
 import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
 import MessageBlock from './message-block';
@@ -229,7 +230,12 @@ class MessageItem extends Component {
       {!isMessageDeleted &&
         <div className={style.content}>
           {isMessageBlockShown &&
-            <MessageBlock id={this.props.id} chatId={this.props.details.id} className={style.message_block} />
+            <MessageBlock
+              id={this.props.id}
+              chatId={this.props.details.id}
+              type={this.props.type}
+              className={style.message_block}
+            />
           }
 
           {isMessageBlockShownWithDropdown &&
@@ -283,10 +289,12 @@ class MessageItem extends Component {
         }
 
         {isAvatarShown &&
-          <SubscriptionAvatar
-            userId={this.props.message.user_id}
-            className={style.avatar}
-          />
+          <Link to={`/chat/user/${this.props.message.user_id}`} className={style.avatar_wrap}>
+            <SubscriptionAvatar
+              userId={this.props.message.user_id}
+              className={style.avatar}
+            />
+          </Link>
         }
 
         {this.props.message.isError &&

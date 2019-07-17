@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import find from 'lodash/find';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Validators from '@/components/form/validators';
@@ -13,7 +12,7 @@ import Icon from '@/components/icon';
 import PhotosList from './photos-list';
 import ContentEditable from 'react-contenteditable';
 import { api } from '@';
-import { withDetails } from '@/hoc';
+import { withRouter, withDetails } from '@/hoc';
 import { getChatName, copy, getOpponentUser, getLastActive } from '@/helpers';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -111,7 +110,7 @@ class Panel extends Component {
 
     api.addContact({ user_id }).then(addContactData => api.getPrivateSubscription({ user_id: addContactData.contact.user.id }).then(data => {
       this.props.addSubscription(data.subscription);
-      this.props.router.push(`/chat/user/${addContactData.contact.user.id}`);
+      this.props.pushUrl(`/chat/user/${addContactData.contact.user.id}`);
 
       if (this.props.isMobile) {
         this.props.closeModal('panel-container');
@@ -469,7 +468,7 @@ class Panel extends Component {
 export default compose(
   withRouter,
   withDetails,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

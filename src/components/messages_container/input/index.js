@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
@@ -19,7 +19,6 @@ import { scrollMessagesBottom, uid } from '@/helpers';
 import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
-import { actions as dropdownActions } from '@/components/dropdown';
 import style from './style.css';
 
 export { default as actions } from './actions';
@@ -31,6 +30,7 @@ class MessageInput extends Component {
   state = {
     attachments: [],
     value: this.props.draft || '',
+    isSuggestionShown: false,
   };
 
   onTextareaKeyDown = event => {
@@ -58,7 +58,7 @@ class MessageInput extends Component {
       this.setNewLineTextarea();
     }
 
-    if (event.keyCode === 13 && !this.props.isSuggestionShown && !event.shiftKey && document.activeElement === this.textareaRef) {
+    if (event.keyCode === 13 && !event.shiftKey && document.activeElement === this.textareaRef) {
       this.onSendButtonClick();
     }
   };
@@ -106,12 +106,10 @@ class MessageInput extends Component {
     reader.readAsArrayBuffer(file);
   });
 
-  onAttachFileChange = event => this.attachFiles(event.target.files);
-
-  attachFiles = files => {
+  onAttachFileChange = event => {
     let isSizeValid = true;
 
-    [].forEach.call(files, file => {
+    [].forEach.call(event.target.files, file => {
       if (file.size > 209715200) {
         isSizeValid = false;
       }
@@ -137,7 +135,7 @@ class MessageInput extends Component {
 
     let attachments = [];
 
-    [].forEach.call(files, file => {
+    [].forEach.call(event.target.files, file => {
       attachments.push({
         uid: uid(),
         byte_size: file.size,
@@ -152,7 +150,7 @@ class MessageInput extends Component {
 
     this.setState({ attachments });
 
-    [].forEach.call(files, (file, index) => {
+    [].forEach.call(event.target.files, (file, index) => {
       const attachment = attachments[index];
       setTimeout(() => this.loadFileByChunks(file, attachment.uid));
       const reader = new FileReader();
@@ -348,9 +346,7 @@ class MessageInput extends Component {
       }
 
       const value = `${start}${nick}${end}`;
-      this.setState({ value });
-      this.closeSuggestion();
-      this.textareaRef.focus();
+      this.setState({ value, isSuggestionShown: false });
       return;
     }
 
@@ -368,9 +364,7 @@ class MessageInput extends Component {
       }
 
       const value = `${start}@${nick}${end}`;
-      this.setState({ value });
-      this.closeSuggestion();
-      this.textareaRef.focus();
+      this.setState({ value, isSuggestionShown: false });
       return;
     }
   };
@@ -402,11 +396,10 @@ class MessageInput extends Component {
       return false;
     }
 
-    return this.props.isSuggestionShown;
+    return this.state.isSuggestionShown;
   };
 
-  openSuggestion = () => this.props.openDropdown({uniqueId: 'suggestion-dropdown'});
-  closeSuggestion = () => this.props.closeDropdown('suggestion-dropdown');
+  closeSuggestion = () => this.setState({ isSuggestionShown: false });
 
   getCurrentMentionSearch = () => {
     if (!this.textareaRef) {
@@ -572,37 +565,14 @@ class MessageInput extends Component {
     this.calcTextareaHeight();
     const isShown = this.checkIsSuggestionShown(event.target.value);
 
-    if (isShown !== this.props.isSuggestionShown) {
-      if (isShown) {
-        this.openSuggestion();
-      } else {
-        this.closeSuggestion();
-      }
-    }
-
-    this.setState({ value: event.target.value });
+    this.setState({
+      value: event.target.value,
+      ...isShown !== this.state.isSuggestionShown ? { isSuggestionShown: isShown } : {},
+    });
 
     if (!this.props.edit_message_id && !this.props.reply_message_id) {
       setTimeout(() => this.throttleUpdateDraft(this.state.value));
     }
-  };
-
-  onPaste = event => {
-    event.persist();
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    let files = [];
-
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].type.indexOf('image') === 0) {
-        files.push(items[i].getAsFile());
-      }
-    }
-
-    if (files.length === 0) {
-      return;
-    }
-
-    this.attachFiles(files);
   };
 
   closeMessage = () => {
@@ -673,11 +643,8 @@ class MessageInput extends Component {
       this.setState({
         value: nextProps.draft ? nextProps.draft : '',
         attachment: null,
+        isSuggestionShown: false,
       });
-
-      if (this.props.isSuggestionShown) {
-        this.closeSuggestion();
-      }
 
       if (this.props.reply_message_id) {
         this.props.clearReplyMessage();
@@ -726,7 +693,7 @@ class MessageInput extends Component {
       />
 
       <div className={style.section}>
-        {this.props.isSuggestionShown &&
+        {this.state.isSuggestionShown &&
           <Suggestion
             subscription_id={this.props.subscription_id}
             onSelect={this.setMention}
@@ -749,7 +716,6 @@ class MessageInput extends Component {
               onInput={this.onInput}
               onChange={() => {}}
               onKeyDown={this.onTextareaKeyDown}
-              onPaste={this.onPaste}
             />
 
             {withImages &&
@@ -827,7 +793,7 @@ class MessageInput extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({
@@ -838,7 +804,6 @@ export default compose(
       users_ids: state.users.ids,
       users_list: state.users.list,
       isMobile: state.device === 'touch',
-      isSuggestionShown: get(state.dropdown, 'suggestion-dropdown.isShown', false),
     }),
 
     {
@@ -847,8 +812,6 @@ export default compose(
       updateMessage: inputActions.updateMessage,
       clearEditMessage: messagesActions.clearEditMessage,
       clearReplyMessage: messagesActions.clearReplyMessage,
-      openDropdown: dropdownActions.openDropdown,
-      closeDropdown: dropdownActions.closeDropdown,
       showNotification: notificationActions.showNotification,
     },
   ),

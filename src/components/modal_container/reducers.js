@@ -6,9 +6,13 @@ const md = new mobileDetect(window.navigator.userAgent);
 const isMobile = !!md.mobile();
 
 const initialState = {
-  ids: [...!isMobile ? 'panel-container' : []],
+  ids: [],
   list: {},
 };
+
+if (!isMobile) {
+  initialState.ids = ['panel-container'];
+}
 
 export default createReducer(initialState, {
   [actions.types.toggleModal]: (state, action) => {

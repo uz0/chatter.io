@@ -7,7 +7,7 @@ import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { getOpponentUser, uid } from '@/helpers';
 import classnames from 'classnames/bind';
 import style from './style.css';
@@ -56,7 +56,7 @@ class Photos extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

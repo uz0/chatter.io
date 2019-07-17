@@ -30,15 +30,11 @@
   border-bottom-right-radius: inherit;
 }
 
-.suggestion > .item:not(._is-active):not(:hover) {
+.suggestion > .item:not(:hover) {
   --background-color: transparent;
 }
 
-.suggestion > .item:not(._is-active):hover {
-  --background-color: var(--divider-color);
-}
-
-.suggestion > .item._is-active {
+.suggestion > .item:hover {
   --background-color: var(--divider-color);
 }
 

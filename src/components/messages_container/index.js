@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
-import { withRouter } from 'react-router';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
 import classnames from 'classnames/bind';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Header from './header';
 import MessageInput from './input';
 import Button from '@/components/button';
@@ -17,7 +16,7 @@ import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
 import Typings from './typings';
 import MessageItem from '@/components/message-item';
-import { withDetails } from '@/hoc';
+import { withDetails, withRouter } from '@/hoc';
 import { scrollMessagesBottom } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
@@ -256,7 +255,7 @@ class Messages extends Component {
           url = `/chat/user/${this.props.params.userId}`;
         }
 
-        this.props.router.replace(url);
+        this.props.replaceUrl(url);
       });
     }
 
@@ -329,7 +328,7 @@ class Messages extends Component {
 export default compose(
   withDetails,
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

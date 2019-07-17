@@ -4,9 +4,8 @@ import get from 'lodash/get';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
 import compose from 'recompose/compose';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Modal from '@/components/modal';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
@@ -73,8 +72,7 @@ class Invite extends Component {
 }
 
 export default compose(
-  withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

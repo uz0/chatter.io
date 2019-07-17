@@ -45,8 +45,7 @@ const sendMessage = params => (dispatch, getState) => {
   }
 
   dispatch(messagesActions.addMessage({ chatId: subscription.id, message }));
-
-  const messagesScrollElement = document.getElementById('messages-scroll');
+  const messagesScrollElement = document.querySelector('#messages-scroll');
 
   if (messagesScrollElement) {
     messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);

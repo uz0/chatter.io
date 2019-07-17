@@ -1,3 +1,4 @@
+/* eslint-disable */
 importScripts('https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/5.10.1/firebase-messaging.js');
 
@@ -26,3 +27,4 @@ self.addEventListener('notificationclick', event => {
     return clients.openWindow(target);
   }));
 });
+/* eslint-enable */

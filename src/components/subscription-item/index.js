@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import Link from '@/components/link';
 import classnames from 'classnames/bind';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Message from './message';
 import { api } from '@';
@@ -60,7 +60,6 @@ class SubscriptionItem extends Component {
       }
 
       const response = await api.getLastActiveAt({user_id: user.id});
-
       participants[i].user['last_active_at'] = response.last_active_at;
     }
 
@@ -134,7 +133,7 @@ class SubscriptionItem extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => {

@@ -1,6 +1,7 @@
+import React from 'react';
 import { render } from 'react-dom';
 import { actions as storeActions } from '@/store';
-import routes from '@/routes';
+import Routes from '@/routes';
 import store from '@/store';
 import mobileDetect from 'mobile-detect';
 
@@ -16,8 +17,8 @@ const isMobile = !!md.mobile();
 store.dispatch(storeActions.setDevice(isMobile ? 'touch' : 'desktop'));
 
 const init = () => render(
-  routes(),
-  document.getElementById('app'),
+  <Routes />,
+  document.querySelector('#app'),
 );
 
 let api;

@@ -2,13 +2,13 @@
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "plugins": [
-    "react",
+    "react"
   ],
   "env": {
     "browser": true,
     "node": true,
     "mocha": true,
-    "es6": true,
+    "es6": true
   },
   "parserOptions": {
     "ecmaFeatures": {
@@ -18,14 +18,17 @@
   },
   "settings": {
     "import/resolver": {
-        "babel-module": {}
+      "babel-module": {}
     }
   },
-  "globals": {
-    "sleep": 1
-  },
   "rules": {
-    "react/jsx-no-bind": [2, { "ignoreRefs": true, "allowArrowFunctions": true }],
+    "react/jsx-no-bind": [
+      2,
+      {
+        "ignoreRefs": true,
+        "allowArrowFunctions": true
+      }
+    ],
     "react/jsx-no-duplicate-props": 2,
     "react/self-closing-comp": 2,
     "react/prefer-es6-class": 2,
@@ -42,19 +45,34 @@
     "no-console": 0,
     "no-empty-pattern": 0,
     "no-cond-assign": 1,
+    "require-atomic-updates": 0,
     "semi": 2,
     "camelcase": 0,
     "comma-style": 2,
-    "comma-dangle": [2, {
-      "arrays": "always-multiline",
-      "objects": "always-multiline",
-      "imports": "always-multiline",
-      "exports": "always-multiline",
-      "functions": "always-multiline",
-    }],
-    "indent": ["error", 2],
-    "no-trailing-spaces": [2, { "skipBlankLines": true }],
-    "max-nested-callbacks": [2, 3],
+    "comma-dangle": [
+      2,
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "no-trailing-spaces": [
+      2,
+      {
+        "skipBlankLines": true
+      }
+    ],
+    "max-nested-callbacks": [
+      2,
+      3
+    ],
     "no-eval": 2,
     "no-implied-eval": 2,
     "no-new-func": 2,
@@ -64,7 +82,10 @@
     "no-redeclare": 2,
     "no-dupe-keys": 2,
     "radix": 2,
-    "strict": [2, "never"],
+    "strict": [
+      2,
+      "never"
+    ],
     "no-shadow": 0,
     "no-delete-var": 2,
     "no-undef-init": 2,

@@ -1,9 +1,8 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 
-import Layout from '@/layout';
-
+import Layout from '@/components/layout';
 import SignIn from '@/components/sign-in_container';
 import SignUp from '@/components/sign-up_container';
 import ForgotPassword from '@/components/forgot-password_container';
@@ -13,19 +12,21 @@ import Invite from '@/components/invite';
 import store from '@/store';
 
 export default () => <Provider store={store}>
-  <Router history={browserHistory}>
-    <Route path="/" component={Layout}>
-      <IndexRedirect to="chat" />
-      <Route component={Chat} path="chat" />
-      <Route component={Chat} path="chat/user/:userId" />
-      <Route component={Chat} path="chat/user/:userId/:messageId" />
-      <Route component={Chat} path="chat/:chatId" />
-      <Route component={Chat} path="chat/:chatId/:messageId" />
-      <Route component={Invite} path="invite/:code" />
-      <Route component={Invite} path="joinuser/:nick" />
-      <Route component={SignIn} path="sign-in" />
-      <Route component={SignUp} path="sign-up" />
-      <Route component={ForgotPassword} path="/forgot-password" />
-    </Route>
-  </Router>
+  <BrowserRouter>
+    <Layout>
+      <Switch>
+        <Route component={Chat} path="/chat/user/:userId/:messageId" />
+        <Route component={Chat} path="/chat/user/:userId" />
+        <Route component={Chat} path="/chat/:chatId/:messageId" />
+        <Route component={Chat} path="/chat/:chatId" />
+        <Route component={Chat} path="/chat" />
+        <Route component={Invite} path="/invite/:code" />
+        <Route component={Invite} path="/joinuser/:nick" />
+        <Route component={SignIn} path="/sign-in" />
+        <Route component={SignUp} path="/sign-up" />
+        <Route component={ForgotPassword} path="/forgot-password" />
+        <Redirect to="/chat" />
+      </Switch>
+    </Layout>
+  </BrowserRouter>
 </Provider>;

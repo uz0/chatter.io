@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
-import { withNamespaces } from 'react-i18next';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
@@ -23,7 +22,7 @@ const cx = classnames.bind(style);
 
 class Chat extends Component {
   handleDocumentKeyDown = event => {
-    const isChatOpen = this.props.params.chatId || this.props.params.userId;
+    const isChatOpen = this.props.match.params.chatId || this.props.match.params.userId;
 
     if (isChatOpen && !this.props.isGalleryOpen && event.keyCode === 27) {
       this.props.pushUrl('/chat');
@@ -40,8 +39,12 @@ class Chat extends Component {
       return;
     }
 
-    if (this.props.router.location.query.inviteuser) {
-      api.addContact({nick: this.props.router.location.query.inviteuser.replace('+', ' ')}).then(data => {
+    const params = new URLSearchParams(this.props.location.search);
+    const inviteUser = params.get('inviteuser');
+    const inviteCode = params.get('invitecode');
+
+    if (inviteUser) {
+      api.addContact({nick: inviteUser.replace('+', ' ')}).then(data => {
         api.getPrivateSubscription({user_id: data.contact.user.id}).then(getChatData => {
           this.props.addUsers(getChatData.subscription.group.participants);
 
@@ -62,8 +65,8 @@ class Chat extends Component {
       });
     }
 
-    if (this.props.router.location.query.invitecode) {
-      api.useInviteCode({ code: this.props.router.location.query.invitecode }).then(data => {
+    if (inviteCode) {
+      api.useInviteCode({ code: inviteCode }).then(data => {
         this.props.addUsers(data.subscription.group.participants);
 
         this.props.addSubscription({
@@ -92,16 +95,16 @@ class Chat extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const isChatExist = this.props.params.chatId || this.props.params.userId;
-    const isNextPropsChatWillBeExist = nextProps.params.chatId || nextProps.params.userId;
+    const isChatExist = this.props.match.params.chatId || this.props.match.params.userId;
+    const isNextPropsChatWillBeExist = nextProps.match.params.chatId || nextProps.match.params.userId;
 
-    if (isChatExist && (!nextProps.params.chatId && !nextProps.params.userId)) {
+    if (isChatExist && (!nextProps.match.params.chatId && !nextProps.match.params.userId)) {
       this.props.closeModal('panel-container');
       this.props.clearEditMessage();
       this.props.clearReplyMessage();
     }
 
-    if (isNextPropsChatWillBeExist && !isEqual(this.props.params, nextProps.params) && !this.props.isMobile && !this.props.isPanelShown) {
+    if (isNextPropsChatWillBeExist && !isEqual(this.props.match.params, nextProps.match.params) && !this.props.isMobile && !this.props.isPanelShown) {
       this.props.toggleModal({ id: 'panel-container' });
     }
   }
@@ -111,15 +114,15 @@ class Chat extends Component {
   }
 
   render() {
-    const isChatOpen = this.props.params.chatId || this.props.params.userId;
+    const isChatOpen = this.props.match.params.chatId || this.props.match.params.userId;
 
     return <div className={cx('chat', {'_is-open': isChatOpen})}>
       <Sidebar className={style.sidebar} />
 
       {isChatOpen &&
         <Fragment>
-          <Messages params={this.props.params} className={style.messages} />
-          <Panel params={this.props.params} className={style.panel} />
+          <Messages params={this.props.match.params} className={style.messages} />
+          <Panel params={this.props.match.params} className={style.panel} />
         </Fragment>
       }
 
@@ -130,7 +133,6 @@ class Chat extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
 
   connect(
     state => ({

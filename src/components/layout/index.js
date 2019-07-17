@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Notification from '@/components/notification';
 import Gallery from '@/components/gallery_container';
 import Icon from '@/components/icon';
-import style from './layout-style.css';
+import style from './style.css';
 
 class Layout extends Component {
   renderLayout() {

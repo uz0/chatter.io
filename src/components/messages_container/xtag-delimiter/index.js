@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
@@ -55,7 +55,7 @@ class Xtag extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

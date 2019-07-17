@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import { withRouter } from 'react-router';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Modal from '@/components/modal';
 import { api } from '@';
+import { withRouter } from '@/hoc';
 import style from './style.css';
 
 class LeaveChat extends Component {
   leave = () => api.unsubscribe({ subscription_id: this.props.options.subscription_id }).then(() => {
     this.props.close();
-    this.props.router.push('/chat');
+    this.props.pushUrl('/chat');
   });
 
   render() {
@@ -33,5 +33,5 @@ class LeaveChat extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 )(LeaveChat);

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
+import omit from 'lodash/omit';
+import { withRouter } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 const CustomLink = ({
   query,
@@ -8,6 +10,7 @@ const CustomLink = ({
   location,
   ...props
 }) => {
+  const lintProps = omit(props, 'staticContext');
   let search = '';
 
   if (query) {
@@ -18,10 +21,10 @@ const CustomLink = ({
     search = location.search;
   }
 
-  return <Link
-    {...props}
+  return <NavLink
+    {...lintProps}
     to={`${to}${search}`}
-  >{children}</Link>;
+  >{children}</NavLink>;
 };
 
 export default withRouter(CustomLink);

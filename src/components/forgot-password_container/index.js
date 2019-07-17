@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Link from '@/components/link';
 import compose from 'recompose/compose';
 
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { api } from '@';
 import { actions as formActions } from '@/components/form';
 import { actions as notificationActions } from '@/components/notification';
@@ -22,9 +22,11 @@ class ForgotPassword extends Component {
 
   submit = event => {
     event.preventDefault();
-    const isPasswordsEqual = this.props.location.query.password_reset_token && this.props.formData.password.value === this.props.formData.confirmPassword.value;
+    const params = new URLSearchParams(window.location.search);
+    const password_reset_token = params.get('password_reset_token');
+    const isPasswordsEqual = password_reset_token && this.props.formData.password.value === this.props.formData.confirmPassword.value;
 
-    if (this.props.location.query.password_reset_token && !isPasswordsEqual) {
+    if (password_reset_token && !isPasswordsEqual) {
       this.props.showNotification({
         type: 'info',
         text: this.props.t('passwords_not_equal'),
@@ -32,8 +34,8 @@ class ForgotPassword extends Component {
       return;
     }
 
-    if (this.props.location.query.password_reset_token) {
-      api.resetPassword({token: this.props.location.query.password_reset_token, password: this.props.formData.password.value})
+    if (password_reset_token) {
+      api.resetPassword({token: password_reset_token, password: this.props.formData.password.value})
         .then(() => {
           this.props.formReset('forgot');
 
@@ -75,9 +77,11 @@ class ForgotPassword extends Component {
   }
 
   render = () => {
+    const params = new URLSearchParams(window.location.search);
+    const password_reset_token = params.get('password_reset_token');
     let actions = [];
 
-    if (this.props.location.query.password_reset_token) {
+    if (password_reset_token) {
       actions.push({text: `${this.props.t('change')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'});
     } else {
       actions.push({text: `${this.props.t('send_recovery_link')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'});
@@ -94,7 +98,7 @@ class ForgotPassword extends Component {
         disabled={this.state.isLoading}
         className={style.form}
       >
-        {!this.props.location.query.password_reset_token &&
+        {!password_reset_token &&
           <Input
             type="email"
             placeholder={this.props.t('email')}
@@ -116,7 +120,7 @@ class ForgotPassword extends Component {
           />
         }
 
-        {this.props.location.query.password_reset_token &&
+        {password_reset_token &&
           <Input
             type="password"
             placeholder={this.props.t('new_password')}
@@ -143,7 +147,7 @@ class ForgotPassword extends Component {
           />
         }
 
-        {this.props.location.query.password_reset_token &&
+        {password_reset_token &&
           <Input
             type="password"
             placeholder={this.props.t('confirm_password')}
@@ -175,7 +179,7 @@ class ForgotPassword extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

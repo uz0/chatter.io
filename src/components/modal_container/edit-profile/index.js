@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Avatar from '@/components/avatar';
@@ -15,8 +14,8 @@ import { api } from '@';
 import { copy } from '@/helpers';
 import { actions as formActions } from '@/components/form';
 import { actions as notificationActions } from '@/components/notification';
-import { actions as modalActions } from '@/components/modal_container';
-import { withNamespaces } from 'react-i18next';
+import modalActions from '../actions';
+import { withTranslation } from 'react-i18next';
 import style from './style.css';
 
 class EditProfile extends Component {
@@ -256,8 +255,7 @@ class EditProfile extends Component {
 }
 
 export default compose(
-  withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

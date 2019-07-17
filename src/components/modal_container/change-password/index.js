@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Loading from '@/components/loading';
@@ -10,7 +9,7 @@ import Input from '@/components/form/input';
 import { api } from '@';
 import { actions as formActions } from '@/components/form';
 import { actions as notificationActions } from '@/components/notification';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import style from './style.css';
 
 const defaultInputData = {error: "", value: null, isTouched: false, isBlured: false, isRequired: false};
@@ -215,8 +214,7 @@ class EditProfile extends Component {
 }
 
 export default compose(
-  withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

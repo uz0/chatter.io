@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Portal } from 'react-portal';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
@@ -115,7 +115,7 @@ class Notification extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

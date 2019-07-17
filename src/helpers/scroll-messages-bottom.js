@@ -1,5 +1,5 @@
 export default async (action, time) => {
-  const messagesListRef = document.getElementById('messages-scroll');
+  const messagesListRef = document.querySelector('#messages-scroll');
 
   if (!messagesListRef) {
     return;

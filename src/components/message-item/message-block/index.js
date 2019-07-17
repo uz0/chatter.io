@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import filter from 'lodash/filter';
 import RefMessage from '../ref-message';
 import Username from '../username';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Link from '@/components/link';
 import Icon from '@/components/icon';
@@ -168,7 +168,7 @@ class MessageBlock extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

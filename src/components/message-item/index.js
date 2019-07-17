@@ -9,7 +9,7 @@ import reject from 'lodash/reject';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import SubscriptionAvatar from '@/components/subscription-avatar';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
 import Link from '@/components/link';
@@ -322,7 +322,7 @@ class MessageItem extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

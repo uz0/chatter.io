@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { api } from '@';
 import Link from '@/components/link';
 import { actions as notificationActions } from '@/components/notification';
@@ -176,7 +176,7 @@ class SignUp extends Component {
 
 export default compose(
   withRouter,
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     state => ({

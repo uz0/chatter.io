@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import Icon from '@/components/icon';
@@ -109,7 +109,7 @@ class RefMessage extends Component {
 }
 
 export default compose(
-  withNamespaces('translation'),
+  withTranslation(),
 
   connect(
     (state, props) => ({

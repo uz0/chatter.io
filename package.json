@@ -9,8 +9,11 @@
   "author": "dcversus <dcversus@gmail.com>",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack",
-    "lint": "eslint src/"
+    "build": "cross-env NODE_ENV=production webpack -p",
+    "lint": "eslint src/",
+    "serve": "http-server build",
+    "jest": "jest",
+    "test": "npm run build && npm-run-all --parallel serve jest"
   },
   "husky": {
     "hooks": {
@@ -20,19 +23,31 @@
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-module-resolver": "^3.2.0",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.0.3",
+    "cross-env": "^5.2.0",
     "css-loader": "^3.0.0",
+    "expect-puppeteer": "^4.3.0",
     "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
     "husky": "^3.0.0",
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "jest-config": "^24.8.0",
+    "jest-puppeteer": "^4.3.0",
+    "npm-run-all": "^4.1.5",
+    "puppeteer": "^1.18.1",
+    "reselector": "^0.13.3-0",
     "style-loader": "^0.23.1",
     "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.5",
+    "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {

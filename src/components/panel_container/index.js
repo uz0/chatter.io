@@ -69,7 +69,7 @@ class Panel extends Component {
 
     api.updateGroup({ subscription_id: this.props.details.id, name }).then(() => {
       this.props.updateSubscription({
-        ...this.props.details,
+        id: this.props.details.id,
 
         group: {
           ...this.props.details.group,
@@ -144,7 +144,7 @@ class Panel extends Component {
     };
 
     this.props.updateSubscription({
-      ...this.props.details,
+      id: this.props.details.id,
 
       group: {
         ...this.props.details.group,
@@ -216,7 +216,7 @@ class Panel extends Component {
     reader.onloadend = () => {
       api.updateGroup({ subscription_id: this.props.details.id, icon: reader.result }).then(data => {
         this.props.updateSubscription({
-          ...this.props.details,
+          id: this.props.details.id,
 
           group: {
             ...this.props.details.group,
@@ -238,7 +238,7 @@ class Panel extends Component {
     // сделать репорт - иконка не сбрасывается
     api.updateGroup({ subscription_id: this.props.details.id, icon: null }).then(data => {
       this.props.updateSubscription({
-        ...this.props.details,
+        id: this.props.details.id,
 
         group: {
           ...this.props.details.group,

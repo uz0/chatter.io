@@ -118,7 +118,7 @@ const notificationReceived = notification => (dispatch, getState) => {
 
     const timeout = setTimeout(() => {
       delete typings[user_id];
-      dispatch(subscriptionsActions.updateSubscription({...subscription, typings}));
+      dispatch(subscriptionsActions.updateSubscription({id: subscription.id, typings}));
     }, 3000);
 
     typings[user_id] = {
@@ -126,7 +126,7 @@ const notificationReceived = notification => (dispatch, getState) => {
       timeout,
     };
 
-    dispatch(subscriptionsActions.updateSubscription({...subscription, typings}));
+    dispatch(subscriptionsActions.updateSubscription({id: subscription.id, typings}));
   }
 
   function onUser() {
@@ -173,7 +173,7 @@ const notificationReceived = notification => (dispatch, getState) => {
         if (data.subscription.group.type === 'room' && isCurrentUserAdmin) {
           api.createGroupInviteCode({ subscription_id: data.subscription.id }).then(inviteCodeData => {
             dispatch(subscriptionsActions.updateSubscription({
-              ...data.subscription,
+              id: data.subscription.id,
               invite_code: inviteCodeData.code,
             }));
           });
@@ -189,7 +189,15 @@ const notificationReceived = notification => (dispatch, getState) => {
       }
 
       api.getSubscription({subscription_id: subscription.id}).then(data => {
-        dispatch(subscriptionsActions.updateSubscription(data.subscription));
+        let newSubscription = data.subscription;
+        const oldSubscription = state.subscriptions.list[subscription.id];
+
+        // получение нового сообщениея присылает старый last_read_message_id и перезатирает его
+        if (oldSubscription.last_read_message_id && newSubscription.last_read_message_id) {
+          newSubscription.last_read_message_id = Math.max(oldSubscription.last_read_message_id, newSubscription.last_read_message_id);
+        }
+
+        dispatch(subscriptionsActions.updateSubscription(newSubscription));
 
         if (!isEqual(subscription.tags, data.subscription.tags)) {
           dispatch(subscriptionsActions.filterSubscription({ tag: state.subscriptions.filter_tag }));
@@ -239,6 +247,10 @@ const notificationReceived = notification => (dispatch, getState) => {
         scrollMessagesBottom(() => {
           dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
         }, 0);
+
+        if (document.querySelector(`#messages-scroll[data-chat-id="${messageSubscription.id}"]`)) {
+          dispatch(subscriptionsActions.updateSubscription({id: messageSubscription.id, last_read_message_id: notification.object.id}));
+        }
       }
     }
 

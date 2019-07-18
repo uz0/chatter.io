@@ -145,19 +145,21 @@ class Messages extends Component {
     }
   };
 
-  readLastMessage = () => {
-    if (!this.props.lastMessage) {
-      return;
+  readLastMessage = (subscription_id, last_read_message_id) => api.updateSubscription({
+    subscription_id,
+    last_read_message_id,
+  });
+
+  isHasUnread = (chat, lastMessage) => {
+    if (!lastMessage) {
+      return false;
     }
 
-    if (this.props.details.last_read_message_id === this.props.lastMessage.id) {
-      return;
+    if (chat.last_read_message_id === lastMessage.id) {
+      return false;
     }
 
-    api.updateSubscription({
-      subscription_id: this.props.details.id,
-      last_read_message_id: this.props.lastMessage.id,
-    });
+    return true;
   };
 
   scrollListMessagesToBottom = () => this.listRef.scrollTo(0, this.listRef.scrollHeight);
@@ -191,6 +193,10 @@ class Messages extends Component {
     const isMessagesLoaded = get(nextProps, 'chatIds.isLoaded', false);
     const isChatChanged = this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id;
 
+    if (isChatChanged && this.isHasUnread(nextProps.details, nextProps.lastMessage)) {
+      this.readLastMessage(nextProps.details.id, nextProps.lastMessage.id);
+    }
+
     // если перешли в другой чат - нужно опускать скролл вниз
     // скролл опускается вниз в this.loadMessages, но она не сработает если там уже загружены сообщения
     if (this.props.details && nextProps.details && this.props.details.id !== nextProps.details.id && this.listRef) {
@@ -205,12 +211,13 @@ class Messages extends Component {
     // если перешли в другой чат из существующего и в нем не прогружены сообщения
     if (isChatChanged && !isMessagesLoaded) {
       this.loadMessages(nextProps);
-      this.readLastMessage();
     }
   }
 
   componentWillUnmount() {
-    this.readLastMessage();
+    if (this.isHasUnread(this.props.details, this.props.lastMessage)) {
+      this.readLastMessage(this.props.details.id, this.props.lastMessage.id);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -262,6 +269,7 @@ class Messages extends Component {
     const groupedMessages = this.getGroupedMessages();
     const isHasMoreMessages = this.props.chatIds && this.props.chatIds.hasMore;
     const isMessagesShown = this.props.details && groupedMessages.length > 0;
+    const chatId = this.props.details && this.props.details.id;
 
     return <div className={cx('messages', this.props.className)}>
       {this.props.details &&
@@ -271,7 +279,12 @@ class Messages extends Component {
         />
       }
 
-      <div className={cx('list', {'_is-gallery-open': this.props.isGalleryOpen})} ref={node => this.listRef = node} id="messages-scroll">
+      <div
+        id="messages-scroll"
+        data-chat-id={chatId}
+        className={cx('list', {'_is-gallery-open': this.props.isGalleryOpen})}
+        ref={node => this.listRef = node}
+      >
         {isHasMoreMessages &&
           <Button
             appearance="_basic-primary"

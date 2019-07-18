@@ -23,7 +23,7 @@ class SubscriptionItem extends Component {
   loadLastMessage = subscription => {
     api.getMessages({ subscription_id: subscription.id, limit: 1 }).then(data => {
       this.props.loadMessages({chatId: subscription.id, list: data.messages});
-      this.props.updateSubscription({ ...subscription, is_add_data_loaded: true });
+      this.props.updateSubscription({ id: subscription.id, is_add_data_loaded: true });
     });
   };
 
@@ -41,7 +41,7 @@ class SubscriptionItem extends Component {
 
     api.createGroupInviteCode({ subscription_id: subscription.id }).then(data => {
       this.props.updateSubscription({
-        ...subscription,
+        id: subscription.id,
         invite_code: data.code,
       });
     });

@@ -710,6 +710,7 @@ class MessageInput extends Component {
         <div className={style.input_wrapper} ref={node => this.inputWrapperRef = node}>
           <div className={style.input_content}>
             <textarea
+              id="message-textarea"
               placeholder={this.props.t('message')}
               ref={node => this.textareaRef = node}
               value={this.state.value}
@@ -783,7 +784,11 @@ class MessageInput extends Component {
             }
           </div>
 
-          <button onClick={this.onSendButtonClick} className={cx({'_is-shown': isSendButtonShown})}>
+          <button
+            id="send-button"
+            onClick={this.onSendButtonClick}
+            className={cx({'_is-shown': isSendButtonShown})}
+          >
             {sendButtonName}
           </button>
         </div>

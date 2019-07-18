@@ -86,6 +86,8 @@ class Notification extends Component {
     return this.state.isInDom && <Portal>
       <div className={style.wrapper}>
         <div
+          id={`${this.props.type}-notification`}
+
           className={cx('notification', {
             '_is-shown': this.state.isShown,
             '_is-success': isSuccess,

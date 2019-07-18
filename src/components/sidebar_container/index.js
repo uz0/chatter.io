@@ -263,7 +263,7 @@ class Sidebar extends Component {
 
     return <div className={cx('sidebar', this.props.className)}>
       <div className={style.header}>
-        <h1>Unichat</h1>
+        <h1 id="main-title">Unichat</h1>
 
         <Dropdown
           uniqueId="sidebar-user-dropdown"

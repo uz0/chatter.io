@@ -74,6 +74,7 @@ class Input extends Component {
         {this.props.icon && this.props.icon}
 
         <input
+          id={this.props.id}
           type={this.props.type || 'text'}
           className={style.input}
           // при автокомплите возникает ошибка uncontrolled input

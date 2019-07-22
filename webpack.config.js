@@ -10,7 +10,7 @@ module.exports = {
   entry: ['@babel/polyfill', './src/index.js'],
 
   output: {
-    filename: 'app.js',
+    filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
   },

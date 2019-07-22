@@ -20,7 +20,7 @@ import { scrollMessagesBottom } from '@/helpers';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as notificationActions } from '@/components/notification';
-import { actions as modalActions } from '@/components/modal_container';
+import modalActions from '@/components/modal_container/actions';
 import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as inputActions } from '@/components/messages_container/input';
 import style from './style.css';

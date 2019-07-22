@@ -23,7 +23,7 @@ import { actions as messagesActions } from '@/store/messages';
 import style from './style.css';
 
 const cx = classnames.bind(style);
-const itemsPerPage = 50;
+export const itemsPerPage = 50;
 
 class Messages extends Component {
   state = {

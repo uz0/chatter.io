@@ -4,7 +4,7 @@ import compose from 'recompose/compose';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Icon from '@/components/icon';
-import { actions as modalActions} from '@/components/modal_container';
+import modalActions from '@/components/modal_container/actions';
 import { withRouter } from '@/hoc';
 import { getChatName, getOpponentUser, getLastActive } from '@/helpers';
 import style from './style.css';

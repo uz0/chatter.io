@@ -101,6 +101,7 @@ class SignUp extends Component {
         className={style.form}
       >
         <Input
+          id="email"
           type="email"
           placeholder={this.props.t('email')}
           model="register.email"
@@ -121,6 +122,7 @@ class SignUp extends Component {
         />
 
         <Input
+          id="password"
           type="password"
           placeholder={this.props.t('password')}
           model="register.password"
@@ -146,6 +148,7 @@ class SignUp extends Component {
         />
 
         <Input
+          id="confirm-password"
           type="password"
           placeholder={this.props.t('confirm_password')}
           model="register.confirmPassword"

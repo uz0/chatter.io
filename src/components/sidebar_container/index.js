@@ -13,6 +13,7 @@ import SubscriptionAvatar from '@/components/subscription-avatar';
 import Button from '@/components/button';
 import SearchInput from '@/components/search-input';
 import Dropdown from '@/components/dropdown';
+import Loading from '@/components/loading';
 import { api } from '@';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
 import { getChatName, uid, getOpponentUser, getChatUrl } from '@/helpers';
@@ -180,6 +181,8 @@ class Sidebar extends Component {
     });
   };
 
+  stopSearchingMessages = () => this.props.toggleSearchMessages(false);
+
   async componentWillMount() {
     if (!this.props.currentUser) {
       return;
@@ -229,6 +232,7 @@ class Sidebar extends Component {
       return false;
     }
 
+    const isSearchingOldMessagesChanged = this.props.is_searching_old_messages !== nextProps.is_searching_old_messages;
     const isLoadingStateChanged = this.state.isLoading !== nextState.isLoading;
     const isSubscriptionsChanged = !isEqual(this.props.subscriptions_list, nextProps.subscriptions_list);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
@@ -250,6 +254,7 @@ class Sidebar extends Component {
       isMessagesChanged ||
       isFiltering ||
       isCurrentUserChangedPhoto ||
+      isSearchingOldMessagesChanged ||
       isTagFiltered ||
       isParamsChanged ||
       isHoverSubscriptionChanged ||
@@ -301,7 +306,9 @@ class Sidebar extends Component {
 
       {this.props.subscriptions_filter_text &&
         <div className={style.list}>
-          <p className={style.title}>{this.props.t('contact_plural')}</p>
+          <div className={style.title}>
+            <p className={style.name}>{this.props.t('contact_plural')}</p>
+          </div>
 
           {this.props.subscriptions_filtered_contacts_ids &&
             this.props.subscriptions_filtered_contacts_ids.map(id => {
@@ -321,7 +328,9 @@ class Sidebar extends Component {
           {this.props.subscriptions_filtered_contacts_ids.length === 0 &&
             <p className={style.empty}>{this.props.t('no_results')}</p>}
 
-          <p className={style.title}>{this.props.t('global_search')}</p>
+          <div className={style.title}>
+            <p className={style.name}>{this.props.t('global_search')}</p>
+          </div>
 
           {this.props.subscriptions_filtered_global_users &&
             this.props.subscriptions_filtered_global_users.map(user => {
@@ -340,7 +349,14 @@ class Sidebar extends Component {
           {this.props.subscriptions_filtered_global_users.length === 0 &&
             <p className={style.empty}>{this.props.t('no_results')}</p>}
 
-          <p className={style.title}>{this.props.t('message_plural')}</p>
+          <div className={style.title}>
+            <p className={style.name}>{this.props.t('message_plural')}</p>
+            <Loading isShown={this.props.is_searching_old_messages} className={style.loading} />
+
+            {this.props.is_searching_old_messages &&
+              <button className={style.action} onClick={this.stopSearchingMessages}>{this.props.t('stop_loading')}</button>
+            }
+          </div>
 
           {this.props.sorted_subscriptions_ids &&
             this.props.sorted_subscriptions_ids.map(id => {
@@ -391,6 +407,7 @@ export default compose(
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_filter_tag: state.subscriptions.filter_tag,
       subscriptions_filter_text: state.subscriptions.filter_text,
+      is_searching_old_messages: state.subscriptions.is_searching_old_messages,
       hover_subscription_id: state.subscriptions.hover_subscription_id,
       messages_list: state.messages.list,
     }),
@@ -403,6 +420,7 @@ export default compose(
       showNotification: notificationActions.showNotification,
       setHoverSubscription: subscriptionsActions.setHoverSubscription,
       filterSubscription: subscriptionsActions.filterSubscription,
+      toggleSearchMessages: subscriptionsActions.toggleSearchMessages,
       clearSubscriptions: subscriptionsActions.clearSubscriptions,
       updateMessage: messagesActions.updateMessage,
       clearMessages: messagesActions.clearMessages,

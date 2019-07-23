@@ -122,6 +122,7 @@ export default {translation: {
   send: 'Send',
   send_confirmation_again: 'Send confirmation again',
   send_recovery_link: 'Send recovery link',
+  stop_loading: 'Stop loading',
   set_admin: 'Set admin',
   set_read_only: 'Set read only',
   set_read_write: 'Set read/write',

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
-import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import SubscriptionItem from '@/components/subscription-item';
 import { api } from '@';
-import { uid, getOpponentUser } from '@/helpers';
-import { withRouter, withSortedSubscriptions  } from '@/hoc';
+import { uid, getChatUrl } from '@/helpers';
+import { withRouter, withSortedSubscriptions } from '@/hoc';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as notificationActions } from '@/components/notification';
 import { withTranslation } from 'react-i18next';
@@ -14,13 +13,7 @@ import style from './style.css';
 
 class Forward extends Component {
   forward = subscription => {
-    let href = '';
-
-    if (subscription.group.type === 'private_chat' && !isEmpty(getOpponentUser(subscription))) {
-      href = `/chat/user/${getOpponentUser(subscription).id}`;
-    } else {
-      href = `/chat/${subscription.id}`;
-    }
+    const href = getChatUrl(subscription);
 
     api.post({
       uid: uid(),

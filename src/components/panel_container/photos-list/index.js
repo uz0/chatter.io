@@ -4,11 +4,10 @@ import compose from 'recompose/compose';
 import map from 'lodash/map';
 import get from 'lodash/get';
 import find from 'lodash/find';
-import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { getOpponentUser, uid } from '@/helpers';
+import { getChatUrl, uid } from '@/helpers';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
@@ -24,13 +23,7 @@ class Photos extends Component {
     const isImagesExist = messages.length > 0;
     let emptyMessage = this.props.t('empty_message', {entity: this.props.t('photo_plural')}).toLowerCase();
     emptyMessage = emptyMessage.charAt(0).toUpperCase() + emptyMessage.slice(1);
-    let href = '';
-
-    if (this.props.details.group.type === 'private_chat' && !isEmpty(getOpponentUser(this.props.details))) {
-      href = `/chat/user/${getOpponentUser(this.props.details).id}`;
-    } else {
-      href = `/chat/${this.props.details.id}`;
-    }
+    const href = getChatUrl();
 
     return <div className={cx(style.list, this.props.className)}>
       {isImagesExist &&

@@ -23,7 +23,7 @@ class Photos extends Component {
     const isImagesExist = messages.length > 0;
     let emptyMessage = this.props.t('empty_message', {entity: this.props.t('photo_plural')}).toLowerCase();
     emptyMessage = emptyMessage.charAt(0).toUpperCase() + emptyMessage.slice(1);
-    const href = getChatUrl();
+    const href = getChatUrl(this.props.details);
 
     return <div className={cx(style.list, this.props.className)}>
       {isImagesExist &&

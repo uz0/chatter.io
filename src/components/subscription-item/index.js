@@ -87,7 +87,7 @@ class SubscriptionItem extends Component {
 
   render() {
     const chatName = getChatName(this.props.subscription);
-    const href = getChatUrl();
+    const href = getChatUrl(this.props.subscription);
 
     const isLastMessageShown = this.props.lastMessage && !this.props.typings;
     const isUnreadShown = !this.props.messageId && this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;

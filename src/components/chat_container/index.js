@@ -33,6 +33,14 @@ class Chat extends Component {
     }
   };
 
+  handleWindowResize = () => {
+    if (this.windowWidth && window.innerWidth <= 1024 && this.windowWidth >= 1025 && this.props.isPanelShown) {
+      this.props.toggleModal({ id: 'panel-container' });
+    }
+
+    this.windowWidth = window.innerWidth;
+  };
+
   async componentWillMount() {
     if (!this.props.currentUser) {
       this.props.pushUrl('/sign-in');
@@ -92,6 +100,7 @@ class Chat extends Component {
     }
 
     window.addEventListener('keydown', this.handleDocumentKeyDown);
+    window.addEventListener('resize', this.handleWindowResize);
   }
 
   componentWillReceiveProps(nextProps) {

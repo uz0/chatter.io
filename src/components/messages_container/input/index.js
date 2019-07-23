@@ -423,7 +423,7 @@ class MessageInput extends Component {
     return this.props.isSuggestionShown;
   };
 
-  openSuggestion = () => this.props.openDropdown({uniqueId: 'suggestion-dropdown'});
+  openSuggestion = () => this.props.openDropdown({ uniqueId: 'suggestion-dropdown' });
   closeSuggestion = () => this.props.closeDropdown('suggestion-dropdown');
 
   getCurrentMentionSearch = () => {
@@ -478,10 +478,10 @@ class MessageInput extends Component {
 
   editMessage = ({ text, attachments, upload_id }) => {
     this.props.updateMessage({
-      ...text ? {text} : {},
-      ...attachments ? {attachments} : {},
-      ...upload_id ? {upload_id} : {},
-      ...this.props.edit_message_id ? {edit_message_id: this.props.edit_message_id} : {},
+      ...text ? { text } : {},
+      ...attachments ? { attachments } : {},
+      ...upload_id ? { upload_id } : {},
+      ...this.props.edit_message_id ? { edit_message_id: this.props.edit_message_id } : {},
     });
 
     this.props.clearEditMessage();
@@ -491,11 +491,11 @@ class MessageInput extends Component {
 
   sendMessage = ({ text, attachments, mentions, upload_id }) => {
     this.props.sendMessage({
-      ...text ? {text} : {},
-      ...attachments ? {attachments} : {},
-      ...mentions ? {mentions} : {},
-      ...upload_id ? {upload_id} : {},
-      ...this.props.reply_message_id ? {reply_message_id: this.props.reply_message_id} : {},
+      ...text ? { text } : {},
+      ...attachments ? { attachments } : {},
+      ...mentions ? { mentions } : {},
+      ...upload_id ? { upload_id } : {},
+      ...this.props.reply_message_id ? { reply_message_id: this.props.reply_message_id } : {},
       subscription_id: this.props.subscription_id,
     });
 
@@ -658,8 +658,8 @@ class MessageInput extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.editing_message && !isEqual(this.props.editing_message, nextProps.editing_message)) {
       this.setState({
-        ...nextProps.editing_message.text ? {value: nextProps.editing_message.text} : {},
-        ...nextProps.editing_message.attachments ? {attachments: nextProps.editing_message.attachments} : {},
+        ...nextProps.editing_message.text ? { value: nextProps.editing_message.text } : {},
+        ...nextProps.editing_message.attachments ? { attachments: nextProps.editing_message.attachments } : {},
       });
 
       setTimeout(() => this.textareaRef.focus());
@@ -743,11 +743,12 @@ class MessageInput extends Component {
         <div className={style.input_wrapper} ref={node => this.inputWrapperRef = node}>
           <div className={style.input_content}>
             <textarea
+              id="textarea"
               placeholder={this.props.t('message')}
               ref={node => this.textareaRef = node}
               value={this.state.value}
               onInput={this.onInput}
-              onChange={() => {}}
+              onChange={() => { }}
               onKeyDown={this.onTextareaKeyDown}
               onPaste={this.onPaste}
             />
@@ -765,7 +766,7 @@ class MessageInput extends Component {
                   return <div
                     key={index}
                     className={style.preview}
-                    {...isAttachmentImage ? { style: {'--image': `url(${attachment.url})`} } : {}}
+                    {...isAttachmentImage ? { style: { '--image': `url(${attachment.url})` } } : {}}
                   >
                     {!isAttachmentImage &&
                       <Icon name="attach" />
@@ -817,7 +818,7 @@ class MessageInput extends Component {
             }
           </div>
 
-          <button onClick={this.onSendButtonClick} className={cx({'_is-shown': isSendButtonShown})}>
+          <button onClick={this.onSendButtonClick} className={cx({ '_is-shown': isSendButtonShown })}>
             {sendButtonName}
           </button>
         </div>

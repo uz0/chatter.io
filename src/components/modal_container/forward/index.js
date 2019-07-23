@@ -13,7 +13,7 @@ import style from './style.css';
 
 class Forward extends Component {
   forward = subscription => {
-    const href = getChatUrl();
+    const href = getChatUrl(subscription);
 
     api.post({
       uid: uid(),

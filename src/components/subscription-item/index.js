@@ -14,7 +14,7 @@ import { withTypings } from '@/hoc';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as usersActions } from '@/store/users';
-import { getOpponentUser, getChatName } from '@/helpers';
+import { getChatUrl, getChatName } from '@/helpers';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -87,13 +87,7 @@ class SubscriptionItem extends Component {
 
   render() {
     const chatName = getChatName(this.props.subscription);
-    let href = '';
-
-    if (this.props.subscription.group.type === 'private_chat' && !isEmpty(getOpponentUser(this.props.subscription))) {
-      href = `/chat/user/${getOpponentUser(this.props.subscription).id}`;
-    } else {
-      href = `/chat/${this.props.id}`;
-    }
+    const href = getChatUrl(this.props.subscription);
 
     const isLastMessageShown = this.props.lastMessage && !this.props.typings;
     const isUnreadShown = !this.props.messageId && this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;

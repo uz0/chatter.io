@@ -6,7 +6,7 @@ import SubscriptionAvatar from '@/components/subscription-avatar';
 import Icon from '@/components/icon';
 import modalActions from '@/components/modal_container/actions';
 import { withRouter } from '@/hoc';
-import { getChatName, getOpponentUser, getLastActive } from '@/helpers';
+import { getChatName, getChatUrl, getOpponentUser, getLastActive } from '@/helpers';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -34,11 +34,22 @@ class Header extends Component {
     return getLastActive(user, () => this.forceUpdate());
   };
 
+  resetFilters = () => {
+    const chatUrl = getChatUrl(this.props.details);
+    this.props.pushUrl(chatUrl);
+
+    setTimeout(() => {
+      const messageList = document.getElementById('messages-scroll');
+      messageList.scrollTo(0, messageList.scrollHeight);
+    });
+  };
+
   render() {
     const name = getChatName(this.props.details);
     const count = this.props.details.group.participants.length;
     const isChatPrivate = this.props.details.group.type === 'private_chat';
     const lastActive = this.getLastActive(this.props.details);
+    const { tagname } = this.props.match.params;
 
     return <div className={cx('header', this.props.className)}>
       <button className={style.back} onClick={this.closeChat}>
@@ -48,7 +59,7 @@ class Header extends Component {
       <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
 
       <div className={style.section}>
-        <button onClick={this.showPanelContainer}>{name}</button>
+        <button className={style.chatname} onClick={this.showPanelContainer}>{name}</button>
 
         {!isChatPrivate &&
           <p className={style.count}>{count} people</p>
@@ -56,6 +67,13 @@ class Header extends Component {
 
         {isChatPrivate &&
           <p className={style.count}>{lastActive}</p>
+        }
+
+        {tagname &&
+          <div className={style.filters}>
+            <p className={style.name}>Filtered by <span>#{tagname}</span></p>
+            <button className={style.reset} onClick={this.resetFilters}>Reset</button>
+          </div>
         }
       </div>
     </div>;

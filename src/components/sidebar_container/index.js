@@ -48,6 +48,7 @@ class Sidebar extends Component {
     const chatId = params.get('chatId');
     const userId = params.get('userId');
     const isChatOpen = chatId || userId;
+    const isActiveTextArea = document.activeElement === document.getElementById('textarea');
 
     if (!isChatOpen && event.keyCode === 13) {
       if (this.props.hover_subscription_id) {
@@ -58,7 +59,7 @@ class Sidebar extends Component {
       }
     }
 
-    if (!isChatOpen && event.keyCode === 38) {
+    if (!isChatOpen && !isActiveTextArea && event.keyCode === 38) {
       if (this.props.hover_subscription_id) {
         const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
         const prevSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex - 1];
@@ -68,7 +69,7 @@ class Sidebar extends Component {
           const prevSubscriptionRef = document.querySelector(`[data-subscription-id="${prevSubscription}"]`);
 
           if (!this.isSubscriptionInViewPort(prevSubscriptionRef)) {
-            prevSubscriptionRef.scrollIntoView({block: 'start'});
+            prevSubscriptionRef.scrollIntoView({ block: 'start' });
           }
         }
       }
@@ -78,7 +79,7 @@ class Sidebar extends Component {
       }
     }
 
-    if (!isChatOpen && event.keyCode === 40) {
+    if (!isChatOpen && !isActiveTextArea && event.keyCode === 40) {
       if (this.props.hover_subscription_id) {
         const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
         const nextSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex + 1];
@@ -88,10 +89,11 @@ class Sidebar extends Component {
           const nextSubscriptionRef = document.querySelector(`[data-subscription-id="${nextSubscription}"]`);
 
           if (!this.isSubscriptionInViewPort(nextSubscriptionRef)) {
-            nextSubscriptionRef.scrollIntoView({block: 'end'});
+            nextSubscriptionRef.scrollIntoView({ block: 'end' });
           }
         }
       }
+
 
       if (!this.props.hover_subscription_id) {
         this.props.setHoverSubscription(this.props.sorted_subscriptions_ids[0]);
@@ -284,17 +286,17 @@ class Sidebar extends Component {
 
       <div className={style.navigation}>
         <button
-          className={cx({'_is-active': this.props.subscriptions_filter_tag === 'all'})}
+          className={cx({ '_is-active': this.props.subscriptions_filter_tag === 'all' })}
           onClick={() => this.filterSubscriptionsByTag('all')}
         >{this.props.t('all')}</button>
 
         <button
-          className={cx({'_is-active': this.props.subscriptions_filter_tag === 'personal'})}
+          className={cx({ '_is-active': this.props.subscriptions_filter_tag === 'personal' })}
           onClick={() => this.filterSubscriptionsByTag('personal')}
         >{this.props.t('personal')}</button>
 
         <button
-          className={cx({'_is-active': this.props.subscriptions_filter_tag === 'work'})}
+          className={cx({ '_is-active': this.props.subscriptions_filter_tag === 'work' })}
           onClick={() => this.filterSubscriptionsByTag('work')}
         >{this.props.t('work')}</button>
       </div>
@@ -361,12 +363,12 @@ class Sidebar extends Component {
       }
 
       {!this.props.subscriptions_filter_text &&
-        <div className={cx('list', {'_is-loading': isSubscriptionsLoading})}>
+        <div className={cx('list', { '_is-loading': isSubscriptionsLoading })}>
           {this.props.sorted_subscriptions_ids &&
             this.props.sorted_subscriptions_ids.map(id => <SubscriptionItem
               key={id}
               id={id}
-              className={cx('subscription', {'_is-user-hover': id === this.props.hover_subscription_id})}
+              className={cx('subscription', { '_is-user-hover': id === this.props.hover_subscription_id })}
               withLoadData
               withDataId
             />)}

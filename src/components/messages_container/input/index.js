@@ -8,10 +8,10 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
-import Icon from '@/components/icon';
-import Loading from '@/components/loading';
 import throttle from 'lodash/throttle';
 import Suggestion from './suggestion';
+import Gallery from './gallery';
+import Files from './files';
 import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
@@ -423,7 +423,7 @@ class MessageInput extends Component {
     return this.props.isSuggestionShown;
   };
 
-  openSuggestion = () => this.props.openDropdown({uniqueId: 'suggestion-dropdown'});
+  openSuggestion = () => this.props.openDropdown({ uniqueId: 'suggestion-dropdown' });
   closeSuggestion = () => this.props.closeDropdown('suggestion-dropdown');
 
   getCurrentMentionSearch = () => {
@@ -478,10 +478,10 @@ class MessageInput extends Component {
 
   editMessage = ({ text, attachments, upload_id }) => {
     this.props.updateMessage({
-      ...text ? {text} : {},
-      ...attachments ? {attachments} : {},
-      ...upload_id ? {upload_id} : {},
-      ...this.props.edit_message_id ? {edit_message_id: this.props.edit_message_id} : {},
+      ...text ? { text } : {},
+      ...attachments ? { attachments } : {},
+      ...upload_id ? { upload_id } : {},
+      ...this.props.edit_message_id ? { edit_message_id: this.props.edit_message_id } : {},
     });
 
     this.props.clearEditMessage();
@@ -491,11 +491,11 @@ class MessageInput extends Component {
 
   sendMessage = ({ text, attachments, mentions, upload_id }) => {
     this.props.sendMessage({
-      ...text ? {text} : {},
-      ...attachments ? {attachments} : {},
-      ...mentions ? {mentions} : {},
-      ...upload_id ? {upload_id} : {},
-      ...this.props.reply_message_id ? {reply_message_id: this.props.reply_message_id} : {},
+      ...text ? { text } : {},
+      ...attachments ? { attachments } : {},
+      ...mentions ? { mentions } : {},
+      ...upload_id ? { upload_id } : {},
+      ...this.props.reply_message_id ? { reply_message_id: this.props.reply_message_id } : {},
       subscription_id: this.props.subscription_id,
     });
 
@@ -620,46 +620,11 @@ class MessageInput extends Component {
     });
   };
 
-  getProgressText = attachment => {
-    if (!attachment || !attachment.currentChunk) {
-      return null;
-    }
-
-    let type = '';
-    let formattedChunkSize = null;
-    let formattedFullSize = null;
-    const fullSize = attachment.byte_size;
-
-    if (fullSize < 1024) {
-      type = this.props.t('b');
-      formattedChunkSize = attachment.currentChunk;
-      formattedFullSize = fullSize;
-    }
-
-    if (fullSize >= 1024 && fullSize < 1048576) {
-      type = this.props.t('kb');
-      formattedChunkSize = Math.ceil(attachment.currentChunk / 1024);
-      formattedFullSize = Math.ceil(fullSize / 1024);
-    }
-
-    if (fullSize >= 1048576) {
-      type = this.props.t('mb');
-      formattedChunkSize = Math.ceil(attachment.currentChunk / 1048576);
-      formattedFullSize = Math.ceil(fullSize / 1048576);
-    }
-
-    if (attachment.currentChunk < attachment.byte_size) {
-      return `${formattedChunkSize} / ${formattedFullSize} ${type}`;
-    }
-
-    return `${formattedFullSize} ${type}`;
-  };
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.editing_message && !isEqual(this.props.editing_message, nextProps.editing_message)) {
       this.setState({
-        ...nextProps.editing_message.text ? {value: nextProps.editing_message.text} : {},
-        ...nextProps.editing_message.attachments ? {attachments: nextProps.editing_message.attachments} : {},
+        ...nextProps.editing_message.text ? { value: nextProps.editing_message.text } : {},
+        ...nextProps.editing_message.attachments ? { attachments: nextProps.editing_message.attachments } : {},
       });
 
       setTimeout(() => this.textareaRef.focus());
@@ -743,81 +708,34 @@ class MessageInput extends Component {
         <div className={style.input_wrapper} ref={node => this.inputWrapperRef = node}>
           <div className={style.input_content}>
             <textarea
+              id="textarea"
               placeholder={this.props.t('message')}
               ref={node => this.textareaRef = node}
               value={this.state.value}
               onInput={this.onInput}
-              onChange={() => {}}
+              onChange={() => { }}
               onKeyDown={this.onTextareaKeyDown}
               onPaste={this.onPaste}
             />
 
             {withImages &&
-              <div className={style.gallery_preview}>
-                {this.state.attachments.map((attachment, index) => {
-                  const isAttachmentImage = attachment.content_type.match('image/');
-                  const progress = this.getProgressText(attachment);
-
-                  if (!isAttachmentImage) {
-                    return;
-                  }
-
-                  return <div
-                    key={index}
-                    className={style.preview}
-                    {...isAttachmentImage ? { style: {'--image': `url(${attachment.url})`} } : {}}
-                  >
-                    {!isAttachmentImage &&
-                      <Icon name="attach" />
-                    }
-
-                    <button onClick={this.removeAttachment(index)}>
-                      <Icon name="close" />
-                    </button>
-
-                    {attachment.isLoading &&
-                      <p className={style.progress}>{progress}</p>
-                    }
-
-                    <Loading className={style.file_loading} isShown={attachment.isLoading} />
-                  </div>;
-                })}
-              </div>
+              <Gallery
+                attachments={this.state.attachments}
+                removeAttachment={this.removeAttachment}
+                className={style.gallery_preview}
+              />
             }
 
             {withFiles &&
-              <div className={style.uploaded_files}>
-                {this.state.attachments.map((attachment, index) => {
-                  const isAttachmentImage = attachment.content_type.match('image/');
-                  const isLoading = attachment.currentChunk < attachment.byte_size;
-                  const progress = this.getProgressText(attachment);
-
-                  if (isAttachmentImage) {
-                    return;
-                  }
-
-                  return <div className={style.file_item} key={index}>
-                    {isLoading &&
-                      <Loading className={style.file_loading} isShown />
-                    }
-
-                    {!isLoading &&
-                      <Icon name="file" />
-                    }
-
-                    <p className={style.title}>{attachment.file_name}</p>
-                    <span className={style.size}>{progress}</span>
-
-                    <button className={style.delete} onClick={this.removeAttachment(index)}>
-                      <Icon name="close" />
-                    </button>
-                  </div>;
-                })}
-              </div>
+              <Files
+                attachments={this.state.attachments}
+                removeAttachment={this.removeAttachment}
+                className={style.uploaded_files}
+              />
             }
           </div>
 
-          <button onClick={this.onSendButtonClick} className={cx({'_is-shown': isSendButtonShown})}>
+          <button onClick={this.onSendButtonClick} className={cx({ '_is-shown': isSendButtonShown })}>
             {sendButtonName}
           </button>
         </div>

@@ -6,7 +6,6 @@ import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
-import ModalContainer from '@/components/modal_container';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as notificationActions } from '@/components/notification';
@@ -31,6 +30,14 @@ class Chat extends Component {
     if (this.props.isGalleryOpen && event.keyCode === 27) {
       this.props.closeGallery();
     }
+  };
+
+  handleWindowResize = () => {
+    if (this.windowWidth && window.innerWidth <= 1024 && this.windowWidth >= 1025 && this.props.isPanelShown) {
+      this.props.toggleModal({ id: 'panel-container' });
+    }
+
+    this.windowWidth = window.innerWidth;
   };
 
   async componentWillMount() {
@@ -92,6 +99,7 @@ class Chat extends Component {
     }
 
     window.addEventListener('keydown', this.handleDocumentKeyDown);
+    window.addEventListener('resize', this.handleWindowResize);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -125,8 +133,6 @@ class Chat extends Component {
           <Panel params={this.props.match.params} className={style.panel} />
         </Fragment>
       }
-
-      <ModalContainer />
     </div>;
   }
 }

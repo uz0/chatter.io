@@ -40,8 +40,26 @@ class Messages extends Component {
       return [];
     }
 
+    const { tagname } = this.props.params;
+    let messagesIds = this.props.chatIds.list;
+
+    if (tagname) {
+      // eslint-disable-next-line no-useless-escape
+      const tagreg = /\B\#\w\w+\b/gim;
+
+      messagesIds = messagesIds.filter(id => {
+        const message = this.props.messages_list[id];
+        const messageTags = (message.text && message.text.match(tagreg)) || [];
+        const hasHastag = messageTags.includes(`#${tagname}`);
+
+        if (hasHastag) {
+          return id;
+        }
+      });
+    }
+
     const groupedByDate = groupBy(
-      map(this.props.chatIds.list, id => this.props.messages_list[id]),
+      map(messagesIds, id => this.props.messages_list[id]),
       message => moment(message.created_at).format('YYYY-MM-DD'),
     );
 
@@ -67,7 +85,9 @@ class Messages extends Component {
           groupedMessages.push({ type: 'unreadDelimiter' });
         }
 
-        groupedMessages.push({ type: 'message', message_id });
+        if (message.text) {
+          groupedMessages.push({ type: 'message', message_id });
+        }
       });
     });
 
@@ -227,6 +247,7 @@ class Messages extends Component {
     const isChatIdsLoaded = !get(this.props, 'chatIds.isLoaded', false) && !!get(nextProps, 'chatIds.isLoaded', false);
     const isMessagesChanged = !isEqual(this.props.messages_list, nextProps.messages_list);
     const isMessageIdChanged = this.props.params.messageId !== nextProps.params.messageId;
+    const isTagChanged = this.props.params.tagname !== nextProps.params.tagname;
     const isMessagesHasMoreChanged = this.props.hasMoreMessages !== nextProps.hasMoreMessages;
     const isButtonLoadMoreLoading = this.state.isNewMessagesLoading !== nextState.isNewMessagesLoading;
     const isGalleryChangeState = this.props.isGalleryOpen !== nextProps.isGalleryOpen;
@@ -237,6 +258,7 @@ class Messages extends Component {
       isMessagesChanged ||
       isMessageIdChanged ||
       isMessagesHasMoreChanged ||
+      isTagChanged ||
       isButtonLoadMoreLoading ||
       isGalleryChangeState ||
       isChatIdsLoaded;

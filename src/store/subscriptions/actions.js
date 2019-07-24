@@ -36,20 +36,30 @@ const loadingOneChat = (chatId) => async (dispatch, getState) => {
 
   if (!chatIds.isLoaded) {
     const response = await api.getMessages({ subscription_id: chatId, limit: itemsPerPage });
-    dispatch(messagesActions.loadMessages({chatId, list: response.messages, isLoaded: true}));
+    const stateAfterGetMessages = getState();
+
+    if (stateAfterGetMessages.subscriptions.is_searching_old_messages) {
+      dispatch(messagesActions.loadMessages({chatId, list: response.messages, isLoaded: true}));
+    }
   } else {
     const response = await api.getMessages({ subscription_id: chatId, limit: itemsPerPage, offset: chatIds.list.length });
-    dispatch(messagesActions.loadMoreMessages({chatId, list: response.messages}));
+    const stateAfterGetMessages = getState();
+
+    if (stateAfterGetMessages.subscriptions.is_searching_old_messages) {
+      dispatch(messagesActions.loadMoreMessages({chatId, list: response.messages}));
+    }
   }
 
   const stateAfterLoad = getState();
 
-  dispatch(actions.search({
-    text: stateAfterLoad.subscriptions.filter_text,
-    tag: stateAfterLoad.subscriptions.filter_tag,
-    global_users: stateAfterLoad.subscriptions.filtered_global_users,
-    messages: stateAfterLoad.messages,
-  }));
+  if (stateAfterLoad.subscriptions.is_searching_old_messages) {
+    dispatch(actions.search({
+      text: stateAfterLoad.subscriptions.filter_text,
+      tag: stateAfterLoad.subscriptions.filter_tag,
+      global_users: stateAfterLoad.subscriptions.filtered_global_users,
+      messages: stateAfterLoad.messages,
+    }));
+  }
 
   if (
     stateAfterLoad.subscriptions.filter_text.length >= 4 &&

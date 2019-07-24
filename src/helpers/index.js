@@ -7,3 +7,4 @@ export { default as copy } from './copy';
 export { default as uid } from './uid';
 export { default as scrollMessagesBottom } from './scroll-messages-bottom';
 export { default as getLastActive } from './get-last-active';
+export { default as getProgressText } from './get-progress-text';

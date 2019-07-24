@@ -8,10 +8,10 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
-import Icon from '@/components/icon';
-import Loading from '@/components/loading';
 import throttle from 'lodash/throttle';
 import Suggestion from './suggestion';
+import Gallery from './gallery';
+import Files from './files';
 import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
@@ -620,41 +620,6 @@ class MessageInput extends Component {
     });
   };
 
-  getProgressText = attachment => {
-    if (!attachment || !attachment.currentChunk) {
-      return null;
-    }
-
-    let type = '';
-    let formattedChunkSize = null;
-    let formattedFullSize = null;
-    const fullSize = attachment.byte_size;
-
-    if (fullSize < 1024) {
-      type = this.props.t('b');
-      formattedChunkSize = attachment.currentChunk;
-      formattedFullSize = fullSize;
-    }
-
-    if (fullSize >= 1024 && fullSize < 1048576) {
-      type = this.props.t('kb');
-      formattedChunkSize = Math.ceil(attachment.currentChunk / 1024);
-      formattedFullSize = Math.ceil(fullSize / 1024);
-    }
-
-    if (fullSize >= 1048576) {
-      type = this.props.t('mb');
-      formattedChunkSize = Math.ceil(attachment.currentChunk / 1048576);
-      formattedFullSize = Math.ceil(fullSize / 1048576);
-    }
-
-    if (attachment.currentChunk < attachment.byte_size) {
-      return `${formattedChunkSize} / ${formattedFullSize} ${type}`;
-    }
-
-    return `${formattedFullSize} ${type}`;
-  };
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.editing_message && !isEqual(this.props.editing_message, nextProps.editing_message)) {
       this.setState({
@@ -754,67 +719,19 @@ class MessageInput extends Component {
             />
 
             {withImages &&
-              <div className={style.gallery_preview}>
-                {this.state.attachments.map((attachment, index) => {
-                  const isAttachmentImage = attachment.content_type.match('image/');
-                  const progress = this.getProgressText(attachment);
-
-                  if (!isAttachmentImage) {
-                    return;
-                  }
-
-                  return <div
-                    key={index}
-                    className={style.preview}
-                    {...isAttachmentImage ? { style: { '--image': `url(${attachment.url})` } } : {}}
-                  >
-                    {!isAttachmentImage &&
-                      <Icon name="attach" />
-                    }
-
-                    <button onClick={this.removeAttachment(index)}>
-                      <Icon name="close" />
-                    </button>
-
-                    {attachment.isLoading &&
-                      <p className={style.progress}>{progress}</p>
-                    }
-
-                    <Loading className={style.file_loading} isShown={attachment.isLoading} />
-                  </div>;
-                })}
-              </div>
+              <Gallery
+                attachments={this.state.attachments}
+                removeAttachment={this.removeAttachment}
+                className={style.gallery_preview}
+              />
             }
 
             {withFiles &&
-              <div className={style.uploaded_files}>
-                {this.state.attachments.map((attachment, index) => {
-                  const isAttachmentImage = attachment.content_type.match('image/');
-                  const isLoading = attachment.currentChunk < attachment.byte_size;
-                  const progress = this.getProgressText(attachment);
-
-                  if (isAttachmentImage) {
-                    return;
-                  }
-
-                  return <div className={style.file_item} key={index}>
-                    {isLoading &&
-                      <Loading className={style.file_loading} isShown />
-                    }
-
-                    {!isLoading &&
-                      <Icon name="file" />
-                    }
-
-                    <p className={style.title}>{attachment.file_name}</p>
-                    <span className={style.size}>{progress}</span>
-
-                    <button className={style.delete} onClick={this.removeAttachment(index)}>
-                      <Icon name="close" />
-                    </button>
-                  </div>;
-                })}
-              </div>
+              <Files
+                attachments={this.state.attachments}
+                removeAttachment={this.removeAttachment}
+                className={style.uploaded_files}
+              />
             }
           </div>
 

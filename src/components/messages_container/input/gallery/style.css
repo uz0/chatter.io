@@ -1,0 +1,82 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 70px);
+  grid-gap: 6px;
+  margin-top: 6px;
+}
+
+.gallery .preview {
+  --size: 64px;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--size);
+  border-radius: 4px;
+  background-color: #dedede;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.gallery .preview > i {
+  --icon-size: 24px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.gallery .preview button {
+  --size: 18px;
+  z-index: 3;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.gallery .preview button:not(:hover) {
+  --icon-color: var(--caption-color);
+}
+
+.gallery .preview button:hover {
+  --icon-color: var(--text-color);
+}
+
+.gallery .preview button i {
+  --icon-size: 8px;
+  flex-shrink: 0;
+}
+
+.gallery .preview .progress {
+  --height: 20px;
+  z-index: 3;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 9px;
+  color: #fff;
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gallery .preview .file_loading {
+  --loading-background-color: rgba(0, 0, 0, 0.4);
+  --spinner-size: 30px;
+  --spinner-section-color: #fff;
+  --spinner-border-color: transparent;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
@@ -76,10 +77,8 @@ class MessageBlock extends Component {
       });
     }
 
-    /* eslint-disable no-useless-escape */
     const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
     const tagreg = /\B\#\w\w+\b/gim;
-    /* eslint-enable no-useless-escape */
 
     if (text.match(linkreg)) {
       text = text.replace(linkreg, '<a href="$1" target="_blank">$1</a>');
@@ -195,3 +194,4 @@ export default compose(
     }),
   ),
 )(MessageBlock);
+/* eslint-enable no-useless-escape */

@@ -1,7 +1,9 @@
+/* eslint-disable no-useless-escape */
 import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import filter from 'lodash/filter';
+import isEmpty from 'lodash/isEmpty';
 import RefMessage from '../ref-message';
 import Username from '../username';
 import { withTranslation } from 'react-i18next';
@@ -9,6 +11,7 @@ import classnames from 'classnames/bind';
 import Link from '@/components/link';
 import Icon from '@/components/icon';
 import { withRouter } from '@/hoc';
+import { getOpponentUser } from '@/helpers';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -74,11 +77,23 @@ class MessageBlock extends Component {
       });
     }
 
-    // eslint-disable-next-line no-useless-escape
     const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    const tagreg = /\B\#\w\w+\b/gim;
 
     if (text.match(linkreg)) {
       text = text.replace(linkreg, '<a href="$1" target="_blank">$1</a>');
+    }
+
+    if (text.match(tagreg)) {
+      let href = '';
+
+      if (this.props.details.group.type === 'private_chat' && !isEmpty(getOpponentUser(this.props.details))) {
+        href = `/chat/user/${getOpponentUser(this.props.details).id}`;
+      } else {
+        href = `/chat/${this.props.details.id}`;
+      }
+
+      text = text.replace(tagreg, tag => `<a href="${href}/tag/${tag.replace('#', '')}" target="_blank">${tag}</a>`);
     }
 
     return text;
@@ -179,3 +194,4 @@ export default compose(
     }),
   ),
 )(MessageBlock);
+/* eslint-enable no-useless-escape */

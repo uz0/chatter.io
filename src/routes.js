@@ -15,8 +15,10 @@ export default () => <Provider store={store}>
   <BrowserRouter>
     <Layout>
       <Switch>
+        <Route component={Chat} path="/chat/user/:userId/tag/:tagname" />
         <Route component={Chat} path="/chat/user/:userId/:messageId" />
         <Route component={Chat} path="/chat/user/:userId" />
+        <Route component={Chat} path="/chat/:chatId/tag/:tagname" />
         <Route component={Chat} path="/chat/:chatId/:messageId" />
         <Route component={Chat} path="/chat/:chatId" />
         <Route component={Chat} path="/chat" />

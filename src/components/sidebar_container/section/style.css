@@ -1,0 +1,37 @@
+.section {}
+
+.section:nth-of-type(n+2) {
+  margin-top: 20px;
+}
+
+.section > .title {
+  --height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  line-height: var(--height);
+  font-size: 14px;
+  font-weight: var(--font-weight-light);
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.section > .title + * {
+  margin-top: 8px;
+}
+
+.section > .empty {
+  --height: 60px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

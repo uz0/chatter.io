@@ -1,0 +1,57 @@
+.section {
+  position: relative;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.section:not(._is-loading) {
+  --preview-display: none;
+  --preview-opacity: 0;
+  overflow-y: auto;
+}
+
+.section._is-loading {
+  --preview-display: block;
+  --preview-opacity: 1;
+  overflow-y: hidden;
+}
+
+.section::before {
+  z-index: 1;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1px;
+  top: 0;
+  bottom: 0;
+  background-image: url('/assets/subscription-preview.svg');
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  opacity: var(--preview-opacity);
+  transition-property: opacity;
+  pointer-events: none;
+}
+
+.section::after {
+  z-index: 2;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1px;
+  top: 0;
+  bottom: 0;
+  display: var(--preview-display);
+  background-color: #fff;
+  animation-name: loading;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  opacity: var(--preview-opacity);
+  transition-property: opacity;
+  pointer-events: auto;
+}
+
+@keyframes loading {
+  0% {opacity: 0;}
+  50% {opacity: 0.3;}
+  100% {opacity: 0;}
+}

@@ -6,7 +6,6 @@ import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
-import ModalContainer from '@/components/modal_container';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as notificationActions } from '@/components/notification';
@@ -134,8 +133,6 @@ class Chat extends Component {
           <Panel params={this.props.match.params} className={style.panel} />
         </Fragment>
       }
-
-      <ModalContainer />
     </div>;
   }
 }

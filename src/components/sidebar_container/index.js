@@ -77,9 +77,13 @@ class Sidebar extends Component {
     const photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
     const userImageInline = { '--bg-image': `url(${photo})` };
 
-    const isFiltersShown = this.props.subscriptions_filter_text;
-    const isSpacesShown = false;
-    const isSubscriptionsShown = !this.props.subscriptions_filter_text;
+    // const isFiltersShown = this.props.subscriptions_filter_text;
+    // const isSpacesShown = false;
+    // const isSubscriptionsShown = !this.props.subscriptions_filter_text;
+
+    const isFiltersShown = false;
+    const isSpacesShown = true;
+    const isSubscriptionsShown = false;
 
     const isAllFilterActive = this.props.subscriptions_filter_tag === 'all';
     const isPersonalFilterActive = this.props.subscriptions_filter_tag === 'personal';

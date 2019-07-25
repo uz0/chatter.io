@@ -37,7 +37,7 @@ export default WrappedComponent => {
         search = '?' + Object.keys(query).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
       }
 
-      this.props.history.repalce(`${url}${search}`);
+      this.props.history.replace(`${url}${search}`);
     };
 
     render() {

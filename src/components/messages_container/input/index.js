@@ -16,6 +16,7 @@ import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
 import { scrollMessagesBottom, uid } from '@/helpers';
+import { withRouter } from '@/hoc';
 import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
@@ -505,6 +506,23 @@ class MessageInput extends Component {
     if (this.props.reply_message_id) {
       this.props.clearReplyMessage();
     }
+
+    if (this.props.match.params.tagname) {
+      this.resetFilters();
+    }
+  };
+
+  resetFilters = () => {
+    const indexOfTag = location.pathname.indexOf('/tag');
+
+    if (indexOfTag !== -1) {
+      this.props.replaceUrl(location.pathname.substr(0, indexOfTag));
+
+      setTimeout(() => {
+        const messageList = document.getElementById('messages-scroll');
+        messageList.scrollTo(0, messageList.scrollHeight);
+      });
+    }
   };
 
   onSendButtonClick = () => {
@@ -745,6 +763,7 @@ class MessageInput extends Component {
 }
 
 export default compose(
+  withRouter,
   withTranslation(),
 
   connect(

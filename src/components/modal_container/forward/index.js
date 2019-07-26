@@ -14,15 +14,16 @@ import style from './style.css';
 class Forward extends Component {
   forward = subscription => {
     const href = getChatUrl(subscription);
+    const subscription_id = subscription.id;
 
     api.post({
       uid: uid(),
-      subscription_id: subscription.id,
+      subscription_id,
       text: '',
       forwarded_message_id: this.props.forward_message_id,
     }).then(data => {
       api.updateSubscription({
-        subscription_id: subscription.id,
+        subscription_id,
         last_read_message_id: data.message.id,
         draft: '',
       });

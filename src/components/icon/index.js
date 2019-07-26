@@ -27,6 +27,7 @@ import exclamationIcon from '@/assets/icons/exclamation.svg';
 import infoIcon from '@/assets/icons/info.svg';
 import fileIcon from '@/assets/icons/file.svg';
 import hashtagIcon from '@/assets/icons/hashtag.svg';
+import plusIcon from '@/assets/icons/plus.svg';
 
 const cx = classnames.bind(style);
 
@@ -133,6 +134,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'hashtag' &&
     <ReactSvgInjector src={hashtagIcon} />
+  }
+
+  {name === 'plus' &&
+    <ReactSvgInjector src={plusIcon} />
   }
 </i>;
 

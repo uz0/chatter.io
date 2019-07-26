@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
 import Messages from '@/components/messages_container';
+import Spaces from '@/components/spaces_container';
 import Panel from '@/components/panel_container';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
@@ -122,16 +123,24 @@ class Chat extends Component {
   }
 
   render() {
-    const isChatOpen = this.props.match.params.chatId || this.props.match.params.userId;
+    // const isChatOpen = this.props.match.params.chatId || this.props.match.params.userId;
+    const isChatOpen = false;
+    const isSpacesOpen = true;
+    const isPanelOpen = isChatOpen || isSpacesOpen;
 
-    return <div className={cx('chat', {'_is-open': isChatOpen})}>
+    return <div className={cx('chat', {'_is-open': isChatOpen || isSpacesOpen})}>
       <Sidebar className={style.sidebar} />
 
       {isChatOpen &&
-        <Fragment>
-          <Messages params={this.props.match.params} className={style.messages} />
-          <Panel params={this.props.match.params} className={style.panel} />
-        </Fragment>
+        <Messages params={this.props.match.params} className={style.messages} />
+      }
+
+      {isSpacesOpen &&
+        <Spaces className={style.spaces} />
+      }
+
+      {isPanelOpen &&
+        <Panel params={this.props.match.params} className={style.panel} />
       }
     </div>;
   }

@@ -85,9 +85,7 @@ class Messages extends Component {
           groupedMessages.push({ type: 'unreadDelimiter' });
         }
 
-        if (message.text) {
-          groupedMessages.push({ type: 'message', message_id });
-        }
+        groupedMessages.push({ type: 'message', message_id });
       });
     });
 

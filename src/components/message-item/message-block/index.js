@@ -8,13 +8,14 @@ import RefMessage from '../ref-message';
 import Username from '../username';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
-import Link from '@/components/link';
 import Icon from '@/components/icon';
 import { withRouter } from '@/hoc';
 import { getOpponentUser } from '@/helpers';
 import style from './style.css';
 
 const cx = classnames.bind(style);
+const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+const tagreg = /\B\#\w\w+\b/gim;
 
 class MessageBlock extends Component {
   getFileName = file => {
@@ -77,9 +78,6 @@ class MessageBlock extends Component {
       });
     }
 
-    const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-    const tagreg = /\B\#\w\w+\b/gim;
-
     if (text.match(linkreg)) {
       text = text.replace(linkreg, '<a href="$1" target="_blank">$1</a>');
     }
@@ -93,7 +91,7 @@ class MessageBlock extends Component {
         href = `/chat/${this.props.details.id}`;
       }
 
-      text = text.replace(tagreg, tag => `<a href="${href}/tag/${tag.replace('#', '')}" target="_blank">${tag}</a>`);
+      text = text.replace(tagreg, tag => `<a href="${href}/tag/${tag.replace('#', '')}">${tag}</a>`);
     }
 
     return text;
@@ -103,6 +101,10 @@ class MessageBlock extends Component {
     const targetLink = event.target.closest('a');
 
     if (!targetLink) {
+      return;
+    }
+
+    if (targetLink.getAttribute('target')) {
       return;
     }
 
@@ -159,21 +161,20 @@ class MessageBlock extends Component {
       {files &&
         <Fragment>
           {files.map(file => {
-            const fileName = this.getFileName(file);
             const fileSize = this.getFileSize(file);
 
-            return <Link key={file.url} to={file.url} target="_blank" className={style.file}>
+            return <a key={file.url} href={file.url} target="_blank" download={file.filename} className={style.file}>
               <Icon name="add-chat" />
 
               <div className={style.section}>
                 <p className={style.name}>File</p>
 
                 <div className={style.subcaption}>
-                  <p className={style.text}>{fileName}</p>
+                  <p className={style.text}>{file.filename}</p>
                   <span className={style.size}>{fileSize}</span>
                 </div>
               </div>
-            </Link>;
+            </a>;
           })}
         </Fragment>
       }

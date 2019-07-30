@@ -19,6 +19,13 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
+const Button = props => <button {...props}>{props.children}</button>;
+
+const wrappers = {
+  link: Link,
+  button: Button,
+};
+
 class SubscriptionItem extends Component {
   loadLastMessage = subscription => {
     api.getMessages({ subscription_id: subscription.id, limit: 1 }).then(data => {
@@ -88,11 +95,11 @@ class SubscriptionItem extends Component {
   render() {
     const chatName = getChatName(this.props.subscription);
     const href = getChatUrl(this.props.subscription);
-
     const isLastMessageShown = this.props.lastMessage && !this.props.typings;
     const isUnreadShown = !this.props.messageId && this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
+    const Wrapper = wrappers[this.props.withLoadData ? 'link' : 'button'];
 
-    return <Link
+    return <Wrapper
       {...this.props.withLoadData ? {to: href} : {}}
       {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
       {...!this.props.withLoadData ? {onClick: this.click} : {}}
@@ -122,7 +129,7 @@ class SubscriptionItem extends Component {
 
       {false && <div className={style.last_photo} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />}
       {false && <span className={style.last_count}>+3</span>}
-    </Link>;
+    </Wrapper>;
   }
 }
 

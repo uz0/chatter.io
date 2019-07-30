@@ -5,12 +5,12 @@ import { withRouter } from '@/hoc';
 
 class Invite extends Component {
   componentWillMount() {
-    if (this.props.params.code) {
-      this.props.pushUrl('/chat', {invitecode: this.props.params.code});
+    if (this.props.match.params.code) {
+      this.props.pushUrl('/chat', {invitecode: this.props.match.params.code});
     }
 
-    if (this.props.params.nick) {
-      this.props.pushUrl('/chat', {inviteuser: this.props.params.nick});
+    if (this.props.match.params.nick) {
+      this.props.pushUrl('/chat', {inviteuser: this.props.match.params.nick});
     }
   }
 

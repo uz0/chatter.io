@@ -25,56 +25,68 @@ class Filters extends Component {
     return false;
   };
 
+  setHoverUp = () => {
+    if (!this.props.hover_subscription_id) {
+      this.props.setHoverSubscription(this.props.sorted_subscriptions_ids[0]);
+      return;
+    }
+
+    const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
+    const prevSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex - 1];
+
+    if (currentHoverIndex > 0 && !!prevSubscription) {
+      this.props.setHoverSubscription(prevSubscription);
+      const prevSubscriptionRef = document.querySelector(`[data-subscription-id="${prevSubscription}"]`);
+
+      if (!this.isSubscriptionInViewPort(prevSubscriptionRef)) {
+        prevSubscriptionRef.scrollIntoView({ block: 'start' });
+      }
+    }
+  };
+
+  setHoverDown = () => {
+    if (!this.props.hover_subscription_id) {
+      this.props.setHoverSubscription(this.props.sorted_subscriptions_ids[0]);
+      return;
+    }
+
+    const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
+    const nextSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex + 1];
+
+    if (currentHoverIndex < this.props.sorted_subscriptions_ids.length - 1 && !!nextSubscription) {
+      this.props.setHoverSubscription(nextSubscription);
+      const nextSubscriptionRef = document.querySelector(`[data-subscription-id="${nextSubscription}"]`);
+
+      if (!this.isSubscriptionInViewPort(nextSubscriptionRef)) {
+        nextSubscriptionRef.scrollIntoView({ block: 'end' });
+      }
+    }
+  };
+
+  selectChat = () => {
+    if (!this.props.hover_subscription_id) {
+      return;
+    }
+
+    const subscription = this.props.subscriptions_list[this.props.hover_subscription_id];
+    const href = getChatUrl(subscription);
+    this.props.setHoverSubscription(null);
+    setTimeout(() => this.props.pushUrl(href));
+  };
+
   handleDocumentKeyDown = event => {
     const isChatOpen = this.props.match.params.chatId || this.props.match.params.userId;
 
     if (!isChatOpen && event.keyCode === 13) {
-      if (this.props.hover_subscription_id) {
-        const subscription = this.props.subscriptions_list[this.props.hover_subscription_id];
-        const href = getChatUrl(subscription);
-        this.props.setHoverSubscription(null);
-        setTimeout(() => this.props.pushUrl(href));
-      }
+      this.selectChat();
     }
 
     if (!isChatOpen && event.keyCode === 38) {
-      if (this.props.hover_subscription_id) {
-        const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
-        const prevSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex - 1];
-
-        if (currentHoverIndex > 0 && !!prevSubscription) {
-          this.props.setHoverSubscription(prevSubscription);
-          const prevSubscriptionRef = document.querySelector(`[data-subscription-id="${prevSubscription}"]`);
-
-          if (!this.isSubscriptionInViewPort(prevSubscriptionRef)) {
-            prevSubscriptionRef.scrollIntoView({ block: 'start' });
-          }
-        }
-      }
-
-      if (!this.props.hover_subscription_id) {
-        this.props.setHoverSubscription(this.props.sorted_subscriptions_ids[0]);
-      }
+      this.setHoverUp();
     }
 
     if (!isChatOpen && event.keyCode === 40) {
-      if (this.props.hover_subscription_id) {
-        const currentHoverIndex = this.props.sorted_subscriptions_ids.indexOf(this.props.hover_subscription_id);
-        const nextSubscription = this.props.sorted_subscriptions_ids[currentHoverIndex + 1];
-
-        if (currentHoverIndex < this.props.sorted_subscriptions_ids.length - 1 && !!nextSubscription) {
-          this.props.setHoverSubscription(nextSubscription);
-          const nextSubscriptionRef = document.querySelector(`[data-subscription-id="${nextSubscription}"]`);
-
-          if (!this.isSubscriptionInViewPort(nextSubscriptionRef)) {
-            nextSubscriptionRef.scrollIntoView({ block: 'end' });
-          }
-        }
-      }
-
-      if (!this.props.hover_subscription_id) {
-        this.props.setHoverSubscription(this.props.sorted_subscriptions_ids[0]);
-      }
+      this.setHoverDown();
     }
   };
 

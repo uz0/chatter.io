@@ -50,10 +50,10 @@
   pointer-events: auto;
 }
 
-.section {
+.wrapper > .section {
 }
 
-.section > .space {
+.wrapper > .section > .space {
   display: flex;
   align-items: center;
   height: 38px;
@@ -63,25 +63,25 @@
   transition-property: background-color;
 }
 
-.section > .space:not(:global(._is-active)):not(:hover) {
+.wrapper > .section > .space:not(:global(._is-active)):not(:hover) {
   --background-color: transparent;
 }
 
-.section > .space:not(:global(._is-active)):hover {
+.wrapper > .section > .space:not(:global(._is-active)):hover {
   --background-color: var(--divider-color);
 }
 
-.section > .space:global(._is-active) {
+.wrapper > .section > .space:global(._is-active) {
   --background-color: var(--divider-color);
 }
 
-.section > .space > i {
+.wrapper > .section > .space > i {
   --icon-size: 16px;
   --icon-color: var(--caption-color);
   flex-shrink: 0;
 }
 
-.section > .space > .name {
+.wrapper > .section > .space > .name {
   --height: 16px;
   flex-grow: 1;
   overflow: hidden;
@@ -95,7 +95,7 @@
   text-overflow: ellipsis;
 }
 
-.section > .space > .point {
+.wrapper > .section > .space > .point {
   --size: 10px;
   flex-shrink: 0;
   width: var(--size);
@@ -103,6 +103,10 @@
   margin-left: 12px;
   background-color: var(--primary-color);
   border-radius: calc(var(--size) / 2);
+}
+
+.wrapper > .section .subscription._is-user-hover {
+  background-color: var(--divider-color);
 }
 
 @keyframes loading {

@@ -117,7 +117,7 @@ class Sidebar extends Component {
         >{this.props.t('work')}</button>
       </div>
 
-      <div className={style.list}>
+      <div className={style.list} id="sidebar-scroll">
         {isSubscriptionsShown &&
           <Subscriptions isLoading={this.state.isLoading} />
         }

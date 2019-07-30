@@ -25,6 +25,8 @@ class Filters extends Component {
     return `/chat/${subscription.id}`;
   };
 
+  stopSearchingMessages = () => this.props.toggleSearchMessages(false);
+
   goToMessage = params => () => {
     const subscription = this.props.subscriptions_list[params.chatId];
     const href = this.getSubscriptionHref(subscription);
@@ -137,6 +139,7 @@ class Filters extends Component {
 
   render() {
     const filteredMessages = this.getFilteredMessages(this.props.sorted_subscriptions_ids);
+    const stopSearchAction = { text: this.props.t('stop_loading'), onClick: this.stopSearchingMessages};
 
     return <Fragment>
       <Section
@@ -155,9 +158,11 @@ class Filters extends Component {
 
       <Section
         title={this.props.t('message_plural')}
+        isLoading={this.props.is_searching_old_messages}
         emptyMessage={this.props.t('no_results')}
         items={filteredMessages}
         renderItem={this.renderSubscription}
+        {...this.props.is_searching_old_messages ? {action: stopSearchAction} : {}}
       />
     </Fragment>;
   }
@@ -176,11 +181,13 @@ export default compose(
       subscriptions_filtered_global_users: state.subscriptions.filtered_global_users,
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_filter_text: state.subscriptions.filter_text,
+      is_searching_old_messages: state.subscriptions.is_searching_old_messages,
       messages_list: state.messages.list,
     }),
 
     {
       addSubscription: subscriptionsActions.addSubscription,
+      toggleSearchMessages: subscriptionsActions.toggleSearchMessages,
       updateMessage: messagesActions.updateMessage,
       addUsers: usersActions.addUsers,
     },

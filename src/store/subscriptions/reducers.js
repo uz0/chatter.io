@@ -15,6 +15,7 @@ const initialState = {
   filtered_contacts_ids: [],
   filtered_global_users: [],
   filter_tag: 'all',
+  is_searching_old_messages: false,
 };
 
 export default createReducer(initialState, {
@@ -64,6 +65,10 @@ export default createReducer(initialState, {
     if (state.filtered_ids.indexOf(action.payload) !== -1) {
       state.filtered_ids.splice(state.filtered_ids.indexOf(action.payload), 1);
     }
+  },
+
+  [actions.types.toggleSearchMessages]: (state, action) => {
+    state.is_searching_old_messages = action.payload;
   },
 
   [actions.types.search]: (state, action) => {

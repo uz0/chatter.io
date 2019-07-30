@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import find from 'lodash/find';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
+import sortBy from 'lodash/sortBy';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
+import Link from '@/components/link';
+import Icon from '@/components/icon';
 import Section from '@/components/sidebar_container/section';
 import SubscriptionItem from '@/components/subscription-item';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
@@ -78,6 +83,27 @@ class Filters extends Component {
     }
   };
 
+  renderSpace = ({ item }) => {
+    return <Link to={`/chat/${item.id}`} key={item.id} activeClassName="_is-active" className={style.space}>
+      <Icon name="hashtag" />
+      <p className={style.name}>{item.group.name}</p>
+
+      {false &&
+        <div className={style.point} />
+      }
+    </Link>;
+  };
+
+  renderSubscription = ({ item }) => {
+    return <SubscriptionItem
+      key={item.id}
+      id={item.id}
+      className={cx('subscription', { '_is-user-hover': item.id === this.props.hover_subscription_id })}
+      withLoadData
+      withDataId
+    />;
+  }
+
   componentDidMount() {
     window.addEventListener('keydown', this.handleDocumentKeyDown);
   }
@@ -86,26 +112,34 @@ class Filters extends Component {
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
-  renderSubscription = ({ item }) => {
-    return <SubscriptionItem
-      key={item}
-      id={item}
-      className={cx('subscription', { '_is-user-hover': item === this.props.hover_subscription_id })}
-      withLoadData
-      withDataId
-    />;
-  }
-
   render() {
-    const isHasSubscriptionsWithNotLoadedAddData = !!find(this.props.subscriptions_list, subscription => !subscription.is_add_data_loaded);
+    const isHasSubscriptionsWithNotLoadedAddData = !!find(this.props.subscriptions_list, subscription => subscription && !subscription.is_space && !subscription.is_add_data_loaded);
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
 
-    return <Section
-      items={this.props.sorted_subscriptions_ids}
-      emptyMessage="There is no subscriptions yet"
-      renderItem={this.renderSubscription}
-      className={cx('section', {'_is-loading': isSubscriptionsLoading})}
-    />;
+    let spaces = map(this.props.sorted_subscriptions_ids, id => this.props.subscriptions_list[id]);
+    spaces = filter(spaces, item => item.is_space);
+    spaces = sortBy(spaces, item => item.group.name);
+
+    let subscriptions = map(this.props.sorted_subscriptions_ids, id => this.props.subscriptions_list[id]);
+    subscriptions = filter(subscriptions, item => !item.is_space);
+
+    return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
+      <Section
+        items={spaces}
+        title="Spaces"
+        emptyMessage="There is no spaces yet"
+        renderItem={this.renderSpace}
+        className={style.section}
+      />
+
+      <Section
+        items={subscriptions}
+        title="Messages"
+        emptyMessage="There is no subscriptions yet"
+        renderItem={this.renderSubscription}
+        className={style.section}
+      />
+    </div>;
   }
 }
 

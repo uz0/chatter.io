@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import Filters from './filters';
-import Spaces from './spaces';
 import Subscriptions from './subscriptions';
 import Button from '@/components/button';
 import SearchInput from '@/components/search-input';
@@ -77,13 +76,8 @@ class Sidebar extends Component {
     const photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
     const userImageInline = { '--bg-image': `url(${photo})` };
 
-    // const isFiltersShown = this.props.subscriptions_filter_text;
-    // const isSpacesShown = false;
-    // const isSubscriptionsShown = !this.props.subscriptions_filter_text;
-
-    const isFiltersShown = false;
-    const isSpacesShown = true;
-    const isSubscriptionsShown = false;
+    const isFiltersShown = this.props.subscriptions_filter_text;
+    const isSubscriptionsShown = !this.props.subscriptions_filter_text;
 
     const isAllFilterActive = this.props.subscriptions_filter_tag === 'all';
     const isPersonalFilterActive = this.props.subscriptions_filter_tag === 'personal';
@@ -130,10 +124,6 @@ class Sidebar extends Component {
 
         {isFiltersShown &&
           <Filters />
-        }
-
-        {isSpacesShown &&
-          <Spaces />
         }
       </div>
     </div>;

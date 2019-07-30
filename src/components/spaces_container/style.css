@@ -1,5 +1,6 @@
 .spaces {
   --section-width: 550px;
+  flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
   padding: var(--layout-padding);
@@ -8,6 +9,7 @@
 
 .spaces > .title {
   --height: 24px;
+  flex-shrink: 0;
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -21,6 +23,7 @@
 
 .spaces > .subtitle {
   --height: 16px;
+  flex-shrink: 0;
   overflow: hidden;
   height: var(--height);
   line-height: var(--height);
@@ -32,6 +35,7 @@
 }
 
 .spaces > .input_container {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   width: 100%;
@@ -77,114 +81,22 @@
   margin-top: 12px;
 }
 
+.spaces > .post {
+  flex-shrink: 0;
+}
+
 .spaces > .post + .post {
   margin-top: 12px;
 }
 
-.spaces > .post {
-  width: 100%;
-  max-width: var(--section-width);
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 0 0 1px var(--divider-color) inset;
+@media (max-width: 920px) {
+  .spaces {
+    --section-width: 440px;
+  }
 }
 
-.spaces > .post > .header {
-  --avatar-size: 38px;
-  display: grid;
-  grid-template-columns: [avatar-start] auto [avatar-end] 12px [name-start caption-start] 1fr [caption-end name-end] 12px [action-start] auto [action-end];
-  grid-template-rows: [avatar-start name-start action-start] calc(var(--avatar-size) / 2) [name-end caption-start] calc(var(--avatar-size) / 2) [caption-end action-end avatar-end];
-  padding: 14px var(--layout-padding);
-}
-
-.spaces > .post > .header > .avatar {
-  --size: var(--avatar-size);
-  grid-area: avatar;
-}
-
-.spaces > .post > .header > .name {
-  --height: calc(var(--avatar-size) / 2);
-  grid-area: name;
-  overflow: hidden;
-  height: var(--height);
-  line-height: var(--height);
-  font-size: 15px;
-  color: var(--text-color);
-  font-weight: var(--font-weight-medium);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.spaces > .post > .header > .caption {
-  --height: calc(var(--avatar-size) / 2);
-  grid-area: caption;
-  overflow: hidden;
-  height: var(--height);
-  line-height: var(--height);
-  font-size: 13px;
-  color: var(--caption-color);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.spaces > .post > .header > .action {
-  --height: var(--avatar-size);
-  grid-area: action;
-  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
-}
-
-.spaces > .post > .content {
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
-  padding-bottom: var(--layout-padding);
-}
-
-.spaces > .post > .content > .text {
-  line-height: 1.33;
-  font-size: 15px;
-  color: var(--text-color);
-}
-
-.spaces > .post > .footer {
-  display: flex;
-  align-items: center;
-  height: 60px;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
-  box-shadow: 0 1px var(--divider-color) inset;
-}
-
-.spaces > .post > .footer > .reply_input {
-  flex-grow: 1;
-  min-width: 0;
-  height: calc(100% - 2px);
-  font-size: 15px;
-  color: var(--text-color);
-  border: none;
-}
-
-.spaces > .post > .footer > .reply_input::placeholder {
-  color: var(--caption-color);
-}
-
-.spaces > .post > .footer > .action {
-  --icon-size: 14px;
-  --height: 38px;
-  flex-shrink: 0;
-  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
-}
-
-.spaces > .post > .footer > .action:not(:hover) {
-  --color: var(--text-color);
-}
-
-.spaces > .post > .footer > .action:hover {
-  --color: var(--primary-color);
-}
-
-.spaces > .post > .footer > .action > i polygon {
-  fill: var(--icon-color);
-  transition-property: fill;
+@media (max-width: 800px) {
+  .spaces {
+    --section-width: 100%;
+  }
 }

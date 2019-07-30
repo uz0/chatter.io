@@ -1,22 +1,22 @@
-.section {
-  position: relative;
+.wrapper {
   flex-grow: 1;
+  overflow-x: hidden;
   min-height: 0;
 }
 
-.section:not(._is-loading) {
+.wrapper:not(._is-loading) {
   --preview-display: none;
   --preview-opacity: 0;
   overflow-y: auto;
 }
 
-.section._is-loading {
+.wrapper._is-loading {
   --preview-display: block;
   --preview-opacity: 1;
   overflow-y: hidden;
 }
 
-.section::before {
+.wrapper::before {
   z-index: 1;
   content: "";
   position: absolute;
@@ -32,7 +32,7 @@
   pointer-events: none;
 }
 
-.section::after {
+.wrapper::after {
   z-index: 2;
   content: "";
   position: absolute;
@@ -48,6 +48,61 @@
   opacity: var(--preview-opacity);
   transition-property: opacity;
   pointer-events: auto;
+}
+
+.section {
+}
+
+.section > .space {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.section > .space:not(:global(._is-active)):not(:hover) {
+  --background-color: transparent;
+}
+
+.section > .space:not(:global(._is-active)):hover {
+  --background-color: var(--divider-color);
+}
+
+.section > .space:global(._is-active) {
+  --background-color: var(--divider-color);
+}
+
+.section > .space > i {
+  --icon-size: 16px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.section > .space > .name {
+  --height: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.section > .space > .point {
+  --size: 10px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 12px;
+  background-color: var(--primary-color);
+  border-radius: calc(var(--size) / 2);
 }
 
 @keyframes loading {

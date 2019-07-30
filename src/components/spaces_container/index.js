@@ -13,7 +13,6 @@ import moment from 'moment';
 import { withDetails } from '@/hoc';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
-import { actions as usersActions } from '@/store/users';
 import { itemsPerPage } from '@/components/messages_container';
 import style from './style.css';
 
@@ -24,8 +23,6 @@ class Spaces extends Component {
     api.getMessages({ subscription_id: props.details.id, limit: itemsPerPage }).then(data => {
       this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
     });
-
-    this.props.addUsers(props.details.group.participants);
   };
 
   getGroupedMessages = () => {
@@ -99,7 +96,6 @@ export default compose(
 
     {
       loadMessages: messagesActions.loadMessages,
-      addUsers: usersActions.addUsers,
     },
   ),
 )(Spaces);

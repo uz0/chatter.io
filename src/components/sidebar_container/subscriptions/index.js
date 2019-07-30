@@ -7,10 +7,9 @@ import filter from 'lodash/filter';
 import sortBy from 'lodash/sortBy';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
-import Link from '@/components/link';
-import Icon from '@/components/icon';
 import Section from '@/components/sidebar_container/section';
 import SubscriptionItem from '@/components/subscription-item';
+import SpacesItem from './spaces-item';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
 import { getChatUrl } from '@/helpers';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -97,14 +96,7 @@ class Filters extends Component {
   };
 
   renderSpace = ({ item }) => {
-    return <Link to={`/chat/${item.id}`} key={item.id} activeClassName="_is-active" className={style.space}>
-      <Icon name="hashtag" />
-      <p className={style.name}>{item.group.name}</p>
-
-      {false &&
-        <div className={style.point} />
-      }
-    </Link>;
+    return <SpacesItem key={item} id={item} className={style.space} />;
   };
 
   renderSubscription = ({ item }) => {
@@ -177,7 +169,7 @@ export default compose(
     chats = filter(chats, item => !item.is_space);
 
     return {
-      spaces,
+      spaces: map(spaces, space => space.id),
       chats_ids: map(chats, chat => chat.id),
     };
   }),

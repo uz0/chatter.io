@@ -158,6 +158,10 @@
   cursor: pointer;
 }
 
+.post > .content > .gallery > img {
+  cursor: pointer;
+}
+
 .post > .content > .text + .files {
   margin-top: 8px;
 }

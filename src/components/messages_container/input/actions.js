@@ -48,7 +48,7 @@ const sendMessage = params => (dispatch, getState) => {
   const messagesScrollElement = document.querySelector('#messages-scroll');
 
   if (messagesScrollElement) {
-    messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight);
+    setTimeout(() => messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight));
   }
 
   api.post({

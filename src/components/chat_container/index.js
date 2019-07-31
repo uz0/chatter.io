@@ -106,13 +106,23 @@ class Chat extends Component {
     const isChatExist = this.props.match.params.chatId || this.props.match.params.userId;
     const isNextPropsChatWillBeExist = nextProps.match.params.chatId || nextProps.match.params.userId;
 
+    const chatsIds = {
+      ...this.props.match.params.chatId ? {chatId: this.props.match.params.chatId } : {},
+      ...this.props.match.params.userId ? {userId: this.props.match.params.userId } : {},
+    };
+
+    const nextPropsChatsIds = {
+      ...nextProps.match.params.chatId ? {chatId: nextProps.match.params.chatId } : {},
+      ...nextProps.match.params.userId ? {userId: nextProps.match.params.userId } : {},
+    };
+
     if (isChatExist && (!nextProps.match.params.chatId && !nextProps.match.params.userId)) {
       this.props.closeModal('panel-container');
       this.props.clearEditMessage();
       this.props.clearReplyMessage();
     }
 
-    if (isNextPropsChatWillBeExist && !isEqual(this.props.match.params, nextProps.match.params) && !this.props.isMobile && !this.props.isPanelShown) {
+    if (isNextPropsChatWillBeExist && !isEqual(chatsIds, nextPropsChatsIds) && !this.props.isMobile && !this.props.isPanelShown) {
       this.props.toggleModal({ id: 'panel-container' });
     }
   }

@@ -89,6 +89,13 @@
   margin-top: 12px;
 }
 
+.spaces > .load_more {
+  flex-shrink: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
 @media (max-width: 920px) {
   .spaces {
     --section-width: 440px;

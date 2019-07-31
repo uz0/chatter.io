@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import filter from 'lodash/filter';
 import sortBy from 'lodash/sortBy';
 import classnames from 'classnames/bind';
-import Avatar from '@/components/avatar';
+import SubscriptionAvatar from '@/components/subscription-avatar';
 import Button from '@/components/button';
 import Post from './post';
 import moment from 'moment';
@@ -19,9 +19,20 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Spaces extends Component {
-  loadMessages = props => {
-    api.getMessages({ subscription_id: props.details.id, limit: itemsPerPage }).then(data => {
-      this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
+  state = {
+    isNewMessagesLoading: false,
+  };
+
+  loadMessages = props => api.getMessages({ subscription_id: props.details.id, limit: itemsPerPage }).then(data => {
+    this.props.loadMessages({chatId: props.details.id, list: data.messages, isLoaded: true});
+  });
+
+  loadMoreMessages = () => {
+    this.setState({ isNewMessagesLoading: true });
+
+    api.getMessages({ subscription_id: this.props.details.id, limit: itemsPerPage, offset: this.props.chatIds.list.length }).then(data => {
+      this.setState({ isNewMessagesLoading: false });
+      this.props.loadMoreMessages({chatId: this.props.details.id, list: data.messages});
     });
   };
 
@@ -68,6 +79,7 @@ class Spaces extends Component {
   }
 
   render() {
+    const isHasMoreMessages = this.props.chatIds && this.props.chatIds.hasMore;
     const groupedMessages = this.getGroupedMessages();
 
     return <div className={cx('spaces', this.props.className)}>
@@ -75,12 +87,26 @@ class Spaces extends Component {
       <p className={style.subtitle}>Public space</p>
 
       <div className={style.input_container}>
-        <Avatar className={style.avatar} photo="/assets/default-user.jpg" />
+        <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
         <input placeholder="Post to #design" className={style.input} />
         <Button appearance="_fab-divider" icon="plus" className={style.action} />
       </div>
 
-      {groupedMessages.map(message => <Post key={message.id || message.uid} id={message.id || message.uid} className={style.post} />)}
+      {groupedMessages.map(message => <Post
+        key={message.id || message.uid}
+        id={message.id || message.uid}
+        className={style.post}
+      />)}
+
+      {isHasMoreMessages &&
+        <Button
+          appearance="_basic-primary"
+          text="Load more"
+          className={style.load_more}
+          onClick={this.loadMoreMessages}
+          isLoading={this.state.isNewMessagesLoading}
+        />
+      }
     </div>;
   }
 }
@@ -90,12 +116,14 @@ export default compose(
 
   connect(
     (state, props) => ({
+      currentUser: state.currentUser,
       messages_list: state.messages.list,
       chatIds: props.details ? state.messages.chatIds[props.details.id] : null,
     }),
 
     {
       loadMessages: messagesActions.loadMessages,
+      loadMoreMessages: messagesActions.loadMoreMessages,
     },
   ),
 )(Spaces);

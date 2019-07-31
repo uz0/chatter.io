@@ -283,50 +283,59 @@ class Panel extends Component {
     const isChatRoom = this.props.details.group.type === 'room';
     const isRoomWithIcon = isChatRoom && !!this.props.details.group.icon;
     const isInviteCodeBlockShown = isChatRoom && isCurrentUserAdmin && this.props.details.invite_code;
+    const isChatNameShown = (!(isChatRoom && isCurrentUserAdmin) || this.props.details.is_space);
 
     return <Fragment>
       <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
 
       <div className={style.scroll}>
         <div className={style.header}>
-          <div className={style.avatar_container}>
-            <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
+          {!this.props.details.is_space &&
+            <Fragment>
+              <div className={style.avatar_container}>
+                <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
 
-            {isChatRoom && isCurrentUserAdmin &&
-              <button onClick={this.browseEditPhoto} className={style.edit}>Edit</button>
-            }
+                {isChatRoom && isCurrentUserAdmin &&
+                  <button onClick={this.browseEditPhoto} className={style.edit}>Edit</button>
+                }
 
-            {isRoomWithIcon && isCurrentUserAdmin &&
-              <button className={style.close} onClick={this.resetChatAvatar}>
-                <Icon name="close" />
-              </button>
-            }
-          </div>
+                {isRoomWithIcon && isCurrentUserAdmin &&
+                  <button className={style.close} onClick={this.resetChatAvatar}>
+                    <Icon name="close" />
+                  </button>
+                }
+              </div>
 
-          <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
+              <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
 
-          {isChatRoom && isCurrentUserAdmin &&
-            <ContentEditable
-              className={style.name}
-              html={this.state.chatName}
-              disabled={false}
-              onChange={this.onChatNameInput}
-              onBlur={this.onChatNameBlur}
-              tagName="p"
-            />
+              {isChatRoom && isCurrentUserAdmin &&
+                <ContentEditable
+                  className={style.name}
+                  html={this.state.chatName}
+                  disabled={false}
+                  onChange={this.onChatNameInput}
+                  onBlur={this.onChatNameBlur}
+                  tagName="p"
+                />
+              }
+            </Fragment>
           }
 
-          {!(isChatRoom && isCurrentUserAdmin) &&
-            <p className={style.name}>{chatName}</p>
+          {isChatNameShown &&
+            <p className={style.name}>#{chatName}</p>
           }
 
           <p className={style.subcaption}>
-            {isChatRoom &&
+            {isChatRoom && !this.props.details.is_space &&
               `${countParticipants} ${this.props.t('people')}`
             }
 
-            {!isChatRoom &&
+            {!isChatRoom && !this.props.details.is_space &&
               lastActive
+            }
+
+            {this.props.details.is_space &&
+              <Fragment>Public board</Fragment>
             }
           </p>
         </div>

@@ -122,7 +122,7 @@ class Chat extends Component {
       this.props.clearReplyMessage();
     }
 
-    if (isNextPropsChatWillBeExist && !isEqual(chatsIds, nextPropsChatsIds) && !this.props.isMobile && !this.props.isPanelShown) {
+    if (isNextPropsChatWillBeExist && !isEqual(chatsIds, nextPropsChatsIds) && !this.props.isMobile && !this.props.isPanelShown && this.windowWidth > 1024) {
       this.props.toggleModal({ id: 'panel-container' });
     }
   }

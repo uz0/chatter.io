@@ -100,6 +100,7 @@ class SubscriptionItem extends Component {
 
     const isUnreadShown = !this.props.messageId &&
       this.props.lastMessage &&
+      this.props.lastMessage.id &&
       this.props.lastMessage.user_id !== this.props.currentUser.id &&
       this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 

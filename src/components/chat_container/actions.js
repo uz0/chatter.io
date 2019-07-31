@@ -243,6 +243,8 @@ const notificationReceived = notification => (dispatch, getState) => {
 
       if (state.messages.list[notification.object.uid] || state.messages.list[notification.object.id]) {
         dispatch(messagesActions.updateMessage({chatId: messageSubscription.id, message: notification.object}));
+      } else if (!document.querySelector('#messages-scroll')) {
+        dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
       } else {
         scrollMessagesBottom(() => {
           dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));

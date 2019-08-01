@@ -117,24 +117,6 @@ class Messages extends Component {
     const message_id = groupedMessages[index].message_id;
     const next_message_id = groupedMessages[index + 1] && groupedMessages[index + 1].type === 'message' ? groupedMessages[index + 1].message_id : null;
 
-    // // console.log('-----------')
-    // // console.log(last_message_id)
-    // // console.log(message_id)
-    // // console.log(next_message_id)
-
-    // if (!last_message_id && !next_message_id) {
-    //   return 'single';
-    // }
-
-    // // const last_message = this.props.messages_list[last_message_id];
-    // // const message = this.props.messages_list[message_id];
-    // // const next_message = this.props.messages_list[next_message_id];
-
-
-
-    // return 'single';
-
-
     if (!last_message_id && !next_message_id) {
       return 'single';
     }

@@ -149,7 +149,7 @@ class Spaces extends Component {
       </div>
 
       {groupedMessages.map(message => <Post
-        key={message.id || message.uid}
+        key={message.uid}
         id={message.id || message.uid}
         className={style.post}
       />)}

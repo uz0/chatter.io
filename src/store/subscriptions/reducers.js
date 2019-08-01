@@ -21,6 +21,10 @@ const initialState = {
 export default createReducer(initialState, {
   [actions.types.loadSubscriptions]: (state, action) => {
     action.payload.forEach(subscription => {
+      if (state.ids.indexOf(subscription.id) !== -1) {
+        return;
+      }
+
       state.ids.push(subscription.id);
       state.filtered_ids.push(subscription.id);
       // state.list[subscription.id] = subscription;
@@ -48,10 +52,12 @@ export default createReducer(initialState, {
   },
 
   [actions.types.updateSubscription]: (state, action) => {
-    state.list[action.payload.id] = {
-      ...state.list[action.payload.id],
-      ...action.payload,
-    };
+    if (state.list[action.payload.id]) {
+      state.list[action.payload.id] = {
+        ...state.list[action.payload.id],
+        ...action.payload,
+      };
+    }
   },
 
   [actions.types.setHoverSubscription]: (state, action) => {

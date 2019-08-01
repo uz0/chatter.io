@@ -72,6 +72,7 @@ class Messages extends Component {
 
       messagesPerDay.forEach((message, index) => {
         const message_id = message.id || message.uid;
+        const message_uid = message.uid;
         const isMessageOpponent = message.user_id !== this.props.currentUser.id;
         const isPrevMessageIsLastRead = messagesPerDay[index - 1] && messagesPerDay[index - 1].id === this.props.details.last_read_message_id;
         const isOpponentMessageUnread = isMessageOpponent && isPrevMessageIsLastRead;
@@ -85,7 +86,7 @@ class Messages extends Component {
           groupedMessages.push({ type: 'unreadDelimiter' });
         }
 
-        groupedMessages.push({ type: 'message', message_id });
+        groupedMessages.push({ type: 'message', message_id, message_uid });
       });
     });
 
@@ -115,6 +116,24 @@ class Messages extends Component {
     const last_message_id = groupedMessages[index - 1] && groupedMessages[index - 1].type === 'message' ? groupedMessages[index - 1].message_id : null;
     const message_id = groupedMessages[index].message_id;
     const next_message_id = groupedMessages[index + 1] && groupedMessages[index + 1].type === 'message' ? groupedMessages[index + 1].message_id : null;
+
+    // // console.log('-----------')
+    // // console.log(last_message_id)
+    // // console.log(message_id)
+    // // console.log(next_message_id)
+
+    // if (!last_message_id && !next_message_id) {
+    //   return 'single';
+    // }
+
+    // // const last_message = this.props.messages_list[last_message_id];
+    // // const message = this.props.messages_list[message_id];
+    // // const next_message = this.props.messages_list[next_message_id];
+
+
+
+    // return 'single';
+
 
     if (!last_message_id && !next_message_id) {
       return 'single';
@@ -330,7 +349,7 @@ class Messages extends Component {
             }
 
             return <MessageItem
-              key={grouped.message_id}
+              key={grouped.message_uid}
               id={grouped.message_id}
               className={cx('message', 'item')}
               type={grouped.message_type}

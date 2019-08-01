@@ -241,7 +241,15 @@ const notificationReceived = notification => (dispatch, getState) => {
         dispatch(subscriptionsActions.updateSubscription(leavingSubscription));
       }
 
-      if (state.messages.list[notification.object.uid] || state.messages.list[notification.object.id]) {
+      const stateMessage = state.messages.list[notification.object.uid] || state.messages.list[notification.object.id];
+
+      if (stateMessage) {
+        let message = notification.object;
+
+        if (stateMessage.created_at !== message.created_at) {
+          message.created_at = stateMessage.created_at;
+        }
+
         dispatch(messagesActions.updateMessage({chatId: messageSubscription.id, message: notification.object}));
       } else if (!document.querySelector('#messages-scroll')) {
         dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));

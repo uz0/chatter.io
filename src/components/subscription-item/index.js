@@ -96,8 +96,13 @@ class SubscriptionItem extends Component {
     const chatName = getChatName(this.props.subscription);
     const href = getChatUrl(this.props.subscription);
     const isLastMessageShown = this.props.lastMessage && !this.props.typings;
-    const isUnreadShown = !this.props.messageId && this.props.lastMessage && this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
     const Wrapper = wrappers[this.props.withLoadData ? 'link' : 'button'];
+
+    const isUnreadShown = !this.props.messageId &&
+      this.props.lastMessage &&
+      this.props.lastMessage.id &&
+      this.props.lastMessage.user_id !== this.props.currentUser.id &&
+      this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 
     return <Wrapper
       {...this.props.withLoadData ? {to: href} : {}}

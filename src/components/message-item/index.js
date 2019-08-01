@@ -244,7 +244,12 @@ class MessageItem extends Component {
               className={style.dropdown}
               items={actionsItems}
             >
-              <MessageBlock id={this.props.id} chatId={this.props.details.id} className={style.message_block} />
+              <MessageBlock
+                id={this.props.id}
+                chatId={this.props.details.id}
+                type={this.props.type}
+                className={style.message_block}
+              />
             </Dropdown>
           }
 

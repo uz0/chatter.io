@@ -14,12 +14,15 @@ import { withDetails } from '@/hoc';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { itemsPerPage } from '@/components/messages_container';
+import { actions as notificationActions } from '@/components/notification';
+import { actions as inputActions } from '@/components/messages_container/input';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
 class Spaces extends Component {
   state = {
+    value: '',
     isNewMessagesLoading: false,
   };
 
@@ -55,6 +58,47 @@ class Spaces extends Component {
     return messages;
   };
 
+  onInput = event => this.setState({ value: event.target.value });
+
+  // дубликат
+  getFilteredMessage = value => {
+    if (!value) {
+      return '';
+    }
+
+    let text = value.replace(/\r|\n|\r\n/g, '<br />');
+
+    if (text[0] === ' ') {
+      text = text.substring(1);
+    }
+
+    if (text[text.length - 1] === ' ') {
+      text = text.substring(0, text.length - 1);
+    }
+
+    return text;
+  };
+
+  send = () => {
+    const text = this.getFilteredMessage(this.state.value);
+
+    if (!text) {
+      this.props.showNotification({
+        type: 'info',
+        text: 'No data to send',
+      });
+
+      return;
+    }
+
+    this.props.sendMessage({
+      subscription_id: this.props.details.id,
+      text,
+    });
+
+    this.setState({ value: '' });
+  };
+
   componentDidMount() {
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
@@ -76,6 +120,10 @@ class Spaces extends Component {
     if (isChatChanged && !isMessagesLoaded) {
       this.loadMessages(nextProps);
     }
+
+    if (isChatChanged && this.state.value) {
+      this.setState({ value: '' });
+    }
   }
 
   render() {
@@ -88,8 +136,16 @@ class Spaces extends Component {
 
       <div className={style.input_container}>
         <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
-        <input placeholder="Post to #design" className={style.input} />
-        <Button appearance="_fab-divider" icon="plus" className={style.action} />
+
+        <input
+          placeholder="Post to #design"
+          value={this.state.value}
+          onInput={this.onInput}
+          onChange={() => {}}
+          className={style.input}
+        />
+
+        <Button appearance="_fab-divider" icon="plus" className={style.action} onClick={this.send} />
       </div>
 
       {groupedMessages.map(message => <Post
@@ -124,6 +180,8 @@ export default compose(
     {
       loadMessages: messagesActions.loadMessages,
       loadMoreMessages: messagesActions.loadMoreMessages,
+      sendMessage: inputActions.sendMessage,
+      showNotification: notificationActions.showNotification,
     },
   ),
 )(Spaces);

@@ -222,6 +222,7 @@ class EditProfile extends Component {
           defaultValue={this.props.currentUser.email}
           className={style.input}
           title="Email"
+          disabled
         />
 
         <div className={style.email_additional}>

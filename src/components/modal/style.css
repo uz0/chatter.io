@@ -92,6 +92,7 @@
 }
 
 .wrapper .modal .actions button[disabled] {
+  --color: var(--caption-color) !important;
   pointer-events: none;
   cursor: auto;
 }

@@ -1,5 +1,6 @@
 import actions from './actions';
 import { createReducer } from 'redux-starter-kit';
+import { uid } from '@/helpers';
 
 const initialState = {
   chatIds: {},
@@ -26,7 +27,13 @@ export default createReducer(initialState, {
     };
 
     list.forEach(message => {
-      state.list[message.id] = message;
+      let newMessage = message;
+
+      if (!newMessage.uid) {
+        newMessage.uid = uid();
+      }
+
+      state.list[message.id] = newMessage;
       state.chatIds[chatId].list.push(message.id);
     });
   },
@@ -39,7 +46,13 @@ export default createReducer(initialState, {
         return;
       }
 
-      state.list[message.id] = message;
+      let newMessage = message;
+
+      if (!newMessage.uid) {
+        newMessage.uid = uid();
+      }
+
+      state.list[message.id] = newMessage;
       state.chatIds[chatId].list.push(message.id);
     });
 

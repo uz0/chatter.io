@@ -199,6 +199,10 @@ class Messages extends Component {
   componentDidMount() {
     const isMessagesLoaded = get(this.props, 'chatIds.isLoaded', false);
 
+    if (this.isHasUnread(this.props.details, this.props.lastMessage)) {
+      this.readLastMessage(this.props.details.id, this.props.lastMessage.id);
+    }
+
     if (this.props.details && !isMessagesLoaded) {
       this.loadMessages(this.props);
     }

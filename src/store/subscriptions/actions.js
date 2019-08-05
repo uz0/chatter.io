@@ -95,7 +95,7 @@ const filterSubscription = params => (dispatch, getState) => {
   }
 
   const isAllLoaded = isAllChatsLoaded(stateAfterSearch.messages.chatIds);
-  const isSearchTextDeleted = params.text.length < 4 && state.subscriptions.is_searching_old_messages;
+  const isSearchTextDeleted = params.text && params.text.length < 4 && state.subscriptions.is_searching_old_messages;
 
   if (isSearchTextDeleted || isAllLoaded) {
     dispatch(actions.toggleSearchMessages(false));

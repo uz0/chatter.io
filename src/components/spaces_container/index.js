@@ -8,6 +8,7 @@ import sortBy from 'lodash/sortBy';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Button from '@/components/button';
+import Icon from '@/components/icon';
 import Post from './post';
 import moment from 'moment';
 import { withDetails } from '@/hoc';
@@ -135,17 +136,58 @@ class Spaces extends Component {
       <p className={style.subtitle}>Public space</p>
 
       <div className={style.input_container}>
-        <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
+        <div className={style.section}>
+          <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
 
-        <input
-          placeholder="Post to #design"
-          value={this.state.value}
-          onInput={this.onInput}
-          onChange={() => {}}
-          className={style.input}
-        />
+          <input
+            placeholder="Post to #design"
+            value={this.state.value}
+            onInput={this.onInput}
+            onChange={() => {}}
+            className={style.input}
+          />
 
-        <Button appearance="_fab-divider" icon="plus" className={style.action} onClick={this.send} />
+          <Button appearance="_icon-transparent" icon="attach" className={style.attach} onClick={this.attach} />
+          <Button appearance="_fab-divider" icon="plus" className={style.action} onClick={this.send} />
+        </div>
+
+        <div className={style.attaches}>
+          <div className={style.gallery}>
+            <div className={style.preview} style={{ '--image': 'url(/assets/default-image.jpg)' }}>
+              <button className={style.close}>
+                <Icon name="close" />
+              </button>
+            </div>
+
+            <div className={style.preview} style={{ '--image': 'url(/assets/default-image.jpg)' }}>
+              <button className={style.close}>
+                <Icon name="close" />
+              </button>
+            </div>
+          </div>
+
+          <div className={style.files}>
+            <div className={style.file}>
+              <Icon name="file" />
+              <p className={style.name}>File name</p>
+              <span className={style.size}>115 kb</span>
+
+              <button className={style.delete}>
+                <Icon name="close" />
+              </button>
+            </div>
+
+            <div className={style.file}>
+              <Icon name="file" />
+              <p className={style.name}>File name</p>
+              <span className={style.size}>115 kb</span>
+
+              <button className={style.delete}>
+                <Icon name="close" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {groupedMessages.map(message => <Post

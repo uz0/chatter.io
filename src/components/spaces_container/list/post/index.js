@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
+import find from 'lodash/find';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
@@ -144,7 +145,7 @@ export default compose(
 
   connect(
     (state, props) => ({
-      message: state.messages.list[props.id],
+      message: find(state.messages.list, { uid: props.uid }),
     }),
 
     {

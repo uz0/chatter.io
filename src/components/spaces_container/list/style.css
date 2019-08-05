@@ -1,0 +1,14 @@
+.post {
+  flex-shrink: 0;
+}
+
+.post + .post {
+  margin-top: 12px;
+}
+
+.load_more {
+  flex-shrink: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}

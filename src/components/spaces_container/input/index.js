@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import map from 'lodash/map';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Button from '@/components/button';
-import Icon from '@/components/icon';
+import Attachments from './attachments';
+import { getFilteredMessage } from '@/helpers';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as inputActions } from '@/components/messages_container/input';
 import style from './style.css';
@@ -13,34 +15,15 @@ const cx = classnames.bind(style);
 
 class Input extends Component {
   state = {
-    value: '',
-  };
-
-  onInput = event => this.setState({ value: event.target.value });
-
-  // дубликат
-  getFilteredMessage = value => {
-    if (!value) {
-      return '';
-    }
-
-    let text = value.replace(/\r|\n|\r\n/g, '<br />');
-
-    if (text[0] === ' ') {
-      text = text.substring(1);
-    }
-
-    if (text[text.length - 1] === ' ') {
-      text = text.substring(0, text.length - 1);
-    }
-
-    return text;
+    upload_id: [],
   };
 
   send = () => {
-    const text = this.getFilteredMessage(this.state.value);
+    const input = document.getElementById('spaces-input');
+    const text = getFilteredMessage(input.value);
+    const { upload_id } = this.state;
 
-    if (!text) {
+    if (!text && upload_id.length === 0) {
       this.props.showNotification({
         type: 'info',
         text: 'No data to send',
@@ -51,11 +34,31 @@ class Input extends Component {
 
     this.props.sendMessage({
       subscription_id: this.props.details_id,
-      text,
+      ...text ? { text } : {},
+      ...upload_id ? { upload_id } : {},
     });
 
-    this.setState({ value: '' });
+    input.value = '';
   };
+
+  attach = () => {
+    const input = document.getElementById('spaces-input-attach');
+    input.click();
+  };
+
+  onAttachmentsChange = data => {
+    const upload_id = map(data, item => item.upload_id);
+    this.setState({ upload_id });
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const input = document.getElementById('spaces-input');
+
+    if (this.props.details_id !== nextProps.details_id && input.value) {
+      input.value = '';
+      this.setState({ upload_id: [] });
+    }
+  }
 
   render() {
     return <div className={cx('input_container', this.props.className)}>
@@ -63,10 +66,8 @@ class Input extends Component {
         <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
 
         <input
+          id="spaces-input"
           placeholder="Post to #design"
-          value={this.state.value}
-          onInput={this.onInput}
-          onChange={() => {}}
           className={style.input}
         />
 
@@ -74,43 +75,10 @@ class Input extends Component {
         <Button appearance="_fab-divider" icon="plus" className={style.action} onClick={this.send} />
       </div>
 
-      <div className={style.attaches}>
-        <div className={style.gallery}>
-          <div className={style.preview} style={{ '--image': 'url(/assets/default-image.jpg)' }}>
-            <button className={style.close}>
-              <Icon name="close" />
-            </button>
-          </div>
-
-          <div className={style.preview} style={{ '--image': 'url(/assets/default-image.jpg)' }}>
-            <button className={style.close}>
-              <Icon name="close" />
-            </button>
-          </div>
-        </div>
-
-        <div className={style.files}>
-          <div className={style.file}>
-            <Icon name="file" />
-            <p className={style.name}>File name</p>
-            <span className={style.size}>115 kb</span>
-
-            <button className={style.delete}>
-              <Icon name="close" />
-            </button>
-          </div>
-
-          <div className={style.file}>
-            <Icon name="file" />
-            <p className={style.name}>File name</p>
-            <span className={style.size}>115 kb</span>
-
-            <button className={style.delete}>
-              <Icon name="close" />
-            </button>
-          </div>
-        </div>
-      </div>
+      <Attachments
+        uniqueId="spaces-input-attach"
+        onChange={this.onAttachmentsChange}
+      />
     </div>;
   }
 }

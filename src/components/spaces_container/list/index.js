@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
+import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
@@ -43,6 +44,21 @@ class Spaces extends Component {
     return messages;
   };
 
+  isSomeMessageHasBeenDeleted = nextProps => {
+    let hasDeleted = false;
+    const messages = map(this.props.messages, id => this.props.messages_list[id]);
+
+    messages.forEach(message => {
+      const nextPropsMessage = find(nextProps.messages_list, { uid: message.uid });
+
+      if (message.deleted_at !== nextPropsMessage.deleted_at) {
+        hasDeleted = true;
+      }
+    });
+
+    return hasDeleted;
+  };
+
   componentDidMount() {
     if (!this.props.isLoaded) {
       this.loadMessages(this.props);
@@ -59,12 +75,14 @@ class Spaces extends Component {
     const isMessagesCountChanged = this.props.messages.length !== nextProps.messages.length;
     const isChatChanged = this.props.details_id !== nextProps.details_id;
     const isHasMoreChanged = this.props.hasMore !== nextProps.hasMore;
+    const isSomeMessageHasBeenDeleted = this.isSomeMessageHasBeenDeleted(nextProps);
     const isStateChanged = !isEqual(this.state, nextState);
 
     return isMessagesCountChanged ||
       isChatChanged ||
       isHasMoreChanged ||
-      isStateChanged;
+      isStateChanged ||
+      isSomeMessageHasBeenDeleted;
   }
 
   render() {

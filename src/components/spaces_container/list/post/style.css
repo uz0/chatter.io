@@ -46,9 +46,12 @@
   text-overflow: ellipsis;
 }
 
-.post > .header > .action {
-  --height: var(--avatar-size);
+.post > .header > .dropdown {
   grid-area: action;
+}
+
+.post > .header > .dropdown > .action {
+  --height: var(--avatar-size);
   margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
 }
 

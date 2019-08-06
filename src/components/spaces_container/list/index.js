@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
+import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import sortBy from 'lodash/sortBy';
@@ -54,14 +55,16 @@ class Spaces extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     const isMessagesCountChanged = this.props.messages.length !== nextProps.messages.length;
     const isChatChanged = this.props.details_id !== nextProps.details_id;
     const isHasMoreChanged = this.props.hasMore !== nextProps.hasMore;
+    const isStateChanged = !isEqual(this.state, nextState);
 
     return isMessagesCountChanged ||
       isChatChanged ||
-      isHasMoreChanged;
+      isHasMoreChanged ||
+      isStateChanged;
   }
 
   render() {

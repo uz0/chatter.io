@@ -72,7 +72,7 @@
 
 .input_container > .attaches > .gallery > .preview .close {
   --size: 18px;
-  z-index: 3;
+  z-index: 1;
   position: absolute;
   top: -4px;
   right: -4px;
@@ -139,7 +139,7 @@
 
 .input_container > .attaches > .files > .file > .delete {
   --size: 18px;
-  z-index: 3;
+  z-index: 1;
   flex-shrink: 0;
   display: flex;
   justify-content: center;

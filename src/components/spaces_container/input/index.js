@@ -78,6 +78,7 @@ class Input extends Component {
       <Attachments
         uniqueId="spaces-input-attach"
         onChange={this.onAttachmentsChange}
+        details_id={this.props.details_id}
       />
     </div>;
   }

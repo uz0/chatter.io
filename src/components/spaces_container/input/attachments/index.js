@@ -1,11 +1,38 @@
 import React, { Component, Fragment } from 'react';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
+import sortBy from 'lodash/sortBy';
+import moment from 'moment';
 import Icon from '@/components/icon';
 import Attach from '@/components/attach';
 import style from './style.css';
 
 class Attachments extends Component {
+  getGroupedMessages = () => {
+    let messages = map(this.props.messages, id => this.props.messages_list[id]);
+    messages = filter(messages, message => !message.xtag);
+    messages = filter(messages, message => !message.deleted_at);
+    messages = filter(messages, message => !message.in_reply_to_message_id);
+    messages = filter(messages, message => !message.forwarded_message_id);
+    messages = sortBy(messages, message => moment(message.created_at)).reverse();
+
+    return messages;
+  };
+
+  shouldComponentUpdate(nextProps) {
+    const isMessagesCountChanged = this.props.messages.length !== nextProps.messages.length;
+    return isMessagesCountChanged;
+  }
+
   render() {
+    const groupedMessages = this.getGroupedMessages();
+    const lastMessage = groupedMessages[0];
+
     return <Attach
+      key={lastMessage ? lastMessage.id : 0}
       uniqueId={this.props.uniqueId}
       onChange={this.props.onChange}
     >
@@ -57,4 +84,11 @@ class Attachments extends Component {
   }
 }
 
-export default Attachments;
+export default compose(
+  connect(
+    (state, props) => ({
+      messages: get(state.messages, `chatIds.${props.details_id}.list`, []),
+      messages_list: state.messages.list,
+    }),
+  ),
+)(Attachments);

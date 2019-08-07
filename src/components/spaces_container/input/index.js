@@ -18,6 +18,29 @@ class Input extends Component {
     upload_id: [],
   };
 
+  onInput = () => this.calcTextareaHeight();
+
+  calcTextareaHeight = () => {
+    const textarea = document.getElementById('spaces-input');
+
+    if (!textarea) {
+      return;
+    }
+
+    textarea.style.height = '20px';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
+
+  attach = () => {
+    const input = document.getElementById('spaces-input-attach');
+    input.click();
+  };
+
+  onAttachmentsChange = data => {
+    const upload_id = map(data, item => item.upload_id);
+    this.setState({ upload_id });
+  };
+
   send = () => {
     const input = document.getElementById('spaces-input');
     const text = getFilteredMessage(input.value);
@@ -41,16 +64,6 @@ class Input extends Component {
     input.value = '';
   };
 
-  attach = () => {
-    const input = document.getElementById('spaces-input-attach');
-    input.click();
-  };
-
-  onAttachmentsChange = data => {
-    const upload_id = map(data, item => item.upload_id);
-    this.setState({ upload_id });
-  };
-
   componentWillReceiveProps(nextProps) {
     const input = document.getElementById('spaces-input');
 
@@ -65,9 +78,10 @@ class Input extends Component {
       <div className={style.section}>
         <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
 
-        <input
+        <textarea
           id="spaces-input"
           placeholder="Post to #design"
+          onInput={this.onInput}
           className={style.input}
         />
 

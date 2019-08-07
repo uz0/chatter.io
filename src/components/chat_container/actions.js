@@ -279,6 +279,10 @@ const notificationReceived = notification => (dispatch, getState) => {
         message['attachment'] = null;
       }
 
+      if (message.created_at) {
+        delete message.created_at;
+      }
+
       if (state.messages.list[message.id]) {
         dispatch(messagesActions.updateMessage({chatId: messageSubscription.id, message}));
       }

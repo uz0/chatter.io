@@ -68,6 +68,21 @@
   word-break: break-word;
 }
 
+.post > .content > .text a {
+  color: var(--color);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition-property: color;
+}
+
+.post > .content > .text a:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.post > .content > .text a:hover {
+  --color: var(--primary-color-hover);
+}
+
 .post > .content > .text + .gallery {
   margin-top: 8px;
 }

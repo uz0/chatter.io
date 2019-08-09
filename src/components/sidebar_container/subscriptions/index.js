@@ -118,7 +118,7 @@ class Filters extends Component {
   }
 
   render() {
-    const isHasSubscriptionsWithNotLoadedAddData = !!find(this.props.subscriptions_list, subscription => subscription && !subscription.is_space && !subscription.is_add_data_loaded);
+    const isHasSubscriptionsWithNotLoadedAddData = !!find(this.props.subscriptions_list, subscription => subscription && !subscription.group.is_space && !subscription.is_add_data_loaded);
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
@@ -162,11 +162,11 @@ export default compose(
 
   withProps(props => {
     let spaces = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
-    spaces = filter(spaces, item => item.is_space);
+    spaces = filter(spaces, item => item.group.is_space);
     spaces = sortBy(spaces, item => item.group.name);
 
     let chats = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
-    chats = filter(chats, item => !item.is_space);
+    chats = filter(chats, item => !item.group.is_space);
 
     return {
       spaces: map(spaces, space => space.id),

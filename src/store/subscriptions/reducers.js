@@ -27,17 +27,7 @@ export default createReducer(initialState, {
 
       state.ids.push(subscription.id);
       state.filtered_ids.push(subscription.id);
-      // state.list[subscription.id] = subscription;
-
-      // удалить
-      if (subscription.group.type === 'room' && subscription.group.name) {
-        state.list[subscription.id] = {
-          ...subscription,
-          is_space: true,
-        };
-      } else {
-        state.list[subscription.id] = subscription;
-      }
+      state.list[subscription.id] = subscription;
     });
   },
 

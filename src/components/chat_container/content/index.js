@@ -9,7 +9,7 @@ const Content = ({ details, ...props }) => {
     return null;
   }
 
-  if (details.is_space) {
+  if (details.group.is_space) {
     return <Spaces {...props} />;
   }
 

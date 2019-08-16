@@ -16,14 +16,14 @@ export default attachment => {
 
   if (fullSize >= 1024 && fullSize < 1048576) {
     type = 'kb';
-    formattedChunkSize = Math.ceil(attachment.currentChunk / 1024);
-    formattedFullSize = Math.ceil(fullSize / 1024);
+    formattedChunkSize = Number(attachment.currentChunk / 1024).toFixed(2);
+    formattedFullSize = Number(fullSize / 1024).toFixed(2);
   }
 
   if (fullSize >= 1048576) {
     type = 'mb';
-    formattedChunkSize = Math.ceil(attachment.currentChunk / 1048576);
-    formattedFullSize = Math.ceil(fullSize / 1048576);
+    formattedChunkSize = Number(attachment.currentChunk / 1048576).toFixed(2);
+    formattedFullSize = Number(fullSize / 1048576).toFixed(2);
   }
 
   if (attachment.currentChunk < attachment.byte_size) {

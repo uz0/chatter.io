@@ -6,6 +6,7 @@ import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Validators from '@/components/form/validators';
+import FakeCheckbox from '@/components/fake-checkbox';
 import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
@@ -132,7 +133,25 @@ class Panel extends Component {
 
   setTag = tags => {
     api.updateSubscription({ subscription_id: this.props.details.id, tags });
-  }
+  };
+
+  onIsSpaceChange = event => {
+    event.persist();
+
+    api.updateGroup({ subscription_id: this.props.details.id, is_space: !this.props.details.group.is_space }).then(data => {
+      this.props.updateSubscription({
+        id: this.props.details.id,
+
+        group: {
+          ...this.props.details.group,
+          is_space: data.group.is_space,
+        },
+      });
+    }).catch(error => this.props.showNotification({
+      type: 'error',
+      text: this.props.t(error.code),
+    }));
+  };
 
   setAccess = (user_id, role) => api.setAccess({ subscription_id: this.props.details.id, user_id, role }).then(() => {
     let participants = this.props.details.group.participants;
@@ -283,53 +302,71 @@ class Panel extends Component {
     const isChatRoom = this.props.details.group.type === 'room';
     const isRoomWithIcon = isChatRoom && !!this.props.details.group.icon;
     const isInviteCodeBlockShown = isChatRoom && isCurrentUserAdmin && this.props.details.invite_code;
+    const isChatNameShown = (!(isChatRoom && isCurrentUserAdmin) || this.props.details.group.is_space);
 
     return <Fragment>
       <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
 
       <div className={style.scroll}>
         <div className={style.header}>
-          <div className={style.avatar_container}>
-            <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
+          {!this.props.details.group.is_space &&
+            <Fragment>
+              <div className={style.avatar_container}>
+                <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
 
-            {isChatRoom && isCurrentUserAdmin &&
-              <button onClick={this.browseEditPhoto} className={style.edit}>Edit</button>
-            }
+                {isChatRoom && isCurrentUserAdmin &&
+                  <button onClick={this.browseEditPhoto} className={style.edit}>Edit</button>
+                }
 
-            {isRoomWithIcon && isCurrentUserAdmin &&
-              <button className={style.close} onClick={this.resetChatAvatar}>
-                <Icon name="close" />
-              </button>
-            }
-          </div>
+                {isRoomWithIcon && isCurrentUserAdmin &&
+                  <button className={style.close} onClick={this.resetChatAvatar}>
+                    <Icon name="close" />
+                  </button>
+                }
+              </div>
 
-          <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
+              <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
 
-          {isChatRoom && isCurrentUserAdmin &&
-            <ContentEditable
-              className={style.name}
-              html={this.state.chatName}
-              disabled={false}
-              onChange={this.onChatNameInput}
-              onBlur={this.onChatNameBlur}
-              tagName="p"
-            />
+              {isChatRoom && isCurrentUserAdmin &&
+                <ContentEditable
+                  className={style.name}
+                  html={this.state.chatName}
+                  disabled={false}
+                  onChange={this.onChatNameInput}
+                  onBlur={this.onChatNameBlur}
+                  tagName="p"
+                />
+              }
+            </Fragment>
           }
 
-          {!(isChatRoom && isCurrentUserAdmin) &&
-            <p className={style.name}>{chatName}</p>
+          {isChatNameShown &&
+            <p className={style.name}>#{chatName}</p>
           }
 
           <p className={style.subcaption}>
-            {isChatRoom &&
+            {isChatRoom && !this.props.details.group.is_space &&
               `${countParticipants} ${this.props.t('people')}`
             }
 
-            {!isChatRoom &&
+            {!isChatRoom && !this.props.details.group.is_space &&
               lastActive
+            }
+
+            {this.props.details.group.is_space &&
+              <Fragment>Public board</Fragment>
             }
           </p>
         </div>
+
+        {isChatRoom && isCurrentUserAdmin &&
+          <FakeCheckbox
+            value={this.props.details.group.is_space}
+            label="Space"
+            onChange={this.onIsSpaceChange}
+            className={style.checkbox}
+          />
+        }
 
         {isInviteCodeBlockShown &&
           <button className={style.setting_button} onClick={this.copyInviteLink}>

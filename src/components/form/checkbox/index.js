@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import find from 'lodash/find';
 import { actions as formActions } from '@/components/form';
+import FakeCheckbox from '@/components/fake-checkbox';
 import Validators from '@/components/form/validators';
-import classnames from 'classnames/bind';
-import style from './style.css';
-
-const cx = classnames.bind(style);
 
 class Checkbox extends Component {
   onChange = event => {
@@ -34,22 +31,13 @@ class Checkbox extends Component {
     });
   }
 
-  render = () => <div className={cx('container', this.props.className)}>
-    <label className={style.checkbox_wrapper}>
-      <input
-        type="checkbox"
-        onChange={this.onChange}
-        {...this.props.value ? { checked: true } : {}}
-        {...this.props.disabled ? { disabled: true } : {}}
-      />
-
-      <div className={cx('switch', {'_is-checked': this.props.value})}>
-        <div className={style.circle} />
-      </div>
-    </label>
-
-    <p className={style.label}>{this.props.label}</p>
-  </div>;
+  render = () => <FakeCheckbox
+    className={this.props.className}
+    disabled={this.props.disabled}
+    label={this.props.label}
+    value={this.props.value}
+    onChange={this.onChange}
+  />;
 }
 
 export default connect(

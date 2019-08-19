@@ -1,0 +1,140 @@
+.post {
+  width: 100%;
+  max-width: var(--section-width);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 0 1px var(--divider-color) inset;
+}
+
+.post > .header {
+  --avatar-size: 38px;
+  display: grid;
+  grid-template-columns: [avatar-start] auto [avatar-end] 12px [name-start caption-start] 1fr [caption-end name-end] 12px [action-start] auto [action-end];
+  grid-template-rows: [avatar-start name-start action-start] calc(var(--avatar-size) / 2) [name-end caption-start] calc(var(--avatar-size) / 2) [caption-end action-end avatar-end];
+  padding: 14px var(--layout-padding);
+}
+
+.post > .header > .avatar {
+  --size: var(--avatar-size);
+  grid-area: avatar;
+}
+
+.post > .header > .name {
+  --height: calc(var(--avatar-size) / 2);
+  grid-area: name;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.post > .header > .caption {
+  --height: calc(var(--avatar-size) / 2);
+  grid-area: caption;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.post > .header > .dropdown {
+  grid-area: action;
+}
+
+.post > .header > .dropdown > .action {
+  --height: var(--avatar-size);
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.post > .content {
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  padding-bottom: var(--layout-padding);
+}
+
+.post > .content > .text {
+  line-height: 1.33;
+  font-size: 15px;
+  color: var(--text-color);
+  word-break: break-word;
+}
+
+.post > .content > .text a {
+  color: var(--color);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition-property: color;
+}
+
+.post > .content > .text a:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.post > .content > .text a:hover {
+  --color: var(--primary-color-hover);
+}
+
+.post > .content > .text + .gallery {
+  margin-top: 8px;
+}
+
+.post > .content > .text + .files {
+  margin-top: 8px;
+}
+
+.post > .footer {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  box-shadow: 0 1px var(--divider-color) inset;
+}
+
+.post > .footer > .reply_input {
+  flex-grow: 1;
+  min-width: 0;
+  height: calc(100% - 2px);
+  font-size: 15px;
+  color: var(--text-color);
+  border: none;
+}
+
+.post > .footer > .reply_input::placeholder {
+  color: var(--caption-color);
+}
+
+.post > .footer > .action {
+  --icon-size: 14px;
+  --height: 38px;
+  flex-shrink: 0;
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.post > .footer > .action:not(:hover) {
+  --color: var(--text-color);
+}
+
+.post > .footer > .action:hover {
+  --color: var(--primary-color);
+}
+
+.post > .footer > .action > i polygon {
+  fill: var(--icon-color);
+  transition-property: fill;
+}
+
+@media (max-width: 800px) {
+  .post > .content > .gallery {
+    --content-width: calc(100vw - (var(--layout-padding) * 4));
+  }
+}

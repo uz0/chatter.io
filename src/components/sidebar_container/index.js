@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import Filters from './filters';
-import Spaces from './spaces';
 import Subscriptions from './subscriptions';
 import Button from '@/components/button';
 import SearchInput from '@/components/search-input';
@@ -78,7 +77,6 @@ class Sidebar extends Component {
     const userImageInline = { '--bg-image': `url(${photo})` };
 
     const isFiltersShown = this.props.subscriptions_filter_text;
-    const isSpacesShown = false;
     const isSubscriptionsShown = !this.props.subscriptions_filter_text;
 
     const isAllFilterActive = this.props.subscriptions_filter_tag === 'all';
@@ -119,17 +117,13 @@ class Sidebar extends Component {
         >{this.props.t('work')}</button>
       </div>
 
-      <div className={style.list}>
+      <div className={style.list} id="sidebar-scroll">
         {isSubscriptionsShown &&
           <Subscriptions isLoading={this.state.isLoading} />
         }
 
         {isFiltersShown &&
           <Filters />
-        }
-
-        {isSpacesShown &&
-          <Spaces />
         }
       </div>
     </div>;

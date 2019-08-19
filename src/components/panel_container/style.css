@@ -148,6 +148,11 @@
   text-overflow: ellipsis;
 }
 
+.panel > .scroll > .checkbox {
+  margin-left: var(--layout-padding);
+  margin-right: var(--layout-padding);
+}
+
 .panel > .scroll > .dropdown {
   flex-shrink: 0;
 }

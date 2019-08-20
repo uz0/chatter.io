@@ -29,7 +29,7 @@ const wrappers = {
 
 class SubscriptionItem extends Component {
   loadLastMessage = subscription => {
-    api.getMessages({ subscription_id: subscription.id, limit: 60 }).then(data => {
+    api.getMessages({ subscription_id: subscription.id, limit: 1 }).then(data => {
       this.props.loadMessages({chatId: subscription.id, list: data.messages});
       this.props.updateSubscription({ id: subscription.id, is_add_data_loaded: true });
     });
@@ -164,7 +164,6 @@ export default compose(
 
       return {
         currentUser: state.currentUser,
-        messages: state.messages,
         subscription: state.subscriptions.list[props.id] || null,
         users_list: state.users.list,
         ...lastMessage ? { lastMessage } : {},

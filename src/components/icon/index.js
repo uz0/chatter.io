@@ -26,6 +26,7 @@ import thinArrowRightIcon from '@/assets/icons/thin-arrow-right.svg';
 import exclamationIcon from '@/assets/icons/exclamation.svg';
 import infoIcon from '@/assets/icons/info.svg';
 import fileIcon from '@/assets/icons/file.svg';
+import atIcon from '@/assets/icons/at.svg';
 import hashtagIcon from '@/assets/icons/hashtag.svg';
 import plusIcon from '@/assets/icons/plus.svg';
 
@@ -138,6 +139,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'plus' &&
     <ReactSvgInjector src={plusIcon} />
+  }
+
+  {name === 'at' &&
+    <ReactSvgInjector src={atIcon} />
   }
 </i>;
 

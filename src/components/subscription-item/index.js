@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import Link from '@/components/link';
+import Icon from '@/components/icon';
 import classnames from 'classnames/bind';
 import { withTranslation } from 'react-i18next';
 import SubscriptionAvatar from '@/components/subscription-avatar';
@@ -104,6 +105,8 @@ class SubscriptionItem extends Component {
       this.props.lastMessage.user_id !== this.props.currentUser.id &&
       this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 
+    const isUserWasMentionedInUnreadMessages = this.props.subscription.last_mentioned_in_message_id > this.props.subscription.last_read_message_id;
+
     return <Wrapper
       {...this.props.withLoadData ? {to: href} : {}}
       {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
@@ -128,8 +131,14 @@ class SubscriptionItem extends Component {
         }
       </div>
 
-      {isUnreadShown &&
+      {isUnreadShown && !isUserWasMentionedInUnreadMessages &&
         <div className={style.point} />
+      }
+
+      {isUnreadShown && isUserWasMentionedInUnreadMessages &&
+        <div className={cx(style.point, '_is-mention')}>
+          <Icon name="at" />
+        </div>
       }
 
       {false && <div className={style.last_photo} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />}

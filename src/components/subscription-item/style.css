@@ -87,12 +87,22 @@
 }
 
 .subscription .point {
-  --size: 12px;
+  --size: 14px;
   flex-shrink: 0;
   width: var(--size);
   height: var(--size);
   border-radius: calc(var(--size) / 2);
   background-color: var(--primary-color);
+}
+
+.subscription .point._is-mention {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.subscription .point._is-mention i {
+  --icon-size: 8px;
 }
 
 .subscription .last_photo + .last_count {

@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import Link from '@/components/link';
+import Icon from '@/components/icon';
 import classnames from 'classnames/bind';
 import { withTranslation } from 'react-i18next';
 import SubscriptionAvatar from '@/components/subscription-avatar';
@@ -28,7 +29,7 @@ const wrappers = {
 
 class SubscriptionItem extends Component {
   loadLastMessage = subscription => {
-    api.getMessages({ subscription_id: subscription.id, limit: 1 }).then(data => {
+    api.getMessages({ subscription_id: subscription.id, limit: 60 }).then(data => {
       this.props.loadMessages({chatId: subscription.id, list: data.messages});
       this.props.updateSubscription({ id: subscription.id, is_add_data_loaded: true });
     });
@@ -104,6 +105,8 @@ class SubscriptionItem extends Component {
       this.props.lastMessage.user_id !== this.props.currentUser.id &&
       this.props.lastMessage.id !== this.props.subscription.last_read_message_id;
 
+    const isUserWasMentionedInUnreadMessages = this.props.subscription.last_mentioned_in_message_id > this.props.subscription.last_read_message_id;
+
     return <Wrapper
       {...this.props.withLoadData ? {to: href} : {}}
       {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
@@ -128,8 +131,14 @@ class SubscriptionItem extends Component {
         }
       </div>
 
-      {isUnreadShown &&
+      {isUnreadShown && !isUserWasMentionedInUnreadMessages &&
         <div className={style.point} />
+      }
+
+      {isUnreadShown && isUserWasMentionedInUnreadMessages &&
+        <div className={cx(style.point, '_is-mention')}>
+          <Icon name="at" />
+        </div>
       }
 
       {false && <div className={style.last_photo} style={{ '--photo': 'url(/assets/default-user.jpg)' }} />}
@@ -155,6 +164,7 @@ export default compose(
 
       return {
         currentUser: state.currentUser,
+        messages: state.messages,
         subscription: state.subscriptions.list[props.id] || null,
         users_list: state.users.list,
         ...lastMessage ? { lastMessage } : {},

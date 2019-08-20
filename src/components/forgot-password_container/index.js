@@ -5,6 +5,7 @@ import compose from 'recompose/compose';
 
 import { withTranslation } from 'react-i18next';
 import { api } from '@';
+import { withRouter } from '@/hoc';
 import { actions as formActions } from '@/components/form';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as storeActions } from '@/store';
@@ -35,16 +36,16 @@ class ForgotPassword extends Component {
     }
 
     if (password_reset_token) {
-      api.resetPassword({token: password_reset_token, password: this.props.formData.password.value})
+      api.resetPassword({ token: password_reset_token, password: this.props.formData.password.value })
         .then(() => {
           this.props.formReset('forgot');
 
           this.props.showNotification({
             type: 'success',
-            text: this.props.t('passwords_not_equal'),
+            text: this.props.t('password_updated'),
           });
 
-          this.props.router.push('/sign-in');
+          this.props.pushUrl('/sign-in', null);
         })
 
         .catch(error => this.props.showNotification({
@@ -52,7 +53,7 @@ class ForgotPassword extends Component {
           text: this.props.t(error.code),
         }));
     } else {
-      api.requestPasswordReset({email: this.props.formData.email.value})
+      api.requestPasswordReset({ email: this.props.formData.email.value })
         .then(() => {
           this.props.formReset('forgot');
 
@@ -71,7 +72,7 @@ class ForgotPassword extends Component {
 
   componentWillMount() {
     if (this.props.currentUser) {
-      this.props.router.push('/chat');
+      this.props.pushUrl('/chat');
       return;
     }
   }
@@ -82,9 +83,9 @@ class ForgotPassword extends Component {
     let actions = [];
 
     if (password_reset_token) {
-      actions.push({text: `${this.props.t('change')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'});
+      actions.push({ text: `${this.props.t('change')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit' });
     } else {
-      actions.push({text: `${this.props.t('send_recovery_link')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit'});
+      actions.push({ text: `${this.props.t('send_recovery_link')}`, appearance: '_basic-primary', onClick: this.submit, type: 'submit' });
     }
 
     return <div className={style.forgot}>
@@ -179,6 +180,7 @@ class ForgotPassword extends Component {
 }
 
 export default compose(
+  withRouter,
   withTranslation(),
 
   connect(

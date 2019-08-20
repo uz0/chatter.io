@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
 import Modal from '@/components/modal';
 import SubscriptionItem from '@/components/subscription-item';
 import { api } from '@';
@@ -59,8 +61,18 @@ export default compose(
   withTranslation(),
 
   connect(
+    state => {
+      let subscriptions = map(state.subscriptions.ids, id => state.subscriptions.list[id]);
+      subscriptions = filter(subscriptions, subscription => !subscription.is_space);
+
+      return {
+        subscriptions_ids: map(subscriptions, subscription => subscription.id),
+      };
+    },
+  ),
+
+  connect(
     state => ({
-      subscriptions_ids: state.subscriptions.ids,
       forward_message_id: state.messages.forward_message_id,
     }),
 

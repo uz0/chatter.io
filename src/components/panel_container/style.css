@@ -106,12 +106,15 @@
   height: 0;
 }
 
+.panel > .scroll > .header > .avatar_container + .name {
+  margin-top: 10px;
+}
+
 .panel > .scroll > .header > .name {
   --height: 20px;
   max-width: 100%;
   min-width: 20px;
   height: var(--height);
-  margin-top: 10px;
   padding-left: 8px;
   padding-right: 8px;
   line-height: var(--height);
@@ -143,6 +146,11 @@
   font-weight: var(--font-weight-light);
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.panel > .scroll > .checkbox {
+  margin-left: var(--layout-padding);
+  margin-right: var(--layout-padding);
 }
 
 .panel > .scroll > .dropdown {

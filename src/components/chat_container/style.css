@@ -16,7 +16,7 @@
   box-shadow: -1px 0 var(--divider-color) inset;
 }
 
-.chat > .messages {
+.chat > .content {
   flex-grow: 1;
   min-width: 0;
 }
@@ -56,25 +56,24 @@
 
   .chat:not(._is-open) {
     --sidebar-display: flex;
-    --messages-display: none;
+    --content-display: none;
   }
 
   .chat._is-open {
     --sidebar-display: none;
-    --messages-display: flex;
+    --content-display: flex;
   }
 
   .chat .sidebar {
     flex-shrink: 0;
     display: var(--sidebar-display);
     width: var(--sidebar-width);
+    max-width: 100%;
     box-shadow: -1px 0 var(--divider-color) inset;
   }
 
-  .chat .messages {
-    flex-grow: 1;
-    display: var(--messages-display);
-    min-width: 0;
+  .chat .content {
+    display: var(--content-display);
   }
 
   .chat .panel {

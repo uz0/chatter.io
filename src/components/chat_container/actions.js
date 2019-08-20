@@ -251,6 +251,8 @@ const notificationReceived = notification => (dispatch, getState) => {
         }
 
         dispatch(messagesActions.updateMessage({chatId: messageSubscription.id, message: notification.object}));
+      } else if (!document.querySelector('#messages-scroll')) {
+        dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
       } else {
         scrollMessagesBottom(() => {
           dispatch(messagesActions.addMessage({chatId: messageSubscription.id, message: notification.object}));
@@ -275,6 +277,10 @@ const notificationReceived = notification => (dispatch, getState) => {
 
       if (!notification.object.attachment) {
         message['attachment'] = null;
+      }
+
+      if (message.created_at) {
+        delete message.created_at;
       }
 
       if (state.messages.list[message.id]) {

@@ -1,22 +1,22 @@
-.section {
-  position: relative;
+.wrapper {
   flex-grow: 1;
+  overflow-x: hidden;
   min-height: 0;
 }
 
-.section:not(._is-loading) {
+.wrapper:not(._is-loading) {
   --preview-display: none;
   --preview-opacity: 0;
   overflow-y: auto;
 }
 
-.section._is-loading {
+.wrapper._is-loading {
   --preview-display: block;
   --preview-opacity: 1;
   overflow-y: hidden;
 }
 
-.section::before {
+.wrapper::before {
   z-index: 1;
   content: "";
   position: absolute;
@@ -32,7 +32,7 @@
   pointer-events: none;
 }
 
-.section::after {
+.wrapper::after {
   z-index: 2;
   content: "";
   position: absolute;
@@ -50,7 +50,10 @@
   pointer-events: auto;
 }
 
-.section .subscription._is-user-hover {
+.wrapper > .section {
+}
+
+.wrapper > .section .subscription._is-user-hover {
   background-color: var(--divider-color);
 }
 

@@ -4,8 +4,8 @@ import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
-import Messages from '@/components/messages_container';
 import Panel from '@/components/panel_container';
+import Content from './content';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as notificationActions } from '@/components/notification';
@@ -139,7 +139,7 @@ class Chat extends Component {
 
       {isChatOpen &&
         <Fragment>
-          <Messages params={this.props.match.params} className={style.messages} />
+          <Content params={this.props.match.params} className={style.content} />
           <Panel params={this.props.match.params} className={style.panel} />
         </Fragment>
       }

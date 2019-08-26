@@ -14,7 +14,7 @@ const updateDraft = params => (dispatch, getState) => {
   api.updateSubscription({subscription_id: subscription.id, draft: params.value});
 };
 
-const sendMessage = (params, isForceToSpace = false) => (dispatch, getState) => {
+const sendMessage = (params, options = {}) => (dispatch, getState) => {
   const state = getState();
   const subscription = state.subscriptions.list[params.subscription_id];
 
@@ -58,7 +58,7 @@ const sendMessage = (params, isForceToSpace = false) => (dispatch, getState) => 
 
   const tags = params.text.match(tagreg);
 
-  if (tags && !params.reply_message_id && !isForceToSpace) {
+  if (tags && !params.reply_message_id && !options.isForceToSpace) {
     uniq(tags).forEach((tag, index) => {
       const tagname = tag.substr(1);
       const subscription = find(state.subscriptions.list, chat => chat.group.is_space && chat.group.name === tagname);

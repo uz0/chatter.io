@@ -21,7 +21,6 @@ import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
-import modalActions from '@/components/modal_container/actions';
 import style from './style.css';
 
 export { default as actions } from './actions';
@@ -513,10 +512,6 @@ class MessageInput extends Component {
     }
   };
 
-  duplicateMessage = () => {
-
-  };
-
   resetFilters = () => {
     const indexOfTag = location.pathname.indexOf('/tag');
 
@@ -791,7 +786,6 @@ export default compose(
       closeDropdown: dropdownActions.closeDropdown,
       clearEditMessage: messagesActions.clearEditMessage,
       clearReplyMessage: messagesActions.clearReplyMessage,
-      toggleModal: modalActions.toggleModal,
       showNotification: notificationActions.showNotification,
     },
   ),

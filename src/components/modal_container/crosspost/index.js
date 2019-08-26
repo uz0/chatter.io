@@ -8,10 +8,16 @@ import style from './style.css';
 
 class CrossPost extends Component {
   confirm = () => {
-    this.props.sendMessage({
-      ...this.props.options.message,
-      subscription_id: this.props.options.subscription_id,
-    }, true);
+    this.props.sendMessage(
+      {
+        ...this.props.options.message,
+        subscription_id: this.props.options.subscription_id,
+      },
+
+      {
+        isForceToSpace: true,
+      },
+    );
 
     this.props.close();
   };

@@ -14,7 +14,7 @@ class SearchInput extends Component {
 
       <input
         type="text"
-        placeholder={this.props.placeholder || this.props.t('search')}
+        placeholder={this.props.placeholder || this.props.t('search_messages_or_contacts')}
         value={this.props.value}
         onInput={this.props.onInput}
         onChange={() => {}}

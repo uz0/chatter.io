@@ -1,7 +1,7 @@
 .subscription {
   display: flex;
   align-items: center;
-  padding: 8px var(--layout-padding);
+  padding: 8px 12px;
   background-color: var(--background-color);
   transition-property: background-color;
   cursor: pointer;
@@ -47,7 +47,7 @@
   display: block;
   height: var(--height);
   line-height: var(--height);
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-color);
   font-weight: var(--title-font-weight);
   white-space: nowrap;
@@ -56,14 +56,14 @@
 
 .subscription .content .message {
   --message-height: 16px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .subscription .content .text {
   overflow: hidden;
   height: var(--message-height);
   line-height: var(--message-height);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: var(--text-font-weight);
   color: var(--text-content-color);
   white-space: nowrap;
@@ -87,7 +87,7 @@
 }
 
 .subscription .point {
-  --size: 14px;
+  --size: 10px;
   flex-shrink: 0;
   width: var(--size);
   height: var(--size);

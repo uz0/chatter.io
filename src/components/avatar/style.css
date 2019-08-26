@@ -1,5 +1,5 @@
 .avatar {
-	--default-size: 50px;
+	--default-size: 46px;
 	width: var(--size, var(--default-size));
 	height: var(--size, var(--default-size));
 	line-height: var(--size, var(--default-size));

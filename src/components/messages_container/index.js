@@ -44,7 +44,6 @@ class Messages extends Component {
     let messagesIds = this.props.chatIds.list;
 
     if (tagname) {
-      // eslint-disable-next-line no-useless-escape
       const tagreg = /\B\#\w\w+\b/gim;
 
       messagesIds = messagesIds.filter(id => {

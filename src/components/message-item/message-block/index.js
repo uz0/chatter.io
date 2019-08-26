@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
@@ -195,4 +194,3 @@ export default compose(
     }),
   ),
 )(MessageBlock);
-/* eslint-enable no-useless-escape */

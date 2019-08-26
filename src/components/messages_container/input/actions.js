@@ -1,7 +1,12 @@
 import { uid } from '@/helpers';
 import { api } from '@';
+import uniq from 'lodash/uniq';
+import find from 'lodash/find';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as notificationActions } from '@/components/notification';
+import { actions as modalActions } from '@/components/modal_container';
+
+const tagreg = /\B\#\w\w+\b/gim;
 
 const updateDraft = params => (dispatch, getState) => {
   const state = getState();
@@ -9,7 +14,7 @@ const updateDraft = params => (dispatch, getState) => {
   api.updateSubscription({subscription_id: subscription.id, draft: params.value});
 };
 
-const sendMessage = params => (dispatch, getState) => {
+const sendMessage = (params, isForceToSpace = false) => (dispatch, getState) => {
   const state = getState();
   const subscription = state.subscriptions.list[params.subscription_id];
 
@@ -49,6 +54,29 @@ const sendMessage = params => (dispatch, getState) => {
 
   if (messagesScrollElement) {
     setTimeout(() => messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight));
+  }
+
+  const tags = params.text.match(tagreg);
+
+  if (tags && !params.reply_message_id && !isForceToSpace) {
+    uniq(tags).forEach((tag, index) => {
+      const tagname = tag.substr(1);
+      const subscription = find(state.subscriptions.list, chat => chat.group.is_space && chat.group.name === tagname);
+
+      if (!subscription) {
+        return;
+      }
+
+      dispatch(modalActions.toggleModal({
+        id: `crosspost-modal-${index}`,
+
+        options: {
+          message: params,
+          subscription_id: subscription.id,
+          tag: tagname,
+        },
+      }));
+    });
   }
 
   api.post({

@@ -1,0 +1,15 @@
+.wrapper {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.modal {
+  padding: var(--layout-padding);
+}
+
+.modal > p {
+  line-height: 1.5;
+  text-align: center;
+  font-size: 15px;
+  color: var(--text-color);
+}

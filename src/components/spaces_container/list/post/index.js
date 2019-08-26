@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import React, { Component } from 'react';
 import find from 'lodash/find';
 import get from 'lodash/get';
@@ -231,4 +230,3 @@ export default compose(
     }),
   ),
 )(Post);
-/* eslint-enable no-useless-escape */

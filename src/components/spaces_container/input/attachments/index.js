@@ -6,8 +6,10 @@ import filter from 'lodash/filter';
 import map from 'lodash/map';
 import sortBy from 'lodash/sortBy';
 import moment from 'moment';
+import Loading from '@/components/loading';
 import Icon from '@/components/icon';
 import Attach from '@/components/attach';
+import { getProgressText } from '@/helpers';
 import style from './style.css';
 
 class Attachments extends Component {
@@ -49,6 +51,7 @@ class Attachments extends Component {
                 }
 
                 const styleObject = { '--image': `url(${image.preview})` };
+                const progress = getProgressText(image);
 
                 return <div
                   key={image.uid}
@@ -58,6 +61,13 @@ class Attachments extends Component {
                   <button className={style.close} onClick={removeAttachment(image.uid)}>
                     <Icon name="close" />
                   </button>
+
+                  {image.isLoading &&
+                    <Fragment>
+                      <p className={style.progress}>{progress}</p>
+                      <Loading className={style.file_loading} isShown />
+                    </Fragment>
+                  }
                 </div>;
               })}
             </div>
@@ -66,12 +76,22 @@ class Attachments extends Component {
           {isFilesExist &&
             <div className={style.files}>
               {files.map(file => {
-                return <div key={file.file_name} className={style.file}>
-                  <Icon name="file" />
-                  <p className={style.name}>{file.file_name}</p>
-                  <span className={style.size}>115 kb</span>
+                const isLoading = file.currentChunk < file.byte_size;
+                const progress = getProgressText(file);
 
-                  <button className={style.delete}>
+                return <div key={file.file_name} className={style.file}>
+                  {isLoading &&
+                    <Loading className={style.file_loading} isShown />
+                  }
+
+                  {!isLoading &&
+                    <Icon name="file" />
+                  }
+
+                  <p className={style.name}>{file.file_name}</p>
+                  <span className={style.size}>{progress}</span>
+
+                  <button className={style.delete} onClick={removeAttachment(file.uid)}>
                     <Icon name="close" />
                   </button>
                 </div>;

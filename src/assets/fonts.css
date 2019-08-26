@@ -1,4 +1,5 @@
-@font-face {
+/* Was used */
+/* @font-face {
   font-family: SFProText;
   font-style: normal;
   font-weight: 200;
@@ -6,9 +7,10 @@
        url('/assets/fonts/SFProText/Light/SFProText-Light.otf')  format('opentype'),
        url('/assets/fonts/SFProText/Light/SFProText-Light.woff') format('woff'),
        url('/assets/fonts/SFProText/Light/SFProText-Light.ttf')  format('truetype');
-}
+} */
 
-@font-face {
+/* Was used */
+/* @font-face {
   font-family: SFProText;
   font-style: normal;
   font-weight: 400;
@@ -16,9 +18,10 @@
        url('/assets/fonts/SFProText/Regular/SFProText-Regular.otf')  format('opentype'),
        url('/assets/fonts/SFProText/Regular/SFProText-Regular.woff') format('woff'),
        url('/assets/fonts/SFProText/Regular/SFProText-Regular.ttf')  format('truetype');
-}
+} */
 
-@font-face {
+/* Was used */
+/* @font-face {
   font-family: SFProText;
   font-style: normal;
   font-weight: 500;
@@ -26,7 +29,7 @@
        url('/assets/fonts/SFProText/Medium/SFProText-Medium.otf')  format('opentype'),
        url('/assets/fonts/SFProText/Medium/SFProText-Medium.woff') format('woff'),
        url('/assets/fonts/SFProText/Medium/SFProText-Medium.ttf')  format('truetype');
-}
+} */
 
 /*@font-face {
   font-family: SFProText;
@@ -38,7 +41,8 @@
        url('/assets/fonts/SFProText/Semibold/SFProText-Semibold.ttf')  format('truetype');
 }*/
 
-@font-face {
+/* Was used */
+/* @font-face {
   font-family: SFProText;
   font-style: normal;
   font-weight: 700;
@@ -46,7 +50,7 @@
        url('/assets/fonts/SFProText/Bold/SFProText-Bold.otf')  format('opentype'),
        url('/assets/fonts/SFProText/Bold/SFProText-Bold.woff') format('woff'),
        url('/assets/fonts/SFProText/Bold/SFProText-Bold.ttf')  format('truetype');
-}
+} */
 
 /*@font-face {
   font-family: SFProText;
@@ -57,3 +61,31 @@
        url('/assets/fonts/SFProText/Heavy/SFProText-Heavy.woff') format('woff'),
        url('/assets/fonts/SFProText/Heavy/SFProText-Heavy.ttf')  format('truetype');
 }*/
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/Inter/Inter-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  src: url('/assets/fonts/Inter/Inter-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  src: url('/assets/fonts/Inter/Inter-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/Inter/Inter-Bold.ttf') format('truetype');
+}

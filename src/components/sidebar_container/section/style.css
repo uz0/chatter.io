@@ -1,4 +1,4 @@
-.section {
+.section:nth-of-type(n+2) {
   margin-top: 20px;
 }
 

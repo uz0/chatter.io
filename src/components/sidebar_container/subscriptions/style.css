@@ -53,6 +53,11 @@
 .wrapper > .section {
 }
 
+.wrapper > .section .subscription {
+  padding-left: var(--sidebar-padding);
+  padding-right: var(--sidebar-padding);
+}
+
 .wrapper > .section .subscription._is-user-hover {
   background-color: var(--divider-color);
 }

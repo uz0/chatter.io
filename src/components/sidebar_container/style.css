@@ -81,6 +81,7 @@
   font-weight: var(--font-weight);
   color: var(--text-color);
   background-color: var(--bg-color);
+  transition-property: color;
 }
 
 .sidebar .navigation button:first-of-type:not(._is-active) {
@@ -100,6 +101,7 @@
 
 .sidebar .navigation button:not(._is-active):hover {
   --font-weight: var(--font-weight-regular);
+  --text-color: #000;
 }
 
 .sidebar .navigation button._is-active {

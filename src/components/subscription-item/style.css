@@ -1,7 +1,7 @@
 .subscription {
   display: flex;
   align-items: center;
-  padding: 8px var(--sidebar-layout);
+  padding: 8px var(--layout-padding);
   background-color: var(--background-color);
   transition-property: background-color;
   cursor: pointer;

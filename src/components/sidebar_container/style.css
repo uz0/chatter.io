@@ -95,12 +95,12 @@
 }
 
 .sidebar .navigation button:not(._is-active):not(:hover) {
-  --font-weight: var(--font-weight-regular);
+  --font-weight: var(--font-weight-medium);
   --bg-color: var(--divider-color);
 }
 
 .sidebar .navigation button:not(._is-active):hover {
-  --font-weight: var(--font-weight-regular);
+  --font-weight: var(--font-weight-medium);
   --text-color: #000;
 }
 

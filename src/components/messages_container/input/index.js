@@ -457,7 +457,7 @@ class MessageInput extends Component {
     }
 
     let mentions = [];
-    const pattern = /\B@[a-z0-9_-]+/gi;
+    const pattern = /\B([@][\w._-]+)/gi;
     const allMentions = text.match(pattern);
 
     this.props.users_ids.forEach(id => {

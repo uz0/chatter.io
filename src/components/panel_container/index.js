@@ -302,7 +302,7 @@ class Panel extends Component {
     const isChatRoom = this.props.details.group.type === 'room';
     const isRoomWithIcon = isChatRoom && !!this.props.details.group.icon;
     const isInviteCodeBlockShown = isChatRoom && isCurrentUserAdmin && this.props.details.invite_code;
-    const isChatNameShown = (!(isChatRoom && isCurrentUserAdmin) || this.props.details.group.is_space);
+    const isEditNameShown = isChatRoom && isCurrentUserAdmin;
 
     return <Fragment>
       <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
@@ -311,6 +311,8 @@ class Panel extends Component {
         <div className={style.header}>
           {!this.props.details.group.is_space &&
             <Fragment>
+              <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
+
               <div className={style.avatar_container}>
                 <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
 
@@ -324,24 +326,22 @@ class Panel extends Component {
                   </button>
                 }
               </div>
-
-              <input type="file" className={style.change_photo_input} ref={node => this.chatAvatarInputRef = node} onChange={this.onAvatarInputChange} />
-
-              {isChatRoom && isCurrentUserAdmin &&
-                <ContentEditable
-                  className={style.name}
-                  html={this.state.chatName}
-                  disabled={false}
-                  onChange={this.onChatNameInput}
-                  onBlur={this.onChatNameBlur}
-                  tagName="p"
-                />
-              }
             </Fragment>
           }
 
-          {isChatNameShown &&
-            <p className={style.name}>#{chatName}</p>
+          {isEditNameShown &&
+            <ContentEditable
+              className={cx('name', {'_is-space': this.props.details.group.is_space})}
+              html={this.state.chatName}
+              disabled={false}
+              onChange={this.onChatNameInput}
+              onBlur={this.onChatNameBlur}
+              tagName="p"
+            />
+          }
+
+          {!isEditNameShown &&
+            <p className={cx('name', {'_is-space': this.props.details.group.is_space})}>{chatName}</p>
           }
 
           <p className={style.subcaption}>

@@ -124,6 +124,10 @@
   white-space: nowrap;
 }
 
+.panel > .scroll > .header > .name._is-space::before {
+  content: "#";
+}
+
 .panel > .scroll > .header > .name:not(:focus) {
   text-overflow: ellipsis;
   overflow: hidden;

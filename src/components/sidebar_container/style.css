@@ -1,5 +1,6 @@
 .sidebar {
   --sidebar-padding: 12px;
+  --divider-color: #f3f4f7;
 
   position: relative;
   display: flex;
@@ -65,13 +66,14 @@
   margin-top: 16px;
   margin-left: var(--sidebar-padding);
   margin-right: var(--sidebar-padding);
-  background-color: #f3f4f7;
+  background-color: var(--divider-color);
   border-radius: 5px;
 }
 
 .sidebar .navigation button {
   --text-color: #9ca0b0;
   flex-grow: 1;
+  flex-basis: 0;
   position: relative;
   height: 38px;
   font-size: 15px;
@@ -81,19 +83,19 @@
   background-color: var(--bg-color);
 }
 
-.sidebar .navigation button:first-of-type {
+.sidebar .navigation button:first-of-type:not(._is-active) {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
-.sidebar .navigation button:last-of-type {
+.sidebar .navigation button:last-of-type:not(._is-active) {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 
 .sidebar .navigation button:not(._is-active):not(:hover) {
   --font-weight: var(--font-weight-regular);
-  --bg-color: #f3f4f7;
+  --bg-color: var(--divider-color);
 }
 
 .sidebar .navigation button:not(._is-active):hover {
@@ -106,7 +108,7 @@
   --bg-color: #fff;
 
   border-radius: 5px;
-  box-shadow: inset 0 0 0 1px #f3f4f7;
+  box-shadow: inset 0 0 0 1px var(--divider-color);
 }
 
 .sidebar .list {

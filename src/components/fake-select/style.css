@@ -1,0 +1,50 @@
+.container {
+  --divider-color: #f3f4f7;
+  --text-color: #252c43;
+  --height: 38px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.container .label {
+  overflow: hidden;
+  display: block;
+  height: 16px;
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.container .icon {
+  --icon-size: 8px;
+  --color: #9ca0b0;
+  position: absolute;
+  bottom: calc((var(--height) / 2) - (var(--icon-size) / 2));
+  right: 10px;
+}
+
+.container select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: var(--height);
+  width: 100%;
+  align-items: center;
+  background-color: var(--divider-color);
+  font-size: 13px;
+  text-indent: 10px;
+  display: flex;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.container select option:not(:disabled) {
+  color: var(--text-color);
+}
+
+.container select {
+  margin-top: 6px;
+}

@@ -98,8 +98,6 @@ class Sidebar extends Component {
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
       </div>
 
-      <SearchInput onInput={this.onSearchInput} className={style.search} />
-
       <div className={style.navigation}>
         <button
           className={cx({ '_is-active': isAllFilterActive })}
@@ -107,15 +105,17 @@ class Sidebar extends Component {
         >{this.props.t('all')}</button>
 
         <button
-          className={cx({ '_is-active': isPersonalFilterActive })}
-          onClick={this.filterSubscriptionsByTag('personal')}
-        >{this.props.t('personal')}</button>
-
-        <button
           className={cx({ '_is-active': isWorkFilterActive })}
           onClick={this.filterSubscriptionsByTag('work')}
         >{this.props.t('work')}</button>
+
+        <button
+          className={cx({ '_is-active': isPersonalFilterActive })}
+          onClick={this.filterSubscriptionsByTag('personal')}
+        >{this.props.t('personal')}</button>
       </div>
+
+      <SearchInput onInput={this.onSearchInput} className={style.search} />
 
       <div className={style.list} id="sidebar-scroll">
         {isSubscriptionsShown &&

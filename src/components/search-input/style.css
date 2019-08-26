@@ -1,11 +1,12 @@
 .wrapper {
   display: flex;
   align-items: center;
-  height: 32px;
+  height: 38px;
+  margin-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 10px;
-  background-color: var(--divider-color);
+  border-radius: 5px;
+  border: solid 1px #edeef1;
 }
 
 .wrapper i {

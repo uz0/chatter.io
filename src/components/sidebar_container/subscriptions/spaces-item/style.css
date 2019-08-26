@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   height: 38px;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
+  padding-left: var(--sidebar-padding);
+  padding-right: var(--sidebar-padding);
   background-color: var(--background-color);
   transition-property: background-color;
 }

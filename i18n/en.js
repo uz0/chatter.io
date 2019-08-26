@@ -119,6 +119,7 @@ export default {translation: {
   save: 'Save',
   search: 'Search',
   search_in_conversation: 'Search in conversation',
+  search_messages_or_contacts: 'Messages or contacts',
   send: 'Send',
   send_confirmation_again: 'Send confirmation again',
   send_recovery_link: 'Send recovery link',

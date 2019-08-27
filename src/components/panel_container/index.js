@@ -310,6 +310,7 @@ class Panel extends Component {
     const spaceCheckBoxStatus = this.props.details.group.is_space ? 'Space' : 'Chat';
     const notificationsCheckBoxStatus = this.props.details.mute_until ? 'On' : 'Off';
     const invitationLink = `${location.origin}/invite/${this.props.details.invite_code}`;
+    const peopleCollapseText = this.props.details.group.is_space ? `${this.props.details.group.participants.length} members` : this.props.t('people');
 
     const dropdownMock = [{ text: 'Mock', onClick: () => { } }];
 
@@ -406,7 +407,7 @@ class Panel extends Component {
           />
         </div>
 
-        <div className={style.section}>
+        {!this.props.details.group.is_space && <div className={style.section}>
           <p className={style.label}>Chat category</p>
 
           <FakeSelect
@@ -420,6 +421,23 @@ class Panel extends Component {
             ]}
           />
         </div>
+        }
+
+        {this.props.details.group.is_space && <div className={style.section}>
+          <p className={style.label}>Thread category</p>
+
+          <FakeSelect
+            placeholder="Choose"
+            action={() => {}}
+            className={style.select}
+            values={[
+              { name: 'Mock value 1', value: 'Mock value 1' },
+              { name: 'Mock value 2', value: 'Mock value 2' },
+              { name: 'Mock value 3', value: 'Mock value 3' },
+            ]}
+          />
+        </div>
+        }
 
         {isInviteCodeBlockShown && <div className={style.section}>
           <p className={style.label}>Invitation link</p>
@@ -448,7 +466,7 @@ class Panel extends Component {
         {this.props.details.group.type === 'room' &&
           <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'people' })}>
             <button className={style.collapse_button} onClick={this.toggleCollapse('people')}>
-              <span className={style.title}>{this.props.t('people')}</span>
+              <span className={style.title}>{peopleCollapseText}</span>
 
               {isCurrentUserAdmin &&
                 <span className={style.button} onClick={this.addPeople}>{this.props.t('add_people')}</span>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import map from 'lodash/map';
+import find from 'lodash/find';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
@@ -121,17 +122,17 @@ class List extends Component {
   };
 
   getMessageType = (groupedMessages, index) => {
-    const last_message_id = groupedMessages[index - 1] && groupedMessages[index - 1].type === 'message' ? groupedMessages[index - 1].message_id : null;
-    const message_id = groupedMessages[index].message_id;
-    const next_message_id = groupedMessages[index + 1] && groupedMessages[index + 1].type === 'message' ? groupedMessages[index + 1].message_id : null;
+    const last_message_uid = groupedMessages[index - 1] && groupedMessages[index - 1].type === 'message' ? groupedMessages[index - 1].message_uid : null;
+    const message_uid = groupedMessages[index].message_uid;
+    const next_message_uid = groupedMessages[index + 1] && groupedMessages[index + 1].type === 'message' ? groupedMessages[index + 1].message_uid : null;
 
-    if (!last_message_id && !next_message_id) {
+    if (!last_message_uid && !next_message_uid) {
       return 'single';
     }
 
-    const last_message = this.props.messages_list[last_message_id];
-    const message = this.props.messages_list[message_id];
-    const next_message = this.props.messages_list[next_message_id];
+    const last_message = find(this.props.messages_list, { uid: last_message_uid });
+    const message = find(this.props.messages_list, { uid: message_uid });
+    const next_message = find(this.props.messages_list, { uid: next_message_uid });
 
     if (!last_message && next_message) {
       if (next_message.user_id !== message.user_id) {

@@ -12,7 +12,7 @@ import Post from './post';
 import moment from 'moment';
 import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
-import { itemsPerPage } from '@/components/messages_container';
+import config from '@/config';
 import style from './style.css';
 
 class Spaces extends Component {
@@ -20,14 +20,14 @@ class Spaces extends Component {
     isNewMessagesLoading: false,
   };
 
-  loadMessages = props => api.getMessages({ subscription_id: props.details_id, limit: itemsPerPage }).then(data => {
+  loadMessages = props => api.getMessages({ subscription_id: props.details_id, limit: config.items_per_page }).then(data => {
     this.props.loadMessages({chatId: props.details_id, list: data.messages, isLoaded: true});
   });
 
   loadMoreMessages = () => {
     this.setState({ isNewMessagesLoading: true });
 
-    api.getMessages({ subscription_id: this.props.details_id, limit: itemsPerPage, offset: this.props.messages.length }).then(data => {
+    api.getMessages({ subscription_id: this.props.details_id, limit: config.items_per_page, offset: this.props.messages.length }).then(data => {
       this.setState({ isNewMessagesLoading: false });
       this.props.loadMoreMessages({chatId: this.props.details_id, list: data.messages});
     });

@@ -129,7 +129,6 @@ class MessageItem extends Component {
     const images = this.props.message.attachments && filter(this.props.message.attachments, attachment => attachment.content_type.match('image/')) || [];
     const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/')) || [];
 
-
     const isMessageDeleted = !!this.props.message.deleted_at;
     const isMessageHasText = (this.props.message.text || '').replace(/\s/g,'').length > 0;
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
@@ -231,7 +230,7 @@ class MessageItem extends Component {
         <div className={style.content}>
           {isMessageBlockShown &&
             <MessageBlock
-              id={this.props.id}
+              uid={this.props.uid}
               chatId={this.props.details.id}
               type={this.props.type}
               className={style.message_block}
@@ -245,7 +244,7 @@ class MessageItem extends Component {
               items={actionsItems}
             >
               <MessageBlock
-                id={this.props.id}
+                uid={this.props.uid}
                 chatId={this.props.details.id}
                 type={this.props.type}
                 className={style.message_block}
@@ -332,7 +331,7 @@ export default compose(
   connect(
     (state, props) => ({
       currentUser: state.currentUser,
-      message: state.messages.list[props.id],
+      message: find(state.messages.list, { uid: props.uid }),
       isMobile: state.device === 'touch',
     }),
 
@@ -353,7 +352,7 @@ export default compose(
       details: find(state.subscriptions.list, { group_id: props.message.group_id }),
     }),
   ),
-  
+
   connect(
     (state, props) => {
       const refMessageId = props.message.forwarded_message_id || props.message.in_reply_to_message_id;

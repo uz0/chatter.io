@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import filter from 'lodash/filter';
+import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 import RefMessage from '../ref-message';
 import Username from '../username';
@@ -188,7 +189,7 @@ export default compose(
   connect(
     (state, props) => ({
       currentUser: state.currentUser,
-      message: state.messages.list[props.id],
+      message: find(state.messages.list, { uid: props.uid }),
       details: state.subscriptions.list[props.chatId],
       isMobile: state.device === 'touch',
     }),

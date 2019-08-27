@@ -59,7 +59,7 @@ export default compose(
 
   connect(
     (state, props) => ({
-      message: state.messages.list[props.id],
+      message: find(state.messages.list, { uid: props.uid }),
       users_list: state.users.list,
     }),
   ),

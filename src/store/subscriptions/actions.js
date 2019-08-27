@@ -3,7 +3,7 @@ import { api } from '@';
 import { actionsCreator } from '@/helpers';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as notificationActions } from '@/components/notification';
-import { itemsPerPage } from '@/components/messages_container';
+import config from '@/config';
 
 const actions = actionsCreator([
   'loadSubscriptions',
@@ -35,14 +35,14 @@ const loadingOneChat = (chatId) => async (dispatch, getState) => {
   const chatIds = initialState.messages.chatIds[chatId];
 
   if (!chatIds.isLoaded) {
-    const response = await api.getMessages({ subscription_id: chatId, limit: itemsPerPage });
+    const response = await api.getMessages({ subscription_id: chatId, limit: config.items_per_page });
     const stateAfterGetMessages = getState();
 
     if (stateAfterGetMessages.subscriptions.is_searching_old_messages) {
       dispatch(messagesActions.loadMessages({chatId, list: response.messages, isLoaded: true}));
     }
   } else {
-    const response = await api.getMessages({ subscription_id: chatId, limit: itemsPerPage, offset: chatIds.list.length });
+    const response = await api.getMessages({ subscription_id: chatId, limit: config.items_per_page, offset: chatIds.list.length });
     const stateAfterGetMessages = getState();
 
     if (stateAfterGetMessages.subscriptions.is_searching_old_messages) {

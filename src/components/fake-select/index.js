@@ -12,37 +12,33 @@ const FakeSelect = ({
   values,
   className,
   placeholder,
-}) => {
-  return (
-    <div className={cx('container', className)}>
-      {label && <label className={style.label}>{label}</label>}
+}) => <div className={cx('container', className)}>
+  {label && <label className={style.label}>{label}</label>}
 
-      <Icon name="arrow-down" className={style.icon} />
+  <Icon name="arrow-down" className={style.icon} />
 
-      <select
-        placeholder={placeholder}
-        className={cx('select', className)}
-        value={value}
-        onChange={event => action(event.target.value)}
-      >
-        <option
-          hidden
-          disabled
-          selected
-        >
-          {placeholder}
-        </option>
+  <select
+    placeholder={placeholder}
+    className={cx('select', className)}
+    value={value}
+    onChange={event => action(event.target.value)}
+  >
+    <option
+      hidden
+      disabled
+      selected
+    >
+      {placeholder}
+    </option>
 
-        {values && values.map(item => <option
-          key={item.id}
-          value={item.value}
-        >
-          {item.name}
-        </option>)
-        }
-      </select>
-    </div>
-  );
-};
+    {values && values.map(item => <option
+      key={item.id}
+      value={item.value}
+    >
+      {item.name}
+    </option>)
+    }
+  </select>
+</div>;
 
 export default FakeSelect;

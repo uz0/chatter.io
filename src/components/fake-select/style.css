@@ -44,7 +44,3 @@
 .container select option:not(:disabled) {
   color: var(--text-color);
 }
-
-.container select {
-  margin-top: 6px;
-}

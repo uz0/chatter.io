@@ -1,9 +1,10 @@
 .container {
   --switch-height: 27px;
   --switch-width: calc(var(--switch-height) * 1.9);
+  --button-color: #61e839;
+  --track-color: #c6f6b9;
   display: flex;
   align-items: center;
-  height: var(--input-height);
 }
 
 .container > .checkbox_wrapper {
@@ -30,12 +31,14 @@
   --background-color: var(--divider-color);
   --circle-color: var(--caption-color);
   --circle-margin-left: 0;
+  box-shadow: none;
 }
 
 .container > .checkbox_wrapper > .switch._is-checked {
-  --background-color: var(--divider-color);
-  --circle-color: var(--primary-color);
+  --background-color: var(--track-color);
+  --circle-color: var(--button-color);
   --circle-margin-left: calc(var(--switch-width) - var(--switch-height));
+  box-shadow: 0 2px 4px 0 rgba(82, 229, 38, 0.18);
 }
 
 .container > .checkbox_wrapper > .switch > .circle {
@@ -48,12 +51,13 @@
 }
 
 .container > .label {
-  flex-grow: 1;
-  overflow: hidden;
   min-width: 0;
-  margin-left: 12px;
-  font-size: 16px;
+  margin-left: 8px;
+  flex-grow: 1;
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
   color: var(--text-color);
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }

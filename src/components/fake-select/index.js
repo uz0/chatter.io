@@ -21,18 +21,18 @@ const FakeSelect = ({
     placeholder={placeholder}
     className={cx('select', className)}
     value={value}
+    defaultValue={placeholder}
     onChange={event => action(event.target.value)}
   >
     <option
       hidden
       disabled
-      selected
     >
       {placeholder}
     </option>
 
     {values && values.map(item => <option
-      key={item.id}
+      key={item.name}
       value={item.value}
     >
       {item.name}

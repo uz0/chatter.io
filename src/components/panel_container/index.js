@@ -310,9 +310,10 @@ class Panel extends Component {
     const spaceCheckBoxStatus = this.props.details.group.is_space ? 'Space' : 'Chat';
     const notificationsCheckBoxStatus = this.props.details.mute_until ? 'On' : 'Off';
     const invitationLink = `${location.origin}/invite/${this.props.details.invite_code}`;
-    const peopleCollapseText = this.props.details.group.is_space ? `${this.props.details.group.participants.length} members` : this.props.t('people');
+    const membersLength = this.props.details.group.participants.length;
+    const peopleCollapseText = this.props.details.group.is_space ? `${membersLength} members` : this.props.t('people');
 
-    const dropdownMock = [{ text: 'Mock', onClick: () => { } }];
+    const dropdownMock = [{ text: 'Mock', onClick: () => {} }];
 
     return <Fragment>
       <div className={style.actions}>
@@ -486,24 +487,40 @@ class Panel extends Component {
                 let peopleDropdownItems = [];
 
                 if (participant.user_id !== this.props.currentUser.id) {
-                  peopleDropdownItems.push({ text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id) });
+                  peopleDropdownItems.push({
+                    text: this.props.t('message'),
+                    onClick: () => this.goToChatByUserId(user.id),
+                  });
                 }
 
                 if (isCurrentUserAdmin) {
                   if (participant.role !== 'admin') {
-                    peopleDropdownItems.push({ text: this.props.t('set_admin'), onClick: () => this.setAccess(user.id, 'admin') });
+                    peopleDropdownItems.push({
+                      text: this.props.t('set_admin'),
+                      onClick: () => this.setAccess(user.id, 'admin'),
+                    });
                   }
 
                   if (participant.role !== 'rw') {
-                    peopleDropdownItems.push({ text: this.props.t('set_read_write'), onClick: () => this.setAccess(user.id, 'rw') });
+                    peopleDropdownItems.push({
+                      text: this.props.t('set_read_write'),
+                      onClick: () => this.setAccess(user.id, 'rw'),
+                    });
                   }
 
                   if (participant.role !== 'ro') {
-                    peopleDropdownItems.push({ text: this.props.t('set_read_only'), onClick: () => this.setAccess(user.id, 'ro') });
+                    peopleDropdownItems.push({
+                      text: this.props.t('set_read_only'),
+                      onClick: () => this.setAccess(user.id, 'ro'),
+                    });
                   }
 
                   if (participant.user_id !== this.props.currentUser.id) {
-                    peopleDropdownItems.push({ text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true });
+                    peopleDropdownItems.push({
+                      text: this.props.t('remove'),
+                      onClick: () => this.removeUser(user.id),
+                      isDanger: true,
+                    });
                   }
                 }
 

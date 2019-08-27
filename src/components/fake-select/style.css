@@ -31,14 +31,23 @@
   -moz-appearance: none;
   height: var(--height);
   width: 100%;
+  min-width: 0;
+  padding-right: 30px;
   align-items: center;
   background-color: var(--divider-color);
   font-size: 13px;
   text-indent: 10px;
   display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.container select:focus {
+  outline: none;
 }
 
 .container select option:not(:disabled) {

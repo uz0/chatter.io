@@ -1,6 +1,5 @@
 .panel {
   --panel-padding: 12px;
-  --divider-color: #f3f4f7;
   z-index: 2;
   position: relative;
   display: flex;
@@ -170,7 +169,6 @@
 }
 
 .panel > .scroll > .section {
-  --label-color: #252c43;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
 }
@@ -184,7 +182,7 @@
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--label-color);
+  color: var(--text-color);
 }
 
 .panel > .scroll > .section .label + * {
@@ -280,8 +278,6 @@
 .panel > .scroll .invite {
   --height: 38px;
   --invite-padding: 12px;
-  --text-color: #252c43;
-  --primary-color: #4a00ff;
   display: flex;
   align-items: center;
   height: var(--height);

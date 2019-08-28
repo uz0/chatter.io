@@ -20,7 +20,7 @@
 
 .container .icon {
   --icon-size: 8px;
-  --color: #9ca0b0;
+  --color: var(--text-color);
   position: absolute;
   bottom: calc((var(--height) / 2) - (var(--icon-size) / 2));
   right: 10px;

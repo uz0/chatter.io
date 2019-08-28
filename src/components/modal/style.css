@@ -1,0 +1,45 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal > .header {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 58px;
+  padding-left: calc((var(--layout-padding) * 2) + 38px);
+  padding-right: calc((var(--layout-padding) * 2) + 38px);
+}
+
+.modal > .header > .title {
+  --height: 20px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 19px;
+  text-align: center;
+  color: var(--text-color);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .header > .close {
+  --height: 38px;
+  --icon-size: 14px;
+  position: absolute;
+  top: 10px;
+  right: var(--layout-padding);
+}
+
+.modal > .content {
+  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+}

@@ -11,7 +11,7 @@ const initialState = {
 };
 
 if (!isMobile && window.innerWidth > 1024) {
-  initialState.ids = ['panel-container'];
+  initialState.ids = ['panel-container', 'test-modal'];
 }
 
 export default createReducer(initialState, {

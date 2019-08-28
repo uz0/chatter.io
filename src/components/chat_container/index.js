@@ -5,6 +5,7 @@ import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
 import Panel from '@/components/panel_container';
+import ModalContainer from '@/components/modal_container';
 import Content from './content';
 import { actions as modalActions } from '@/components/old-modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
@@ -139,10 +140,12 @@ class Chat extends Component {
 
       {isChatOpen &&
         <Fragment>
-          <Content params={this.props.match.params} className={style.content} />
-          <Panel params={this.props.match.params} className={style.panel} />
+          <Content params={this.props.match.params} className={cx('content', {'_is-modals-shown': this.props.isTestModalShown})} />
+          <Panel params={this.props.match.params} className={cx('panel', {'_is-modals-shown': this.props.isTestModalShown})} />
         </Fragment>
       }
+
+      <ModalContainer className={style.modal_wrapper} />
     </div>;
   }
 }
@@ -156,6 +159,7 @@ export default compose(
       isMobile: state.device === 'touch',
       isGalleryOpen: state.gallery.images.length > 0,
       isPanelShown: state.modal.ids.indexOf('panel-container') !== -1,
+      isTestModalShown: state.modal.ids.indexOf('test-modal') !== -1,
     }),
 
     {

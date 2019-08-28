@@ -12,8 +12,9 @@ class Spaces extends Component {
   shouldComponentUpdate(nextProps) {
     const isChatChanged = this.props.details.id !== nextProps.details.id;
     const isChatNameChanged = this.props.details.group.name !== nextProps.details.group.name;
+    const isClassNameChanged = this.props.className !== nextProps.className;
 
-    return isChatChanged || isChatNameChanged;
+    return isChatChanged || isChatNameChanged || isClassNameChanged;
   }
 
   render() {

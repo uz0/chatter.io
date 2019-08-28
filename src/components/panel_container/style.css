@@ -25,6 +25,7 @@
 .panel > .actions {
   display: flex;
   flex-shrink: 0;
+  align-items: center;
   justify-content: flex-end;
   padding: 10px var(--panel-padding);
 }

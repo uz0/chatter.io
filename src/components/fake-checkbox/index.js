@@ -4,7 +4,13 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-const FakeCheckbox = ({ disabled, value, label, className, onChange }) => <div className={cx('container', className)}>
+const FakeCheckbox = ({
+  disabled,
+  value,
+  label,
+  className,
+  onChange,
+}) => <div className={cx('container', className)}>
   <label className={style.checkbox_wrapper}>
     <input
       type="checkbox"

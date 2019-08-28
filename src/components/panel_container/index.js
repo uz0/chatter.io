@@ -7,6 +7,7 @@ import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Validators from '@/components/form/validators';
 import FakeCheckbox from '@/components/fake-checkbox';
+import FakeSelect from '@/components/fake-select';
 import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
@@ -127,11 +128,13 @@ class Panel extends Component {
 
     this.props.toggleModal({
       id: 'invite-modal',
-      options: {subscription_id: this.props.details.id},
+      options: { subscription_id: this.props.details.id },
     });
   };
 
-  setTag = tags => {
+  setTag = tag => {
+    const tags = tag === 'all' ? [null] : [tag];
+
     api.updateSubscription({ subscription_id: this.props.details.id, tags });
   };
 
@@ -304,8 +307,31 @@ class Panel extends Component {
     const isInviteCodeBlockShown = isChatRoom && isCurrentUserAdmin && this.props.details.invite_code;
     const isEditNameShown = isChatRoom && isCurrentUserAdmin;
 
+    const spaceCheckBoxStatus = this.props.details.group.is_space ? 'Space' : 'Chat';
+    const notificationsCheckBoxStatus = this.props.details.mute_until ? 'On' : 'Off';
+    const invitationLink = `${location.origin}/invite/${this.props.details.invite_code}`;
+    const membersLength = this.props.details.group.participants.length;
+    const peopleCollapseText = this.props.details.group.is_space ? `${membersLength} members` : this.props.t('people');
+
+    const dropdownMock = [{ text: 'Mock', onClick: () => {} }];
+
     return <Fragment>
-      <Button appearance="_icon-transparent" icon="arrow-left" onClick={this.closePanel} className={style.close} />
+      <div className={style.actions}>
+        <Dropdown
+          uniqueId="panel-dropdown"
+          className={style.dropdown}
+          items={dropdownMock}
+        >
+          <Button appearance="_icon-transparent" icon="dots" />
+        </Dropdown>
+
+        <Button
+          icon="arrow-left"
+          appearance="_fab-divider"
+          className={style.close}
+          onClick={this.closePanel}
+        />
+      </div>
 
       <div className={style.scroll}>
         <div className={style.header}>
@@ -331,7 +357,7 @@ class Panel extends Component {
 
           {isEditNameShown &&
             <ContentEditable
-              className={cx('name', {'_is-space': this.props.details.group.is_space})}
+              className={cx('name', { '_is-space': this.props.details.group.is_space })}
               html={this.state.chatName}
               disabled={false}
               onChange={this.onChatNameInput}
@@ -341,7 +367,7 @@ class Panel extends Component {
           }
 
           {!isEditNameShown &&
-            <p className={cx('name', {'_is-space': this.props.details.group.is_space})}>{chatName}</p>
+            <p className={cx('name', { '_is-space': this.props.details.group.is_space })}>{chatName}</p>
           }
 
           <p className={style.subcaption}>
@@ -359,56 +385,77 @@ class Panel extends Component {
           </p>
         </div>
 
-        {isChatRoom && isCurrentUserAdmin &&
+        {isChatRoom && isCurrentUserAdmin && <div className={style.section}>
+          <p className={style.label}>Space</p>
+
           <FakeCheckbox
             value={this.props.details.group.is_space}
-            label="Space"
+            label={spaceCheckBoxStatus}
             onChange={this.onIsSpaceChange}
             className={style.checkbox}
           />
+        </div>
         }
 
-        {isInviteCodeBlockShown &&
-          <button className={style.setting_button} onClick={this.copyInviteLink}>
-            <Icon name="share" />
-            <p className={style.text}>{this.props.t('copy_invite_link')}</p>
-          </button>
+        <div className={style.section}>
+          <p className={style.label}>Notifications</p>
+
+          <FakeCheckbox
+            value={this.props.details.mute_until}
+            label={notificationsCheckBoxStatus}
+            onChange={this.toggleMute}
+            className={style.checkbox}
+          />
+        </div>
+
+        {!this.props.details.group.is_space && <div className={style.section}>
+          <p className={style.label}>Chat category</p>
+
+          <FakeSelect
+            placeholder="Choose"
+            action={this.setTag}
+            className={style.select}
+            values={[
+              { name: 'all', value: 'all' },
+              { name: 'work', value: 'work' },
+              { name: 'personal', value: 'personal' },
+            ]}
+          />
+        </div>
         }
 
-        <button className={style.setting_button} onClick={this.toggleMute}>
-          {this.props.details.mute_until &&
-            <Icon name="mute" />
-          }
+        {this.props.details.group.is_space && <div className={style.section}>
+          <p className={style.label}>Thread category</p>
 
-          {!this.props.details.mute_until &&
-            <Icon name="unmute" />
-          }
+          <FakeSelect
+            placeholder="Choose"
+            action={() => {}}
+            className={style.select}
+            values={[
+              { name: 'Mock value 1', value: 'Mock value 1' },
+              { name: 'Mock value 2', value: 'Mock value 2' },
+              { name: 'Mock value 3', value: 'Mock value 3' },
+            ]}
+          />
+        </div>
+        }
 
-          <p className={style.text}>{this.props.t('notifications')}</p>
-        </button>
+        {isInviteCodeBlockShown && <div className={style.section}>
+          <p className={style.label}>Invitation link</p>
 
-        <Dropdown
-          uniqueId="panel-category-dropdown"
-          className={style.dropdown}
+          <div className={style.invite}>
+            <input
+              disabled
+              value={invitationLink}
+              className={style.link}
+            />
 
-          items={[
-            { text: this.props.t('all'), onClick: () => this.setTag([null]) },
-            { text: this.props.t('work'), onClick: () => this.setTag(['work']) },
-            { text: this.props.t('personal'), onClick: () => this.setTag(['personal']) },
-          ]}
-        >
-          <button className={style.setting_button}>
-            <Icon name="folder" />
-            <p className={style.text}>{this.props.t('category')}</p>
-
-            {this.props.details.tags && this.props.details.tags[0] &&
-              <span>
-                {this.props.details.tags[0] === 'work' && this.props.t('work')}
-                {this.props.details.tags[0] === 'personal' && this.props.t('personal')}
-              </span>
-            }
-          </button>
-        </Dropdown>
+            <button className={style.button} onClick={this.copyInviteLink}>
+              Copy
+            </button>
+          </div>
+        </div>
+        }
 
         {isChatRoom &&
           <button className={cx('setting_button', 'leave')} onClick={this.leaveChat}>
@@ -420,7 +467,7 @@ class Panel extends Component {
         {this.props.details.group.type === 'room' &&
           <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'people' })}>
             <button className={style.collapse_button} onClick={this.toggleCollapse('people')}>
-              <span className={style.title}>{this.props.t('people')}</span>
+              <span className={style.title}>{peopleCollapseText}</span>
 
               {isCurrentUserAdmin &&
                 <span className={style.button} onClick={this.addPeople}>{this.props.t('add_people')}</span>
@@ -440,24 +487,40 @@ class Panel extends Component {
                 let peopleDropdownItems = [];
 
                 if (participant.user_id !== this.props.currentUser.id) {
-                  peopleDropdownItems.push({text: this.props.t('message'), onClick: () => this.goToChatByUserId(user.id)});
+                  peopleDropdownItems.push({
+                    text: this.props.t('message'),
+                    onClick: () => this.goToChatByUserId(user.id),
+                  });
                 }
 
                 if (isCurrentUserAdmin) {
                   if (participant.role !== 'admin') {
-                    peopleDropdownItems.push({text: this.props.t('set_admin'), onClick: () => this.setAccess(user.id, 'admin')});
+                    peopleDropdownItems.push({
+                      text: this.props.t('set_admin'),
+                      onClick: () => this.setAccess(user.id, 'admin'),
+                    });
                   }
 
                   if (participant.role !== 'rw') {
-                    peopleDropdownItems.push({text: this.props.t('set_read_write'), onClick: () => this.setAccess(user.id, 'rw')});
+                    peopleDropdownItems.push({
+                      text: this.props.t('set_read_write'),
+                      onClick: () => this.setAccess(user.id, 'rw'),
+                    });
                   }
 
                   if (participant.role !== 'ro') {
-                    peopleDropdownItems.push({text: this.props.t('set_read_only'), onClick: () => this.setAccess(user.id, 'ro')});
+                    peopleDropdownItems.push({
+                      text: this.props.t('set_read_only'),
+                      onClick: () => this.setAccess(user.id, 'ro'),
+                    });
                   }
 
                   if (participant.user_id !== this.props.currentUser.id) {
-                    peopleDropdownItems.push({text: this.props.t('remove'), onClick: () => this.removeUser(user.id), isDanger: true});
+                    peopleDropdownItems.push({
+                      text: this.props.t('remove'),
+                      onClick: () => this.removeUser(user.id),
+                      isDanger: true,
+                    });
                   }
                 }
 

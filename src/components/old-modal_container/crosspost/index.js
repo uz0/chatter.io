@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Modal from '@/components/modal';
+import Modal from '@/components/old-modal';
 import { actions as inputActions } from '@/components/messages_container/input';
 import { withTranslation } from 'react-i18next';
 import style from './style.css';

@@ -4,7 +4,7 @@ import uniq from 'lodash/uniq';
 import find from 'lodash/find';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as notificationActions } from '@/components/notification';
-import { actions as modalActions } from '@/components/modal_container';
+import { actions as modalActions } from '@/components/old-modal_container';
 
 const tagreg = /\B\#\w\w+\b/gim;
 

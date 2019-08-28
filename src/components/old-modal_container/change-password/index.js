@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Modal from '@/components/modal';
+import Modal from '@/components/old-modal';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';

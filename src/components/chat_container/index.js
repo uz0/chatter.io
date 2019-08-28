@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
 import Panel from '@/components/panel_container';
 import Content from './content';
-import { actions as modalActions } from '@/components/modal_container';
+import { actions as modalActions } from '@/components/old-modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as usersActions } from '@/store/users';

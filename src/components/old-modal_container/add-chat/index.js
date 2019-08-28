@@ -10,7 +10,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import Loading from '@/components/loading';
-import Modal from '@/components/modal';
+import Modal from '@/components/old-modal';
 import Icon from '@/components/icon';
 import { api } from '@';
 import { withRouter } from '@/hoc';

@@ -15,7 +15,7 @@ import { actions as messagesActions } from '@/store/messages';
 import config from '@/config';
 import style from './style.css';
 
-class Spaces extends Component {
+class Feed extends Component {
   state = {
     isNewMessagesLoading: false,
   };
@@ -123,4 +123,4 @@ export default compose(
       loadMoreMessages: messagesActions.loadMoreMessages,
     },
   ),
-)(Spaces);
+)(Feed);

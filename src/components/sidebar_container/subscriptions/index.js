@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import Section from '@/components/sidebar_container/section';
 import SubscriptionItem from '@/components/subscription-item';
-import SpacesItem from './spaces-item';
+import FeedItem from './feed-item';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
 import { getChatUrl } from '@/helpers';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -95,8 +95,8 @@ class Filters extends Component {
     }
   };
 
-  renderSpace = ({ item }) => {
-    return <SpacesItem key={item} id={item} className={style.space} />;
+  renderFeedItem = ({ item }) => {
+    return <FeedItem key={item} id={item} className={style.feed} />;
   };
 
   renderSubscription = ({ item }) => {
@@ -122,12 +122,12 @@ class Filters extends Component {
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
-      {this.props.spaces.length > 0 &&
+      {this.props.feed.length > 0 &&
         <Section
-          items={this.props.spaces}
-          title="Spaces"
-          emptyMessage="There is no spaces yet"
-          renderItem={this.renderSpace}
+          items={this.props.feed}
+          title="Feed"
+          emptyMessage="There is no feeds yet"
+          renderItem={this.renderFeedItem}
           className={style.section}
         />
       }
@@ -163,15 +163,15 @@ export default compose(
   })),
 
   withProps(props => {
-    let spaces = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
-    spaces = filter(spaces, item => item.group.is_space);
-    spaces = sortBy(spaces, item => item.group.name);
+    let feed = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
+    feed = filter(feed, item => item.group.is_space);
+    feed = sortBy(feed, item => item.group.name);
 
     let chats = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
     chats = filter(chats, item => !item.group.is_space);
 
     return {
-      spaces: map(spaces, space => space.id),
+      feed: map(feed, item => item.id),
       chats_ids: map(chats, chat => chat.id),
     };
   }),

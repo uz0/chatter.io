@@ -7,7 +7,7 @@ const cx = classnames.bind(style);
 
 class Modal extends Component {
   render() {
-    return <div className={cx('modal', this.props.className)}>
+    return <div className={cx('modal', this.props.wrapClassName)}>
       <div className={style.header}>
         <p className={style.title}>{this.props.title}</p>
 
@@ -19,7 +19,7 @@ class Modal extends Component {
         />
       </div>
 
-      <div className={style.content}>
+      <div className={cx('content', this.props.className)}>
         {this.props.children}
       </div>
     </div>;

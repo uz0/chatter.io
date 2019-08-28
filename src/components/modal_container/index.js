@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Test from './test-modal';
+import NewDialogue from './new-dialogue';
 import classnames from 'classnames/bind';
 import modalActions from './actions';
 import style from './style.css';
@@ -15,7 +15,7 @@ class ModalContainer extends Component {
   render() {
     return <div className={cx('modal_container', this.props.className)}>
       {this.props.ids.map(id => <Fragment key={id}>
-        {id === 'test-modal' && <Test options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'new-dialogue-modal' && <NewDialogue options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
       </Fragment>)}
     </div>;
   }

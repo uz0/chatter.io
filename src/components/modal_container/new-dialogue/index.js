@@ -4,18 +4,13 @@ import { withTranslation } from 'react-i18next';
 import Modal from '@/components/modal';
 import style from './style.css';
 
-class Test extends Component {
+class NewDialogue extends Component {
   render() {
-    const actions = [
-      {text: this.props.t('ok'), onClick: () => {}},
-    ];
-
     return <Modal
-      id="test-modal"
-      title="title"
+      id="new-dialogue-modal"
+      title="New Dialogue"
       className={style.modal}
       close={this.props.close}
-      actions={actions}
     >
       <p>Modal</p>
     </Modal>;
@@ -24,4 +19,4 @@ class Test extends Component {
 
 export default compose(
   withTranslation(),
-)(Test);
+)(NewDialogue);

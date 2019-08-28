@@ -74,7 +74,13 @@ export default createReducer(initialState, {
     }
 
     if (!state.list[messageId]) {
-      state.list[messageId] = action.payload.message;
+      let messageObject = action.payload.message;
+
+      if (!messageObject.uid) {
+        messageObject.uid = uid();
+      }
+
+      state.list[messageId] = messageObject;
     }
 
     if (chatId && state.chatIds[chatId] && state.chatIds[chatId].list.indexOf(messageId) === -1) {

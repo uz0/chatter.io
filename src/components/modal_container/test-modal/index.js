@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { withTranslation } from 'react-i18next';
 import Modal from '@/components/old-modal';
-import { api } from '@';
-import { withRouter } from '@/hoc';
 import style from './style.css';
 
 class Test extends Component {

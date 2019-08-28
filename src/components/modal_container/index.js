@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Test from './test-modal';

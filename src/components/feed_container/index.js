@@ -19,7 +19,7 @@ class Feed extends Component {
   render() {
     return <div className={cx('feed', this.props.className)}>
       <h3 className={style.title}>#{this.props.details.group.name}</h3>
-      <p className={style.subtitle}>Public space</p>
+      <p className={style.subtitle}>Public feed</p>
 
       <Input details_id={this.props.details.id} className={style.input_container} />
       <List details_id={this.props.details.id} />

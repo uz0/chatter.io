@@ -95,7 +95,7 @@ class Filters extends Component {
     }
   };
 
-  renderFeedItem = ({ item }) => {
+  renderFeed = ({ item }) => {
     return <FeedItem key={item} id={item} className={style.feed} />;
   };
 
@@ -122,12 +122,12 @@ class Filters extends Component {
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
-      {this.props.feed.length > 0 &&
+      {this.props.feeds.length > 0 &&
         <Section
-          items={this.props.feed}
-          title="Feed"
+          items={this.props.feeds}
+          title="Feeds"
           emptyMessage="There is no feeds yet"
-          renderItem={this.renderFeedItem}
+          renderItem={this.renderFeed}
           className={style.section}
         />
       }
@@ -163,15 +163,15 @@ export default compose(
   })),
 
   withProps(props => {
-    let feed = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
-    feed = filter(feed, item => item.group.is_space);
-    feed = sortBy(feed, item => item.group.name);
+    let feeds = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
+    feeds = filter(feeds, item => item.group.is_space);
+    feeds = sortBy(feeds, item => item.group.name);
 
     let chats = map(props.sorted_subscriptions_ids, id => props.subscriptions_list[id]);
     chats = filter(chats, item => !item.group.is_space);
 
     return {
-      feed: map(feed, item => item.id),
+      feeds: map(feeds, item => item.id),
       chats_ids: map(chats, chat => chat.id),
     };
   }),

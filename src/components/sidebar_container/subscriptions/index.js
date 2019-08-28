@@ -122,13 +122,15 @@ class Filters extends Component {
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
-      <Section
-        items={this.props.spaces}
-        title="Spaces"
-        emptyMessage="There is no spaces yet"
-        renderItem={this.renderSpace}
-        className={style.section}
-      />
+      {this.props.spaces.length > 0 &&
+        <Section
+          items={this.props.spaces}
+          title="Spaces"
+          emptyMessage="There is no spaces yet"
+          renderItem={this.renderSpace}
+          className={style.section}
+        />
+      }
 
       <Section
         items={this.props.chats_ids}

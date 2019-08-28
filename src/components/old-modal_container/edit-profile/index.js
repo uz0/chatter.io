@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
-import Modal from '@/components/modal';
+import Modal from '@/components/old-modal';
 import Avatar from '@/components/avatar';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';

@@ -25,7 +25,7 @@ export default createReducer(initialState, {
         state.list[action.payload.id] = action.payload.options;
       }
     } else {
-      state.ids.splice(index, 1);
+      delete state.ids[index];
 
       if (state.list[action.payload.id]) {
         delete state.list[action.payload.id];
@@ -37,7 +37,7 @@ export default createReducer(initialState, {
     const index = state.ids.indexOf(action.payload);
 
     if (index !== -1) {
-      state.ids.splice(index, 1);
+      delete state.ids[index];
     }
 
     if (state.list[action.payload]) {

@@ -141,6 +141,7 @@ class Chat extends Component {
 
       {isChatOpen &&
         <Fragment>
+          {/* убираем content через display:none, чтобы не выгружать content */}
           <Content params={this.props.match.params} className={cx('content', {'_is-modals-shown': this.props.isModalsShown})} />
           <Panel params={this.props.match.params} className={cx('panel', {'_is-modals-shown': this.props.isModalsShown})} />
         </Fragment>

@@ -26,10 +26,7 @@
   display: flex;
   flex-shrink: 0;
   justify-content: flex-end;
-  padding-top: 10px;
-  padding-bottom: 30px;
-  padding-right: var(--panel-padding);
-  padding-left: var(--panel-padding);
+  padding: 10px var(--panel-padding);
 }
 
 .panel > .actions .close {

@@ -21,10 +21,23 @@
   min-width: 0;
 }
 
+.chat > .modal_wrapper {
+  flex-grow: 1;
+  min-width: 0;
+}
+
 .chat > .panel {
   flex-shrink: 0;
   width: var(--panel-width);
   box-shadow: 1px 0 var(--divider-color) inset;
+}
+
+.chat > .content._is-modals-shown {
+  display: none !important;
+}
+
+.chat > .panel._is-modals-shown {
+  display: none !important;
 }
 
 @media (max-width: 1280px) {

@@ -15,7 +15,7 @@ import { actions as storeActions } from '@/store';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as usersActions } from '@/store/users';
-import { actions as modalActions } from '@/components/modal_container';
+import { actions as modalActions } from '@/components/old-modal_container';
 import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 

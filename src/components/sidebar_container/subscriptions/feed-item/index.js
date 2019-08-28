@@ -10,14 +10,14 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class SpacesItem extends Component {
+class FeedItem extends Component {
   componentWillMount() {
     this.props.addUsers(this.props.details.group.participants);
     this.props.loadMessages({chatId: this.props.details.id, list: []});
   }
 
   render() {
-    return <Link className={cx('space', this.props.className)} activeClassName="_is-active" to={`/chat/${this.props.id}`}>
+    return <Link className={cx('feed-item', this.props.className)} activeClassName="_is-active" to={`/chat/${this.props.id}`}>
       <Icon name="hashtag" />
       <p className={style.name}>{this.props.details.group.name}</p>
 
@@ -39,4 +39,4 @@ export default compose(
       loadMessages: messagesActions.loadMessages,
     },
   ),
-)(SpacesItem);
+)(FeedItem);

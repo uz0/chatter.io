@@ -1,4 +1,4 @@
-.spaces {
+.feed {
   --section-width: 550px;
   flex-direction: column;
   overflow-x: hidden;
@@ -7,7 +7,7 @@
   background-color: #fcfcfd;
 }
 
-.spaces > .title {
+.feed > .title {
   --height: 24px;
   flex-shrink: 0;
   overflow: hidden;
@@ -21,7 +21,7 @@
   text-overflow: ellipsis;
 }
 
-.spaces > .subtitle {
+.feed > .subtitle {
   --height: 16px;
   flex-shrink: 0;
   overflow: hidden;
@@ -34,7 +34,7 @@
   text-overflow: ellipsis;
 }
 
-.spaces > .input_container {
+.feed > .input_container {
   flex-shrink: 0;
   width: 100%;
   max-width: var(--section-width);
@@ -43,18 +43,18 @@
   margin-top: 38px;
 }
 
-.spaces > .input_container + * {
+.feed > .input_container + * {
   margin-top: 12px;
 }
 
 @media (max-width: 920px) {
-  .spaces {
+  .feed {
     --section-width: 440px;
   }
 }
 
 @media (max-width: 800px) {
-  .spaces {
+  .feed {
     --section-width: 100%;
   }
 }

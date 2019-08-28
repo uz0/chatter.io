@@ -1,4 +1,5 @@
 .panel {
+  --panel-padding: 12px;
   z-index: 2;
   position: relative;
   display: flex;
@@ -21,10 +22,17 @@
   --left: 1px;
 }
 
-.panel > .close {
-  --height: var(--info-height);
+.panel > .actions {
+  display: flex;
   flex-shrink: 0;
-  margin-left: auto;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px var(--panel-padding);
+}
+
+.panel > .actions .close {
+  --height: 38px;
+  margin-left: 8px;
 }
 
 .panel > .scroll {
@@ -43,7 +51,7 @@
 }
 
 .panel > .scroll > .header > .avatar_container {
-  --avatar-size: 70px;
+  --avatar-size: 76px;
   position: relative;
   width: var(--avatar-size);
   height: var(--avatar-size);
@@ -72,7 +80,7 @@
   background-color: rgba(0, 0, 0, 0.63);
   text-align: center;
   font-size: 14px;
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
   color: #fff;
   opacity: var(--button-opacity);
   border-radius: calc(var(--avatar-size) / 2);
@@ -107,7 +115,7 @@
 }
 
 .panel > .scroll > .header > .avatar_container + .name {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .panel > .scroll > .header > .name {
@@ -118,10 +126,16 @@
   padding-left: 8px;
   padding-right: 8px;
   line-height: var(--height);
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
   color: var(--text-color);
   text-align: center;
   white-space: nowrap;
+}
+
+.panel > .scroll > .header > .name._is-space {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
 }
 
 .panel > .scroll > .header > .name._is-space::before {
@@ -142,17 +156,51 @@
   --height: 16px;
   overflow: hidden;
   height: var(--height);
-  margin-top: 2px;
+  margin-top: 4px;
   line-height: var(--height);
-  font-size: 14px;
+  font-size: 11px;
   color: var(--caption-color);
   text-align: center;
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
+.panel > .scroll > .section {
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.panel > .scroll > .section .label {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--text-color);
+}
+
+.panel > .scroll > .section .label + * {
+  margin-top: 6px;
+}
+
+.panel > .scroll > .section + .section {
+  margin-top: 12px;
+}
+
+.panel > .scroll > .section + .setting_button {
+  margin-top: 6px;
+}
+
 .panel > .scroll > .checkbox {
+  margin-left: var(--layout-padding);
+  margin-right: var(--layout-padding);
+}
+
+.panel > .scroll > .select {
   margin-left: var(--layout-padding);
   margin-right: var(--layout-padding);
 }
@@ -208,7 +256,7 @@
   flex-grow: 1;
   min-width: 0;
   height: var(--height);
-  margin-left: 18px;
+  margin-left: 8px;
   line-height: var(--height);
   font-size: 15px;
   color: var(--color);
@@ -222,15 +270,67 @@
   margin-left: 12px;
   font-size: 13px;
   color: var(--caption-color);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
+}
+
+.panel > .scroll .invite {
+  --height: 38px;
+  --invite-padding: 12px;
+  display: flex;
+  align-items: center;
+  height: var(--height);
+  padding-left: var(--invite-padding);
+  padding-right: var(--invite-padding);
+  background-color: var(--divider-color);
+  border-radius: 5px;
+}
+
+.panel > .scroll .invite .link {
+  height: var(--height);
+  display: flex;
+  flex-grow: 1;
+  font-size: 13px;
+  border: none;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--text-color);
+  background-color: var(--divider-color);
+}
+
+.panel > .scroll .invite .button {
+  height: var(--height);
+  display: flex;
+  padding-left: var(--invite-padding);
+  padding-right: var(--invite-padding);
+  margin-right: calc(var(--invite-padding) * -1);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: var(--divider-color);
+}
+
+.panel > .scroll .invite .button:not(:hover) {
+  color: var(--primary-color);
+}
+
+.panel > .scroll .invite .button:hover {
+  color: #0035ff;
 }
 
 .panel > .scroll .setting_button + .collapse,
+.panel > .scroll .section + .collapse,
 .panel > .scroll .dropdown + .collapse {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .panel > .scroll > .collapse {
+  --caption-color: #252c43;
+  --primary-color: #4a00ff;
   box-shadow: 0 1px var(--divider-color) inset;
 }
 
@@ -272,7 +372,7 @@
   line-height: var(--height);
   font-size: 14px;
   color: var(--color);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
@@ -292,7 +392,7 @@
   line-height: var(--height);
   font-size: 14px;
   color: var(--color);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;
@@ -300,10 +400,6 @@
 
 .panel > .scroll > .collapse > .collapse_button .button:not(:hover) {
   --color: var(--primary-color);
-}
-
-.panel > .scroll > .collapse > .collapse_button .button:hover {
-  --color: var(--primary-color-hover);
 }
 
 .panel > .scroll > .collapse > .collapse_button .button + i {
@@ -352,11 +448,11 @@
   flex-grow: 1;
   min-width: 0;
   height: var(--height);
-  margin-left: 6px;
+  margin-left: 10px;
   line-height: var(--height);
   font-size: 15px;
   color: var(--text-color);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -370,7 +466,7 @@
   line-height: var(--height);
   font-size: 13px;
   color: var(--caption-color);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
 }
 
 .panel > .scroll > .collapse > .collapse_list > .person > .dropdown {
@@ -379,7 +475,7 @@
 }
 
 .panel > .scroll > .collapse > .collapse_list > .person > .dropdown > button {
-  --icon-size: 12px;
+  --icon-size: 16px;
   margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
 }
 

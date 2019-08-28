@@ -8,7 +8,7 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class Spaces extends Component {
+class Feed extends Component {
   shouldComponentUpdate(nextProps) {
     const isChatChanged = this.props.details.id !== nextProps.details.id;
     const isChatNameChanged = this.props.details.group.name !== nextProps.details.group.name;
@@ -18,9 +18,9 @@ class Spaces extends Component {
   }
 
   render() {
-    return <div className={cx('spaces', this.props.className)}>
+    return <div className={cx('feed', this.props.className)}>
       <h3 className={style.title}>#{this.props.details.group.name}</h3>
-      <p className={style.subtitle}>Public space</p>
+      <p className={style.subtitle}>Public feed</p>
 
       <Input details_id={this.props.details.id} className={style.input_container} />
       <List details_id={this.props.details.id} />
@@ -30,4 +30,4 @@ class Spaces extends Component {
 
 export default compose(
   withDetails,
-)(Spaces);
+)(Feed);

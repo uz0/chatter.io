@@ -15,7 +15,7 @@ class CrossPost extends Component {
       },
 
       {
-        isForceToSpace: true,
+        isForceToFeed: true,
       },
     );
 

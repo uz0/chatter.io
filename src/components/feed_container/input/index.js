@@ -21,7 +21,7 @@ class Input extends Component {
   onInput = () => this.calcTextareaHeight();
 
   calcTextareaHeight = () => {
-    const textarea = document.getElementById('spaces-input');
+    const textarea = document.getElementById('feed-input');
 
     if (!textarea) {
       return;
@@ -32,7 +32,7 @@ class Input extends Component {
   };
 
   attach = () => {
-    const input = document.getElementById('spaces-input-attach');
+    const input = document.getElementById('feed-input-attach');
     input.click();
   };
 
@@ -42,7 +42,7 @@ class Input extends Component {
   };
 
   send = () => {
-    const input = document.getElementById('spaces-input');
+    const input = document.getElementById('feed-input');
     const text = getFilteredMessage(input.value);
     const { upload_id } = this.state;
 
@@ -65,7 +65,7 @@ class Input extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const input = document.getElementById('spaces-input');
+    const input = document.getElementById('feed-input');
 
     if (this.props.details_id !== nextProps.details_id && input.value) {
       input.value = '';
@@ -79,7 +79,7 @@ class Input extends Component {
         <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
 
         <textarea
-          id="spaces-input"
+          id="feed-input"
           placeholder="Post to #design"
           onInput={this.onInput}
           className={style.input}
@@ -90,7 +90,7 @@ class Input extends Component {
       </div>
 
       <Attachments
-        uniqueId="spaces-input-attach"
+        uniqueId="feed-input-attach"
         onChange={this.onAttachmentsChange}
         details_id={this.props.details_id}
       />

@@ -58,7 +58,7 @@ const sendMessage = (params, options = {}) => (dispatch, getState) => {
 
   const tags = params.text.match(tagreg);
 
-  if (tags && !params.reply_message_id && !options.isForceToSpace) {
+  if (tags && !params.reply_message_id && !options.isForceToFeed) {
     uniq(tags).forEach((tag, index) => {
       const tagname = tag.substr(1);
       const subscription = find(state.subscriptions.list, chat => chat.group.is_space && chat.group.name === tagname);

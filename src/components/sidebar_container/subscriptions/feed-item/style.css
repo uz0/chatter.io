@@ -1,4 +1,4 @@
-.space {
+.feed-item {
   display: flex;
   align-items: center;
   height: 38px;
@@ -8,25 +8,25 @@
   transition-property: background-color;
 }
 
-.space:not(:global(._is-active)):not(:hover) {
+.feed-item:not(:global(._is-active)):not(:hover) {
   --background-color: transparent;
 }
 
-.space:not(:global(._is-active)):hover {
+.feed-item:not(:global(._is-active)):hover {
   --background-color: var(--divider-color);
 }
 
-.space:global(._is-active) {
+.feed-item:global(._is-active) {
   --background-color: var(--divider-color);
 }
 
-.space > i {
+.feed-item > i {
   --icon-size: 16px;
   --icon-color: var(--caption-color);
   flex-shrink: 0;
 }
 
-.space > .name {
+.feed-item > .name {
   --height: 16px;
   flex-grow: 1;
   overflow: hidden;
@@ -40,7 +40,7 @@
   text-overflow: ellipsis;
 }
 
-.space > .point {
+.feed-item > .point {
   --size: 10px;
   flex-shrink: 0;
   width: var(--size);

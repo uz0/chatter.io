@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
-import Modal from '@/components/modal';
+import Modal from '@/components/old-modal';
 import SubscriptionItem from '@/components/subscription-item';
 import { api } from '@';
 import { uid, getChatUrl } from '@/helpers';

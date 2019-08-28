@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import find from 'lodash/find';
 import NewDialogue from './new-dialogue';
 import classnames from 'classnames/bind';
 import modalActions from './actions';
@@ -13,9 +14,15 @@ export { default as reducers } from './reducers';
 
 class ModalContainer extends Component {
   render() {
-    return <div className={cx('modal_container', this.props.className)}>
+    const isContainerShown = find(this.props.ids, id => id.match('content-modal-'));
+
+    return !isContainerShown ? null : <div className={cx('modal_container', this.props.className)}>
       {this.props.ids.map(id => <Fragment key={id}>
-        {id === 'new-dialogue-modal' && <NewDialogue options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
+        {/*
+          content-modal приставка будет пока не переделаем и удалим все старые модалки
+          надо делать проверку в chat/container на то, открыты ли модалки
+        */}
+        {id === 'content-modal-new-dialogue-modal' && <NewDialogue options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
       </Fragment>)}
     </div>;
   }

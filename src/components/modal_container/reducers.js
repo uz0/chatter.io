@@ -11,7 +11,7 @@ const initialState = {
 };
 
 if (!isMobile && window.innerWidth > 1024) {
-  initialState.ids = ['panel-container'];
+  initialState.ids = ['panel-container', 'content-modal-new-dialogue-modal'];
 }
 
 export default createReducer(initialState, {
@@ -25,7 +25,7 @@ export default createReducer(initialState, {
         state.list[action.payload.id] = action.payload.options;
       }
     } else {
-      delete state.ids[index];
+      state.ids.splice(index, 1);
 
       if (state.list[action.payload.id]) {
         delete state.list[action.payload.id];
@@ -37,7 +37,7 @@ export default createReducer(initialState, {
     const index = state.ids.indexOf(action.payload);
 
     if (index !== -1) {
-      delete state.ids[index];
+      state.ids.splice(index, 1);
     }
 
     if (state.list[action.payload]) {

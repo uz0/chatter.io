@@ -9,6 +9,7 @@
 }
 
 .modal > .checked_users {
+  -webkit-overflow-scrolling: touch;
   flex-shrink: 0;
   overflow-y: hidden;
   overflow-x: auto;

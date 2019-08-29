@@ -35,7 +35,7 @@ const Modal = ({
         <p className={style.title}>{title}</p>
 
         {subcaption &&
-          <p className={style.subcaption}>3 people</p>
+          <p className={style.subcaption}>{subcaption}</p>
         }
       </div>
 

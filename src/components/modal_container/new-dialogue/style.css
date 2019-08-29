@@ -8,6 +8,12 @@
   padding-bottom: var(--layout-padding);
 }
 
+.modal > .loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 .modal > .checked_users {
   -webkit-overflow-scrolling: touch;
   flex-shrink: 0;

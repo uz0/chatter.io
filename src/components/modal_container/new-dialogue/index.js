@@ -14,6 +14,7 @@ import { withRouter } from '@/hoc';
 import { getOpponentUser } from '@/helpers';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import SearchInput from '@/components/search-input';
+import Loading from '@/components/loading';
 import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
@@ -202,6 +203,10 @@ class NewDialogue extends Component {
       close={this.props.close}
       actions={actions}
     >
+      {this.state.isLoading &&
+        <Loading type="line" isShown className={style.loading} />
+      }
+
       <div className={style.checked_users}>
         {isUsersChecked &&
           checkedUsers.map(user => {

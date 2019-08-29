@@ -26,7 +26,7 @@ class Sidebar extends Component {
     isLoading: false,
   };
 
-  openAddChat = () => this.props.toggleModal({ id: 'new-chat-modal' });
+  openAddChat = () => this.props.toggleModal({ id: 'content-modal-new-dialogue-modal' });
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
   onSearchInput = event => this.props.filterSubscription({ text: event.target.value });
   filterSubscriptionsByTag = tag => () => this.props.filterSubscription({ tag });
@@ -115,7 +115,11 @@ class Sidebar extends Component {
         >{this.props.t('personal')}</button>
       </div>
 
-      <SearchInput onInput={this.onSearchInput} className={style.search} />
+      <SearchInput
+        onInput={this.onSearchInput}
+        placeholder={this.props.t('search_messages_or_contacts')}
+        className={style.search}
+      />
 
       <div className={style.list} id="sidebar-scroll">
         {isSubscriptionsShown &&

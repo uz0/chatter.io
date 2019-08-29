@@ -9,3 +9,9 @@
   top: 0;
   bottom: 0;
 }
+
+@media (max-width: 800px) {
+  .modal_container > * {
+    position: fixed;
+  }
+}

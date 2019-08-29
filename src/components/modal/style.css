@@ -1,6 +1,7 @@
 .modal {
   display: flex;
   flex-direction: column;
+  background-color: #fff;
 }
 
 .modal > .header {
@@ -13,11 +14,32 @@
   padding-right: calc((var(--layout-padding) * 2) + 38px);
 }
 
-.modal > .header > .title {
-  --height: 20px;
+.modal > .header > .hidden_actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.modal > .header > .hidden_actions > * {
+  --background-color: transparent;
+  --color: transparent;
+  pointer-events: none;
+}
+
+.modal > .header > .hidden_actions > *:nth-of-type(n+2) {
+  margin-left: 10px;
+}
+
+.modal > .header > .section {
   flex-grow: 1;
-  overflow: hidden;
   min-width: 0;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.modal > .header > .section > .title {
+  --height: 20px;
+  overflow: hidden;
   height: var(--height);
   line-height: var(--height);
   font-size: 19px;
@@ -26,6 +48,29 @@
   font-weight: var(--font-weight-bold);
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.modal > .header > .section > .subcaption {
+  --height: 12px;
+  overflow: hidden;
+  height: var(--height);
+  margin-top: 2px;
+  line-height: var(--height);
+  font-size: 11px;
+  text-align: center;
+  color: var(--caption-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .header > .action {
+  --height: 38px;
+  flex-shrink: 0;
+}
+
+.modal > .header > .action:nth-of-type(n+2) {
+  margin-left: 10px;
 }
 
 .modal > .header > .close {

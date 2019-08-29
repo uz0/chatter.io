@@ -18,7 +18,7 @@ export default createReducer(initialState, {
 
   [actions.types.addUsers]: (state, action) => {
     action.payload.forEach(participant => {
-      const user = participant.user;
+      const user = participant.user || participant;
 
       if (state.list[user.id]) {
         return;

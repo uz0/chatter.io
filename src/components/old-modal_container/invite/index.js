@@ -42,6 +42,7 @@ class Invite extends Component {
       close={this.props.close}
     >
       <SearchInput
+        placeholder={this.props.t('search_messages_or_contacts')}
         className={style.search}
       />
 

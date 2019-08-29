@@ -179,6 +179,7 @@ class AddChat extends Component {
       <SearchInput
         value={this.state.search}
         onInput={this.onSearchInput}
+        placeholder={this.props.t('search_messages_or_contacts')}
         className={style.search}
       />
 

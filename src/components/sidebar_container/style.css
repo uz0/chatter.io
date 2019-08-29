@@ -58,6 +58,7 @@
   flex-shrink: 0;
   margin-left: var(--sidebar-padding);
   margin-right: var(--sidebar-padding);
+  margin-top: 10px;
 }
 
 .sidebar .navigation {

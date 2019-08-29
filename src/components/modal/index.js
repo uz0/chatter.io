@@ -1,29 +1,60 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class Modal extends Component {
-  render() {
-    return <div className={cx('modal', this.props.wrapClassName)}>
-      <div className={style.header}>
-        <p className={style.title}>{this.props.title}</p>
+const Modal = ({
+  title,
+  subcaption,
+  close,
+  actions,
+  children,
+  wrapClassName,
+  className,
+}) => {
+  const isActionsExist = actions.length > 0;
 
-        <Button
-          appearance="_fab-divider"
-          icon="close"
-          onClick={this.props.close}
-          className={style.close}
-        />
+  return <div className={cx('modal', wrapClassName)}>
+    <div className={style.header}>
+      {
+        /*
+          Заголовок должен быть по центру, но кнопки будут всегда разной ширины.
+          Надо их продублировать их слева, что б отцентрировать заголовок
+        */
+      }
+
+      {isActionsExist &&
+        <div className={style.hidden_actions}>
+          {actions.map(action => <Button key={action.text} {...action} />)}
+        </div>
+      }
+
+      <div className={style.section}>
+        <p className={style.title}>{title}</p>
+
+        {subcaption &&
+          <p className={style.subcaption}>3 people</p>
+        }
       </div>
 
-      <div className={cx('content', this.props.className)}>
-        {this.props.children}
-      </div>
-    </div>;
-  }
-}
+      {isActionsExist &&
+        actions.map(action => <Button key={action.text} {...action} className={style.action} />)
+      }
+
+      <Button
+        appearance="_fab-divider"
+        icon="close"
+        onClick={close}
+        className={style.close}
+      />
+    </div>
+
+    <div className={cx('content', className)}>
+      {children}
+    </div>
+  </div>;
+};
 
 export default Modal;

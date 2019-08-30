@@ -196,7 +196,6 @@ class NewDialogue extends Component {
     ];
 
     return <Modal
-      id="new-dialogue-modal"
       title="New Dialogue"
       subcaption={subcaption}
       className={style.modal}

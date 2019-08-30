@@ -8,9 +8,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
+  padding-bottom: var(--layout-padding);
 }
 
 .modal .form > .avatar {

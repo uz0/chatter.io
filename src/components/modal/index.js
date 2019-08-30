@@ -18,19 +18,6 @@ const Modal = ({
 
   return <div className={cx('modal', wrapClassName)}>
     <div className={style.header}>
-      {
-        /*
-          Заголовок должен быть по центру, но кнопки будут всегда разной ширины.
-          Надо их продублировать их слева, что б отцентрировать заголовок
-        */
-      }
-
-      {isActionsExist &&
-        <div className={style.hidden_actions}>
-          {actions.map(action => <Button key={action.text} {...action} />)}
-        </div>
-      }
-
       <div className={style.section}>
         <p className={style.title}>{title}</p>
 
@@ -38,10 +25,6 @@ const Modal = ({
           <p className={style.subcaption}>{subcaption}</p>
         }
       </div>
-
-      {isActionsExist &&
-        actions.map(action => <Button key={action.text} {...action} className={style.action} />)
-      }
 
       <Button
         appearance="_fab-divider"
@@ -54,6 +37,12 @@ const Modal = ({
     <div className={cx('content', className)}>
       {children}
     </div>
+
+    {isActionsExist &&
+      <div className={style.footer}>
+        {actions.map(action => <Button key={action.text} {...action} className={style.action} />)}
+      </div>
+    }
   </div>;
 };
 

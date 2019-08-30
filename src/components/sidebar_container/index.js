@@ -15,7 +15,7 @@ import { actions as storeActions } from '@/store';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as usersActions } from '@/store/users';
-import { actions as modalActions } from '@/components/old-modal_container';
+import { actions as modalActions } from '@/components/modal_container';
 import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
@@ -27,7 +27,7 @@ class Sidebar extends Component {
   };
 
   openAddChat = () => this.props.toggleModal({ id: 'content-modal-new-dialogue-modal' });
-  openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
+  openEditProfileModal = () => this.props.toggleModal({ id: 'content-modal-edit-profile-modal' });
   onSearchInput = event => this.props.filterSubscription({ text: event.target.value });
   filterSubscriptionsByTag = tag => () => this.props.filterSubscription({ tag });
 

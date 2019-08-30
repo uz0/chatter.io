@@ -3,6 +3,8 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import find from 'lodash/find';
 import NewDialogue from './new-dialogue';
+import EditProfile from './edit-profile';
+import ChangePassword from './change-password';
 import classnames from 'classnames/bind';
 import modalActions from './actions';
 import style from './style.css';
@@ -23,6 +25,8 @@ class ModalContainer extends Component {
           надо делать проверку в chat/container на то, открыты ли модалки
         */}
         {id === 'content-modal-new-dialogue-modal' && <NewDialogue options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'content-modal-edit-profile-modal' && <EditProfile options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'content-modal-change-profile-modal' && <ChangePassword options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
       </Fragment>)}
     </div>;
   }

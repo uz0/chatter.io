@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Modal from '@/components/old-modal';
+import Modal from '@/components/modal';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import Form from '@/components/form/form';
@@ -14,7 +14,7 @@ import style from './style.css';
 
 const defaultInputData = {error: "", value: null, isTouched: false, isBlured: false, isRequired: false};
 
-class EditProfile extends Component {
+class ChangePassword extends Component {
   state = {
     isLoading: false,
   };
@@ -117,16 +117,20 @@ class EditProfile extends Component {
   render() {
     const isActionDisabled = this.isActionDisabled();
 
+    const actions = [
+      {
+        appearance: '_basic-primary',
+        text: this.props.t('update'),
+        onClick: this.submit,
+        disabled: isActionDisabled,
+      },
+    ];
+
     return <Modal
-      id="change-password-modal"
       title={this.props.t('change_password')}
       className={style.modal}
-      wrapClassName={style.wrapper}
       close={this.props.close}
-
-      actions={[
-        { text: this.props.t('update'), onClick: this.submit, disabled: isActionDisabled },
-      ]}
+      actions={actions}
     >
       <Form
         model="profile"
@@ -227,4 +231,4 @@ export default compose(
       showNotification: notificationActions.showNotification,
     },
   ),
-)(EditProfile);
+)(ChangePassword);

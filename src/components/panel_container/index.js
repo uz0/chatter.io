@@ -127,7 +127,7 @@ class Panel extends Component {
     event.stopPropagation();
 
     this.props.toggleModal({
-      id: 'invite-modal',
+      id: 'content-modal-invite-modal',
       options: { subscription_id: this.props.details.id },
     });
   };

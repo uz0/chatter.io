@@ -6,7 +6,7 @@ import filter from 'lodash/filter';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import Modal from '@/components/old-modal';
+import Modal from '@/components/modal';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
 import { actions as notificationActions } from '@/components/notification';
@@ -35,9 +35,7 @@ class Invite extends Component {
     );
 
     return <Modal
-      id="invite-modal"
       title={this.props.t('invite')}
-      wrapClassName={style.wrapper}
       className={style.modal}
       close={this.props.close}
     >

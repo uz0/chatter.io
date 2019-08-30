@@ -79,7 +79,7 @@ class EditProfile extends Component {
     });
   };
 
-  openChangePasswordModal = () => this.props.toggleModal({ id: 'content-modal-change-profile-modal' });
+  openChangePasswordModal = () => this.props.toggleModal({ id: 'change-profile-modal' });
 
   deletePhoto = () => this.props.formChange('profile.avatar', {
     ...this.props.formData.avatar,

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
-import find from 'lodash/find';
 import Sidebar from '@/components/sidebar_container';
 import Panel from '@/components/panel_container';
 import ModalContainer from '@/components/modal_container';
@@ -161,7 +160,6 @@ export default compose(
       isMobile: state.device === 'touch',
       isGalleryOpen: state.gallery.images.length > 0,
       isPanelShown: state.modal.ids.indexOf('panel-container') !== -1,
-      isModalsShown: find(state.modal.ids, id => id.match('content-modal-')),
     }),
 
     {
@@ -175,5 +173,11 @@ export default compose(
       closeGallery: galleryActions.closeGallery,
       showNotification: notificationActions.showNotification,
     },
+  ),
+
+  connect(
+    (state, props) => ({
+      isModalsShown: state.modal.ids.length > 1 || (state.modal.ids.length === 1 && !props.isPanelShown),
+    }),
   ),
 )(Chat);

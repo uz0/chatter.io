@@ -32,7 +32,7 @@ class Filters extends Component {
     return false;
   };
 
-  openNewDialogueModal = () => this.props.toggleModal({ id: 'content-modal-new-dialogue-modal' });
+  openNewDialogueModal = () => this.props.toggleModal({ id: 'new-dialogue-modal' });
 
   setHoverUp = () => {
     if (!this.props.hover_subscription_id) {

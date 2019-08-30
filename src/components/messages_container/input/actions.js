@@ -68,7 +68,7 @@ const sendMessage = (params, options = {}) => (dispatch, getState) => {
       }
 
       dispatch(modalActions.toggleModal({
-        id: `content-modal-crosspost-modal-${index}`,
+        id: `crosspost-modal-${index}`,
 
         options: {
           message: params,

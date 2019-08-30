@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Forward from './forward';
 import Invite from './invite';
 import LeaveChat from './leave-chat';
 import modalActions from './actions';
@@ -14,7 +13,6 @@ class ModalContainer extends Component {
   render() {
     return <Portal>
       {this.props.ids.map(id => <Fragment key={id}>
-        {id === 'forward-modal' && <Forward options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'invite-modal' && <Invite options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'leave-chat' && <LeaveChat options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
       </Fragment>)}

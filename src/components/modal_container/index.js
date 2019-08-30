@@ -6,6 +6,7 @@ import NewDialogue from './new-dialogue';
 import EditProfile from './edit-profile';
 import ChangePassword from './change-password';
 import CrossPost from './crosspost';
+import Forward from './forward';
 import classnames from 'classnames/bind';
 import modalActions from './actions';
 import style from './style.css';
@@ -31,6 +32,7 @@ class ModalContainer extends Component {
         {id === 'content-modal-new-dialogue-modal' && <NewDialogue options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'content-modal-edit-profile-modal' && <EditProfile options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'content-modal-change-profile-modal' && <ChangePassword options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'content-modal-forward-modal' && <Forward options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
 
         {/* чтобы можно было добавлять crosspost-modal-1, crosspost-modal-2 и тд */}
         {id.match('content-modal-crosspost-modal') && <CrossPost options={this.props.list[id]} close={() => this.props.closeModal(id)} />}

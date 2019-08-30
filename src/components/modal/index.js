@@ -14,7 +14,7 @@ const Modal = ({
   wrapClassName,
   className,
 }) => {
-  const isActionsExist = actions.length > 0;
+  const isActionsExist = actions && actions.length > 0;
 
   return <div className={cx('modal', wrapClassName)}>
     <div className={style.header}>

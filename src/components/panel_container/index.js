@@ -16,7 +16,7 @@ import ContentEditable from 'react-contenteditable';
 import { api } from '@';
 import { withRouter, withDetails } from '@/hoc';
 import { getChatName, copy, getOpponentUser, getLastActive } from '@/helpers';
-import { actions as modalActions } from '@/components/old-modal_container';
+import { actions as modalActions } from '@/components/modal_container';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
@@ -89,7 +89,7 @@ class Panel extends Component {
   };
 
   leaveChat = () => this.props.toggleModal({
-    id: 'leave-chat',
+    id: 'content-modal-leave-chat-modal',
 
     options: {
       subscription_id: this.props.details.id,

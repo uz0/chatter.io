@@ -8,6 +8,7 @@ import ChangePassword from './change-password';
 import CrossPost from './crosspost';
 import Forward from './forward';
 import Invite from './invite';
+import LeaveChat from './leave-chat';
 import classnames from 'classnames/bind';
 import modalActions from './actions';
 import style from './style.css';
@@ -35,6 +36,7 @@ class ModalContainer extends Component {
         {id === 'content-modal-change-profile-modal' && <ChangePassword options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'content-modal-forward-modal' && <Forward options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'content-modal-invite-modal' && <Invite options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'content-modal-leave-chat-modal' && <LeaveChat options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
 
         {/* чтобы можно было добавлять crosspost-modal-1, crosspost-modal-2 и тд */}
         {id.match('content-modal-crosspost-modal') && <CrossPost options={this.props.list[id]} close={() => this.props.closeModal(id)} />}

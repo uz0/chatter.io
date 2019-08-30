@@ -40,7 +40,6 @@
   --background-color: transparent;
   --color: var(--caption-color);
 }
-
 .button[appearance$="transparent"]:hover {
   --background-color: transparent;
   --color: var(--text-color)
@@ -49,12 +48,10 @@
 .button[appearance$="primary"] {
   --button-loading-background: var(--primary-color);
 }
-
 .button[appearance$="primary"]:not(:hover) {
   --background-color: var(--primary-color);
   --color: #fff;
 }
-
 .button[appearance$="primary"]:hover {
   --background-color: var(--primary-color-hover);
   --color: #fff;
@@ -64,10 +61,20 @@
   --background-color: var(--divider-color);
   --color: var(--text-color);
 }
-
 .button[appearance$="divider"]:hover {
   --background-color: var(--divider-color);
   --color: var(--text-color);
+}
+
+
+.button[appearance$="danger"]:not(:hover) {
+  --background-color: var(--error-color);
+  --color: #fff;
+}
+
+.button[appearance$="danger"]:hover {
+  --background-color: var(--error-color);
+  --color: #fff;
 }
 /*********/
 

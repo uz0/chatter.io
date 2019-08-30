@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Modal from '@/components/old-modal';
+import Modal from '@/components/modal';
 import { actions as inputActions } from '@/components/messages_container/input';
 import { withTranslation } from 'react-i18next';
 import style from './style.css';
@@ -26,15 +26,13 @@ class CrossPost extends Component {
 
   render() {
     const actions = [
-      {text: this.props.t('no'), onClick: this.cancel},
-      {text: this.props.t('yes'), onClick: this.confirm},
+      {appearance: '_basic-divider', text: this.props.t('no'), onClick: this.cancel},
+      {appearance: '_basic-primary', text: this.props.t('yes'), onClick: this.confirm},
     ];
 
     return <Modal
-      id="crosspost-modal"
       title={this.props.t('cross_post')}
       className={style.modal}
-      wrapClassName={style.wrapper}
       close={this.props.close}
       actions={actions}
     >

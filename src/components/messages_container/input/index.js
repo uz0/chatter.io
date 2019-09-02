@@ -348,7 +348,7 @@ class MessageInput extends Component {
       return true;
     }
 
-    if (this.state.attachments.length > 0) {
+    if (this.state.upload_id.length > 0) {
       return true;
     }
 

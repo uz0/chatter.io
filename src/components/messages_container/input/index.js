@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import moment from 'moment';
 import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
+import sortBy from 'lodash/sortBy';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
+import Attach from '@/components/attach';
 import throttle from 'lodash/throttle';
 import Suggestion from './suggestion';
 import Gallery from './gallery';
 import Files from './files';
-import CRC32 from 'crc-32';
 import inputActions from './actions';
 import Message from './message';
-import { scrollMessagesBottom, uid } from '@/helpers';
+import { scrollMessagesBottom } from '@/helpers';
 import { withRouter } from '@/hoc';
-import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as dropdownActions } from '@/components/dropdown';
@@ -26,11 +28,11 @@ import style from './style.css';
 export { default as actions } from './actions';
 
 const cx = classnames.bind(style);
-const bytesSize = 64000;
 
 class MessageInput extends Component {
   state = {
     attachments: [],
+    upload_id: [],
     value: this.props.draft || '',
   };
 
@@ -72,268 +74,15 @@ class MessageInput extends Component {
     }
   };
 
-  attachFile = () => this.attachInputRef.click();
-
-  resetAttachment = () => {
-    this.attachInputRef.value = '';
-    this.setState({ attachments: [] });
+  attach = () => {
+    const input = document.getElementById('message-input-attach');
+    input.click();
   };
 
-  getBlobBase = blob => new Promise(resolve => {
-    const reader = new FileReader();
+  onAttachmentsChange = data => {
+    const upload_id = map(data, item => item.upload_id);
 
-    reader.onloadend = event => {
-      let binaryString = '';
-      const bytes = new Uint8Array(event.target.result);
-
-      for (let i = 0; i < bytes.byteLength; i++) {
-        binaryString += String.fromCharCode(bytes[i]);
-      }
-
-      resolve(window.btoa(binaryString));
-    };
-
-    reader.readAsArrayBuffer(blob);
-  });
-
-  getFileChecksum = file => new Promise(resolve => {
-    const reader = new FileReader();
-
-    reader.onloadend = event => {
-      const bytes = new Uint8Array(event.target.result);
-      resolve(CRC32.buf(bytes) >>> 0);
-    };
-
-    reader.readAsArrayBuffer(file);
-  });
-
-  onAttachFileChange = event => this.attachFiles(event.target.files);
-
-  attachFiles = files => {
-    let isSizeValid = true;
-
-    [].forEach.call(files, file => {
-      if (file.size > 209715200) {
-        isSizeValid = false;
-      }
-    });
-
-    if (!isSizeValid) {
-      this.props.showNotification({
-        type: 'info',
-
-        text: this.props.t(
-          'validation_max_size',
-
-          {
-            object: this.props.t('file'),
-            count: 200,
-            size_type: this.props.t('mb').toLowerCase(),
-          },
-        ),
-      });
-
-      return;
-    }
-
-    let attachments = [];
-
-    [].forEach.call(files, file => {
-      attachments.push({
-        uid: uid(),
-        byte_size: file.size,
-        content_type: file.type,
-        file_name: file.name,
-        preview: '',
-        url: '',
-        upload_id: null,
-        isLoading: true,
-      });
-    });
-
-    this.setState({ attachments });
-
-    [].forEach.call(files, (file, index) => {
-      const attachment = attachments[index];
-      setTimeout(() => this.loadFileByChunks(file, attachment.uid));
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        attachments[index].preview = reader.result;
-        attachments[index].url = reader.result;
-        this.setState({ attachments });
-      };
-
-      reader.readAsDataURL(file);
-    });
-
-    this.attachInputRef.value = '';
-  };
-
-  onPaste = event => {
-    event.persist();
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    let files = [];
-
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].type.indexOf('image') === 0) {
-        files.push(items[i].getAsFile());
-      }
-    }
-
-    if (files.length === 0) {
-      return;
-    }
-
-    this.attachFiles(files);
-  };
-
-  updateAttachmentState = (uid, data) => {
-    let attachments = this.state.attachments;
-    const index = findIndex(attachments, { uid });
-
-    if (index === -1) {
-      return;
-    }
-
-    attachments[index] = {
-      ...attachments[index],
-      ...data,
-    };
-
-    this.setState({ attachments });
-  };
-
-  loadFileByChunks = async (file, uid) => {
-    try {
-      if (file.size <= bytesSize) {
-        await this.loadFullFile(file, uid);
-        return;
-      }
-
-      await this.loadMainPartFile(file, uid);
-    } catch (error) {
-      console.error(error);
-
-      this.props.showNotification({
-        type: 'error',
-        text: error.text,
-      });
-
-      this.resetAttachment();
-    }
-  };
-
-  loadFullFile = async (file, uid) => {
-    const chunk = await this.getBlobBase(file);
-    const checksum = await this.getFileChecksum(file);
-
-    const response = await api.attachmentByChunks({
-      file_chunk: chunk,
-      upload_id: null,
-      file_size: file.size,
-      file_checksum: checksum,
-      file_name: file.name,
-    });
-
-    this.updateAttachmentState(uid, {
-      currentChunk: file.size,
-      isLoading: false,
-      upload_id: response.upload_id,
-    });
-  };
-
-  loadMainPartFile = async (file, uid) => {
-    let attachment = find(this.state.attachments, { uid });
-    let blob = file.slice(0, bytesSize);
-    let chunk = await this.getBlobBase(blob);
-    const checksum = await this.getFileChecksum(file);
-
-    const response = await api.attachmentByChunks({
-      file_chunk: chunk,
-      upload_id: null,
-      file_size: file.size,
-      file_checksum: checksum,
-      file_name: file.name,
-    });
-
-    attachment.currentChunk = bytesSize;
-    attachment.upload_id = response.upload_id;
-
-    if (file.size <= bytesSize) {
-      attachment.isLoading = false;
-    }
-
-    this.updateAttachmentState(uid, attachment);
-
-    if (file.size - bytesSize < bytesSize) {
-      this.loadLastChunk(file, uid);
-      return;
-    }
-
-    for (let i = bytesSize; i <= file.size; i += bytesSize) {
-      const currentStateAttachment = find(this.state.attachments, { uid });
-
-      if (!currentStateAttachment) {
-        break;
-      }
-
-      attachment.currentChunk = i;
-      this.updateAttachmentState(uid, attachment);
-
-      blob = file.slice(i, i + bytesSize);
-      chunk = await this.getBlobBase(blob);
-
-      await api.attachmentByChunks({
-        file_chunk: chunk,
-        upload_id: response.upload_id,
-        file_size: file.size,
-        file_checksum: checksum,
-        file_name: file.name,
-      });
-    }
-
-    const rest = file.size - attachment.currentChunk + bytesSize;
-
-    if (rest > 0 && rest < bytesSize) {
-      this.loadLastChunk(file, uid);
-      return;
-    }
-
-    attachment.currentChunk = file.size;
-    attachment.isLoading = false;
-    this.updateAttachmentState(uid, attachment);
-  };
-
-  loadLastChunk = async (file, uid) => {
-    const currentStateAttachment = find(this.state.attachments, { uid });
-
-    if (!currentStateAttachment) {
-      return;
-    }
-
-    const blob = file.slice(currentStateAttachment.currentChunk, file.size);
-    const chunk = await this.getBlobBase(blob);
-    const checksum = await this.getFileChecksum(file);
-
-    await api.attachmentByChunks({
-      file_chunk: chunk,
-      upload_id: currentStateAttachment.upload_id,
-      file_size: file.size,
-      file_checksum: checksum,
-      file_name: file.name,
-    });
-
-    this.updateAttachmentState(uid, {
-      currentChunk: file.size,
-      isLoading: false,
-    });
-  };
-
-  removeAttachment = index => () => {
-    let attachments = this.state.attachments;
-    attachments.splice(index, 1);
-    this.setState({ attachments });
+    this.setState({ upload_id });
   };
 
   getFilteredMessage = value => {
@@ -500,7 +249,7 @@ class MessageInput extends Component {
       subscription_id: this.props.subscription_id,
     });
 
-    this.setState({ value: '', attachments: [] });
+    this.setState({ value: '', attachments: [], upload_id: [] });
     setTimeout(() => this.calcTextareaHeight());
 
     if (this.props.reply_message_id) {
@@ -565,8 +314,13 @@ class MessageInput extends Component {
     this.sendMessage({
       text,
       mentions,
-      upload_id,
+      upload_id: this.state.upload_id,
       attachments,
+    });
+
+    this.setState({
+      upload_id: [],
+      attachments: [],
     });
   };
 
@@ -638,6 +392,17 @@ class MessageInput extends Component {
     });
   };
 
+  getGroupedMessages = () => {
+    let messages = map(this.props.messages, id => this.props.messages_list[id]);
+    messages = filter(messages, message => !message.xtag);
+    messages = filter(messages, message => !message.deleted_at);
+    messages = filter(messages, message => !message.in_reply_to_message_id);
+    messages = filter(messages, message => !message.forwarded_message_id);
+    messages = sortBy(messages, message => moment(message.created_at)).reverse();
+
+    return messages;
+  };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.editing_message && !isEqual(this.props.editing_message, nextProps.editing_message)) {
       this.setState({
@@ -680,7 +445,7 @@ class MessageInput extends Component {
     window.addEventListener('keydown', this.handleDocumentKeyDown);
   }
 
-  componwntWillUnmount() {
+  componentWillUnmount() {
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
@@ -689,23 +454,15 @@ class MessageInput extends Component {
     const messageId = this.props.reply_message_id || this.props.edit_message_id;
     const sendButtonName = this.props.edit_message_id ? this.props.t('edit') : this.props.t('send');
     const currentMentionSearch = this.getCurrentMentionSearch();
-    const withFiles = !!find(this.state.attachments, attachment => attachment.content_type.indexOf('image/') === -1);
-    const withImages = !!find(this.state.attachments, attachment => attachment.content_type.indexOf('image/') !== -1);
+    const groupedMessages = this.getGroupedMessages();
+    const lastMessage = groupedMessages[0];
 
     return <div className={cx('input', this.props.className)}>
       <Button
         appearance="_icon-transparent"
         icon="attach"
-        onClick={this.attachFile}
+        onClick={this.attach}
         className={style.attach}
-      />
-
-      <input
-        className={style.attach_input}
-        type="file"
-        ref={node => this.attachInputRef = node}
-        onChange={this.onAttachFileChange}
-        multiple
       />
 
       <div className={style.section}>
@@ -736,21 +493,33 @@ class MessageInput extends Component {
               onPaste={this.onPaste}
             />
 
-            {withImages &&
-              <Gallery
-                attachments={this.state.attachments}
-                removeAttachment={this.removeAttachment}
-                className={style.gallery_preview}
-              />
-            }
+            <Attach
+              key={lastMessage ? lastMessage.id : 0}
+              uniqueId="message-input-attach"
+              onChange={this.onAttachmentsChange}
+            >
+              {({ files, images, removeAttachment }) => {
+                const isImagesExist = images.length > 0;
+                const isFilesExist = files.length > 0;
 
-            {withFiles &&
-              <Files
-                attachments={this.state.attachments}
-                removeAttachment={this.removeAttachment}
-                className={style.uploaded_files}
-              />
-            }
+                return <Fragment>
+                  {isImagesExist && <Gallery
+                    attachments={images}
+                    removeAttachment={removeAttachment}
+                    className={style.gallery_preview}
+                  />
+                  }
+
+                  {isFilesExist && <Files
+                    attachments={files}
+                    removeAttachment={removeAttachment}
+                    className={style.uploaded_files}
+                  />
+                  }
+                </Fragment>;
+              }}
+            </Attach>
+
           </div>
 
           <button onClick={this.onSendButtonClick} className={cx({ '_is-shown': isSendButtonShown })}>
@@ -774,6 +543,8 @@ export default compose(
       reply_message_id: state.messages.reply_message_id,
       users_ids: state.users.ids,
       users_list: state.users.list,
+      messages: get(state.messages, `chatIds.${props.subscription_id}.list`, []),
+      messages_list: state.messages.list,
       isMobile: state.device === 'touch',
       isSuggestionShown: get(state.dropdown, 'suggestion-dropdown.isShown', false),
     }),

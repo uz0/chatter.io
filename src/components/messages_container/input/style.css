@@ -11,6 +11,10 @@
   margin-left: calc((((var(--height) - var(--icon-size)) / 2) * -1) - 4px);
 }
 
+.input .attach._is-hidden {
+  display: none;
+}
+
 .input .attach_input {
   position: absolute;
   width: 0;

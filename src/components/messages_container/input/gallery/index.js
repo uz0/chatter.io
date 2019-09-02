@@ -27,7 +27,7 @@ const Gallery = ({ attachments, removeAttachment, className }) => <div className
         <Icon name="attach" />
       }
 
-      <button onClick={removeAttachment(index)}>
+      <button onClick={removeAttachment(attachment.uid)}>
         <Icon name="close" />
       </button>
 

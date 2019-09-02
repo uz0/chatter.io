@@ -11,7 +11,7 @@ import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
-const bytesSize = 64000;
+const bytesSize = 1048576;
 
 class Attach extends Component {
   state = {
@@ -169,6 +169,8 @@ class Attach extends Component {
     const checksum = await this.getFileChecksum(file);
 
     const response = await api.attachmentByChunks({
+      chunk_id: 0,
+      async: true,
       file_chunk: chunk,
       upload_id: null,
       file_size: file.size,
@@ -187,9 +189,12 @@ class Attach extends Component {
     let attachment = find(this.state.attachments, { uid });
     let blob = file.slice(0, bytesSize);
     let chunk = await this.getBlobBase(blob);
+    let chunk_id = 1;
     const checksum = await this.getFileChecksum(file);
 
     const response = await api.attachmentByChunks({
+      chunk_id: 0,
+      async: true,
       file_chunk: chunk,
       upload_id: null,
       file_size: file.size,
@@ -211,7 +216,7 @@ class Attach extends Component {
       return;
     }
 
-    for (let i = bytesSize; i <= file.size; i += bytesSize) {
+    for (let i = bytesSize; i <= file.size; i += bytesSize, chunk_id++) {
       const currentStateAttachment = find(this.state.attachments, { uid });
 
       if (!currentStateAttachment) {
@@ -225,6 +230,8 @@ class Attach extends Component {
       chunk = await this.getBlobBase(blob);
 
       await api.attachmentByChunks({
+        chunk_id,
+        async: true,
         file_chunk: chunk,
         upload_id: response.upload_id,
         file_size: file.size,
@@ -236,7 +243,7 @@ class Attach extends Component {
     const rest = file.size - attachment.currentChunk + bytesSize;
 
     if (rest > 0 && rest < bytesSize) {
-      this.loadLastChunk(file, uid);
+      this.loadLastChunk(file, uid, chunk_id + 1);
       return;
     }
 
@@ -245,7 +252,7 @@ class Attach extends Component {
     this.updateAttachmentState(uid, attachment);
   };
 
-  loadLastChunk = async (file, uid) => {
+  loadLastChunk = async (file, uid, chunk_id) => {
     const currentStateAttachment = find(this.state.attachments, { uid });
 
     if (!currentStateAttachment) {
@@ -257,6 +264,8 @@ class Attach extends Component {
     const checksum = await this.getFileChecksum(file);
 
     await api.attachmentByChunks({
+      chunk_id,
+      async: true,
       file_chunk: chunk,
       upload_id: currentStateAttachment.upload_id,
       file_size: file.size,
@@ -299,7 +308,7 @@ class Attach extends Component {
         multiple
       />
 
-      {this.props.children({
+      {this.props.children && this.props.children({
         files,
         images,
         removeAttachment: this.removeAttachment,

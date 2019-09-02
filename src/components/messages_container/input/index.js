@@ -31,6 +31,7 @@ const bytesSize = 64000;
 class MessageInput extends Component {
   state = {
     attachments: [],
+    isMessageInputFocused: false,
     value: this.props.draft || '',
   };
 
@@ -623,6 +624,22 @@ class MessageInput extends Component {
     }
   };
 
+  onFocus = () => {
+    if (!this.props.isMobile) {
+      return;
+    }
+
+    this.setState({ isMessageInputFocused: true });
+  }
+
+  onBlur = () => {
+    if (!this.props.isMobile) {
+      return;
+    }
+
+    this.setState({ isMessageInputFocused: false });
+  }
+
   closeMessage = () => {
     if (this.props.edit_message_id) {
       this.props.clearEditMessage();
@@ -691,13 +708,14 @@ class MessageInput extends Component {
     const currentMentionSearch = this.getCurrentMentionSearch();
     const withFiles = !!find(this.state.attachments, attachment => attachment.content_type.indexOf('image/') === -1);
     const withImages = !!find(this.state.attachments, attachment => attachment.content_type.indexOf('image/') !== -1);
+    const isAttachButtonHidden = this.props.isMobile && this.state.isMessageInputFocused && this.state.value.length > 0;
 
     return <div className={cx('input', this.props.className)}>
       <Button
-        appearance="_icon-transparent"
         icon="attach"
+        appearance="_icon-transparent"
         onClick={this.attachFile}
-        className={style.attach}
+        className={cx(style.attach, { '_is-hidden': isAttachButtonHidden })}
       />
 
       <input
@@ -732,6 +750,8 @@ class MessageInput extends Component {
               value={this.state.value}
               onInput={this.onInput}
               onChange={() => { }}
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
               onKeyDown={this.onTextareaKeyDown}
               onPaste={this.onPaste}
             />

@@ -7,12 +7,14 @@ import filter from 'lodash/filter';
 import sortBy from 'lodash/sortBy';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
+import Icon from '@/components/icon';
 import Section from '@/components/sidebar_container/section';
 import SubscriptionItem from '@/components/subscription-item';
 import FeedItem from './feed-item';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
 import { getChatUrl } from '@/helpers';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
+import { actions as modalActions } from '@/components/modal_container';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -29,6 +31,8 @@ class Filters extends Component {
 
     return false;
   };
+
+  openNewDialogueModal = () => this.props.toggleModal({ id: 'new-dialogue-modal' });
 
   setHoverUp = () => {
     if (!this.props.hover_subscription_id) {
@@ -99,7 +103,21 @@ class Filters extends Component {
     return <FeedItem key={item} id={item} className={style.feed} />;
   };
 
+  renderNewMessageButton = () => {
+    return <button key="new-message-button" type="button" className={style.new_message} onClick={this.openNewDialogueModal}>
+      <div className={style.section}>
+        <Icon name="plus" />
+      </div>
+
+      <p className={style.title}>New Message</p>
+    </button>;
+  };
+
   renderSubscription = ({ item }) => {
+    if (item === 'new-message') {
+      return this.renderNewMessageButton();
+    }
+
     return <SubscriptionItem
       key={item}
       id={item}
@@ -120,6 +138,7 @@ class Filters extends Component {
   render() {
     const isHasSubscriptionsWithNotLoadedAddData = !!find(this.props.subscriptions_list, subscription => subscription && !subscription.group.is_space && !subscription.is_add_data_loaded);
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
+    const chatsIdsWithCreateButton = ['new-message', ...this.props.chats_ids];
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
       {this.props.feeds.length > 0 &&
@@ -133,7 +152,7 @@ class Filters extends Component {
       }
 
       <Section
-        items={this.props.chats_ids}
+        items={chatsIdsWithCreateButton}
         title="Messages"
         emptyMessage="There is no subscriptions yet"
         renderItem={this.renderSubscription}
@@ -155,6 +174,7 @@ export default compose(
 
     {
       setHoverSubscription: subscriptionsActions.setHoverSubscription,
+      toggleModal: modalActions.toggleModal,
     },
   ),
 

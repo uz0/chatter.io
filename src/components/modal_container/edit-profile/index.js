@@ -79,7 +79,7 @@ class EditProfile extends Component {
     });
   };
 
-  openChangePasswordModal = () => this.props.toggleModal({ id: 'change-password-modal' });
+  openChangePasswordModal = () => this.props.toggleModal({ id: 'change-profile-modal' });
 
   deletePhoto = () => this.props.formChange('profile.avatar', {
     ...this.props.formData.avatar,
@@ -139,15 +139,13 @@ class EditProfile extends Component {
     const letter = (!photo && this.props.currentUser.nick) && this.props.currentUser.nick[0];
 
     const actions = [
-      { text: 'Change password', onClick: this.openChangePasswordModal },
-      { text: this.props.t('update'), onClick: this.submit, disabled: isActionDisabled },
+      {appearance: '_basic-divider', text: 'Change password', onClick: this.openChangePasswordModal},
+      {appearance: '_basic-primary', text: this.props.t('update'), onClick: this.submit, disabled: isActionDisabled},
     ];
 
     return <Modal
-      id="edit-profile-modal"
       title={this.props.t('profile')}
       className={style.modal}
-      wrapClassName={style.wrapper}
       close={this.props.close}
       actions={actions}
     >

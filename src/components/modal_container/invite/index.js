@@ -35,13 +35,12 @@ class Invite extends Component {
     );
 
     return <Modal
-      id="invite-modal"
       title={this.props.t('invite')}
-      wrapClassName={style.wrapper}
       className={style.modal}
       close={this.props.close}
     >
       <SearchInput
+        placeholder={this.props.t('search_messages_or_contacts')}
         className={style.search}
       />
 

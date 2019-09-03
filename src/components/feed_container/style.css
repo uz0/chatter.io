@@ -1,5 +1,6 @@
 .feed {
   --section-width: 550px;
+  -webkit-overflow-scrolling: touch;
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;

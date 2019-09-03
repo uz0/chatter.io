@@ -1,40 +1,49 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class Modal extends Component {
-  render() {
-    return <div className={style.wrapper}>
-      <div className={cx('modal', this.props.wrapClassName)}>
-        <div className={style.header}>
-          <p className={style.title}>{this.props.title}</p>
+const Modal = ({
+  title,
+  subcaption,
+  close,
+  actions,
+  children,
+  wrapClassName,
+  className,
+}) => {
+  const isActionsExist = actions && actions.length > 0;
 
-          <Button
-            appearance="_icon-transparent"
-            icon="close"
-            onClick={this.props.close}
-            className={style.close}
-          />
-        </div>
+  return <div className={cx('modal', wrapClassName)}>
+    <div className={style.header}>
+      <div className={style.section}>
+        <p className={style.title}>{title}</p>
 
-        <div className={cx('content', this.props.className)}>{this.props.children}</div>
-
-        {this.props.actions &&
-          <div className={cx('actions', {'_is-center': this.props.isActionsCenter})}>
-            {this.props.actions.map(action => <button
-              key={action.text}
-              onClick={action.onClick}
-              className={cx({'_is-danger': action.isDanger})}
-              {...action.disabled ? { disabled: true } : {}}
-            >{action.text}</button>)}
-          </div>
+        {subcaption &&
+          <p className={style.subcaption}>{subcaption}</p>
         }
       </div>
-    </div>;
-  }
-}
+
+      <Button
+        appearance="_fab-divider"
+        icon="close"
+        onClick={close}
+        className={style.close}
+      />
+    </div>
+
+    <div className={cx('content', className)}>
+      {children}
+    </div>
+
+    {isActionsExist &&
+      <div className={style.footer}>
+        {actions.map(action => <Button key={action.text} {...action} className={style.action} />)}
+      </div>
+    }
+  </div>;
+};
 
 export default Modal;

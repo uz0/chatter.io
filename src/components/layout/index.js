@@ -3,7 +3,6 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Notification from '@/components/notification';
 import Gallery from '@/components/gallery_container';
-import ModalContainer from '@/components/modal_container';
 import Icon from '@/components/icon';
 import style from './style.css';
 
@@ -13,7 +12,6 @@ class Layout extends Component {
       { this.props.children }
       <Notification />
       <Gallery />
-      <ModalContainer />
     </Fragment>;
   }
 

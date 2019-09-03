@@ -1,16 +1,10 @@
-.wrapper {
-  margin-top: auto !important;
-  margin-bottom: auto;
-}
-
-.wrapper .modal {
+.modal {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 80px !important;
 }
 
-.wrapper .modal > p {
+.modal > p {
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
   color: var(--text-color);

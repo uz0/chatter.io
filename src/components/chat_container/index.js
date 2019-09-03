@@ -5,6 +5,7 @@ import compose from 'recompose/compose';
 import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
 import Panel from '@/components/panel_container';
+import ModalContainer from '@/components/modal_container';
 import Content from './content';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
@@ -139,10 +140,13 @@ class Chat extends Component {
 
       {isChatOpen &&
         <Fragment>
-          <Content params={this.props.match.params} className={style.content} />
-          <Panel params={this.props.match.params} className={style.panel} />
+          {/* убираем content через display:none, чтобы не выгружать content */}
+          <Content params={this.props.match.params} className={cx('content', {'_is-modals-shown': this.props.isModalsShown})} />
+          <Panel params={this.props.match.params} className={cx('panel', {'_is-modals-shown': this.props.isModalsShown})} />
         </Fragment>
       }
+
+      <ModalContainer className={style.modal_wrapper} />
     </div>;
   }
 }
@@ -169,5 +173,11 @@ export default compose(
       closeGallery: galleryActions.closeGallery,
       showNotification: notificationActions.showNotification,
     },
+  ),
+
+  connect(
+    (state, props) => ({
+      isModalsShown: state.modal.ids.length > 1 || (state.modal.ids.length === 1 && !props.isPanelShown),
+    }),
   ),
 )(Chat);

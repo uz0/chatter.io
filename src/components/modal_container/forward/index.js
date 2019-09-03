@@ -41,7 +41,6 @@ class Forward extends Component {
 
   render() {
     return <Modal
-      id="forward-modal"
       title={this.props.t('forward')}
       className={style.modal}
       close={this.props.close}

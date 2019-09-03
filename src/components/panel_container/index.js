@@ -89,7 +89,7 @@ class Panel extends Component {
   };
 
   leaveChat = () => this.props.toggleModal({
-    id: 'leave-chat',
+    id: 'leave-chat-modal',
 
     options: {
       subscription_id: this.props.details.id,

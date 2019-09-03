@@ -33,6 +33,7 @@ class MessageInput extends Component {
   state = {
     attachments: [],
     upload_id: [],
+    isMessageInputFocused: false,
     value: this.props.draft || '',
   };
 
@@ -377,6 +378,22 @@ class MessageInput extends Component {
     }
   };
 
+  onFocus = () => {
+    if (!this.props.isMobile) {
+      return;
+    }
+
+    this.setState({ isMessageInputFocused: true });
+  }
+
+  onBlur = () => {
+    if (!this.props.isMobile) {
+      return;
+    }
+
+    this.setState({ isMessageInputFocused: false });
+  }
+
   closeMessage = () => {
     if (this.props.edit_message_id) {
       this.props.clearEditMessage();
@@ -456,13 +473,14 @@ class MessageInput extends Component {
     const currentMentionSearch = this.getCurrentMentionSearch();
     const groupedMessages = this.getGroupedMessages();
     const lastMessage = groupedMessages[0];
+    const isAttachButtonHidden = this.props.isMobile && this.state.isMessageInputFocused && this.state.value.length > 0;
 
     return <div className={cx('input', this.props.className)}>
       <Button
-        appearance="_icon-transparent"
         icon="attach"
         onClick={this.attach}
-        className={style.attach}
+        appearance="_icon-transparent"
+        className={cx(style.attach, { '_is-hidden': isAttachButtonHidden })}
       />
 
       <div className={style.section}>
@@ -489,6 +507,8 @@ class MessageInput extends Component {
               value={this.state.value}
               onInput={this.onInput}
               onChange={() => { }}
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
               onKeyDown={this.onTextareaKeyDown}
               onPaste={this.onPaste}
             />

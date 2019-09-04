@@ -356,7 +356,22 @@ class MessageInput extends Component {
     return false;
   };
 
-  updateDraft = value => this.props.updateDraft({ id: this.props.subscription_id, value });
+  updateDraft = value => {
+    const textarea = document.querySelector('#textarea');
+
+    if (!textarea) {
+      return;
+    }
+
+    // момент, когда сообщение уже отправлено,
+    // через пол секунды иногда проскакивает старый драфт
+    if (!textarea.value && value) {
+      return;
+    }
+
+    this.props.updateDraft({ id: this.props.subscription_id, value });
+  };
+
   throttleUpdateDraft = throttle(this.updateDraft, 500);
 
   onInput = event => {

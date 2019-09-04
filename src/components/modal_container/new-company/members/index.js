@@ -4,13 +4,11 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import map from 'lodash/map';
 import find from 'lodash/find';
+import get from 'lodash/get';
 import reject from 'lodash/reject';
-import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
-import Modal from '@/components/modal';
 import Icon from '@/components/icon';
 import { api } from '@';
-import { withRouter } from '@/hoc';
 import { getOpponentUser } from '@/helpers';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import SearchInput from '@/components/search-input';
@@ -18,16 +16,16 @@ import Loading from '@/components/loading';
 import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
+import { actions as formActions } from '@/components/form';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
-class NewDialogue extends Component {
+class Members extends Component {
   state = {
     search: '',
     global: [],
-    checkedUsers: [],
     isLoading: false,
   };
 
@@ -66,8 +64,8 @@ class NewDialogue extends Component {
   };
 
   toggleUser = id => () => {
-    const index = this.state.checkedUsers.indexOf(id);
-    let array = [...this.state.checkedUsers];
+    const index = this.props.members.value.indexOf(id);
+    let array = [...this.props.members.value];
 
     if (index === -1) {
       array.push(id);
@@ -75,75 +73,10 @@ class NewDialogue extends Component {
       array.splice(index, 1);
     }
 
-    this.setState({ checkedUsers: array });
-  };
-
-  createGroupChat = () => {
-    let sameSubscription = null;
-    let name = '';
-
-    this.state.checkedUsers.forEach(id => {
-      const userName = this.props.users_list[id].nick || 'no nick';
-      name += `${name.length === 0 ? '' : ', '}${userName}`;
+    this.props.formChange('new_company.members', {
+      ...this.props.members,
+      value: array,
     });
-
-    name = `${name.substr(0, 30)}${name.length > 30 ? '...' : ''}`;
-
-    this.props.subscriptions_ids.forEach(id => {
-      const subscription = this.props.subscriptions_list[id];
-
-      if (subscription.group.type !== 'room') {
-        return;
-      }
-
-      const participantsWithoutYou = filter(subscription.group.participants, participant => participant.user_id !== this.props.currentUserId);
-
-      if (isEqual(map(participantsWithoutYou, participant => participant.user_id).sort(), this.state.checkedUsers.sort())) {
-        sameSubscription = subscription;
-      } else if (subscription.group.name === name) {
-        sameSubscription = subscription;
-      }
-    });
-
-    if (sameSubscription) {
-      this.props.pushUrl(`/chat/${sameSubscription.id}`);
-      this.props.close();
-      return;
-    }
-
-    api.createRoom({ name, user_ids: this.state.checkedUsers }).then(data => {
-      this.props.pushUrl(`/chat/${data.subscription.id}`);
-      this.props.close();
-    }).catch(error => {
-      console.error(error);
-
-      this.props.showNotification({
-        type: 'error',
-        text: this.props.t(error.code),
-      });
-    });
-  };
-
-  createPrivateChat = () => {
-    api.getPrivateSubscription({ user_id: this.state.checkedUsers[0] }).then(data => {
-      if (this.props.subscriptions_ids.indexOf(data.subscription.id) === -1) {
-        this.props.addUsers(data.subscription.group.participants);
-        this.props.addSubscription(data.subscription);
-      }
-
-      this.props.close();
-      this.props.pushUrl(`/chat/user/${this.state.checkedUsers[0]}`);
-    });
-  };
-
-  create = () => {
-    if (this.state.checkedUsers.length === 1) {
-      this.createPrivateChat();
-    }
-
-    if (this.state.checkedUsers.length > 1) {
-      this.createGroupChat();
-    }
   };
 
   getLocalContacts = () => {
@@ -175,6 +108,16 @@ class NewDialogue extends Component {
 
   getGlobalContacts = localContacts => filter(this.state.global, user => !find(localContacts, { id: user.id }));
 
+  componentWillMount() {
+    this.props.formChange('new_company.members', {
+      error: '',
+      value: [],
+      isTouched: false,
+      isBlured: false,
+      isRequired: true,
+    });
+  }
+
   render() {
     const localContacts = this.getLocalContacts();
     const isLocalContactsExist = localContacts.length > 0;
@@ -182,26 +125,10 @@ class NewDialogue extends Component {
     const globalContacts = this.getGlobalContacts(localContacts);
     const isGlobalContactsExist = globalContacts.length > 0;
 
-    const checkedUsers = map(this.state.checkedUsers, id => this.props.users_list[id]);
+    const checkedUsers = map(this.props.members.value, id => this.props.users_list[id]);
     const isUsersChecked = checkedUsers.length > 0;
 
-    let subcaption = '';
-
-    if (isUsersChecked) {
-      subcaption = `${checkedUsers.length} people`;
-    }
-
-    const actions = [
-      {appearance: '_basic-primary', text: 'Create', onClick: this.create},
-    ];
-
-    return <Modal
-      title="New Dialogue"
-      subcaption={subcaption}
-      className={style.modal}
-      close={this.props.close}
-      actions={actions}
-    >
+    return <div className={cx('members', {'_is-shown': this.props.isShown})}>
       {this.state.isLoading &&
         <Loading type="line" isShown className={style.loading} />
       }
@@ -226,7 +153,7 @@ class NewDialogue extends Component {
         }
 
         {!isUsersChecked &&
-          <p className={style.subcaption}>Choose people to create dialog</p>
+          <p className={style.subcaption}>4 people for free, then $6.99 per user</p>
         }
       </div>
 
@@ -243,9 +170,14 @@ class NewDialogue extends Component {
 
             {localContacts.map(user => {
               const nick = user.nick || 'no nick';
-              const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
+              const isChecked = this.props.members.value.indexOf(user.id) !== -1;
 
-              return <button key={user.id} className={style.item} onClick={this.toggleUser(user.id)}>
+              return <button
+                type="button"
+                key={user.id}
+                className={style.item}
+                onClick={this.toggleUser(user.id)}
+              >
                 <SubscriptionAvatar userId={user.id} className={style.avatar} />
                 <p className={style.name}>{nick}</p>
 
@@ -263,9 +195,14 @@ class NewDialogue extends Component {
 
             {globalContacts.map(user => {
               const nick = user.nick || 'no nick';
-              const isChecked = this.state.checkedUsers.indexOf(user.id) !== -1;
+              const isChecked = this.props.members.value.indexOf(user.id) !== -1;
 
-              return <button key={user.id} className={style.item} onClick={this.toggleUser(user.id)}>
+              return <button
+                type="button"
+                key={user.id}
+                className={style.item}
+                onClick={this.toggleUser(user.id)}
+              >
                 <SubscriptionAvatar userId={user.id} className={style.avatar} />
                 <p className={style.name}>{nick}</p>
 
@@ -277,12 +214,11 @@ class NewDialogue extends Component {
           </Fragment>
         }
       </div>
-    </Modal>;
+    </div>;
   }
 }
 
 export default compose(
-  withRouter,
   withTranslation(),
 
   connect(
@@ -291,12 +227,21 @@ export default compose(
       subscriptions_ids: state.subscriptions.ids,
       subscriptions_list: state.subscriptions.list,
       users_list: state.users.list,
+
+      members: get(state.forms, 'new_company.members', {
+        error: '',
+        value: [],
+        isTouched: false,
+        isBlured: false,
+        isRequired: true,
+      }),
     }),
 
     {
+      formChange: formActions.formChange,
       addSubscription: subscriptionsActions.addSubscription,
       addUsers: usersActions.addUsers,
       showNotification: notificationActions.showNotification,
     },
   ),
-)(NewDialogue);
+)(Members);

@@ -1,0 +1,150 @@
+.info {
+  --blue-gradient: linear-gradient(135deg, #7f7fd5, #8187d9 10%, #828fdc 21%, #8498e0 31%, #85a0e3 41%, #86a8e7 52%, #86a8e7 52%, #89b5e7 61%, #8cc2e6 71%, #8ecfe6 81%, #90dde5 90%, #91eae4);
+  --green-gradient: linear-gradient(137deg, #00b09b, #47b58b 20%, #63ba7a 40%, #77bf68 60%, #88c454 80%, #96c93d);
+  --pink-gradient: linear-gradient(135deg, #bc4e9c, #ca478e 20%, #d73e81 40%, #e33374 60%, #ee2466 80%, #f80759);
+  flex-grow: 1;
+  display: var(--display);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.info:not(._is-shown) {
+  --display: none;
+}
+
+.info._is-shown {
+  --display: flex;
+}
+
+.info .logo {
+  --logo-size: 92px;
+  flex-shrink: 0;
+  position: relative;
+  width: var(--logo-size);
+  height: var(--logo-size);
+}
+
+.info .logo .preview {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  background: var(--background);
+  border-radius: 26px;
+  box-shadow: 0 0 0 1px var(--box-shadow-color) inset;
+  transition-property: background, box-shadow;
+}
+
+.info .logo .preview::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: inherit;
+}
+
+.info .logo .preview[data-color="none"] {
+  --background: transparent;
+  --box-shadow-color: var(--divider-color);
+  --color: #9ca0b0;
+}
+
+.info .logo .preview[data-color="blue"] {
+  --background: var(--blue-gradient);
+  --box-shadow-color: transparent;
+  --color: #fff;
+}
+
+.info .logo .preview[data-color="green"] {
+  --background: var(--green-gradient);
+  --box-shadow-color: transparent;
+  --color: #fff;
+}
+
+.info .logo .preview[data-color="pink"] {
+  --background: var(--pink-gradient);
+  --box-shadow-color: transparent;
+  --color: #fff;
+}
+
+.info .logo .preview .text {
+  --height: 24px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 33px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.info .logo .upload_button {
+  --height: 38px;
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 16px);
+  border-radius: 19px;
+  transform: translateY(-50%);
+}
+
+.info .colors {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.info .colors .circle {
+  --size: 25px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background: var(--background);
+  box-shadow: 0 0 0 1px var(--box-shadow-color) inset;
+}
+
+.info .colors .circle[data-color="none"] {
+  --background: transparent;
+  --box-shadow-color: var(--primary-color);
+}
+
+.info .colors .circle[data-color="blue"] {
+  --background: var(--blue-gradient);
+  --box-shadow-color: transparent;
+}
+
+.info .colors .circle[data-color="green"] {
+  --background: var(--green-gradient);
+  --box-shadow-color: transparent;
+}
+
+.info .colors .circle[data-color="pink"] {
+  --background: var(--pink-gradient);
+  --box-shadow-color: transparent;
+}
+
+.info .colors .circle:nth-of-type(n+2) {
+  margin-left: 6px;
+}
+
+.info .input {
+  --input-border-radius: 5px;
+  --input-box-shadow-color: var(--divider-color);
+  width: 100%;
+  max-width: 500px;
+  margin-top: 36px;
+}

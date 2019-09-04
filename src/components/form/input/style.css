@@ -19,6 +19,8 @@ html {
 .container .section {
   display: flex;
   align-items: center;
+  box-shadow: 0 0 0 1px var(--input-box-shadow-color);
+  border-radius: var(--input-border-radius);
 }
 
 .container .section._is-disabled {

@@ -1,0 +1,205 @@
+.members {
+  --content-width: 500px;
+  flex-grow: 1;
+  position: relative;
+  display: var(--display);
+  align-items: center;
+  flex-direction: column;
+  min-height: 0;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.members:not(._is-shown) {
+  --display: none;
+}
+
+.members._is-shown {
+  --display: flex;
+}
+
+.members > .loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.members > .checked_users {
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
+  overflow-y: hidden;
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  height: 120px;
+}
+
+.members > .checked_users > .user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 70px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.members > .checked_users > .user > .avatar_wrapper {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.members > .checked_users > .user > .avatar_wrapper > .avatar {
+  --size: 46px;
+}
+
+.members > .checked_users > .user > .avatar_wrapper > .delete {
+  --size: 20px;
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  background-color: #000;
+  border-radius: calc(var(--size) / 2);
+}
+
+.members > .checked_users > .user > .avatar_wrapper > .delete > i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+}
+
+.members > .checked_users > .user > .name {
+  --height: 15px;
+  flex-shrink: 0;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  margin-top: 4px;
+  line-height: var(--height);
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .checked_users > .subcaption {
+  --height: 15px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  max-width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  font-size: 11px;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .search {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+.members > .list {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-grow: 1;
+  width: 100%;
+  max-width: var(--content-width);
+  min-height: 0;
+  margin-top: 12px;
+}
+
+.members > .list > .title {
+  --height: 50px;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .list > .item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 62px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 5px;
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.members > .list > .item:not(:hover) {
+  --background-color: transparent;
+}
+
+.members > .list > .item:hover {
+  --background-color: var(--divider-color);
+}
+
+.members > .list > .item > .avatar {
+  --size: 46px;
+}
+
+.members > .list > .item > .name {
+  --height: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .list > .item > .checkbox {
+  --size: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 12px;
+  border-radius: calc(var(--size) / 2);
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+  transition-property: background-color, border;
+}
+
+.members > .list > .item > .checkbox:not(._is-checked) {
+  --background-color: transparent;
+  --border-color: #c4c8d2;
+  --icon-color: transparent;
+}
+
+.members > .list > .item > .checkbox._is-checked {
+  --background-color: var(--primary-color);
+  --border-color: var(--primary-color);
+  --icon-color: #fff;
+}
+
+.members > .list > .item > .checkbox > i {
+  --icon-size: 14px;
+}

@@ -7,6 +7,7 @@ const initialState = {
   login: {},
   forgot: {},
   profile: {},
+  new_company: {},
 };
 
 export default createReducer(initialState, {

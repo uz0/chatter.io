@@ -177,3 +177,18 @@
   opacity: 0.5;
   transform: translateY(-50%);
 }
+
+
+.message_block.current-user > .edited {
+  margin-left: auto;
+}
+
+.message_block.opponent-user > .edited {
+  margin-right: auto;
+}
+
+.message_block > .edited {
+  margin-top: 4px;
+  color: var(--message-text-color);
+  font-size: 11px;
+}

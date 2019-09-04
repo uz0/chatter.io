@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
+import moment from 'moment';
 import RefMessage from '../ref-message';
 import Username from '../username';
 import { withTranslation } from 'react-i18next';
@@ -123,6 +124,7 @@ class MessageBlock extends Component {
     const messageText = this.renderMessageText(this.props.message);
     const isMessageCurrentUser = this.props.currentUser && this.props.message.user_id === this.props.currentUser.id;
     const isRefMessageShown = this.props.message.in_reply_to_message_id || this.props.message.forwarded_message_id;
+    const editedDate = this.props.message.edited_at && moment(this.props.message.edited_at).format('HH:mm');
 
     const isUserNameShown = this.props.details.group.type === 'room' &&
       (this.props.type === 'first' || this.props.type === 'single') &&
@@ -177,6 +179,10 @@ class MessageBlock extends Component {
             </a>;
           })}
         </Fragment>
+      }
+
+      {editedDate &&
+        <p className={style.edited}>edited at {editedDate}</p>
       }
     </div>;
   }

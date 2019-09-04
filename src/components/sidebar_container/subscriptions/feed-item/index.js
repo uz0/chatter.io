@@ -17,11 +17,16 @@ class FeedItem extends Component {
   }
 
   render() {
+    const isUnreadShown = this.props.lastMessage &&
+      this.props.lastMessage.id &&
+      this.props.lastMessage.user_id !== this.props.currentUser.id &&
+      this.props.details.last_read_message_id !== this.props.lastMessage.id;
+
     return <Link className={cx('feed-item', this.props.className)} activeClassName="_is-active" to={`/chat/${this.props.id}`}>
       <Icon name="hashtag" />
       <p className={style.name}>{this.props.details.group.name}</p>
 
-      {false &&
+      {isUnreadShown &&
         <div className={style.point} />
       }
     </Link>;
@@ -30,9 +35,19 @@ class FeedItem extends Component {
 
 export default compose(
   connect(
-    (state, props) => ({
-      details: state.subscriptions.list[props.id],
-    }),
+    (state, props) => {
+      let lastMessage = null;
+
+      if (state.messages.chatIds[props.id]) {
+        lastMessage = state.messages.list[state.messages.chatIds[props.id].list[0]];
+      }
+
+      return {
+        currentUser: state.currentUser,
+        details: state.subscriptions.list[props.id],
+        ...lastMessage ? { lastMessage } : {},
+      };
+    },
 
     {
       addUsers: usersActions.addUsers,

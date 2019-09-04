@@ -31,7 +31,7 @@ const Files = ({ attachments, removeAttachment, className }) => <div className={
       <p className={style.title}>{attachment.file_name}</p>
       <span className={style.size}>{progress}</span>
 
-      <button className={style.delete} onClick={removeAttachment(index)}>
+      <button className={style.delete} onClick={removeAttachment(attachment.uid)}>
         <Icon name="close" />
       </button>
     </div>;

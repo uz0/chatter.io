@@ -56,7 +56,7 @@ const sendMessage = (params, options = {}) => (dispatch, getState) => {
     setTimeout(() => messagesScrollElement.scrollTo(0, messagesScrollElement.scrollHeight));
   }
 
-  const tags = params.text.match(tagreg);
+  const tags = params.text && params.text.match(tagreg);
 
   if (tags && !params.reply_message_id && !options.isForceToFeed) {
     uniq(tags).forEach((tag, index) => {

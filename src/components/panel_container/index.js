@@ -12,7 +12,6 @@ import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
 import PhotosList from './photos-list';
-import ContentEditable from 'react-contenteditable';
 import { api } from '@';
 import { withRouter, withDetails } from '@/hoc';
 import { getChatName, copy, getOpponentUser, getLastActive } from '@/helpers';
@@ -26,22 +25,23 @@ const cx = classnames.bind(style);
 class Panel extends Component {
   state = {
     collapseActive: 'people',
-    chatName: '',
-    isChatNameInputShown: false,
-    isChatNameInputFocus: false,
+    chatNamePopupShown: false,
   };
 
   closePanel = () => this.props.closeModal('panel-container');
   toggleCollapse = name => () => this.setState({ collapseActive: this.state.collapseActive === name ? '' : name });
   browseEditPhoto = () => this.chatAvatarInputRef.click();
-  onChatNameInput = event => this.setState({ chatName: event.target.value });
+  openChangeChatNamePopup = () => this.setState({ chatNamePopupShown: true });
+  closeChangeChatNamePopup = () => this.setState({ chatNamePopupShown: false });
 
   getFilteredChatName = () => {
-    if (!this.state.chatName) {
+    const chatNameInput = document.querySelector('#change-chat-name-input');
+
+    if (!chatNameInput.value) {
       return '';
     }
 
-    let text = this.state.chatName.replace(/\s{2,}/g, ' ');
+    let text = chatNameInput.value.replace(/\s{2,}/g, ' ');
 
     if (text[0] === ' ') {
       text = text.substring(1);
@@ -61,7 +61,7 @@ class Panel extends Component {
     });
   });
 
-  onChatNameBlur = () => {
+  changeChatName = () => {
     const name = this.getFilteredChatName();
 
     if (!name) {
@@ -78,6 +78,8 @@ class Panel extends Component {
           name,
         },
       });
+
+      this.closeChangeChatNamePopup();
     }).catch(error => {
       console.log(error);
 
@@ -290,12 +292,6 @@ class Panel extends Component {
     return getLastActive(user, () => this.forceUpdate());
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.details && nextProps.details.group.name !== this.state.chatName) {
-      this.setState({ chatName: nextProps.details.group.name });
-    }
-  }
-
   renderPanel = () => {
     const lastActive = this.props.details.group.type === 'private_chat' && this.getLastActive(this.props.details);
     const chatName = getChatName(this.props.details);
@@ -331,6 +327,19 @@ class Panel extends Component {
           className={style.close}
           onClick={this.closePanel}
         />
+
+        {this.state.chatNamePopupShown &&
+          <div className={style.group_name}>
+            <input className={style.input} type="text" defaultValue={chatName} id="change-chat-name-input" />
+
+            <Button
+              appearance="_basic-primary"
+              text="Ok"
+              onClick={this.changeChatName}
+              className={style.action}
+            />
+          </div>
+        }
       </div>
 
       <div className={style.scroll}>
@@ -355,20 +364,16 @@ class Panel extends Component {
             </Fragment>
           }
 
-          {isEditNameShown &&
-            <ContentEditable
-              className={cx('name', { '_is-space': this.props.details.group.is_space })}
-              html={this.state.chatName}
-              disabled={false}
-              onChange={this.onChatNameInput}
-              onBlur={this.onChatNameBlur}
-              tagName="p"
-            />
-          }
+          <p
+            className={
+              cx('name', {
+                '_is-space': this.props.details.group.is_space,
+                '_is_editable': isEditNameShown,
+              })
+            }
 
-          {!isEditNameShown &&
-            <p className={cx('name', { '_is-space': this.props.details.group.is_space })}>{chatName}</p>
-          }
+            {...isEditNameShown ? {onClick: this.openChangeChatNamePopup} : {}}
+          >{chatName}</p>
 
           <p className={style.subcaption}>
             {isChatRoom && !this.props.details.group.is_space &&

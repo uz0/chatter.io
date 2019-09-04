@@ -24,6 +24,7 @@
 
 .panel > .actions {
   display: flex;
+  position: relative;
   flex-shrink: 0;
   align-items: center;
   justify-content: flex-end;
@@ -33,6 +34,42 @@
 .panel > .actions .close {
   --height: 38px;
   margin-left: 8px;
+}
+
+.panel > .actions > .group_name {
+  --name-container-height: 38px;
+  position: absolute;
+  left: 1px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  background-color: #fff;
+}
+
+.panel > .actions > .group_name > .input {
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--name-container-height);
+  padding-left: 8px;
+  padding-right: 8px;
+  border: 0;
+  font-size: 15px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  box-shadow: 0 0 0 1px var(--divider-color) inset;
+}
+
+.panel > .actions > .group_name > .action {
+  --height: var(--name-container-height);
+  flex-shrink: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .panel > .scroll {
@@ -120,17 +157,16 @@
 
 .panel > .scroll > .header > .name {
   --height: 20px;
+  overflow: hidden;
   max-width: 100%;
-  min-width: 20px;
   height: var(--height);
-  padding-left: 8px;
-  padding-right: 8px;
   line-height: var(--height);
   font-size: 15px;
   font-weight: var(--font-weight-medium);
   color: var(--text-color);
   text-align: center;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .panel > .scroll > .header > .name._is-space {
@@ -142,14 +178,8 @@
   content: "#";
 }
 
-.panel > .scroll > .header > .name:not(:focus) {
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.panel > .scroll > .header > .name:focus {
-  text-overflow: unset;
-  outline: none;
+.panel > .scroll > .header > .name._is_editable {
+  cursor: pointer;
 }
 
 .panel > .scroll > .header > .subcaption {

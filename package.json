@@ -63,7 +63,6 @@
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",
-    "react-contenteditable": "^3.2.6",
     "react-dom": "^16.8.6",
     "react-i18next": "^10.11.4",
     "react-portal": "^4.2.0",

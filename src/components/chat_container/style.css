@@ -10,6 +10,10 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.chat > .sidebar_panel {
+  flex-shrink: 0;
+}
+
 .chat > .sidebar {
   flex-shrink: 0;
   width: var(--sidebar-width);
@@ -50,7 +54,7 @@
 @media (max-width: 1024px) {
   .chat {
     --sidebar-width: 300px;
-    --panel-width: calc((100vw - var(--sidebar-width)) / 2);
+    --panel-width: calc((100vw - var(--sidebar-width) - var(--sidebar-panel-width)) / 2);
   }
 
   .chat .panel {
@@ -63,7 +67,7 @@
 
 @media (max-width: 800px) {
   .chat {
-    --sidebar-width: 100%;
+    --sidebar-width: calc(100% - var(--sidebar-panel-width));
     --panel-width: 100%;
   }
 
@@ -81,7 +85,7 @@
     flex-shrink: 0;
     display: var(--sidebar-display);
     width: var(--sidebar-width);
-    max-width: 100%;
+    max-width: calc(100% - var(--sidebar-panel-width));
     box-shadow: -1px 0 var(--divider-color) inset;
   }
 

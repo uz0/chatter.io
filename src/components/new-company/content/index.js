@@ -7,6 +7,7 @@ import Form from '@/components/form/form';
 import Info from './info';
 import Members from './members';
 import { withTranslation } from 'react-i18next';
+import { withRouter } from '@/hoc';
 import style from './style.css';
 
 class NewCompany extends Component {
@@ -20,6 +21,8 @@ class NewCompany extends Component {
   create = () => {
 
   };
+
+  close = () => this.props.history.goBack();
 
   render() {
     let actions = [];
@@ -41,8 +44,9 @@ class NewCompany extends Component {
 
     return <Modal
       title="Create new company"
+      wrapClassName={this.props.className}
       className={style.modal}
-      close={this.props.close}
+      close={this.close}
       actions={actions}
     >
       <Form
@@ -57,6 +61,7 @@ class NewCompany extends Component {
 }
 
 export default compose(
+  withRouter,
   withTranslation(),
 
   connect(

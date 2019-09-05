@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import Sidebar from '@/components/sidebar_container';
 import Panel from '@/components/panel_container';
 import ModalContainer from '@/components/modal_container';
+import SidebarPanel from '@/components/sidebar-panel';
 import Content from './content';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as galleryActions } from '@/components/gallery_container';
@@ -136,6 +137,7 @@ class Chat extends Component {
     const isChatOpen = this.props.match.params.chatId || this.props.match.params.userId;
 
     return <div className={cx('chat', {'_is-open': isChatOpen})}>
+      <SidebarPanel className={style.sidebar_panel} />
       <Sidebar className={style.sidebar} />
 
       {isChatOpen &&

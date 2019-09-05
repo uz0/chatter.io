@@ -49,6 +49,10 @@ class Sidebar extends Component {
       return;
     }
 
+    if (this.props.hasSubscriptions) {
+      return;
+    }
+
     try {
       this.setState({ isLoading: true });
       const response = await api.getSubscriptions();
@@ -143,6 +147,7 @@ export default compose(
       currentUser: state.currentUser,
       subscriptions_filter_tag: state.subscriptions.filter_tag,
       subscriptions_filter_text: state.subscriptions.filter_text,
+      hasSubscriptions: state.subscriptions.ids.length > 0,
     }),
 
     {

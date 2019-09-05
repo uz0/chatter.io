@@ -1,0 +1,64 @@
+html {
+  --sidebar-panel-width: 65px;
+}
+
+.panel {
+  width: var(--sidebar-panel-width);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #fcfcfd;
+  box-shadow: -1px 0 var(--divider-color) inset;
+}
+
+.panel > .button {
+  --size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--divider-color) inset;
+}
+
+.panel > .button + .button {
+  margin-top: 16px;
+}
+
+.panel > .button > img {
+  max-width: 70%;
+  max-height: 70%;
+}
+
+.panel > .divider {
+  width: 32px;
+  height: 1px;
+  margin: 12px auto;
+  background-color: var(--divider-color);
+}
+
+.panel > .button + .new {
+  margin-top: 8px;
+}
+
+.panel > .new {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  background-color: var(--divider-color);
+}
+
+.panel > .new > i {
+  --icon-size: 14px;
+  --icon-color: var(--caption-color);
+}
+
+.panel > .new > i polygon {
+  fill: var(--icon-color);
+  transition-property: fill;
+}

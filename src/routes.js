@@ -8,6 +8,7 @@ import SignUp from '@/components/sign-up_container';
 import ForgotPassword from '@/components/forgot-password_container';
 import Chat from '@/components/chat_container';
 import Invite from '@/components/invite';
+import NewCompany from '@/components/new-company';
 
 import store from '@/store';
 
@@ -22,6 +23,7 @@ export default () => <Provider store={store}>
         <Route component={Chat} path="/chat/:chatId/:messageId" />
         <Route component={Chat} path="/chat/:chatId" />
         <Route component={Chat} path="/chat" />
+        <Route component={NewCompany} path="/new-company" />
         <Route component={Invite} path="/invite/:code" />
         <Route component={Invite} path="/joinuser/:nick" />
         <Route component={SignIn} path="/sign-in" />

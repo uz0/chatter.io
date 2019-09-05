@@ -9,7 +9,6 @@ import reject from 'lodash/reject';
 import filter from 'lodash/filter';
 import Icon from '@/components/icon';
 import { api } from '@';
-import { getOpponentUser } from '@/helpers';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import SearchInput from '@/components/search-input';
 import Loading from '@/components/loading';
@@ -26,6 +25,7 @@ class Members extends Component {
   state = {
     search: '',
     global: [],
+    contacts: [],
     isLoading: false,
   };
 
@@ -80,21 +80,7 @@ class Members extends Component {
   };
 
   getLocalContacts = () => {
-    let users = [];
-
-    this.props.subscriptions_ids.forEach(id => {
-      const subscription = this.props.subscriptions_list[id];
-
-      if (subscription.group.type !== 'private_chat') {
-        return;
-      }
-
-      const opponent = getOpponentUser(subscription);
-
-      if (opponent) {
-        users.push(opponent);
-      }
-    });
+    let users = [...this.state.contacts];
 
     users = reject(users, { id: this.props.currentUserId });
 
@@ -116,6 +102,13 @@ class Members extends Component {
       isBlured: false,
       isRequired: true,
     });
+  }
+
+  async componentDidMount() {
+    const response = await api.getContacts();
+    const contacts = map(response.contacts, 'user');
+    this.setState({ contacts });
+    this.props.addUsers(contacts);
   }
 
   render() {

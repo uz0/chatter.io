@@ -18,7 +18,7 @@ import Gallery from './gallery';
 import Files from './files';
 import inputActions from './actions';
 import Message from './message';
-import { scrollMessagesBottom } from '@/helpers';
+import { scrollMessagesBottom, pasteFromClipboard } from '@/helpers';
 import { withRouter } from '@/hoc';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as messagesActions } from '@/store/messages';
@@ -28,6 +28,7 @@ import style from './style.css';
 export { default as actions } from './actions';
 
 const cx = classnames.bind(style);
+const attachInputId = 'message-input-attach';
 
 class MessageInput extends Component {
   state = {
@@ -76,7 +77,7 @@ class MessageInput extends Component {
   };
 
   attach = () => {
-    const input = document.getElementById('message-input-attach');
+    const input = document.getElementById(attachInputId);
     input.click();
   };
 
@@ -86,29 +87,7 @@ class MessageInput extends Component {
     this.setState({ upload_id });
   };
 
-  onPaste = event => {
-    event.persist();
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    let list = new DataTransfer();
-
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].type.indexOf('image') === 0) {
-        list.items.add(items[i].getAsFile());
-      }
-    }
-
-    if (list.files.length === 0) {
-      return;
-    }
-
-    const attachInput = document.querySelector('#message-input-attach');
-
-    if (!attachInput) {
-      return;
-    }
-
-    attachInput.files = list.files;
-  };
+  onPaste = event => pasteFromClipboard(event, attachInputId);
 
   getFilteredMessage = value => {
     if (!value) {
@@ -554,7 +533,7 @@ class MessageInput extends Component {
 
             <Attach
               key={lastMessage ? lastMessage.id : 0}
-              uniqueId="message-input-attach"
+              uniqueId={attachInputId}
               onChange={this.onAttachmentsChange}
             >
               {({ files, images, removeAttachment }) => {

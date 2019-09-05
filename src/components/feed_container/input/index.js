@@ -6,12 +6,13 @@ import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Button from '@/components/button';
 import Attachments from './attachments';
-import { getFilteredMessage } from '@/helpers';
+import { getFilteredMessage, pasteFromClipboard } from '@/helpers';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as inputActions } from '@/components/messages_container/input';
 import style from './style.css';
 
 const cx = classnames.bind(style);
+const attachInputId = 'feed-input-attach';
 
 class Input extends Component {
   state = {
@@ -32,7 +33,7 @@ class Input extends Component {
   };
 
   attach = () => {
-    const input = document.getElementById('feed-input-attach');
+    const input = document.getElementById(attachInputId);
     input.click();
   };
 
@@ -40,6 +41,8 @@ class Input extends Component {
     const upload_id = map(data, item => item.upload_id);
     this.setState({ upload_id });
   };
+
+  onPaste = event => pasteFromClipboard(event, attachInputId);
 
   send = () => {
     const input = document.getElementById('feed-input');
@@ -82,6 +85,7 @@ class Input extends Component {
           id="feed-input"
           placeholder="Post to #design"
           onInput={this.onInput}
+          onPaste={this.onPaste}
           className={style.input}
         />
 
@@ -90,7 +94,7 @@ class Input extends Component {
       </div>
 
       <Attachments
-        uniqueId="feed-input-attach"
+        uniqueId={attachInputId}
         onChange={this.onAttachmentsChange}
         details_id={this.props.details_id}
       />

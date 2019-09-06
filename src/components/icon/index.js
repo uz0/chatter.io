@@ -29,6 +29,7 @@ import fileIcon from '@/assets/icons/file.svg';
 import atIcon from '@/assets/icons/at.svg';
 import hashtagIcon from '@/assets/icons/hashtag.svg';
 import plusIcon from '@/assets/icons/plus.svg';
+import fourShapesIcon from '@/assets/icons/four-shapes.svg';
 
 const cx = classnames.bind(style);
 
@@ -143,6 +144,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'at' &&
     <ReactSvgInjector src={atIcon} />
+  }
+
+  {name === 'four-shapes' &&
+    <ReactSvgInjector src={fourShapesIcon} />
   }
 </i>;
 

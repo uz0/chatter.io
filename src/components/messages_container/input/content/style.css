@@ -1,0 +1,19 @@
+.content {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 38px;
+  max-height: 330px;
+}
+/*
+.content > .message {
+  flex-shrink: 0;
+}
+
+.content > .textarea {
+  flex-shrink: 0;
+}
+
+.content > .todo {
+  flex-shrink: 0;
+}*/

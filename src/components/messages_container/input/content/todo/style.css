@@ -1,0 +1,73 @@
+.todo {
+
+}
+
+.todo .item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 38px;
+}
+
+.todo .item:nth-of-type(n+2) {
+  box-shadow: 0 1px var(--divider-color) inset;
+}
+
+.todo .item:not(._is-active) {
+  --icon-color: transparent;
+  --background-color: transparent;
+}
+
+.todo .item._is-active {
+  --icon-color: #fff;
+  --background-color: var(--primary-color);
+}
+
+.todo .item .circle {
+  --size: 18px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 7px;
+  background-color: var(--background-color);
+  box-shadow: 0 0 0 1px var(--primary-color) inset;
+  transition-property: background-color;
+}
+
+.todo .item .circle > i {
+  --icon-size: 8px;
+}
+
+.todo .item .title {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-left: 12px;
+  margin-right: auto;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.todo .item .delete {
+  --size: 20px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 12px;
+  border-radius: 23px;
+  background-color: rgba(0, 0, 0, 0.81);
+}
+
+.todo .item .delete > i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+}

@@ -18,6 +18,7 @@ import Gallery from './gallery';
 import Files from './files';
 import inputActions from './actions';
 import Message from './message';
+import Icon from '@/components/icon';
 import { scrollMessagesBottom, pasteFromClipboard } from '@/helpers';
 import { withRouter } from '@/hoc';
 import { actions as notificationActions } from '@/components/notification';
@@ -545,19 +546,32 @@ class MessageInput extends Component {
                     attachments={images}
                     removeAttachment={removeAttachment}
                     className={style.gallery_preview}
-                  />
-                  }
+                  />}
 
                   {isFilesExist && <Files
                     attachments={files}
                     removeAttachment={removeAttachment}
                     className={style.uploaded_files}
-                  />
-                  }
+                  />}
                 </Fragment>;
               }}
             </Attach>
 
+            {false &&
+              <div className={style.todo}>
+                <button className={style.item}>
+                  <div className={style.circle}>
+                    <Icon name="mark" />
+                  </div>
+
+                  <p className={style.title}>Fix header on iPhone X</p>
+
+                  <button className={style.delete}>
+                    <Icon name="close" />
+                  </button>
+                </button>
+              </div>
+            }
           </div>
 
           <button onClick={this.onSendButtonClick} className={cx({ '_is-shown': isSendButtonShown })}>

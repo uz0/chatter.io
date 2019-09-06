@@ -178,6 +178,69 @@
 
 }
 
+.message-item > .content .gallery + .todo,
+.message-item > .content .message_block + .todo {
+  margin-top: 4px;
+}
+
+.message-item > .content > .todo {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px var(--divider-color) inset, 0 0 4px 0 rgba(196, 200, 210, 0.2);
+}
+
+.message-item > .content > .todo > .item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+}
+
+.message-item > .content > .todo > .item:nth-of-type(n+2) {
+  box-shadow: 0 1px var(--divider-color) inset;
+}
+
+.message-item > .content > .todo > .item:not(._is-active) {
+  --icon-color: transparent;
+  --background-color: transparent;
+}
+
+.message-item > .content > .todo > .item._is-active {
+  --icon-color: #fff;
+  --background-color: var(--primary-color);
+}
+
+.message-item > .content > .todo > .item > .circle {
+  --size: 18px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 7px;
+  background-color: var(--background-color);
+  box-shadow: 0 0 0 1px var(--primary-color) inset;
+  transition-property: background-color;
+}
+
+.message-item > .content > .todo > .item > .circle > i {
+  --icon-size: 8px;
+}
+
+.message-item > .content > .todo > .item > .title {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .message-item.current-user > .info {
   --info-width: 20px;
   align-items: flex-end;

@@ -284,6 +284,18 @@ class MessageItem extends Component {
               </div>
             </Dropdown>
           }
+
+          {false &&
+            <div className={style.todo}>
+              <button className={style.item}>
+                <div className={style.circle}>
+                  <Icon name="mark" />
+                </div>
+
+                <p className={style.title}>Fix header on iPhone X</p>
+              </button>
+            </div>
+          }
         </div>
       }
 

@@ -8,21 +8,14 @@ import style from './style.css';
 
 class CrossPost extends Component {
   confirm = () => {
-    this.props.sendMessage(
-      {
-        ...this.props.options.message,
-        subscription_id: this.props.options.subscription_id,
-      },
-
-      {
-        isForceToFeed: true,
-      },
-    );
-
-    this.props.close();
+    this.props.sendMessage({ subscription_id: this.props.options.subscription_id, isForceToFeed: true });
+    this.cancel();
   };
 
-  cancel = () => this.props.close();
+  cancel = () => {
+    this.props.reset();
+    this.props.close();
+  };
 
   render() {
     const actions = [
@@ -49,6 +42,7 @@ export default compose(
 
     {
       sendMessage: inputActions.sendMessage,
+      reset: inputActions.reset,
     },
   ),
 )(CrossPost);

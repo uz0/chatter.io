@@ -1,10 +1,19 @@
 .input {
+  position: relative;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   padding: var(--layout-padding);
   background-color: #fff;
   box-shadow: 0 -2px 8px 0 rgba(196, 200, 210, 0.23);
+}
+
+.input > .mentions {
+  position: absolute;
+  left: var(--layout-padding);
+  right: var(--layout-padding);
+  top: 0;
+  transform: translateY(-100%);
 }
 
 .input > .content {

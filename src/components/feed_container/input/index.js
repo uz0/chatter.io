@@ -8,7 +8,7 @@ import Button from '@/components/button';
 import Attachments from './attachments';
 import { getFilteredMessage, pasteFromClipboard } from '@/helpers';
 import { actions as notificationActions } from '@/components/notification';
-import { actions as inputActions } from '@/components/messages_container/input';
+import { actions as inputActions } from '@/components/messages_container/old-input';
 import style from './style.css';
 
 const cx = classnames.bind(style);

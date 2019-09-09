@@ -5,6 +5,7 @@ import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Icon from '@/components/icon';
 import { actions as messagesActions } from '@/store/messages';
+import inputActions from '@/components/messages_container/input/actions';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -13,6 +14,7 @@ class Message extends Component {
   close = () => {
     if (this.props.edit_message_id) {
       this.props.clearEditMessage();
+      this.props.reset();
       return;
     }
 
@@ -64,6 +66,7 @@ export default compose(
     {
       clearEditMessage: messagesActions.clearEditMessage,
       clearReplyMessage: messagesActions.clearReplyMessage,
+      reset: inputActions.reset,
     },
   ),
 

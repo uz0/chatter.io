@@ -1,13 +1,34 @@
 import React, { Component, Fragment } from 'react';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 import Loading from '@/components/loading';
 import Icon from '@/components/icon';
 import Attach from '@/components/attach';
 import { getProgressText } from '@/helpers';
 import { attachInputId } from '../../';
+import actions from '../../actions';
 import style from './style.css';
 
 class Attachments extends Component {
-  onAttachmentsChange = () => {
+  onAttachmentsChange = data => {
+    let attachments = [];
+    let upload_id = [];
+
+    data.forEach(item => {
+      attachments.push({
+        byte_size: item.byte_size,
+        content_type: item.content_type,
+        filename: item.file_name,
+        url: item.url,
+      });
+
+      upload_id.push(item.upload_id);
+    });
+
+    this.props.setAttachments({
+      attachments,
+      upload_id,
+    });
   };
 
   render() {
@@ -82,4 +103,12 @@ class Attachments extends Component {
   }
 }
 
-export default Attachments;
+export default compose(
+  connect(
+    null,
+
+    {
+      setAttachments: actions.setAttachments,
+    },
+  ),
+)(Attachments);

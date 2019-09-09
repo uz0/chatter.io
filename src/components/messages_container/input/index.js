@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Button from '@/components/button';
+import config from '@/config';
 import Content from './content';
 import Mentions from './mentions';
 import actions from './actions';
@@ -21,7 +22,7 @@ class MessageInput extends Component {
       return;
     }
 
-    if (event.keyCode === 13 && !this.props.isSuggestionShown && !event.shiftKey && document.activeElement === textarea) {
+    if (event.keyCode === config.key_code.enter && !this.props.isSuggestionShown && !event.shiftKey && document.activeElement === textarea) {
       this.send();
     }
   };

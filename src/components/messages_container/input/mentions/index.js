@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import Suggestion from '@/components/messages_container/old-input/suggestion';
+import Suggestion from '@/components/suggestion';
 import { actions as dropdownActions } from '@/components/dropdown';
 import inputActions from '@/components/messages_container/input/actions';
 

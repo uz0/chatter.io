@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import throttle from 'lodash/throttle';
+import config from '@/config';
 import { pasteFromClipboard, calcTextareaHeight } from '@/helpers';
 import { attachInputId } from '@/components/messages_container/input';
 import actions from '@/components/messages_container/input/actions';
@@ -12,7 +13,7 @@ const cx = classnames.bind(style);
 
 class Textarea extends Component {
   onTextareaKeyDown = event => {
-    if (event.keyCode === 13) {
+    if (event.keyCode === config.key_code.enter) {
       event.preventDefault();
     }
   };
@@ -38,7 +39,7 @@ class Textarea extends Component {
       return;
     }
 
-    if (event.keyCode === 13 && document.activeElement === textarea) {
+    if (event.keyCode === config.key_code.enter && document.activeElement === textarea) {
       this.setNewLineTextarea();
     }
   };
@@ -50,7 +51,7 @@ class Textarea extends Component {
       return;
     }
 
-    if (event.keyCode === 13 && event.shiftKey && document.activeElement === textarea) {
+    if (event.keyCode === config.key_code.enter && event.shiftKey && document.activeElement === textarea) {
       this.setNewLineTextarea();
     }
   };

@@ -49,12 +49,12 @@ class Attachments extends Component {
                   return;
                 }
 
-                const styleObject = { '--image': `url(${image.preview})` };
+                const inline = { '--image': `url(${image.preview})` };
                 const progress = getProgressText(image);
 
                 return <div
                   key={image.uid}
-                  style={styleObject}
+                  style={inline}
                   className={style.preview}
                 >
                   <button className={style.close} onClick={removeAttachment(image.uid)}>

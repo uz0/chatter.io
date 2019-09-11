@@ -69,6 +69,7 @@
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-svg-injector": "^2.0.2",
+    "reactjs-click-outside": "^1.0.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",

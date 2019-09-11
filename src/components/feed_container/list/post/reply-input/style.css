@@ -1,0 +1,41 @@
+.reply {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  box-shadow: 0 1px var(--divider-color) inset;
+}
+
+.reply > .input {
+  flex-grow: 1;
+  min-width: 0;
+  height: calc(100% - 2px);
+  font-size: 15px;
+  color: var(--text-color);
+  border: none;
+}
+
+.reply > .input::placeholder {
+  color: var(--caption-color);
+}
+
+.reply > .action {
+  --icon-size: 14px;
+  --height: 38px;
+  flex-shrink: 0;
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.reply > .action:not(:hover) {
+  --color: var(--text-color);
+}
+
+.reply > .action:hover {
+  --color: var(--primary-color);
+}
+
+.reply > .action > i polygon {
+  fill: var(--icon-color);
+  transition-property: fill;
+}

@@ -9,6 +9,8 @@ import classnames from 'classnames/bind';
 import moment from 'moment';
 import Dropdown from '@/components/dropdown';
 import Attachments from './attachments';
+import Replies from './replies';
+import ReplyInput from './reply-input';
 import { api } from '@';
 import { withRouter } from '@/hoc';
 import SubscriptionAvatar from '@/components/subscription-avatar';
@@ -24,7 +26,7 @@ const cx = classnames.bind(style);
 const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
 const tagreg = /\B\#\w\w+\b/gim;
 
-const renderText = (text, mentions, details) => {
+export const renderText = (text, mentions, details) => {
   if (!text) {
     return;
   }
@@ -179,7 +181,6 @@ class Post extends Component {
         >
           <Button appearance="_icon-transparent" icon="dots" className={style.action} />
         </Dropdown>
-
       </div>
 
       <div className={style.content}>
@@ -192,12 +193,18 @@ class Post extends Component {
           galleryClassName={style.gallery}
           filesClassName={style.files}
         />
+
+        <Replies
+          subscriptionId={this.props.details.id}
+          messageId={this.props.message_id}
+        />
       </div>
 
-      <div className={style.footer}>
-        <input placeholder="Reply" className={style.reply_input} />
-        <Button appearance="_icon-transparent" icon="plus" className={style.action} />
-      </div>
+      <ReplyInput
+        subscriptionId={this.props.details.id}
+        messageId={this.props.message_id}
+        className={style.reply_input}
+      />
     </div>;
   }
 }

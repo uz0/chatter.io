@@ -91,46 +91,7 @@
   margin-top: 8px;
 }
 
-.post > .footer {
-  display: flex;
-  align-items: center;
-  height: 60px;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
-  box-shadow: 0 1px var(--divider-color) inset;
-}
-
-.post > .footer > .reply_input {
-  flex-grow: 1;
-  min-width: 0;
-  height: calc(100% - 2px);
-  font-size: 15px;
-  color: var(--text-color);
-  border: none;
-}
-
-.post > .footer > .reply_input::placeholder {
-  color: var(--caption-color);
-}
-
-.post > .footer > .action {
-  --icon-size: 14px;
-  --height: 38px;
-  flex-shrink: 0;
-  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
-}
-
-.post > .footer > .action:not(:hover) {
-  --color: var(--text-color);
-}
-
-.post > .footer > .action:hover {
-  --color: var(--primary-color);
-}
-
-.post > .footer > .action > i polygon {
-  fill: var(--icon-color);
-  transition-property: fill;
+.post > .reply_input {
 }
 
 @media (max-width: 800px) {

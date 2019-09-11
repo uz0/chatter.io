@@ -1,0 +1,50 @@
+.item {
+
+}
+
+.item + .item {
+  margin-top: 20px;
+}
+
+.item > .header {
+  --avatar-size: 38px;
+  display: grid;
+  grid-template-columns: [avatar-start] auto [avatar-end] 12px [name-start caption-start] 1fr [caption-end name-end];
+  grid-template-rows: [avatar-start name-start] calc(var(--avatar-size) / 2) [name-end caption-start] calc(var(--avatar-size) / 2) [caption-end avatar-end];
+}
+
+.item > .header > .avatar {
+  --size: var(--avatar-size);
+  grid-area: avatar;
+}
+
+.item > .header > .name {
+  --height: calc(var(--avatar-size) / 2);
+  grid-area: name;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.item > .header > .date {
+  --height: calc(var(--avatar-size) / 2);
+  grid-area: caption;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.item > .text {
+  margin-top: 8px;
+  line-height: 1.3;
+  color: var(--text-color);
+}

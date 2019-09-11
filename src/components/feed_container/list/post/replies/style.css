@@ -1,0 +1,5 @@
+.replies {
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  padding-top: var(--layout-padding);
+}

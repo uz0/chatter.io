@@ -469,6 +469,13 @@ class Panel extends Component {
           </button>
         }
 
+        {!isChatRoom &&
+          <button className={cx('setting_button', 'leave')} onClick={this.leaveChat}>
+            <Icon name="close" />
+            <p className={style.text}>{this.props.t('delete_contact')}</p>
+          </button>
+        }
+
         {this.props.details.group.type === 'room' &&
           <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'people' })}>
             <button className={style.collapse_button} onClick={this.toggleCollapse('people')}>

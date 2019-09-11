@@ -33,7 +33,7 @@ class LeaveChat extends Component {
 
   render() {
     let actions = [
-      {appearance: '_basic-divider', text: this.props.t('cancel'), onClick: this.props.close}
+      {appearance: '_basic-divider', text: this.props.t('cancel'), onClick: this.props.close},
     ];
 
     if (this.props.details.group.type === 'private_chat') {

@@ -90,7 +90,6 @@ class Dropdown extends Component {
           <Portal>
             <div
               className={style.list}
-              ref={node => this.listRef = node}
 
               style={{
                 left: this.props.left,

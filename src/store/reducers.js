@@ -7,6 +7,7 @@ import { reducers as modalReducers } from '@/components/modal_container';
 import { reducers as subscriptionsReducers } from '@/store/subscriptions';
 import { reducers as usersReducers } from '@/store/users';
 import { reducers as messagesReducers } from '@/store/messages';
+import { reducers as organizationsReducers } from '@/store/organizations';
 
 import actions from './actions';
 
@@ -41,6 +42,7 @@ export default combineReducers({
   dropdown: dropdownReducers,
   subscriptions: subscriptionsReducers,
   messages: messagesReducers,
+  organizations: organizationsReducers,
   users: usersReducers,
   modal: modalReducers,
   gallery: galleryReducers,

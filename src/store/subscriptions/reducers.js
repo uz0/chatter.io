@@ -20,14 +20,26 @@ const initialState = {
 
 export default createReducer(initialState, {
   [actions.types.loadSubscriptions]: (state, action) => {
-    action.payload.forEach(subscription => {
+    action.payload.forEach((subscription, index) => {
       if (state.ids.indexOf(subscription.id) !== -1) {
         return;
       }
 
+      // state.ids.push(subscription.id);
+      // state.filtered_ids.push(subscription.id);
+      // state.list[subscription.id] = subscription;
+
       state.ids.push(subscription.id);
       state.filtered_ids.push(subscription.id);
-      state.list[subscription.id] = subscription;
+
+      if (index % 3 === 0) {
+        state.list[subscription.id] = {
+          ...subscription,
+          org_id: Math.round(1 + Math.random() * (3 - 1)),
+        };
+      } else {
+        state.list[subscription.id] = subscription;
+      }
     });
   },
 

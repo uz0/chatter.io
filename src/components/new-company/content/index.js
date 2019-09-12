@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Modal from '@/components/modal';
 import Form from '@/components/form/form';
+// import { api } from '@';
 import Info from './info';
 import Members from './members';
 import { withTranslation } from 'react-i18next';
@@ -18,8 +19,15 @@ class NewCompany extends Component {
   prevStep = () => this.setState({ step: 0 });
   nextStep = () => this.setState({ step: 1 });
 
-  create = () => {
+  create = async () => {
+    // console.log({
+    //   name: this.props.name.value,
+    //   icon: this.props.logo.value,
+    //   members: this.props.members.value,
+    // })
 
+    // const org = await api.createOrganization(this.props.name.value);
+    // console.log(org)
   };
 
   close = () => this.props.history.goBack();

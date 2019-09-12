@@ -30,6 +30,7 @@ class Sidebar extends Component {
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
   onSearchInput = event => this.props.filterSubscription({ text: event.target.value });
   filterSubscriptionsByTag = tag => () => this.props.filterSubscription({ tag });
+  goToSettings = () => this.props.pushUrl(`/${this.props.organization.id}/company-settings`);
 
   logout = () => api.logout().then(() => {
     this.props.clearMessages();
@@ -87,9 +88,11 @@ class Sidebar extends Component {
     const isPersonalFilterActive = this.props.subscriptions_filter_tag === 'personal';
     const isWorkFilterActive = this.props.subscriptions_filter_tag === 'work';
 
+    const title = this.props.organization ? this.props.organization.name : 'Unichat';
+
     return <div className={cx('sidebar', this.props.className)}>
       <div className={style.header}>
-        <h1>Unichat</h1>
+        <h1>{title}</h1>
 
         <Dropdown
           uniqueId="sidebar-user-dropdown"
@@ -98,6 +101,10 @@ class Sidebar extends Component {
         >
           <button className={style.image} style={userImageInline} />
         </Dropdown>
+
+        {this.props.organization &&
+          <Button appearance="_fab-divider" icon="menu" onClick={this.goToSettings} className={style.button} />
+        }
 
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
       </div>
@@ -160,6 +167,20 @@ export default compose(
       clearMessages: messagesActions.clearMessages,
       clearUsers: usersActions.clearUsers,
       setError: storeActions.setError,
+    },
+  ),
+
+  connect(
+    (state, props) => {
+      if (!props.match.params.orgId) {
+        return {};
+      }
+
+      const organization = state.organizations.list[parseInt(props.match.params.orgId, 10)];
+
+      return {
+        organization,
+      };
     },
   ),
 )(Sidebar);

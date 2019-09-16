@@ -21,6 +21,13 @@ export default createReducer(initialState, {
     state.isLoaded = true;
   },
 
+  [actions.types.addOrganization]: (state, action) => {
+    if (state.ids.indexOf(action.payload.id === -1)) {
+      state.ids.push(action.payload.id);
+      state.list[action.payload.id] = action.payload;
+    }
+  },
+
   [actions.types.clearOrganizations]: state => {
     state.ids = [];
     state.list = {};

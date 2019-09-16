@@ -1,0 +1,20 @@
+.wrapper {
+  width: 100%;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.modal > .navigation {
+  flex-shrink: 0;
+  width: 100%;
+}

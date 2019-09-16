@@ -3,38 +3,12 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Link from '@/components/link';
 import Icon from '@/components/icon';
+import { api } from '@';
 import { actions as organizationsActions } from '@/store/organizations';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
-
-const getOrganizations = () => new Promise(resolve => {
-  setTimeout(() => {
-    resolve({
-      organizations: [
-        {
-          id: 1,
-          name: 'New Org',
-        },
-
-        {
-          id: 2,
-          name: 'Blabla',
-        },
-
-        {
-          id: 3,
-          name: 'Hello World',
-        },
-      ],
-    });
-  }, 2000);
-});
-
-const api = {
-  getOrganizations,
-};
 
 class SidebarPanel extends Component {
   async componentWillMount() {

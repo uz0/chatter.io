@@ -3,6 +3,9 @@ html {
 }
 
 .panel {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: var(--sidebar-panel-width);
   padding-top: 10px;
   padding-bottom: 10px;

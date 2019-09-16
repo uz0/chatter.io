@@ -129,7 +129,7 @@ class Filters extends Component {
 
   isSubscriptionsLoaded = () => {
     if (!this.props.match.params.orgId) {
-      return !!find(this.props.subscriptions_list, subscription => subscription && !subscription.group.is_space && !subscription.is_add_data_loaded) || false;
+      return !!find(this.props.subscriptions_list, subscription => subscription && !subscription.org_id && !subscription.group.is_space && !subscription.is_add_data_loaded) || false;
     }
 
     const id = parseInt(this.props.match.params.orgId, 10);
@@ -192,6 +192,8 @@ export default compose(
 
     if (props.match.params.orgId) {
       ids = filter(ids, item => item.org_id === parseInt(props.match.params.orgId, 10));
+    } else {
+      ids = filter(ids, item => !item.org_id);
     }
 
     ids = map(ids, 'id');

@@ -16,6 +16,10 @@
 
   --primary-color-hover: #1a61c3;
 
+  --blue-gradient: linear-gradient(135deg, #7f7fd5, #8187d9 10%, #828fdc 21%, #8498e0 31%, #85a0e3 41%, #86a8e7 52%, #86a8e7 52%, #89b5e7 61%, #8cc2e6 71%, #8ecfe6 81%, #90dde5 90%, #91eae4);
+  --green-gradient: linear-gradient(137deg, #00b09b, #47b58b 20%, #63ba7a 40%, #77bf68 60%, #88c454 80%, #96c93d);
+  --pink-gradient: linear-gradient(135deg, #bc4e9c, #ca478e 20%, #d73e81 40%, #e33374 60%, #ee2466 80%, #f80759);
+
   --layout-padding: 20px;
 }
 

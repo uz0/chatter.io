@@ -6,6 +6,7 @@ import { api } from '@';
 import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
+import { actions as organizationsActions } from '@/store/organizations';
 import config from '@/config';
 import { getChatName, scrollMessagesBottom } from '@/helpers';
 
@@ -18,6 +19,10 @@ const notificationReceived = notification => (dispatch, getState) => {
 
   if (notification.object_type === 'subscription' || notification.object_name === 'subscription') {
     onSubscription();
+  }
+
+  if (notification.object_name === 'organization') {
+    onOrganization();
   }
 
   if (notification.object_type === 'user') {
@@ -203,6 +208,14 @@ const notificationReceived = notification => (dispatch, getState) => {
           dispatch(subscriptionsActions.filterSubscription({ tag: state.subscriptions.filter_tag }));
         }
       });
+    }
+  }
+
+  function onOrganization() {
+    if (notification.event === 'new') {
+      if (state.organizations.ids.indexOf(notification.object.id) === -1) {
+        dispatch(organizationsActions.addOrganization(notification.object));
+      }
     }
   }
 

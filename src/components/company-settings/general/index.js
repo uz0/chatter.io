@@ -1,0 +1,167 @@
+import React, { Component } from 'react';
+import get from 'lodash/get';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import Modal from '@/components/modal';
+import Button from '@/components/button';
+import Navigation from '@/components/navigation';
+import Validators from '@/components/form/validators';
+import File from '@/components/form/file';
+import Input from '@/components/form/input';
+import { actions as formActions } from '@/components/form';
+import { withTranslation } from 'react-i18next';
+import style from './style.css';
+
+class General extends Component {
+  setColor = value => () => this.props.formChange('edit_company.color', {
+    error: '',
+    value,
+    isTouched: true,
+    isBlured: true,
+    isRequired: true,
+  });
+
+  update = () => {};
+
+  componentWillMount() {
+    this.props.formChange('edit_company.color', {
+      error: '',
+      value: this.props.organization.brand_color,
+      isTouched: false,
+      isBlured: false,
+      isRequired: true,
+    });
+  }
+
+  componentWillUnmount() {
+    this.props.formChange('edit_company', {});
+  }
+
+  render() {
+    const id = parseInt(this.props.match.params.orgId, 10);
+    const actions = [];
+
+    if (this.props.name.value) {
+      actions.push({appearance: '_basic-primary', text: 'Update', onClick: this.update});
+    }
+
+    const links = [
+      {text: 'General', to: `/${id}/company-settings/general`},
+      {text: 'Users', to: `/${id}/company-settings/users`},
+      {text: 'Conversations', to: `/${id}/company-settings/conversations`},
+    ];
+
+    let previewInline = {};
+
+    if (this.props.logo.value) {
+      previewInline['--image'] = `url(${this.props.logo.value})`;
+    }
+
+    const previewText = this.props.name.value ? this.props.name.value[0].toUpperCase() : 'C';
+    const previewColor = this.props.logo.value ? '' : (this.props.color.value || 'none');
+
+    return <Modal
+      title="Edit company"
+      wrapClassName={style.wrapper}
+      className={style.modal}
+      actions={actions}
+    >
+      <Navigation actions={links} className={style.navigation} />
+
+      <div className={style.logo}>
+        <div className={style.preview} style={previewInline} data-color={previewColor}>
+          <span className={style.text}>{previewText}</span>
+        </div>
+
+        <File
+          model="edit_company.logo"
+          defaultValue={this.props.organization.icon}
+
+          validations={[
+            {
+              action: Validators.fileMaxSize(200000),
+              text: this.props.t('file_max_size', { type: this.props.t('image'), count: 200, unit: this.props.t('kb') }),
+            },
+
+            {
+              action: Validators.fileExtensions(['jpeg', 'png']),
+              text: this.props.t('file_extensions', { extensions: '"jpeg", "png"' }),
+            },
+
+            {
+              action: Validators.fileType('image'),
+              text: this.props.t('file_type', { type: this.props.t('image') }),
+            },
+          ]}
+        >
+          <Button
+            appearance="_basic-divider"
+            text="Upload logo"
+            icon="plus"
+            type="button"
+            className={style.upload_button}
+          />
+        </File>
+      </div>
+
+      <div className={style.colors}>
+        <button type="button" className={style.circle} data-color="none" onClick={this.setColor('')} />
+        <button type="button" className={style.circle} data-color="blue" onClick={this.setColor('blue')} />
+        <button type="button" className={style.circle} data-color="green" onClick={this.setColor('green')} />
+        <button type="button" className={style.circle} data-color="pink" onClick={this.setColor('pink')} />
+      </div>
+
+      <Input
+        model="edit_company.name"
+        placeholder="Company name"
+        defaultValue={this.props.organization.name}
+        className={style.input}
+
+        validations={[
+          {
+            action: Validators.required,
+            text: this.props.t('validation_required', { field: this.props.t('name') }),
+          },
+        ]}
+      />
+    </Modal>;
+  }
+}
+
+export default compose(
+  withTranslation(),
+
+  connect(
+    (state, props) => ({
+      organization: state.organizations.list[parseInt(props.match.params.orgId, 10)],
+
+      color: get(state.forms, 'edit_company.color', {
+        error: '',
+        value: '',
+        isTouched: false,
+        isBlured: false,
+        isRequired: true,
+      }),
+
+      name: get(state.forms, 'edit_company.name', {
+        error: '',
+        value: '',
+        isTouched: false,
+        isBlured: false,
+        isRequired: true,
+      }),
+
+      logo: get(state.forms, 'edit_company.logo', {
+        error: '',
+        value: '',
+        isTouched: false,
+        isBlured: false,
+        isRequired: true,
+      }),
+    }),
+
+    {
+      formChange: formActions.formChange,
+    },
+  ),
+)(General);

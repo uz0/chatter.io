@@ -1,22 +1,29 @@
-.info {
-  flex-grow: 1;
-  display: var(--display);
+.wrapper {
+  width: 100%;
+}
+
+.modal {
+  display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
 }
 
-.info:not(._is-shown) {
-  --display: none;
+.modal > .navigation {
+  flex-shrink: 0;
+  width: 100%;
 }
 
-.info._is-shown {
-  --display: flex;
+.modal > .navigation + .logo {
+  margin-top: 130px;
 }
 
-.info .logo {
+.modal > .logo {
   --logo-size: 92px;
   flex-shrink: 0;
   position: relative;
@@ -24,7 +31,7 @@
   height: var(--logo-size);
 }
 
-.info .logo .preview {
+.modal > .logo > .preview {
   position: relative;
   display: flex;
   justify-content: center;
@@ -37,7 +44,7 @@
   transition-property: background, box-shadow;
 }
 
-.info .logo .preview::before {
+.modal > .logo > .preview::before {
   content: "";
   position: absolute;
   left: 0;
@@ -51,31 +58,31 @@
   border-radius: inherit;
 }
 
-.info .logo .preview[data-color="none"] {
+.modal > .logo > .preview[data-color="none"] {
   --background: transparent;
   --box-shadow-color: var(--divider-color);
   --color: #9ca0b0;
 }
 
-.info .logo .preview[data-color="blue"] {
+.modal > .logo > .preview[data-color="blue"] {
   --background: var(--blue-gradient);
   --box-shadow-color: transparent;
   --color: #fff;
 }
 
-.info .logo .preview[data-color="green"] {
+.modal > .logo > .preview[data-color="green"] {
   --background: var(--green-gradient);
   --box-shadow-color: transparent;
   --color: #fff;
 }
 
-.info .logo .preview[data-color="pink"] {
+.modal > .logo > .preview[data-color="pink"] {
   --background: var(--pink-gradient);
   --box-shadow-color: transparent;
   --color: #fff;
 }
 
-.info .logo .preview .text {
+.modal > .logo > .preview > .text {
   --height: 24px;
   overflow: hidden;
   height: var(--height);
@@ -88,7 +95,7 @@
   transition-property: color;
 }
 
-.info .logo .upload_button {
+.modal > .logo .upload_button {
   --height: 38px;
   position: absolute;
   top: 50%;
@@ -97,14 +104,14 @@
   transform: translateY(-50%);
 }
 
-.info .colors {
+.modal > .colors {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   margin-top: 18px;
 }
 
-.info .colors .circle {
+.modal > .colors > .circle {
   --size: 25px;
   flex-shrink: 0;
   width: var(--size);
@@ -114,31 +121,31 @@
   box-shadow: 0 0 0 1px var(--box-shadow-color) inset;
 }
 
-.info .colors .circle[data-color="none"] {
+.modal > .colors > .circle[data-color="none"] {
   --background: transparent;
   --box-shadow-color: var(--primary-color);
 }
 
-.info .colors .circle[data-color="blue"] {
+.modal > .colors > .circle[data-color="blue"] {
   --background: var(--blue-gradient);
   --box-shadow-color: transparent;
 }
 
-.info .colors .circle[data-color="green"] {
+.modal > .colors > .circle[data-color="green"] {
   --background: var(--green-gradient);
   --box-shadow-color: transparent;
 }
 
-.info .colors .circle[data-color="pink"] {
+.modal > .colors > .circle[data-color="pink"] {
   --background: var(--pink-gradient);
   --box-shadow-color: transparent;
 }
 
-.info .colors .circle:nth-of-type(n+2) {
+.modal > .colors > .circle:nth-of-type(n+2) {
   margin-left: 6px;
 }
 
-.info .input {
+.modal > .input {
   --input-border-radius: 5px;
   --input-box-shadow-color: var(--divider-color);
   width: 100%;

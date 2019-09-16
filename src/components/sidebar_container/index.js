@@ -30,7 +30,7 @@ class Sidebar extends Component {
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
   onSearchInput = event => this.props.filterSubscription({ text: event.target.value });
   filterSubscriptionsByTag = tag => () => this.props.filterSubscription({ tag });
-  goToSettings = () => this.props.pushUrl(`/${this.props.organization.id}/company-settings`);
+  goToSettings = () => this.props.pushUrl(`/${this.props.organization.id}/company-settings/general`);
 
   logout = () => api.logout().then(() => {
     this.props.clearMessages();

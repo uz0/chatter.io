@@ -217,6 +217,12 @@ const notificationReceived = notification => (dispatch, getState) => {
         dispatch(organizationsActions.addOrganization(notification.object));
       }
     }
+
+    if (notification.event === 'deleted') {
+      if (state.organizations.ids.indexOf(notification.object.id) !== -1) {
+        dispatch(organizationsActions.removeOrganization(notification.object.id));
+      }
+    }
   }
 
   function onMessage() {

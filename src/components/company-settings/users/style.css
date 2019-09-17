@@ -14,9 +14,28 @@
   padding-right: var(--layout-padding);
 }
 
+.modal > .loading {
+  position: absolute;
+}
+
 .modal > .navigation {
   flex-shrink: 0;
   width: 100%;
+}
+
+.modal > .invite {
+  --height: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-top: 130px;
+  margin-right: auto;
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--primary-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .modal > .users {
@@ -26,7 +45,7 @@
   overflow-y: auto;
   width: 100%;
   min-height: 0;
-  margin-top: 130px;
+  margin-top: 12px;
 }
 
 .modal > .users > .item {

@@ -8,6 +8,8 @@ import Navigation from '@/components/navigation';
 import Validators from '@/components/form/validators';
 import File from '@/components/form/file';
 import Input from '@/components/form/input';
+import { api } from '@';
+import { withRouter } from '@/hoc';
 import { actions as formActions } from '@/components/form';
 import { withTranslation } from 'react-i18next';
 import style from './style.css';
@@ -22,6 +24,16 @@ class General extends Component {
   });
 
   update = () => {};
+
+  delete = () => {
+    api.destroyOrganization({organization_id: this.props.organization.id});
+    this.close();
+  };
+
+  close = () => {
+    const id = parseInt(this.props.match.params.orgId, 10);
+    this.props.pushUrl(`/${id}/chat`);
+  };
 
   componentWillMount() {
     this.props.formChange('edit_company.color', {
@@ -39,7 +51,7 @@ class General extends Component {
 
   render() {
     const id = parseInt(this.props.match.params.orgId, 10);
-    const actions = [];
+    const actions = [{appearance: '_basic-danger', text: 'Delete', onClick: this.delete}];
 
     if (this.props.name.value) {
       actions.push({appearance: '_basic-primary', text: 'Update', onClick: this.update});
@@ -65,6 +77,7 @@ class General extends Component {
       wrapClassName={style.wrapper}
       className={style.modal}
       actions={actions}
+      close={this.close}
     >
       <Navigation actions={links} className={style.navigation} />
 
@@ -129,6 +142,7 @@ class General extends Component {
 }
 
 export default compose(
+  withRouter,
   withTranslation(),
 
   connect(

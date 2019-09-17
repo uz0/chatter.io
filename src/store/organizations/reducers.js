@@ -28,6 +28,13 @@ export default createReducer(initialState, {
     }
   },
 
+  [actions.types.removeOrganization]: (state, action) => {
+    if (state.ids.indexOf(action.payload) !== -1) {
+      state.ids.splice(state.ids.indexOf(action.payload), 1);
+      delete state.list[action.payload];
+    }
+  },
+
   [actions.types.clearOrganizations]: state => {
     state.ids = [];
     state.list = {};

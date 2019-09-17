@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import SidebarPanel from '@/components/sidebar-panel';
 import Form from '@/components/form/form';
+import ModalContainer from '@/components/modal_container';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
@@ -14,10 +15,12 @@ class CompanySettings extends Component {
       <SidebarPanel className={style.sidebar} />
 
       {this.props.isLoaded &&
-        <Form model="edit_company" className={style.content}>
+        <Form model="edit_company" className={cx('content', {'_is-hidden': this.props.isInviteModalShown})}>
           {this.props.children}
         </Form>
       }
+
+      <ModalContainer className={style.modal_wrapper} />
     </div>;
   }
 }
@@ -26,6 +29,7 @@ export default compose(
   connect(
     state => ({
       isLoaded: state.organizations.isLoaded,
+      isInviteModalShown: state.modal.ids.indexOf('invite-company-modal') !== -1,
     }),
   ),
 )(CompanySettings);

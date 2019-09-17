@@ -27,6 +27,7 @@ const Modal = ({
       </div>
 
       <Button
+        type="button"
         appearance="_fab-divider"
         icon="close"
         onClick={close}
@@ -40,7 +41,7 @@ const Modal = ({
 
     {isActionsExist &&
       <div className={style.footer}>
-        {actions.map(action => <Button key={action.text} {...action} className={style.action} />)}
+        {actions.map(action => <Button key={action.text} type="button" {...action} className={style.action} />)}
       </div>
     }
   </div>;

@@ -17,5 +17,14 @@
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
-  min-height: 0;
+  min-width: 0;
+}
+
+.settings > .content._is-hidden {
+  display: none !important;
+}
+
+.settings > .modal_wrapper {
+  flex-grow: 1;
+  min-width: 0;
 }

@@ -102,7 +102,7 @@ class General extends Component {
     if (typeof this.props.logo.value === 'string') {
       previewInline['--image'] = `url(${this.props.logo.value})`;
     } else {
-      previewInline['--image'] = `url(${this.props.logo.value.small})`;
+      previewInline['--image'] = `url(${get(this.props.logo, 'value.small', '')})`;
     }
 
     const previewText = this.props.name.value ? this.props.name.value[0].toUpperCase() : 'C';

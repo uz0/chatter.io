@@ -9,6 +9,7 @@ import Info from './info';
 import Members from './members';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from '@/hoc';
+import { actions as organizationsActions } from '@/store/organizations';
 import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
@@ -21,15 +22,19 @@ class NewCompany extends Component {
   nextStep = () => this.setState({ step: 1 });
 
   create = async () => {
-    // console.log({
-    //   name: this.props.name.value,
-    //   icon: this.props.logo.value,
-    //   members: this.props.members.value,
-    // })
+    let org = {
+      name: this.props.name.value,
+      brand_color: this.props.color.value,
+    };
+
+    if (this.props.logo.value) {
+      org['icon'] = this.props.logo.value;
+    }
+
     try {
-      const { organization } = await api.createOrganization({name: this.props.name.value});
-      console.log(organization);
-      this.close();
+      const { organization } = await api.createOrganization(org);
+      this.props.addOrganization(organization);
+      this.props.pushUrl(`/${organization.id}/chat`);
     } catch (error) {
       console.error(error);
 
@@ -118,6 +123,7 @@ export default compose(
     }),
 
     {
+      addOrganization: organizationsActions.addOrganization,
       showNotification: notificationActions.showNotification,
     },
   ),

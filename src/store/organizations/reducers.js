@@ -28,6 +28,15 @@ export default createReducer(initialState, {
     }
   },
 
+  [actions.types.updateOrganization]: (state, action) => {
+    if (state.list[action.payload.id]) {
+      state.list[action.payload.id] = {
+        ...state.list[action.payload.id],
+        ...action.payload,
+      };
+    }
+  },
+
   [actions.types.removeOrganization]: (state, action) => {
     if (state.ids.indexOf(action.payload) !== -1) {
       state.ids.splice(state.ids.indexOf(action.payload), 1);

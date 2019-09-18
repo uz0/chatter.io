@@ -50,6 +50,7 @@ class Users extends Component {
   }
 
   render() {
+    const isUsersExist = this.state.users && this.state.users.length > 0;
     const id = parseInt(this.props.match.params.orgId, 10);
     const actions = [];
 
@@ -73,36 +74,38 @@ class Users extends Component {
       <Navigation actions={links} className={style.navigation} />
       <button type="button" className={style.invite} onClick={this.openInviteModal}>Invite</button>
 
-      <div className={style.users}>
-        {this.state.users.map(user => {
-          if (!user) {
-            return null;
-          }
-
-          const name = user.nick || 'no nick';
-          let userActions = [];
-
-          userActions.push({text: 'Make as admin', onClick: () => this.changeRole(user.id, 'admin')});
-          userActions.push({text: 'Make as r/o', onClick: () => this.changeRole(user.id, 'ro')});
-
-          return <div key={user.id} className={style.item}>
-            <SubscriptionAvatar userId={user.id} className={style.avatar} />
-            <p className={style.name}>{name}</p>
-
-            {false &&
-              <p className={style.role}>admin</p>
+      {isUsersExist &&
+        <div className={style.users}>
+          {this.state.users.map(user => {
+            if (!user) {
+              return null;
             }
 
-            <Dropdown
-              className={style.dropdown}
-              uniqueId={`${user.id}-user-dropdown`}
-              items={userActions}
-            >
-              <Button appearance="_icon-transparent" icon="dots" className={style.button} type="button" />
-            </Dropdown>
-          </div>;
-        })}
-      </div>
+            const name = user.nick || 'no nick';
+            let userActions = [];
+
+            userActions.push({text: 'Make as admin', onClick: () => this.changeRole(user.id, 'admin')});
+            userActions.push({text: 'Make as r/o', onClick: () => this.changeRole(user.id, 'ro')});
+
+            return <div key={user.id} className={style.item}>
+              <SubscriptionAvatar userId={user.id} className={style.avatar} />
+              <p className={style.name}>{name}</p>
+
+              {false &&
+                <p className={style.role}>admin</p>
+              }
+
+              <Dropdown
+                className={style.dropdown}
+                uniqueId={`${user.id}-user-dropdown`}
+                items={userActions}
+              >
+                <Button appearance="_icon-transparent" icon="dots" className={style.button} type="button" />
+              </Dropdown>
+            </div>;
+          })}
+        </div>
+      }
     </Modal>;
   }
 }

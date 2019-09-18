@@ -21,7 +21,7 @@ class InviteCompany extends Component {
 
   invite = id => async () => {
     try {
-      await api.organizationInvite({organization_id: 123, user_id: id});
+      await api.organizationInvite({organization_id: this.props.options.subscription_id, user_id: id});
       this.props.close();
     } catch (error) {
       this.props.showNotification({

@@ -11,6 +11,8 @@ import Input from '@/components/form/input';
 import { api } from '@';
 import { withRouter } from '@/hoc';
 import { actions as formActions } from '@/components/form';
+import { actions as notificationActions } from '@/components/notification';
+import { actions as organizationsActions } from '@/store/organizations';
 import { withTranslation } from 'react-i18next';
 import style from './style.css';
 
@@ -23,7 +25,39 @@ class General extends Component {
     isRequired: true,
   });
 
-  update = () => {};
+  update = async () => {
+    if (!this.props.name.value) {
+      return;
+    }
+
+    let org = {
+      organization_id: this.props.organization.id,
+      name: this.props.name.value,
+    };
+
+    if (this.props.color.value) {
+      org['brand_color'] = this.props.color.value;
+    }
+
+    if (this.props.logo.value && typeof this.props.logo.value === 'string') {
+      org['icon'] = this.props.logo.value;
+    }
+
+    try {
+      const { organization } = await api.updateOrganization(org);
+      this.props.updateOrganization(organization);
+
+      this.props.showNotification({
+        type: 'success',
+        text: 'Organization has been updated',
+      });
+    } catch (error) {
+      this.props.showNotification({
+        type: 'error',
+        text: error.text,
+      });
+    }
+  };
 
   delete = () => {
     api.destroyOrganization({organization_id: this.props.organization.id});
@@ -65,12 +99,14 @@ class General extends Component {
 
     let previewInline = {};
 
-    if (this.props.logo.value) {
+    if (typeof this.props.logo.value === 'string') {
       previewInline['--image'] = `url(${this.props.logo.value})`;
+    } else {
+      previewInline['--image'] = `url(${this.props.logo.value.small})`;
     }
 
     const previewText = this.props.name.value ? this.props.name.value[0].toUpperCase() : 'C';
-    const previewColor = this.props.logo.value ? '' : (this.props.color.value || 'none');
+    const previewColor = this.props.color.value || 'none';
 
     return <Modal
       title="Edit company"
@@ -176,6 +212,8 @@ export default compose(
 
     {
       formChange: formActions.formChange,
+      updateOrganization: organizationsActions.updateOrganization,
+      showNotification: notificationActions.showNotification,
     },
   ),
 )(General);

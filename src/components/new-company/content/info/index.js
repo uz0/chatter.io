@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Button from '@/components/button';
+import OrganizationIcon from '@/components/organization-icon';
 import Validators from '@/components/form/validators';
 import File from '@/components/form/file';
 import Input from '@/components/form/input';
@@ -33,20 +34,14 @@ class Info extends Component {
   }
 
   render() {
-    let previewInline = {};
-
-    if (this.props.logo.value) {
-      previewInline['--image'] = `url(${this.props.logo.value})`;
-    }
-
-    const previewText = this.props.name.value ? this.props.name.value[0].toUpperCase() : 'C';
-    const previewColor = this.props.logo.value ? '' : (this.props.color.value || 'none');
-
     return <div className={cx('info', {'_is-shown': this.props.isShown})}>
       <div className={style.logo}>
-        <div className={style.preview} style={previewInline} data-color={previewColor}>
-          <span className={style.text}>{previewText}</span>
-        </div>
+        <OrganizationIcon
+          icon={this.props.logo.value}
+          color={this.props.color.value}
+          name={this.props.name.value}
+          className={style.preview}
+        />
 
         <File
           model="new_company.logo"

@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Link from '@/components/link';
 import Icon from '@/components/icon';
+import OrganizationIcon from '@/components/organization-icon';
 import { api } from '@';
 import { actions as organizationsActions } from '@/store/organizations';
 import classnames from 'classnames/bind';
@@ -29,9 +30,7 @@ class SidebarPanel extends Component {
         this.props.ids.map(id => {
           const org = this.props.list[id];
 
-          return <Link key={org.id} to={`/${org.id}/chat`} className={style.button}>
-            <img src="/assets/default-image.jpg" />
-          </Link>;
+          return <OrganizationIcon key={org.id} id={org.id} link={`/${org.id}/chat`} className={style.company} />;
         })
       }
 

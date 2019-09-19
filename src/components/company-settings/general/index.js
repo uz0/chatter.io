@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Button from '@/components/button';
 import Navigation from '@/components/navigation';
+import OrganizationIcon from '@/components/organization-icon';
 import Validators from '@/components/form/validators';
 import File from '@/components/form/file';
 import Input from '@/components/form/input';
@@ -97,17 +98,6 @@ class General extends Component {
       {text: 'Conversations', to: `/${id}/company-settings/conversations`},
     ];
 
-    let previewInline = {};
-
-    if (typeof this.props.logo.value === 'string') {
-      previewInline['--image'] = `url(${this.props.logo.value})`;
-    } else {
-      previewInline['--image'] = `url(${get(this.props.logo, 'value.small', '')})`;
-    }
-
-    const previewText = this.props.name.value ? this.props.name.value[0].toUpperCase() : 'C';
-    const previewColor = this.props.color.value || 'none';
-
     return <Modal
       title="Edit company"
       wrapClassName={style.wrapper}
@@ -118,9 +108,12 @@ class General extends Component {
       <Navigation actions={links} className={style.navigation} />
 
       <div className={style.logo}>
-        <div className={style.preview} style={previewInline} data-color={previewColor}>
-          <span className={style.text}>{previewText}</span>
-        </div>
+        <OrganizationIcon
+          icon={this.props.logo.value}
+          color={this.props.color.value}
+          name={this.props.name.value}
+          className={style.preview}
+        />
 
         <File
           model="edit_company.logo"

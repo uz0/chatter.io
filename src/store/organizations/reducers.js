@@ -5,6 +5,11 @@ const initialState = {
   ids: [],
   list: {},
   isLoaded: false,
+
+  users: {
+    ids: [],
+    list: {},
+  },
 };
 
 export default createReducer(initialState, {
@@ -35,6 +40,73 @@ export default createReducer(initialState, {
         ...action.payload,
       };
     }
+  },
+
+  [actions.types.loadOrganizationUsers]: (state, action) => {
+    action.payload.forEach(user => {
+      if (state.users.ids.indexOf(user.id) !== -1) {
+        return;
+      }
+
+      state.users.ids.push(user.id);
+      state.users.list[user.id] = user;
+
+      if (!state.list[user.organization_id]) {
+        return;
+      }
+
+      if (!state.list[user.organization_id].users_ids) {
+        state.list[user.organization_id].users_ids = [];
+      }
+
+      state.list[user.organization_id].users_ids.push(user.id);
+    });
+  },
+
+  [actions.types.addOrganizationUser]: (state, action) => {
+    if (state.users.ids.indexOf(action.payload.id) === -1) {
+      state.users.ids.push(action.payload.id);
+    }
+
+    if (!state.users.list[action.payload.id]) {
+      state.users.list[action.payload.id] = action.payload;
+    }
+
+
+    if (!state.list[action.payload.organization_id]) {
+      return;
+    }
+
+    if (!state.list[action.payload.organization_id].users_ids) {
+      state.list[action.payload.organization_id].users_ids = [];
+    }
+
+    state.list[action.payload.organization_id].users_ids.push(action.payload.id);
+  },
+
+  [actions.types.updateOrganizationUser]: (state, action) => {
+    state.users.list[action.payload.id] = {
+      ...state.users.list[action.payload.id],
+      ...action.payload,
+    };
+  },
+
+  [actions.types.deleteOrganizationUser]: (state, action) => {
+    if (!state.list[action.payload.organization_id]) {
+      return;
+    }
+
+    if (!state.list[action.payload.organization_id].users_ids) {
+      return;
+    }
+
+    const index = state.list[action.payload.organization_id].users_ids.indexOf(action.payload.member_id);
+
+    if (index === -1) {
+      return;
+    }
+
+    state.list[action.payload.organization_id].users_ids.splice(index, 1);
   },
 
   [actions.types.removeOrganization]: (state, action) => {

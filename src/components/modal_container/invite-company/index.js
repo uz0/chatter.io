@@ -10,6 +10,7 @@ import SubscriptionAvatar from '@/components/subscription-avatar';
 import { api } from '@';
 import { actions as usersActions } from '@/store/users';
 import { actions as notificationActions } from '@/components/notification';
+import { actions as organizationsActions } from '@/store/organizations';
 import style from './style.css';
 
 class InviteCompany extends Component {
@@ -21,7 +22,8 @@ class InviteCompany extends Component {
 
   invite = id => async () => {
     try {
-      await api.organizationInvite({organization_id: this.props.options.subscription_id, user_id: id});
+      const { organizations_user } = await api.organizationInvite({organization_id: this.props.options.subscription_id, user_id: id});
+      this.props.addOrganizationUser(organizations_user);
       this.props.close();
     } catch (error) {
       this.props.showNotification({
@@ -93,6 +95,7 @@ export default compose(
     {
       addUsers: usersActions.addUsers,
       showNotification: notificationActions.showNotification,
+      addOrganizationUser: organizationsActions.addOrganizationUser,
     },
   ),
 )(InviteCompany);

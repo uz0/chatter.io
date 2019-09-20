@@ -15,7 +15,7 @@ class CompanySettings extends Component {
       <SidebarPanel className={style.sidebar} />
 
       {this.props.isLoaded &&
-        <Form model="edit_company" className={cx('content', {'_is-hidden': this.props.isInviteModalShown})}>
+        <Form model="edit_company" className={cx('content', {'_is-hidden': this.props.isModalsShown})}>
           {this.props.children}
         </Form>
       }
@@ -29,7 +29,7 @@ export default compose(
   connect(
     state => ({
       isLoaded: state.organizations.isLoaded,
-      isInviteModalShown: state.modal.ids.indexOf('invite-company-modal') !== -1,
+      isModalsShown: state.modal.ids.indexOf('invite-company-modal') !== -1 || state.modal.ids.indexOf('new-company-dialog-modal') !== -1,
     }),
   ),
 )(CompanySettings);

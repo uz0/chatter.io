@@ -9,6 +9,7 @@ import Forward from './forward';
 import Invite from './invite';
 import InviteCompany from './invite-company';
 import LeaveChat from './leave-chat';
+import NewCompanyDialog from './new-company-dialog';
 import classnames from 'classnames/bind';
 import modalActions from './actions';
 import style from './style.css';
@@ -38,6 +39,7 @@ class ModalContainer extends Component {
         {id === 'invite-modal' && <Invite options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'leave-chat-modal' && <LeaveChat options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'invite-company-modal' && <InviteCompany options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
+        {id === 'new-company-dialog-modal' && <NewCompanyDialog options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
 
         {/* чтобы можно было добавлять crosspost-modal-1, crosspost-modal-2 и тд */}
         {id.match('crosspost-modal') && <CrossPost options={this.props.list[id]} close={() => this.props.closeModal(id)} />}

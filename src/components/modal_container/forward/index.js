@@ -72,6 +72,7 @@ export default compose(
 
   connect(
     state => ({
+      subscriptions_list: state.subscriptions.list,
       forward_message_id: state.messages.forward_message_id,
     }),
 
@@ -81,7 +82,17 @@ export default compose(
     },
   ),
 
-  withSortedSubscriptions(props => ({
-    ids: props.subscriptions_ids,
-  })),
+  withSortedSubscriptions(props => {
+    let ids = map(props.subscriptions_ids, id => props.subscriptions_list[id]);
+
+    if (props.options.organization_id) {
+      ids = filter(ids, item => item.group.organization_id === props.options.organization_id);
+    }
+
+    ids = map(ids, 'id');
+
+    return {
+      ids,
+    };
+  }),
 )(Forward);

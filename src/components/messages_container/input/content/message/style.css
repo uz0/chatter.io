@@ -1,0 +1,71 @@
+.message {
+  --message-height: 36px;
+  position: relative;
+  display: grid;
+  grid-template-columns: [avatar-start] auto [avatar-end] 10px [name-start text-start] 1fr [text-end name-end] 10px [delete-start] auto [delete-end];
+  grid-template-rows: [avatar-start name-start delete-start] calc(var(--message-height) / 2) [name-end text-start] calc(var(--message-height) / 2) [text-end delete-end avatar-end];
+  padding-left: 10px;
+}
+
+.message::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 32px;
+  width: 2px;
+  background-color: var(--primary-color);
+  transform: translateY(-50%);
+}
+
+.message > .avatar {
+  --size: 32px;
+  grid-area: avatar;
+}
+
+.message > .name {
+  --height: 16px;
+  grid-area: name;
+  overflow: hidden;
+  align-self: flex-start;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.message > .text {
+  --height: 16px;
+  grid-area: text;
+  overflow: hidden;
+  align-self: flex-end;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.message > .delete {
+  --size: 20px;
+  grid-area: delete;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 12px;
+  border-radius: 23px;
+  background-color: rgba(0, 0, 0, 0.81);
+}
+
+.message > .delete > i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+}

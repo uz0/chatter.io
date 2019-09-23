@@ -1,0 +1,148 @@
+.gallery {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 77px);
+  grid-auto-rows: 77px;
+  grid-gap: 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.gallery > .preview {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  background-color: #dedede;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.gallery > .preview .close {
+  --size: 20px;
+  z-index: 3;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: rgba(0, 0, 0, 0.81);
+}
+
+.gallery > .preview .close i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+}
+
+.gallery > .preview > .progress {
+  --height: 20px;
+  z-index: 3;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 9px;
+  color: #fff;
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gallery > .preview > .file_loading {
+  --loading-background-color: rgba(0, 0, 0, 0.4);
+  --spinner-size: 30px;
+  --spinner-section-color: #fff;
+  --spinner-border-color: transparent;
+}
+
+.files {
+  flex-shrink: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.files > .file {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.files > .file > i {
+  --icon-size: 16px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.files > .file > .file_loading {
+  --loading-background-color: transparent;
+  --spinner-size: 16px;
+  --spinner-section-color: transparent;
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.files > .file > .name {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-left: 10px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.files > .file > .size {
+  --height: 20px;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-left: 4px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--caption-color);
+}
+
+.files > .file > .delete {
+  --size: 18px;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 10px;
+  border-radius: calc(var(--size) / 2);
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.files > .file > .delete {
+}
+
+.files > .file > .delete:not(:hover) {
+  --icon-color: var(--caption-color);
+}
+
+.files > .file > .delete:hover {
+  --icon-color: var(--text-color);
+}
+
+.files > .file > .delete i {
+  --icon-size: 8px;
+  flex-shrink: 0;
+}

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
+import { withDetails } from '@/hoc';
 import Header from './header';
 import MessageInput from './input';
 import List from './list';
 import Typings from './typings';
-import { withDetails } from '@/hoc';
+import inputActions from './input/actions';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -17,6 +19,22 @@ class Messages extends Component {
     const isClassNameChanged = this.props.className !== nextProps.className;
 
     return isChatChanged || isChatNameChanged || isClassNameChanged;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.details.id !== nextProps.details.id) {
+      if (nextProps.details.draft) {
+        this.props.setText(nextProps.details.draft);
+      } else {
+        this.props.reset();
+      }
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.details.draft) {
+      this.props.setText(this.props.details.draft);
+    }
   }
 
   render() {
@@ -48,4 +66,13 @@ class Messages extends Component {
 
 export default compose(
   withDetails,
+
+  connect(
+    null,
+
+    {
+      setText: inputActions.setText,
+      reset: inputActions.reset,
+    },
+  ),
 )(Messages);

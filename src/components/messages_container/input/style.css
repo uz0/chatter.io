@@ -1,190 +1,70 @@
 .input {
-  display: flex;
-  align-items: flex-end;
-  padding: 8px var(--layout-padding);
-}
-
-.input .attach {
-  --icon-size: 22px;
-  --height: 36px;
-  flex-shrink: 0;
-  margin-left: calc((((var(--height) - var(--icon-size)) / 2) * -1) - 4px);
-}
-
-.input .attach._is-hidden {
-  display: none;
-}
-
-.input .attach_input {
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: 0;
-  visibility: hidden;
-}
-
-.input .section {
   position: relative;
-  flex-grow: 1;
-  min-width: 0;
-  margin-left: 4px;
-  padding-left: 16px;
-  padding-right: 16px;
-  border-radius: 19px;
-  background-color: var(--divider-color);
-}
-
-.input .section > .suggestion {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 0;
-  width: 100%;
-}
-
-.input .section .message {
-}
-
-.input .section .input_wrapper {
-  display: flex;
-}
-
-.input .section .input_wrapper .input_content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
-
-.input .section .input_wrapper .input_content textarea {
-  width: 100%;
-  height: 20px;
-  max-height: 120px;
-  line-height: 1.3;
-  padding: 0;
-  resize: none;
-  font-weight: var(--font-weight-light);
-  font-size: 15px;
-  background-color: transparent;
-  border: 0;
-}
-
-.input .section .input_wrapper .input_content textarea::placeholder {
-  color: var(--caption-color);
-}
-
-.input .section .input_wrapper .input_content textarea + .uploaded_files {
-  margin-top: 8px;
-}
-
-.input .section .input_wrapper .input_content .todo {
-
-}
-
-.input .section .input_wrapper .input_content .todo .item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 38px;
-}
-
-.input .section .input_wrapper .input_content .todo .item:not(._is-active) {
-  --icon-color: transparent;
-  --background-color: transparent;
-}
-
-.input .section .input_wrapper .input_content .todo .item._is-active {
-  --icon-color: #fff;
-  --background-color: var(--primary-color);
-}
-
-.input .section .input_wrapper .input_content .todo .item .circle {
-  --size: 18px;
   flex-shrink: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: var(--size);
-  height: var(--size);
-  border-radius: 7px;
-  background-color: var(--background-color);
-  box-shadow: 0 0 0 1px var(--primary-color) inset;
-  transition-property: background-color;
+  padding: var(--layout-padding);
+  background-color: #fff;
+  box-shadow: 0 -2px 8px 0 rgba(196, 200, 210, 0.23);
 }
 
-.input .section .input_wrapper .input_content .todo .item .circle > i {
-  --icon-size: 8px;
+.input > .mentions {
+  position: absolute;
+  left: var(--layout-padding);
+  right: var(--layout-padding);
+  top: 0;
+  transform: translateY(-100%);
 }
 
-.input .section .input_wrapper .input_content .todo .item .title {
-  --height: 20px;
+.input > .content {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.input > .content + .icon_button {
+  margin-left: 10px;
+}
+
+.input > .icon_button {
+  --height: 38px;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.input > .icon_button i polygon {
+  fill: var(--color);
+  transition-property: fill;
+}
+
+.input > .icon_button + .icon_button {
+  margin-left: 12px;
+}
+
+.input > .icon_button + .send {
+  margin-left: 12px;
+}
+
+.input > .send {
+  --height: 38px;
+  flex-shrink: 0;
   overflow: hidden;
   height: var(--height);
-  margin-left: 12px;
-  margin-right: auto;
+  margin-top: auto;
+  padding-left: 4px;
+  padding-right: 4px;
   line-height: var(--height);
   font-size: 15px;
-  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  color: var(--color);
   white-space: nowrap;
   text-overflow: ellipsis;
+  transition-property: color;
 }
 
-.input .section .input_wrapper .input_content .todo .item .delete {
-  --size: 20px;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--size);
-  height: var(--size);
-  margin-left: 12px;
-  border-radius: 23px;
-  background-color: rgba(0, 0, 0, 0.81);
-}
-
-.input .section .input_wrapper .input_content .todo .item .delete > i {
-  --icon-size: 8px;
-  --icon-color: #fff;
-}
-
-.input .section .input_wrapper .input_content .gallery_preview + .uploaded_files {
-  margin-top: 8px;
-}
-
-.input .section .input_wrapper > button {
-  --height: 36px;
-  flex-shrink: 0;
-  height: var(--height);
-  max-height: 36px;
-  margin-top: auto;
-  margin-right: -12px;
-  padding-left: 12px;
-  padding-right: 12px;
-  line-height: var(--height);
-  font-size: 15px;
-  color: var(--color);
-  font-weight: var(--font-weight-medium);
-  opacity: var(--opacity);
-  pointer-events: var(--pointer-events);
-  transition-property: color, opacity;
-}
-
-.input .section .input_wrapper > button:not(._is-shown) {
-  --opacity: 0;
-  --pointer-events: none;
-}
-
-.input .section .input_wrapper > button._is-shown {
-  --opacity: 1;
-  --pointer-events: auto;
-}
-
-.input .section .input_wrapper > button:not(:hover) {
+.input > .send:not(:hover) {
   --color: var(--primary-color);
 }
 
-.input .section .input_wrapper > button:hover {
+.input > .send:hover {
   --color: var(--primary-color-hover);
 }

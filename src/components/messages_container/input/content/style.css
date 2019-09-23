@@ -1,0 +1,7 @@
+.content {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 38px;
+  max-height: 330px;
+}

@@ -1,6 +1,7 @@
 import { actionsCreator } from '@/helpers';
+import inputActions from '@/components/messages_container/input/actions';
 
-export default actionsCreator([
+let actions = actionsCreator([
   'loadMessages',
   'loadMoreMessages',
   'addMessage',
@@ -16,3 +17,18 @@ export default actionsCreator([
   'addForwardMessage',
   'clearForwardMessage',
 ]);
+
+const wrapSetValue = func => id => (dispatch, getState) => {
+  const state = getState();
+  const message = state.messages.list[id];
+
+  if (message.text.replace(/<(?:.|\n)*?>/gm, '')) {
+    dispatch(inputActions.setText(message.text));
+  }
+
+  dispatch(func(id));
+};
+
+actions.addEditMessage = wrapSetValue(actions.addEditMessage);
+
+export default actions;

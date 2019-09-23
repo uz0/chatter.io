@@ -20,7 +20,7 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-const Button = props => <button {...props}>{props.children}</button>;
+const Button = props => <button type="button" {...props}>{props.children}</button>;
 
 const wrappers = {
   link: Link,
@@ -110,7 +110,7 @@ class SubscriptionItem extends Component {
     return <Wrapper
       {...this.props.withLoadData ? {to: href} : {}}
       {...this.props.withLoadData ? {activeClassName: '_is-active'} : {}}
-      {...!this.props.withLoadData ? {onClick: this.click} : {}}
+      {...this.props.onClick ? {onClick: this.click} : {}}
       {...this.props.withDataId ? {'data-subscription-id': this.props.id} : {}}
       className={cx('subscription', this.props.className)}
     >

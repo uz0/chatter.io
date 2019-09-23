@@ -9,6 +9,7 @@ const actions = actionsCreator([
   'loadSubscriptions',
   'clearSubscriptions',
   'addSubscription',
+  'addArraySubscriptions',
   'updateSubscription',
   'setHoverSubscription',
   'search',

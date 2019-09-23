@@ -14,25 +14,36 @@
   padding-right: var(--layout-padding);
 }
 
+.modal > .loading {
+  position: absolute;
+}
+
 .modal > .navigation {
   flex-shrink: 0;
   width: 100%;
 }
 
-.modal > .new {
-  flex-shrink: 0;
+.modal > .list {
+  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  min-height: 0;
+  margin-top: 130px;
+}
+
+.modal > .list > .new {
   display: flex;
   align-items: center;
   width: 100%;
   height: 62px;
-  margin-top: 130px;
-  padding-left: 12px;
-  padding-right: 12px;
-  border-radius: 5px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
   background-color: var(--divider-color);
 }
 
-.modal > .new > .circle {
+.modal > .list > .new > .circle {
   --size: 46px;
   flex-shrink: 0;
   display: flex;
@@ -44,17 +55,17 @@
   background: linear-gradient(#f8f8f8, var(--divider-color));
 }
 
-.modal > .new > .circle > i {
+.modal > .list > .new > .circle > i {
   --icon-size: 14px;
   --icon-color: #9ca0b0;
 }
 
-.modal > .new > .circle > i polygon {
+.modal > .list > .new > .circle > i polygon {
   fill: var(--icon-color);
   transition-property: fill;
 }
 
-.modal > .new > .text {
+.modal > .list > .new > .text {
   --height: 20px;
   flex-grow: 1;
   overflow: hidden;
@@ -67,4 +78,23 @@
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.modal > .list > .item {
+  position: relative;
+}
+
+.modal > .list > .item > .subscription {
+  width: 100%;
+}
+
+.modal > .list > .item > .delete {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.modal > .list > .item > .delete > i {
+  --icon-size: 14px;
 }

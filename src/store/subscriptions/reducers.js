@@ -41,6 +41,18 @@ export default createReducer(initialState, {
     state.list[action.payload.id] = action.payload;
   },
 
+  [actions.types.addArraySubscriptions]: (state, action) => {
+    action.payload.forEach(subscription => {
+      if (state.ids.indexOf(subscription.id) !== -1) {
+        return;
+      }
+
+      state.ids.push(subscription.id);
+      state.filtered_ids.push(subscription.id);
+      state.list[subscription.id] = subscription;
+    });
+  },
+
   [actions.types.updateSubscription]: (state, action) => {
     if (state.list[action.payload.id]) {
       state.list[action.payload.id] = {

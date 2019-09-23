@@ -18,3 +18,53 @@
   flex-shrink: 0;
   width: 100%;
 }
+
+.modal > .new {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 62px;
+  margin-top: 130px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 5px;
+  background-color: var(--divider-color);
+}
+
+.modal > .new > .circle {
+  --size: 46px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background: linear-gradient(#f8f8f8, var(--divider-color));
+}
+
+.modal > .new > .circle > i {
+  --icon-size: 14px;
+  --icon-color: #9ca0b0;
+}
+
+.modal > .new > .circle > i polygon {
+  fill: var(--icon-color);
+  transition-property: fill;
+}
+
+.modal > .new > .text {
+  --height: 20px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 12px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

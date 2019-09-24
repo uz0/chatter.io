@@ -1,7 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+import IndexRedirect from '@/components/index-redirect';
 import Layout from '@/components/layout';
 import SignIn from '@/components/sign-in_container';
 import SignUp from '@/components/sign-up_container';
@@ -20,6 +21,7 @@ export default () => <Provider store={store}>
   <BrowserRouter>
     <Layout>
       <Switch>
+        <Route exact component={IndexRedirect} path="/" />
         <Route component={Chat} path="/:orgId/chat/user/:userId/tag/:tagname" />
         <Route component={Chat} path="/chat/user/:userId/tag/:tagname" />
         <Route component={Chat} path="/:orgId/chat/user/:userId/:messageId" />
@@ -40,7 +42,6 @@ export default () => <Provider store={store}>
         <Route component={SignIn} path="/sign-in" />
         <Route component={SignUp} path="/sign-up" />
         <Route component={ForgotPassword} path="/forgot-password" />
-        <Redirect to="/chat" />
 
         <CompanySettings>
           <Switch>

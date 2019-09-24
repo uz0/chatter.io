@@ -8,6 +8,7 @@ const initialState = {
   forgot: {},
   profile: {},
   new_company: {},
+  edit_company: {},
 };
 
 export default createReducer(initialState, {

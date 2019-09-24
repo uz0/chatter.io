@@ -1,0 +1,63 @@
+.icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  background: var(--background);
+  border-radius: var(--logo-border-radius);
+  box-shadow: 0 0 0 1px var(--box-shadow-color) inset;
+  transition-property: background, box-shadow;
+}
+
+.icon::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: inherit;
+}
+
+.icon[data-color="none"] {
+  --background: transparent;
+  --box-shadow-color: var(--divider-color);
+  --color: #9ca0b0;
+}
+
+.icon[data-color="blue"] {
+  --background: var(--blue-gradient);
+  --box-shadow-color: transparent;
+  --color: #fff;
+}
+
+.icon[data-color="green"] {
+  --background: var(--green-gradient);
+  --box-shadow-color: transparent;
+  --color: #fff;
+}
+
+.icon[data-color="pink"] {
+  --background: var(--pink-gradient);
+  --box-shadow-color: transparent;
+  --color: #fff;
+}
+
+.icon > .text {
+  --height: 24px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: var(--logo-font-size);
+  font-weight: var(--font-weight-medium);
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}

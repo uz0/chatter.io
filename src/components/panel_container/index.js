@@ -298,7 +298,7 @@ class Panel extends Component {
     const countParticipants = this.props.details.group.participants.length;
     const currentUserParticipant = this.props.currentUser && find(this.props.details.group.participants, { user_id: this.props.currentUser.id });
     const isCurrentUserAdmin = currentUserParticipant && currentUserParticipant.role === 'admin';
-    const isChatRoom = this.props.details.group.type === 'room';
+    const isChatRoom = this.props.details.group.type === 'room' || 'organization_public_room';
     const isRoomWithIcon = isChatRoom && !!this.props.details.group.icon;
     const isInviteCodeBlockShown = isChatRoom && isCurrentUserAdmin && this.props.details.invite_code;
     const isEditNameShown = isChatRoom && isCurrentUserAdmin;
@@ -476,7 +476,7 @@ class Panel extends Component {
           </button>
         }
 
-        {this.props.details.group.type === 'room' &&
+        {isChatRoom &&
           <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'people' })}>
             <button className={style.collapse_button} onClick={this.toggleCollapse('people')}>
               <span className={style.title}>{peopleCollapseText}</span>

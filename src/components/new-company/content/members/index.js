@@ -106,7 +106,8 @@ class Members extends Component {
 
   async componentDidMount() {
     const response = await api.getContacts();
-    const contacts = map(response.contacts, 'user');
+    let contacts = map(response.contacts, 'user');
+    contacts = filter(contacts, item => !!item);
     this.setState({ contacts });
     this.props.addUsers(contacts);
   }

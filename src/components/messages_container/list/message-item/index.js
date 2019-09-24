@@ -35,8 +35,16 @@ class MessageItem extends Component {
   openReplyMessage = () => scrollMessagesBottom(this.replyMessage, 1);
 
   openForwardModal = () => {
+    let modalObj = { id: 'forward-modal' };
+
+    if (this.props.details.group.organization_id) {
+      modalObj['options'] = {
+        organization_id: this.props.details.group.organization_id,
+      };
+    }
+
     this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);
-    this.props.toggleModal({ id: 'forward-modal' });
+    this.props.toggleModal(modalObj);
   }
 
   resendMessage = () => this.props.resendMessage({

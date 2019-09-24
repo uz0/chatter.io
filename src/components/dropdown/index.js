@@ -102,6 +102,7 @@ class Dropdown extends Component {
                 key={uid()}
                 onClick={this.onItemClick(item.onClick)}
                 className={cx({'_is-danger': item.isDanger})}
+                type="button"
               >
                 {item.icon &&
                   <Icon name={item.icon} />

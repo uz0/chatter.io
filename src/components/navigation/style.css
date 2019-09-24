@@ -1,0 +1,54 @@
+.navigation {
+  display: flex;
+  background-color: var(--divider-color);
+  border-radius: 5px;
+}
+
+.navigation > .item {
+  --height: 38px;
+  overflow: hidden;
+  flex-grow: 1;
+  flex-basis: 0;
+  min-width: 0;
+  height: var(--height);
+  padding-left: 8px;
+  padding-right: 8px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--color);
+  background-color: var(--background-color);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: var(--box-shadow);
+  transition-property: background-color, color, box-shadow;
+}
+
+.navigation > .item:not(:global(._is-active)):not(:hover) {
+  --color: #9ca0b0;
+  --background-color: var(--divider-color);
+  --box-shadow: none;
+}
+
+.navigation > .item:not(:global(._is-active)):hover {
+  --color: var(--text-color);
+  --background-color: var(--divider-color);
+  --box-shadow: none;
+}
+
+.navigation > .item:global(._is-active) {
+  --color: var(--text-color);
+  --background-color: #fff;
+  --box-shadow: 0 0 0 1px var(--divider-color) inset;
+}
+
+.navigation > .item:first-of-type {
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+}
+
+.navigation > .item:last-of-type {
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+}

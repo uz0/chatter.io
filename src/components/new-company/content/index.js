@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Modal from '@/components/modal';
 import Form from '@/components/form/form';
+import { api } from '@';
 import Info from './info';
 import Members from './members';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from '@/hoc';
+import { actions as organizationsActions } from '@/store/organizations';
+import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
 class NewCompany extends Component {
@@ -18,8 +21,28 @@ class NewCompany extends Component {
   prevStep = () => this.setState({ step: 0 });
   nextStep = () => this.setState({ step: 1 });
 
-  create = () => {
+  create = async () => {
+    let org = {
+      name: this.props.name.value,
+      brand_color: this.props.color.value,
+    };
 
+    if (this.props.logo.value) {
+      org['icon'] = this.props.logo.value;
+    }
+
+    try {
+      const { organization } = await api.createOrganization(org);
+      this.props.addOrganization(organization);
+      this.props.pushUrl(`/${organization.id}/chat`);
+    } catch (error) {
+      console.error(error);
+
+      this.props.showNotification({
+        type: 'error',
+        text: error.text,
+      });
+    }
   };
 
   close = () => this.props.history.goBack();
@@ -98,5 +121,10 @@ export default compose(
         isRequired: true,
       }),
     }),
+
+    {
+      addOrganization: organizationsActions.addOrganization,
+      showNotification: notificationActions.showNotification,
+    },
   ),
 )(NewCompany);

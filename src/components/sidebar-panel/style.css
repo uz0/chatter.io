@@ -3,6 +3,9 @@ html {
 }
 
 .panel {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: var(--sidebar-panel-width);
   padding-top: 10px;
   padding-bottom: 10px;
@@ -24,6 +27,9 @@ html {
   box-shadow: 0 0 0 1px var(--divider-color) inset;
 }
 
+.panel > .company + .button,
+.panel > .button + .company,
+.panel > .company + .company,
 .panel > .button + .button {
   margin-top: 16px;
 }
@@ -40,6 +46,15 @@ html {
   background-color: var(--divider-color);
 }
 
+.panel > .company {
+  --logo-size: 50px;
+  --logo-border-radius: 16px;
+  --logo-font-size: 24px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.panel > .company + .new,
 .panel > .button + .new {
   margin-top: 8px;
 }

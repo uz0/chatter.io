@@ -1,0 +1,101 @@
+.wrapper {
+  width: 100%;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.modal > .loading {
+  position: absolute;
+}
+
+.modal > .navigation {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.modal > .invite {
+  --height: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-top: 130px;
+  margin-right: auto;
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--primary-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .users {
+  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  min-height: 0;
+  margin-top: 12px;
+}
+
+.modal > .users > .item {
+  display: flex;
+  align-items: center;
+}
+
+.modal > .users > .item:nth-of-type(n+2) {
+  margin-top: 16px;
+}
+
+.modal > .users > .item > .avatar {
+  --size: 46px;
+  flex-shrink: 0;
+}
+
+.modal > .users > .item > .name {
+  --height: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  margin-left: 12px;
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .users > .item > .role {
+  --height: 16px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  margin-left: 12px;
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .users > .item > .dropdown {
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.modal > .users > .item > .dropdown > .button {
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}

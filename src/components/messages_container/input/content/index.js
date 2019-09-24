@@ -13,7 +13,7 @@ class Content extends Component {
     return <div className={cx('content', this.props.className)}>
       <Message />
       <Textarea subscription_id={this.props.subscription_id} />
-      <Attachments />
+      <Attachments subscription_id={this.props.subscription_id} />
       <Todo />
     </div>;
   }

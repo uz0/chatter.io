@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import get from 'lodash/get';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Loading from '@/components/loading';
@@ -33,7 +34,7 @@ class Attachments extends Component {
 
   render() {
     return <Attach
-      key={0}
+      key={this.props.lastMessageUid}
       uniqueId={attachInputId}
       onChange={this.onAttachmentsChange}
     >
@@ -105,7 +106,9 @@ class Attachments extends Component {
 
 export default compose(
   connect(
-    null,
+    (state, props) => ({
+      lastMessageUid: get(state.messages, `chatIds.${props.subscription_id}.list`, [])[0],
+    }),
 
     {
       setAttachments: actions.setAttachments,

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import Input from './input';
 import List from './list';
 import { withDetails } from '@/hoc';
+import { actions as inputActions } from '@/components/messages_container/input';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -15,6 +17,12 @@ class Feed extends Component {
     const isClassNameChanged = this.props.className !== nextProps.className;
 
     return isChatChanged || isChatNameChanged || isClassNameChanged;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.details.id !== nextProps.details.id) {
+      this.props.reset();
+    }
   }
 
   render() {
@@ -30,4 +38,12 @@ class Feed extends Component {
 
 export default compose(
   withDetails,
+
+  connect(
+    null,
+
+    {
+      reset: inputActions.reset,
+    },
+  ),
 )(Feed);

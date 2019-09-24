@@ -2,41 +2,40 @@ import React, { Component, Fragment } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import filter from 'lodash/filter';
-import map from 'lodash/map';
-import sortBy from 'lodash/sortBy';
-import moment from 'moment';
 import Loading from '@/components/loading';
 import Icon from '@/components/icon';
 import Attach from '@/components/attach';
+import { actions as inputActions } from '@/components/messages_container/input';
 import { getProgressText } from '@/helpers';
 import style from './style.css';
 
 class Attachments extends Component {
-  getGroupedMessages = () => {
-    let messages = map(this.props.messages, id => this.props.messages_list[id]);
-    messages = filter(messages, message => !message.xtag);
-    messages = filter(messages, message => !message.deleted_at);
-    messages = filter(messages, message => !message.in_reply_to_message_id);
-    messages = filter(messages, message => !message.forwarded_message_id);
-    messages = sortBy(messages, message => moment(message.created_at)).reverse();
+  onAttachmentsChange = data => {
+    let attachments = [];
+    let upload_id = [];
 
-    return messages;
+    data.forEach(item => {
+      attachments.push({
+        byte_size: item.byte_size,
+        content_type: item.content_type,
+        filename: item.file_name,
+        url: item.url,
+      });
+
+      upload_id.push(item.upload_id);
+    });
+
+    this.props.setAttachments({
+      attachments,
+      upload_id,
+    });
   };
 
-  shouldComponentUpdate(nextProps) {
-    const isMessagesCountChanged = this.props.messages.length !== nextProps.messages.length;
-    return isMessagesCountChanged;
-  }
-
   render() {
-    const groupedMessages = this.getGroupedMessages();
-    const lastMessage = groupedMessages[0];
-
     return <Attach
-      key={lastMessage ? lastMessage.id : 0}
+      key={this.props.lastMessageUid}
       uniqueId={this.props.uniqueId}
-      onChange={this.props.onChange}
+      onChange={this.onAttachmentsChange}
     >
       {({ files, images, removeAttachment }) => {
         const isImagesExist = images.length > 0;
@@ -107,8 +106,11 @@ class Attachments extends Component {
 export default compose(
   connect(
     (state, props) => ({
-      messages: get(state.messages, `chatIds.${props.details_id}.list`, []),
-      messages_list: state.messages.list,
+      lastMessageUid: get(state.messages, `chatIds.${props.details_id}.list`, [])[0],
     }),
+
+    {
+      setAttachments: inputActions.setAttachments,
+    },
   ),
 )(Attachments);

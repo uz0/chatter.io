@@ -35,6 +35,12 @@ export default () => <Provider store={store}>
         <Route component={Chat} path="/:orgId/chat" />
         <Route component={Chat} path="/chat" />
         <Route component={NewCompany} path="/new-company" />
+        <Route component={Invite} path="/invite/:code" />
+        <Route component={Invite} path="/joinuser/:nick" />
+        <Route component={SignIn} path="/sign-in" />
+        <Route component={SignUp} path="/sign-up" />
+        <Route component={ForgotPassword} path="/forgot-password" />
+        <Redirect to="/chat" />
 
         <CompanySettings>
           <Switch>
@@ -43,13 +49,6 @@ export default () => <Provider store={store}>
             <Route component={ConversationsSettings} path="/:orgId/company-settings/conversations" />
           </Switch>
         </CompanySettings>
-
-        <Route component={Invite} path="/invite/:code" />
-        <Route component={Invite} path="/joinuser/:nick" />
-        <Route component={SignIn} path="/sign-in" />
-        <Route component={SignUp} path="/sign-up" />
-        <Route component={ForgotPassword} path="/forgot-password" />
-        <Redirect to="/chat" />
       </Switch>
     </Layout>
   </BrowserRouter>

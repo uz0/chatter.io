@@ -11,6 +11,7 @@ import config from '@/config';
 import { getChatName, scrollMessagesBottom } from '@/helpers';
 
 const notificationReceived = notification => (dispatch, getState) => {
+  // need refactoring
   const state = getState();
 
   if (notification.object_type === 'message') {

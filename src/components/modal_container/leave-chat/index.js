@@ -32,6 +32,10 @@ class LeaveChat extends Component {
   };
 
   render() {
+    if (!this.props.details) {
+      return null;
+    }
+
     let actions = [
       {appearance: '_basic-divider', text: this.props.t('cancel'), onClick: this.props.close},
     ];

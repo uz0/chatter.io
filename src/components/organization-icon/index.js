@@ -48,16 +48,10 @@ const OrganizationIcon = ({
 
 export default compose(
   connect(
-    (state, props) => {
-      if (!props.id) {
-        return {};
-      }
-
-      return {
-        organization_icon: state.organizations.list[props.id].icon,
-        organization_color: state.organizations.list[props.id].brand_color,
-        organization_name: state.organizations.list[props.id].brand_name,
-      };
-    },
+    (state, props) => ({
+      organization_icon: get(state.organizations.list, `${props.id}.icon`),
+      organization_color: get(state.organizations.list, `${props.id}.brand_color`),
+      organization_name: get(state.organizations.list, `${props.id}.name`),
+    }),
   ),
 )(OrganizationIcon);

@@ -99,3 +99,9 @@
 .modal > .users > .item > .dropdown > .button {
   margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
 }
+
+@media (max-width: 800px) {
+  .modal > .invite {
+    margin-top: 20px;
+  }
+}

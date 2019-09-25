@@ -23,6 +23,12 @@
   --layout-padding: 20px;
 }
 
+@media (max-width: 800px) {
+  :root {
+    --layout-padding: 12px;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -130,4 +136,3 @@ img {
 :global(.lightbox-backdrop) :global(.lightbox-image-container) {
   height: calc(100% - 80px);
 }
-

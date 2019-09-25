@@ -79,3 +79,13 @@
 .modal > .footer > .action:nth-of-type(n+2) {
   margin-left: 10px;
 }
+
+@media (max-width: 800px) {
+  .modal > .header {
+    padding-left: var(--layout-padding);
+  }
+
+  .modal > .header > .section > .title {
+    text-align: left;
+  }
+}

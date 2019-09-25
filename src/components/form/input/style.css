@@ -19,7 +19,7 @@ html {
 .container .section {
   display: flex;
   align-items: center;
-  box-shadow: 0 0 0 1px var(--input-box-shadow-color);
+  box-shadow: 0 0 0 1px var(--input-box-shadow-color) inset;
   border-radius: var(--input-border-radius);
 }
 
@@ -60,6 +60,7 @@ html {
   color: var(--input-text-color, var(--text-color));
   border: 0;
   border-radius: 6px;
+  background-color: transparent;
 }
 
 .container .section .input::placeholder {

@@ -6,6 +6,8 @@
   align-items: center;
   width: 100%;
   min-height: 0;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
 }
 
 .info:not(._is-shown) {
@@ -86,4 +88,13 @@
   width: 100%;
   max-width: 500px;
   margin-top: 36px;
+}
+
+@media (max-width: 800px) {
+  .info .logo .upload_button {
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + 12px);
+  }
 }

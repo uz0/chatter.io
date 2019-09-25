@@ -94,3 +94,16 @@
   max-width: 500px;
   margin-top: 36px;
 }
+
+@media (max-width: 800px) {
+  .modal > .navigation + .logo {
+    margin-top: calc(38px + 20px + 12px);
+  }
+
+  .modal > .logo .upload_button {
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + 12px);
+  }
+}

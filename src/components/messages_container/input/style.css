@@ -1,4 +1,5 @@
 .input {
+  --input-min-height: 38px;
   position: relative;
   flex-shrink: 0;
   display: flex;
@@ -26,7 +27,7 @@
 }
 
 .input > .icon_button {
-  --height: 38px;
+  --height: var(--input-min-height);
   flex-shrink: 0;
   margin-top: auto;
 }
@@ -45,7 +46,7 @@
 }
 
 .input > .send {
-  --height: 38px;
+  --height: var(--input-min-height);
   flex-shrink: 0;
   overflow: hidden;
   height: var(--height);
@@ -67,4 +68,22 @@
 
 .input > .send:hover {
   --color: var(--primary-color-hover);
+}
+
+@media (max-width: 800px) {
+  .input {
+    --input-min-height: 34px;
+  }
+
+  .input > .icon_button {
+    --icon-size: 14px;
+  }
+
+  .input > .icon_button + .icon_button {
+    margin-left: 8px;
+  }
+
+  .input > .icon_button + .send {
+    margin-left: 8px;
+  }
 }

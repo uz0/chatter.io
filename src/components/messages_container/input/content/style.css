@@ -2,6 +2,6 @@
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   overflow-y: auto;
-  min-height: 38px;
+  min-height: var(--input-min-height);
   max-height: 330px;
 }

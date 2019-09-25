@@ -5,8 +5,7 @@
 .container {
   display: flex;
   align-items: center;
-  min-height: 38px;
-  padding-bottom: 6px;
+  min-height: var(--input-min-height);
 }
 
 .container > .textarea {

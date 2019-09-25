@@ -58,7 +58,11 @@ class MessageInput extends Component {
       <Mentions subscription_id={this.props.subscription_id} className={style.mentions} />
       <Content subscription_id={this.props.subscription_id} className={style.content} />
       <Button appearance="_fab-divider" icon="plus" className={style.icon_button} onClick={this.attach} />
-      <Button appearance="_fab-primary" icon="four-shapes" className={style.icon_button} />
+
+      {false &&
+        <Button appearance="_fab-primary" icon="four-shapes" className={style.icon_button} />
+      }
+
       <button className={style.send} onClick={this.send}>Send</button>
     </div>;
   }

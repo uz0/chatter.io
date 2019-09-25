@@ -32,7 +32,22 @@ class Filters extends Component {
     return false;
   };
 
-  openNewDialogueModal = () => this.props.toggleModal({ id: 'new-dialogue-modal' });
+  openNewDialogueModal = () => {
+    const orgId = parseInt(this.props.match.params.orgId, 10);
+
+    if (!orgId) {
+      this.props.toggleModal({ id: 'new-dialogue-modal' });
+      return;
+    }
+
+    this.props.toggleModal({
+      id: 'new-company-dialog-modal',
+
+      options: {
+        organization_id: orgId,
+      },
+    });
+  };
 
   setHoverUp = () => {
     if (!this.props.hover_subscription_id) {

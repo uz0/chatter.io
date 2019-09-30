@@ -400,7 +400,7 @@
   height: var(--height);
   margin-right: 12px;
   line-height: var(--height);
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
@@ -445,7 +445,6 @@
 
 .panel > .scroll > .collapse > .collapse_list {
   display: var(--list-display);
-  padding-top: 8px;
   padding-bottom: 26px;
 }
 
@@ -511,4 +510,7 @@
 
 .panel > .scroll > .collapse > .collapse_list > .photos_list {
   width: 100%;
+}
+
+.panel > .scroll > .collapse > .collapse_list > .tasks {
 }

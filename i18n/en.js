@@ -141,6 +141,7 @@ export default {translation: {
   yes: 'Yes',
   no: 'No',
   cross_post: 'Cross Post',
+  task_plural: 'Tasks',
   transactions: 'Transactions',
   type_something: 'Type something',
   typing: 'Typing',

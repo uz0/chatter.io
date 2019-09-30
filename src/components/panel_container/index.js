@@ -12,6 +12,7 @@ import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Icon from '@/components/icon';
 import PhotosList from './photos-list';
+import Tasks from './tasks';
 import { api } from '@';
 import { withRouter, withDetails } from '@/hoc';
 import { getChatName, copy, getOpponentUser, getLastActive } from '@/helpers';
@@ -564,6 +565,17 @@ class Panel extends Component {
             {this.props.details &&
               <PhotosList details={this.props.details} className={style.photos_list} />
             }
+          </div>
+        </div>
+
+        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'tasks' })}>
+          <button className={style.collapse_button} onClick={this.toggleCollapse('tasks')}>
+            <span className={style.title}>{this.props.t('task_plural')}</span>
+            <Icon name="arrow-down" />
+          </button>
+
+          <div className={style.collapse_list}>
+            <Tasks />
           </div>
         </div>
       </div>

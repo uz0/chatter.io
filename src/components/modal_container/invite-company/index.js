@@ -5,7 +5,7 @@ import map from 'lodash/map';
 import filter from 'lodash/filter';
 import Modal from '@/components/modal';
 import Loading from '@/components/loading';
-import SearchInput from '@/components/search-input';
+import Input from '@/components/input';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import { api } from '@';
 import { actions as usersActions } from '@/store/users';
@@ -64,7 +64,9 @@ class InviteCompany extends Component {
         <Loading isShown type="line" className={style.loading} />
       }
 
-      <SearchInput
+      <Input
+        appearance="_border-transparent"
+        icon="search"
         placeholder="Search contacts"
         className={style.search}
         onInput={this.onSearchInput}

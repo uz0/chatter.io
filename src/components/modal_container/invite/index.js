@@ -10,7 +10,7 @@ import Modal from '@/components/modal';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
 import { actions as notificationActions } from '@/components/notification';
-import SearchInput from '@/components/search-input';
+import Input from '@/components/input';
 import Avatar from '@/components/avatar';
 import style from './style.css';
 
@@ -39,9 +39,11 @@ class Invite extends Component {
       className={style.modal}
       close={this.props.close}
     >
-      <SearchInput
+      <Input
+        appearance="_border-transparent"
         placeholder={this.props.t('search_messages_or_contacts')}
         className={style.search}
+        icon="search"
       />
 
       {privateSubscriptions.length === 0 &&

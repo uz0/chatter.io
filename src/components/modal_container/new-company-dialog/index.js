@@ -8,7 +8,7 @@ import Modal from '@/components/modal';
 import Loading from '@/components/loading';
 import Icon from '@/components/icon';
 import SubscriptionAvatar from '@/components/subscription-avatar';
-import SearchInput from '@/components/search-input';
+import Input from '@/components/input';
 import { api } from '@';
 import { actions as organizationActions } from '@/store/organizations';
 import { actions as notificationActions } from '@/components/notification';
@@ -124,10 +124,12 @@ class NewCompanyDialog extends Component {
         }
       </div>
 
-      <SearchInput
+      <Input
+        appearance="_border-transparent"
         onInput={this.onSearchInput}
         placeholder="Organization users"
         className={style.search}
+        icon="search"
       />
 
       {!isOrganizationUsersExist &&

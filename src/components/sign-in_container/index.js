@@ -78,6 +78,7 @@ class SignIn extends Component {
         className={style.form}
       >
         <Input
+          appearance="_none-classic"
           type="email"
           class="light"
           placeholder={this.props.t('email')}
@@ -99,6 +100,7 @@ class SignIn extends Component {
         />
 
         <Input
+          appearance="_none-classic"
           type="password"
           class="light"
           placeholder={this.props.t('password')}

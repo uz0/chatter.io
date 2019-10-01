@@ -101,6 +101,7 @@ class ForgotPassword extends Component {
       >
         {!password_reset_token &&
           <Input
+            appearance="_none-classic"
             type="email"
             placeholder={this.props.t('email')}
             model="forgot.email"
@@ -123,6 +124,7 @@ class ForgotPassword extends Component {
 
         {password_reset_token &&
           <Input
+            appearance="_none-classic"
             type="password"
             placeholder={this.props.t('new_password')}
             model="forgot.password"
@@ -150,6 +152,7 @@ class ForgotPassword extends Component {
 
         {password_reset_token &&
           <Input
+            appearance="_none-classic"
             type="password"
             placeholder={this.props.t('confirm_password')}
             model="forgot.confirmPassword"

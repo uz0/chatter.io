@@ -1,18 +1,23 @@
 import React, { Component, Fragment } from 'react';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 import SubscriptionAvatar from '@/components/subscription-avatar';
+import { actions as modalActions } from '@/components/modal_container';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
 class Tasks extends Component {
+  openNewTaskModal = () => this.props.toggleModal({ id: 'new-task-modal' });
+
   render() {
     return <Fragment>
       <div className={style.navigation}>
         <button type="button" className={cx('tab', {'_is-active': true})}>All</button>
         <button type="button" className={style.tab}>My tasks</button>
         <button type="button" className={style.tab}>Archived</button>
-        <button type="button" className={style.new}>New</button>
+        <button type="button" className={style.new} onClick={this.openNewTaskModal}>New</button>
       </div>
 
       <div className={style.item}>
@@ -36,4 +41,12 @@ class Tasks extends Component {
   }
 }
 
-export default Tasks;
+export default compose(
+  connect(
+    null,
+
+    {
+      toggleModal: modalActions.toggleModal,
+    },
+  ),
+)(Tasks);

@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import find from 'lodash/find';
+import InputField from '@/components/input';
 import { actions as formActions } from '@/components/form';
 import Validators from '@/components/form/validators';
-import classnames from 'classnames/bind';
-import style from './style.css';
-
-const cx = classnames.bind(style);
 
 class Input extends Component {
   onInput = event => {
@@ -32,7 +29,7 @@ class Input extends Component {
       value: event.target.value,
       error,
     });
-  }
+  };
 
   onBlur = event => {
     let error = '';
@@ -47,6 +44,8 @@ class Input extends Component {
       error,
     });
   };
+
+  onChange = () => {};
 
   componentWillMount() {
     let isRequired = false;
@@ -67,29 +66,20 @@ class Input extends Component {
   render = () => {
     const error = this.props.modelError || this.props.error;
 
-    return <div className={cx('container', this.props.className)}>
-      {this.props.title && <p className={style.title}>{this.props.title}</p>}
-
-      <div className={cx('section', { '_is-disabled': this.props.disabled })}>
-        {this.props.icon && this.props.icon}
-
-        <input
-          type={this.props.type || 'text'}
-          className={style.input}
-          // при автокомплите возникает ошибка uncontrolled input
-          onChange={() => {}}
-          onBlur={this.onBlur}
-          onInput={this.onInput}
-          value={this.props.value || ''}
-          placeholder={this.props.placeholder}
-          {...this.props.disabled ? { disabled: true } : {}}
-        />
-      </div>
-
-      {error &&
-        <p className={style.error}>{error}</p>
-      }
-    </div>;
+    return <InputField
+      appearance={this.props.appearance}
+      type={this.props.type}
+      icon={this.props.icon}
+      title={this.props.title}
+      onChange={this.onChange}
+      onBlur={this.onBlur}
+      onInput={this.onInput}
+      value={this.props.value}
+      placeholder={this.props.placeholder}
+      disabled={this.props.disabled}
+      error={error}
+      className={this.props.className}
+    />;
   }
 }
 

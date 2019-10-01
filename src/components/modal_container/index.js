@@ -25,13 +25,6 @@ class ModalContainer extends Component {
 
     return !isContainerShown ? null : <div className={cx('modal_container', this.props.className)}>
       {this.props.ids.map(id => <Fragment key={id}>
-        {
-          /*
-            content-modal приставка будет пока не переделаем и удалим все старые модалки
-            надо делать проверку в chat/container на то, открыты ли модалки
-          */
-        }
-
         {id === 'new-dialogue-modal' && <NewDialogue options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'edit-profile-modal' && <EditProfile options={this.props.list[id]} close={() => this.props.closeModal(id)} />}
         {id === 'change-profile-modal' && <ChangePassword options={this.props.list[id]} close={() => this.props.closeModal(id)} />}

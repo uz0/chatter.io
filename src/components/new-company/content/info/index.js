@@ -81,6 +81,7 @@ class Info extends Component {
       </div>
 
       <Input
+        appearance="_border-transparent"
         model="new_company.name"
         placeholder="Company name"
         className={style.input}

@@ -13,7 +13,7 @@ import { api } from '@';
 import { withRouter } from '@/hoc';
 import { getOpponentUser } from '@/helpers';
 import SubscriptionAvatar from '@/components/subscription-avatar';
-import SearchInput from '@/components/search-input';
+import Input from '@/components/input';
 import Loading from '@/components/loading';
 import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -230,10 +230,12 @@ class NewDialogue extends Component {
         }
       </div>
 
-      <SearchInput
+      <Input
+        appearance="_border-transparent"
         onInput={this.onSearchInput}
         placeholder="Your contacts or global search"
         className={style.search}
+        icon="search"
       />
 
       <div className={style.list}>

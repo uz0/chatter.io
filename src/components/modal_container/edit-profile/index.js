@@ -187,6 +187,7 @@ class EditProfile extends Component {
         </div>
 
         <Input
+          appearance="_none-divider"
           placeholder={this.props.t('nick')}
           model="profile.nick"
           defaultValue={this.props.currentUser.nick}
@@ -214,6 +215,7 @@ class EditProfile extends Component {
         />
 
         <Input
+          appearance="_none-divider"
           placeholder={this.props.t('email')}
           type="email"
           model="profile.email"

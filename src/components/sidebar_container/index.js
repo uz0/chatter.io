@@ -7,7 +7,7 @@ import classnames from 'classnames/bind';
 import Filters from './filters';
 import Subscriptions from './subscriptions';
 import Button from '@/components/button';
-import SearchInput from '@/components/search-input';
+import Input from '@/components/input';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
 import { withRouter } from '@/hoc';
@@ -126,7 +126,9 @@ class Sidebar extends Component {
         >{this.props.t('personal')}</button>
       </div>
 
-      <SearchInput
+      <Input
+        appearance="_border-transparent"
+        icon="search"
         onInput={this.onSearchInput}
         placeholder={this.props.t('search_messages_or_contacts')}
         className={style.search}

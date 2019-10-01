@@ -154,6 +154,7 @@ class General extends Component {
       </div>
 
       <Input
+        appearance="_border-transparent"
         model="edit_company.name"
         placeholder="Company name"
         defaultValue={this.props.organization.name}

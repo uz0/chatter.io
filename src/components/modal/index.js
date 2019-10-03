@@ -1,50 +1,30 @@
 import React from 'react';
-import classnames from 'classnames/bind';
 import Button from '@/components/button';
+import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
+const modalClick = event => event.stopPropagation();
+
 const Modal = ({
-  title,
-  subcaption,
-  close,
   actions,
   children,
   wrapClassName,
   className,
-}) => {
-  const isActionsExist = actions && actions.length > 0;
-
-  return <div className={cx('modal', wrapClassName)}>
-    <div className={style.header}>
-      <div className={style.section}>
-        <p className={style.title}>{title}</p>
-
-        {subcaption &&
-          <p className={style.subcaption}>{subcaption}</p>
-        }
-      </div>
-
-      <Button
-        type="button"
-        appearance="_fab-divider"
-        icon="close"
-        onClick={close}
-        className={style.close}
-      />
-    </div>
-
+  close,
+}) => <div className={style.wrapper} onClick={close}>
+  <div className={cx('modal', wrapClassName)} onClick={modalClick}>
     <div className={cx('content', className)}>
       {children}
     </div>
 
-    {isActionsExist &&
+    {actions &&
       <div className={style.footer}>
-        {actions.map(action => <Button key={action.text} type="button" {...action} className={style.action} />)}
+        {actions.map(action => <Button key={action.text} className={style.button} {...action} />)}
       </div>
     }
-  </div>;
-};
+  </div>
+</div>;
 
 export default Modal;

@@ -3,13 +3,31 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import { actions as modalActions } from '@/components/modal_container';
+import { getOpponentUser } from '@/helpers';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
 class Tasks extends Component {
-  openNewTaskModal = () => this.props.toggleModal({ id: 'new-task-modal' });
+  openNewTaskModal = () => {
+    let options = {
+      group_id: this.props.details.group_id,
+    };
+
+    if (this.props.details.group.type === 'private_chat') {
+      const user = getOpponentUser(this.props.details);
+      options['executor_id'] = user.id;
+    } else if (this.props.details.group.type === 'organization_public_room') {
+      const { organization_id } = this.props.details.group;
+      options['organization_id'] = organization_id;
+    }
+
+    this.props.toggleModal({
+      id: 'classic-new-task-modal',
+      options,
+    });
+  }
 
   render() {
     return <Fragment>
@@ -43,7 +61,9 @@ class Tasks extends Component {
 
 export default compose(
   connect(
-    null,
+    (state, props) => ({
+      details: state.subscriptions.list[props.details_id],
+    }),
 
     {
       toggleModal: modalActions.toggleModal,

@@ -7,7 +7,7 @@ import find from 'lodash/find';
 import reject from 'lodash/reject';
 import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
-import Modal from '@/components/modal';
+import Modal from '@/components/section-modal';
 import Icon from '@/components/icon';
 import { api } from '@';
 import { withRouter } from '@/hoc';

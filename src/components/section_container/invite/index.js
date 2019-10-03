@@ -6,7 +6,7 @@ import filter from 'lodash/filter';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import Modal from '@/components/modal';
+import Modal from '@/components/section-modal';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
 import { actions as notificationActions } from '@/components/notification';

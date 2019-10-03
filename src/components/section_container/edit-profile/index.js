@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
-import Modal from '@/components/modal';
+import Modal from '@/components/section-modal';
 import Avatar from '@/components/avatar';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
@@ -14,7 +14,7 @@ import { api } from '@';
 import { copy } from '@/helpers';
 import { actions as formActions } from '@/components/form';
 import { actions as notificationActions } from '@/components/notification';
-import modalActions from '../actions';
+import modalActions from '@/components/modal_container/actions';
 import { withTranslation } from 'react-i18next';
 import style from './style.css';
 

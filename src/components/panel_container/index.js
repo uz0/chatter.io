@@ -575,7 +575,7 @@ class Panel extends Component {
           </button>
 
           <div className={style.collapse_list}>
-            <Tasks />
+            <Tasks details_id={this.props.details.id} />
           </div>
         </div>
       </div>

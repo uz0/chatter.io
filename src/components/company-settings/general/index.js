@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import get from 'lodash/get';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import Modal from '@/components/modal';
+import Modal from '@/components/section-modal';
 import Button from '@/components/button';
 import Navigation from '@/components/navigation';
 import OrganizationIcon from '@/components/organization-icon';

@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '@/components/Icon';
+import Icon from '@/components/icon';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

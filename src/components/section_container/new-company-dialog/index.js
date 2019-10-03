@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import map from 'lodash/map';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
-import Modal from '@/components/modal';
+import Modal from '@/components/section-modal';
 import Loading from '@/components/loading';
 import Icon from '@/components/icon';
 import SubscriptionAvatar from '@/components/subscription-avatar';

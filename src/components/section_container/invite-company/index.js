@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
-import Modal from '@/components/modal';
+import Modal from '@/components/section-modal';
 import Loading from '@/components/loading';
 import Input from '@/components/input';
 import SubscriptionAvatar from '@/components/subscription-avatar';

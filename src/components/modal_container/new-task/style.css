@@ -1,0 +1,39 @@
+.modal {
+  display: flex;
+}
+
+.modal > .circle {
+  --size: 18px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  margin-top: calc((38px - var(--size)) / 2);
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--primary-color) inset;
+}
+
+.modal > .section {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 2px;
+}
+
+.modal > .section > .header {
+  display: flex;
+  align-items: center;
+}
+
+.modal > .section > .header > .title {
+  --input-height: 38px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.modal > .section > .header > .person {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  background-color: var(--divider-color);
+  border-radius: calc(38px / 2);
+  margin-left: 10px;
+}

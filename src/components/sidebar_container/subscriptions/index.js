@@ -32,23 +32,6 @@ class Filters extends Component {
     return false;
   };
 
-  openNewDialogueModal = () => {
-    const orgId = parseInt(this.props.match.params.orgId, 10);
-
-    if (!orgId) {
-      this.props.toggleModal({ id: 'new-dialogue-modal' });
-      return;
-    }
-
-    this.props.toggleModal({
-      id: 'new-company-dialog-modal',
-
-      options: {
-        organization_id: orgId,
-      },
-    });
-  };
-
   setHoverUp = () => {
     if (!this.props.hover_subscription_id) {
       this.props.setHoverSubscription(this.props.chats_ids[0]);
@@ -119,13 +102,13 @@ class Filters extends Component {
   };
 
   renderNewMessageButton = () => {
-    return <button key="new-message-button" type="button" className={style.new_message} onClick={this.openNewDialogueModal}>
+    return <div key="new-message-button" className={style.new_message}>
       <div className={style.section}>
         <Icon name="plus" />
       </div>
 
       <p className={style.title}>New Message</p>
-    </button>;
+    </div>;
   };
 
   renderSubscription = ({ item }) => {
@@ -162,7 +145,11 @@ class Filters extends Component {
   render() {
     const isHasSubscriptionsWithNotLoadedAddData = this.isSubscriptionsLoaded();
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
-    const chatsIdsWithCreateButton = ['new-message', ...this.props.chats_ids];
+    let chatIds = this.props.chats_ids;
+
+    if (this.props.isNewDialogueModalShown) {
+      chatIds = ['new-message', ...chatIds];
+    }
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
       {this.props.feeds.length > 0 &&
@@ -176,7 +163,7 @@ class Filters extends Component {
       }
 
       <Section
-        items={chatsIdsWithCreateButton}
+        items={chatIds}
         title="Messages"
         emptyMessage="There is no subscriptions yet"
         renderItem={this.renderSubscription}
@@ -194,6 +181,7 @@ export default compose(
       subscriptions_filtered_ids: state.subscriptions.filtered_ids,
       subscriptions_list: state.subscriptions.list,
       hover_subscription_id: state.subscriptions.hover_subscription_id,
+      isNewDialogueModalShown: state.modal.ids.indexOf('new-dialogue-modal') !== -1,
     }),
 
     {

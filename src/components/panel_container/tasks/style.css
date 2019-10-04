@@ -21,7 +21,7 @@
 }
 
 .navigation > .tab:not(._is-active):not(:hover) {
-  --color: #9ca0b0;
+  --color: var(--caption-color);
   --opacity: 0;
 }
 

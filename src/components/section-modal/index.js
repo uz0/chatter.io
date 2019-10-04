@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
+import OrganizationIcon from '@/components/organization-icon';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -13,13 +14,20 @@ const Modal = ({
   children,
   wrapClassName,
   className,
+  orgIcon,
 }) => {
   const isActionsExist = actions && actions.length > 0;
 
   return <div className={cx('modal', wrapClassName)}>
     <div className={style.header}>
       <div className={style.section}>
-        <p className={style.title}>{title}</p>
+        <div className={style.title_wrapper}>
+          {orgIcon &&
+            <OrganizationIcon {...orgIcon} className={style.icon} />
+          }
+
+          <p className={style.title}>{title}</p>
+        </div>
 
         {subcaption &&
           <p className={style.subcaption}>{subcaption}</p>

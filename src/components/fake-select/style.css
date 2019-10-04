@@ -1,6 +1,4 @@
 .container {
-  --divider-color: #f3f4f7;
-  --text-color: #252c43;
   --height: 38px;
   position: relative;
   display: flex;

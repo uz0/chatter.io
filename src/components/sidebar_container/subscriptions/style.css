@@ -76,7 +76,7 @@
 
 .wrapper > .section > .new_message > .section > i {
   --icon-size: 14px;
-  --icon-color: #9ca0b0;
+  --icon-color: var(--caption-color);
 }
 
 .wrapper > .section > .new_message > .section > i polygon {

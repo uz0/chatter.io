@@ -20,7 +20,7 @@
   --actions-order: 1;
   --content-order: 2;
   --info-order: 3;
-  --message-color: var(--primary-color);
+  --message-color: var(--text-color);
   --message-text-color: #fff;
   justify-content: flex-end;
 }
@@ -29,7 +29,7 @@
   --actions-order: 3;
   --content-order: 2;
   --info-order: 1;
-  --message-color: var(--divider-color);
+  --message-color: #f3f4f7;
   --message-text-color: var(--text-color);
   justify-content: flex-start;
 }

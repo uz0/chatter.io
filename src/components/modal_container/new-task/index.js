@@ -5,18 +5,17 @@ import { connect } from 'react-redux';
 import Modal from '@/components/modal';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
-// import { api } from '@';
+import { api } from '@';
 import style from './style.css';
 
 class NewTask extends Component {
   attach = async () => {
-    // if (!this.props.title.value) {
-    //   return;
-    // }
+    if (!this.props.title.value) {
+      return;
+    }
 
-    // console.log({title: this.props.title.value, ...this.props.options})
-    // const qwe = await api.createTask({title: this.props.title.value, ...this.props.options});
-    // console.log(qwe)
+    const { task } = await api.createTask({title: this.props.title.value, ...this.props.options});
+    console.log(task);
   };
 
   render() {

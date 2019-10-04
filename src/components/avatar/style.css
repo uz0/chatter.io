@@ -1,15 +1,16 @@
 .avatar {
-	--default-size: 46px;
-	width: var(--size, var(--default-size));
-	height: var(--size, var(--default-size));
-	line-height: var(--size, var(--default-size));
-	font-size: var(--font-size, 15px);
-	color: #fff;
-	text-align: center;
-	background-image: var(--photo);
-	background-color: var(--text-color);
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	border-radius: calc(var(--size, var(--default-size)) / 2);
+  --default-size: 46px;
+  width: var(--size, var(--default-size));
+  height: var(--size, var(--default-size));
+  line-height: var(--size, var(--default-size));
+  font-size: var(--font-size, 19px);
+  color: var(--caption-color);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  background-image: var(--photo);
+  background-color: #f8f8f8;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: calc(var(--size, var(--default-size)) / 2);
 }

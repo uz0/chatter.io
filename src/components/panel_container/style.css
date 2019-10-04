@@ -359,7 +359,6 @@
 }
 
 .panel > .scroll > .collapse {
-  --caption-color: #252c43;
   --primary-color: #4a00ff;
   box-shadow: 0 1px var(--divider-color) inset;
 }
@@ -384,7 +383,7 @@
 }
 
 .panel > .scroll > .collapse > .collapse_button:not(:hover) {
-  --color: var(--caption-color);
+  --color: var(--text-color);
   --icon-color: #cfd1d4;
 }
 
@@ -468,6 +467,7 @@
 
 .panel > .scroll > .collapse > .collapse_list > .person > .avatar {
   --size: 30px;
+  --font-size: 13px;
   flex-shrink: 0;
 }
 
@@ -494,7 +494,7 @@
   margin-left: 6px;
   line-height: var(--height);
   font-size: 13px;
-  color: var(--caption-color);
+  color: var(--text-color);
   font-weight: var(--font-weight-medium);
 }
 

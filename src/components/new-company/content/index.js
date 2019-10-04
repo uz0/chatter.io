@@ -48,29 +48,41 @@ class NewCompany extends Component {
   close = () => this.props.history.goBack();
 
   render() {
-    let actions = [];
-
-    if (this.state.step === 0 && this.props.name.value) {
-      actions.push({appearance: '_basic-primary', text: 'Next step', onClick: this.nextStep});
-    }
-
-    if (this.state.step === 1) {
-      actions.push({appearance: '_basic-divider', text: 'Back', onClick: this.prevStep});
-    }
-
-    if (this.state.step === 1 && this.props.members.value.length > 0) {
-      actions.push({appearance: '_basic-primary', text: 'Create', onClick: this.create});
-    }
-
     const isInfoShown = this.state.step === 0;
     const isMembersShown = this.state.step === 1;
+    let actions = [];
+    let title = '';
+
+    const orgConfig = {
+      icon: this.props.logo.value,
+      color: this.props.color.value,
+      name: this.props.name.value,
+    };
+
+    if (isInfoShown) {
+      title = 'Create new company';
+
+      if (this.props.name.value) {
+        actions.push({appearance: '_basic-primary', text: 'Next step', onClick: this.nextStep});
+      }
+    }
+
+    if (isMembersShown) {
+      title = 'Invite members of the company';
+      actions.push({appearance: '_basic-divider', text: 'Back', onClick: this.prevStep});
+
+      if (this.props.members.value.length > 0) {
+        actions.push({appearance: '_basic-primary', text: 'Create', onClick: this.create});
+      }
+    }
 
     return <Modal
-      title="Create new company"
+      title={title}
       wrapClassName={this.props.className}
       className={style.modal}
       close={this.close}
       actions={actions}
+      {...isMembersShown ? {orgIcon: orgConfig} : {}}
     >
       <Form
         model="new_company"

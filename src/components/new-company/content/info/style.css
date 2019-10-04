@@ -2,7 +2,6 @@
   flex-grow: 1;
   display: var(--display);
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
   min-height: 0;
@@ -24,6 +23,7 @@
   position: relative;
   width: var(--logo-size);
   height: var(--logo-size);
+  margin-top: 120px;
 }
 
 .info .logo .preview {

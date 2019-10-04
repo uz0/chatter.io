@@ -17,7 +17,7 @@ class SubscriptionAvatar extends Component {
 
   getPhoto = () => {
     if (this.props.user) {
-      return get(this.props.user, 'avatar.small', `${location.origin}/assets/default-user.jpg`);
+      return get(this.props.user, 'avatar.small');
     }
 
     if (!this.props.subscription) {
@@ -26,7 +26,7 @@ class SubscriptionAvatar extends Component {
 
     if (this.props.subscription.group.type === 'private_chat' && this.props.subscription.group.participants.length === 2) {
       const oppponent = getOpponentUser(this.props.subscription);
-      return get(this.props.users_list[oppponent.id], 'avatar.small', `${location.origin}/assets/default-user.jpg`);
+      return get(this.props.users_list[oppponent.id], 'avatar.small');
     }
 
     return get(this.props.subscription.group, 'icon.small');

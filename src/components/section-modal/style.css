@@ -19,7 +19,24 @@
   min-width: 0;
 }
 
-.modal > .header > .section > .title {
+.modal > .header > .section > .title_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal > .header > .section > .title_wrapper > .icon {
+  --logo-size: 24px;
+  --logo-border-radius: 7px;
+  --logo-font-size: 10px;
+  flex-shrink: 0;
+}
+
+.modal > .header > .section > .title_wrapper > .icon + .title {
+  margin-left: 10px;
+}
+
+.modal > .header > .section > .title_wrapper > .title {
   --height: 20px;
   overflow: hidden;
   height: var(--height);
@@ -36,11 +53,11 @@
   --height: 12px;
   overflow: hidden;
   height: var(--height);
-  margin-top: 2px;
+  margin-top: 4px;
   line-height: var(--height);
   font-size: 11px;
   text-align: center;
-  color: var(--caption-color);
+  color: #c4c8d2;
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;

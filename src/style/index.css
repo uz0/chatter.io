@@ -8,13 +8,13 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  --text-color: #122033;
-  --primary-color: #1873f2;
-  --divider-color: #f2f3f5;
+  --text-color: #252c43;
+  --primary-color: #4a00ff;
+  --divider-color: #edeef1;
   --caption-color: #9ca0b0;
   --error-color: #d0021b;
 
-  --primary-color-hover: #1a61c3;
+  --primary-color-hover: #3f0bbd;
 
   --blue-gradient: linear-gradient(135deg, #7f7fd5, #8187d9 10%, #828fdc 21%, #8498e0 31%, #85a0e3 41%, #86a8e7 52%, #86a8e7 52%, #89b5e7 61%, #8cc2e6 71%, #8ecfe6 81%, #90dde5 90%, #91eae4);
   --green-gradient: linear-gradient(137deg, #00b09b, #47b58b 20%, #63ba7a 40%, #77bf68 60%, #88c454 80%, #96c93d);

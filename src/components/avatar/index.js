@@ -4,11 +4,19 @@ import style from './style.css';
 
 const cx = classnames.bind(style);
 
-const Avatar = ({ className, letter, photo, isGroup }) => <div
-  className={cx('avatar', className, {'_is-group': isGroup})}
-  {...photo ? { style: {'--photo': `url(${photo})`} } : {}}
->
-  {letter && letter}
-</div>;
+const Avatar = ({ className, letter, photo }) => {
+  let inline = {};
+
+  if (photo) {
+    inline['--photo'] = `url(${photo})`;
+  }
+
+  return <div
+    className={cx('avatar', className)}
+    style={inline}
+  >
+    {letter && letter}
+  </div>;
+};
 
 export default Avatar;

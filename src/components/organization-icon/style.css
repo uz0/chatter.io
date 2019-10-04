@@ -28,7 +28,7 @@
 .icon[data-color="none"] {
   --background: transparent;
   --box-shadow-color: var(--divider-color);
-  --color: #9ca0b0;
+  --color: var(--caption-color);
 }
 
 .icon[data-color="blue"] {

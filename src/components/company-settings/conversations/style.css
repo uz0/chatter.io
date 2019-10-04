@@ -57,7 +57,7 @@
 
 .modal > .list > .new > .circle > i {
   --icon-size: 14px;
-  --icon-color: #9ca0b0;
+  --icon-color: var(--caption-color);
 }
 
 .modal > .list > .new > .circle > i polygon {

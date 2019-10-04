@@ -152,7 +152,7 @@
 }
 
 .members > .list > .item:hover {
-  --background-color: var(--divider-color);
+  --background-color: #f3f4f7;
 }
 
 .members > .list > .item > .avatar {

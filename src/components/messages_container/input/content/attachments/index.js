@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 import get from 'lodash/get';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import Loading from '@/components/loading';
 import Icon from '@/components/icon';
-import Attach from '@/components/attach';
+import Attach, {recordStatuses} from '@/components/attach';
 import { getProgressText } from '@/helpers';
 import { attachInputId } from '../../';
 import actions from '../../actions';
@@ -38,9 +39,10 @@ class Attachments extends Component {
       uniqueId={attachInputId}
       onChange={this.onAttachmentsChange}
     >
-      {({ files, images, removeAttachment }) => {
+      {({ files, images, removeAttachment, startRecord, stopRecord, recordStatus }) => {
         const isImagesExist = images.length > 0;
         const isFilesExist = files.length > 0;
+        const isRecordStarted = recordStatus === recordStatuses.RECORD;
 
         return <Fragment>
           {isImagesExist &&
@@ -98,6 +100,18 @@ class Attachments extends Component {
               })}
             </div>
           }
+
+          {!isRecordStarted &&
+            <button onClick={startRecord}>
+              {this.props.t('start_record')}
+            </button>
+          }
+
+          {isRecordStarted &&
+            <button onClick={stopRecord}>
+              {this.props.t('stop_record')}
+            </button>
+          }
         </Fragment>;
       }}
     </Attach>;
@@ -105,6 +119,8 @@ class Attachments extends Component {
 }
 
 export default compose(
+  withTranslation(),
+
   connect(
     (state, props) => ({
       lastMessageUid: get(state.messages, `chatIds.${props.subscription_id}.list`, [])[0],

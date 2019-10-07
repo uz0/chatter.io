@@ -146,3 +146,32 @@
   --icon-size: 8px;
   flex-shrink: 0;
 }
+
+.record_button {
+  position: absolute;
+  right: var(--layout-padding);
+  bottom: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--input-min-height);
+  height: var(--input-min-height);
+  background-color: #fff;
+}
+
+.record_button.stop > i {
+  --icon-size: var(--input-min-height);
+}
+
+.record_button:not(:hover) {
+  --icon-color: var(--caption-color);
+}
+
+.record_button:hover {
+  --icon-color: var(--primary-color);
+}
+
+.record_button > i {
+  --icon-size: 24px;
+}

@@ -46,28 +46,30 @@
 }
 
 .input > .send {
-  --height: var(--input-min-height);
   flex-shrink: 0;
-  overflow: hidden;
-  height: var(--height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--input-min-height);
+  height: var(--input-min-height);
   margin-top: auto;
-  padding-left: 4px;
-  padding-right: 4px;
-  line-height: var(--height);
-  font-size: 15px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  transition-property: color;
 }
 
 .input > .send:not(:hover) {
-  --color: var(--primary-color);
+  --icon-color: var(--caption-color);
 }
 
 .input > .send:hover {
-  --color: var(--primary-color-hover);
+  --icon-color: var(--primary-color);
+}
+
+.input > .send > i {
+  --icon-size: 24px;
+}
+
+.input > .send > i polygon {
+  fill: var(--icon-color);
+  transition-property: fill;
 }
 
 @media (max-width: 800px) {

@@ -6,6 +6,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import filter from 'lodash/filter';
 import CRC32 from 'crc-32';
+import RecordRTC, { StereoAudioRecorder } from 'recordrtc';
 import { uid } from '@/helpers';
 import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
@@ -13,10 +14,73 @@ import style from './style.css';
 
 const bytesSize = 1048576;
 
+export const recordStatuses = {
+  IDDLE: 'iddle',
+  RECORD: 'record',
+};
+
+const RECORD_NAME = '__record';
+
+function captureMicrophone() {
+  return navigator.mediaDevices
+    .getUserMedia({ audio: true })
+    .catch(error => {
+      alert('Unable to access your microphone.');
+      console.error(error);
+    });
+}
+
 class Attach extends Component {
   state = {
     attachments: [],
+    recordStatus: recordStatuses.IDDLE,
   };
+
+  stopRecord = async () => {
+    this.setState({ recordStatus: recordStatuses.IDDLE });
+    
+    this.recorder.stopRecording(() => {
+      const blob = this.recorder.getBlob();
+      blob.name = RECORD_NAME;
+      const attachment = {
+        uid: uid(),
+        byte_size: blob.size,
+        content_type: blob.type,
+        file_name: RECORD_NAME,
+        preview: '',
+        url: '',
+        upload_id: null,
+        isLoading: true,
+      };
+
+      setTimeout(() => this.loadFileByChunks(blob, attachment.uid));
+
+      this.setState({ attachments: [attachment] });
+      console.log('this.recorder.blob', attachment);
+    });
+
+    this.microphone.stop();
+    console.log('stop Record');
+  }
+
+  startRecord = async () => {
+    const microphone = await captureMicrophone();
+    console.log('microphone', microphone);
+
+    this.recorder = RecordRTC(microphone, {
+      type: 'audio',
+      recorderType: StereoAudioRecorder,
+      desiredSampRate: 16000,
+    });
+
+    console.log('recorder', this.recorder);
+
+    this.recorder.startRecording();
+    this.microphone = microphone;
+
+    this.setState({ recordStatus: recordStatuses.RECORD });
+    console.log('start Record');
+  }
 
   resetAttachment = () => {
     const input = document.getElementById(this.props.uniqueId);
@@ -312,6 +376,9 @@ class Attach extends Component {
         files,
         images,
         removeAttachment: this.removeAttachment,
+        startRecord: this.startRecord,
+        stopRecord: this.stopRecord,
+        recordStatus: this.state.recordStatus,
       })}
     </Fragment>;
   }

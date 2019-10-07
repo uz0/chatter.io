@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import RefMessage from '../ref-message';
 import Username from '../username';
+import Audio from './audio';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
@@ -19,6 +20,12 @@ const linkreg = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=
 const tagreg = /\B\#\w\w+\b/gim;
 
 class MessageBlock extends Component {
+  state = {
+    audioId: null,
+  };
+
+  player = null;
+
   getFileName = file => {
     if (!file) {
       return null;
@@ -119,6 +126,10 @@ class MessageBlock extends Component {
     this.props.pushUrl(href);
   };
 
+  onAudioStateChange = id => {
+    this.setState({ audioId: id });
+  };
+
   render() {
     const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/'));
     const messageText = this.renderMessageText(this.props.message);
@@ -162,21 +173,33 @@ class MessageBlock extends Component {
 
       {files &&
         <Fragment>
-          {files.map(file => {
+          {files.filter(file => !file.content_type.includes('audio')).map(file => {
             const fileSize = this.getFileSize(file);
 
-            return <a key={file.url} href={file.url} target="_blank" download={file.filename} className={style.file}>
-              <Icon name="add-chat" />
+            return (
+              <a key={file.url} href={file.url} target="_blank" download={file.filename} className={style.file}>
+                <Icon name="add-chat" />
 
-              <div className={style.section}>
-                <p className={style.name}>File</p>
+                <div className={style.section}>
+                  <p className={style.name}>File</p>
 
-                <div className={style.subcaption}>
-                  <p className={style.text}>{file.filename}</p>
-                  <span className={style.size}>{fileSize}</span>
+                  <div className={style.subcaption}>
+                    <p className={style.text}>{file.filename}</p>
+                    <span className={style.size}>{fileSize}</span>
+                  </div>
                 </div>
+              </a>
+            );
+          })}
+
+          {files.filter(file => file.content_type.includes('audio')).map(file => {
+            const isPlayed = file.url === this.state.audioId;
+
+            return (
+              <div key={file.url} className={style.file}>
+                <Audio onChange={this.onAudioStateChange} file={file} isPlayed={isPlayed} className={style.audio} />
               </div>
-            </a>;
+            );
           })}
         </Fragment>
       }

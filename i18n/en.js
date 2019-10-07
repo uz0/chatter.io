@@ -164,4 +164,6 @@ export default {translation: {
   you: 'You',
   you_cannot_upload_empty_files: 'You can\'t upload empty files',
   you_logged_success: 'You logged success',
+  start_record: 'record',
+  stop_record: 'stop',
 }};

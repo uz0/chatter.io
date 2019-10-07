@@ -106,7 +106,7 @@
   margin-top: 8px;
 }
 
-.message_block > .file i {
+.message_block > .file > i {
   --icon-size: 32px;
   --icon-color: var(--message-text-color);
   flex-shrink: 0;
@@ -178,6 +178,12 @@
   transform: translateY(-50%);
 }
 
+.message_block.current-user > .file > .audio {
+  --audio-icon-color: #fff;
+}
+.message_block.opponent-user > .file > .audio {
+  --audio-icon-color: var(--text-color);
+}
 
 .message_block.current-user > .edited {
   margin-left: auto;

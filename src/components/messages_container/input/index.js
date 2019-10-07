@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import Icon from '@/components/icon';
 import Button from '@/components/button';
 import config from '@/config';
 import Content from './content';
@@ -63,7 +64,9 @@ class MessageInput extends Component {
         <Button appearance="_fab-primary" icon="four-shapes" className={style.icon_button} />
       }
 
-      <button className={style.send} onClick={this.send}>Send</button>
+      <button className={style.send} onClick={this.send}>
+        <Icon name="send" />
+      </button>
     </div>;
   }
 }

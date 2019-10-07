@@ -9,7 +9,10 @@ import Attach, {recordStatuses} from '@/components/attach';
 import { getProgressText } from '@/helpers';
 import { attachInputId } from '../../';
 import actions from '../../actions';
+import classnames from 'classnames/bind';
 import style from './style.css';
+
+const cx = classnames.bind(style);
 
 class Attachments extends Component {
   onAttachmentsChange = data => {
@@ -101,15 +104,15 @@ class Attachments extends Component {
             </div>
           }
 
-          {!isRecordStarted &&
-            <button onClick={startRecord}>
-              {this.props.t('start_record')}
+          {!isRecordStarted && !this.props.hasText &&
+            <button className={style.record_button} onClick={startRecord} >
+              <Icon name="microphone" />
             </button>
           }
 
-          {isRecordStarted &&
-            <button onClick={stopRecord}>
-              {this.props.t('stop_record')}
+          {isRecordStarted && !this.props.hasText &&
+            <button className={cx('record_button', 'stop')} onClick={stopRecord} >
+              <Icon name="stop" />
             </button>
           }
         </Fragment>;
@@ -124,6 +127,7 @@ export default compose(
   connect(
     (state, props) => ({
       lastMessageUid: get(state.messages, `chatIds.${props.subscription_id}.list`, [])[0],
+      hasText: state.input.value.length > 0,
     }),
 
     {

@@ -1,0 +1,40 @@
+.audio {
+  display: flex;
+}
+
+.audio > .button {
+  flex-shrink: 0;
+}
+
+.audio > .button > i {
+  --icon-color: var(--audio-icon-color);
+  --icon-size: 32px;
+}
+
+.audio > .audio_content {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 10px;
+}
+
+.audio > .audio_content > .title {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--message-text-color);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.audio > .audio_content > .time {
+  --height: 16px;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--message-text-color);
+  font-weight: var(--font-weight-light);
+  opacity: 0.5;
+}

@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import RefMessage from '../ref-message';
 import Username from '../username';
+import Audio from './audio';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
@@ -125,22 +126,9 @@ class MessageBlock extends Component {
     this.props.pushUrl(href);
   };
 
-  playAudio = audio => () => {
-    this.player = new Audio(audio.url);
-    this.player.play();
-    this.player.addEventListener('ended', () => this.setState({ audioId: null }));
-
-    this.setState({
-      audioId: audio.url,
-    });
-  }
-
-  stopAudio = () => () => {
-    this.player.pause();
-    this.setState({
-      audioId: null,
-    });
-  }
+  onAudioStateChange = id => {
+    this.setState({ audioId: id });
+  };
 
   render() {
     const files = this.props.message.attachments && filter(this.props.message.attachments, attachment => !attachment.content_type.match('image/'));
@@ -209,28 +197,7 @@ class MessageBlock extends Component {
 
             return (
               <div key={file.url} className={style.file}>
-                <div className={style.section}>
-                  <p className={style.name}>Audio</p>
-                  <div className={style.subcaption}>
-                    {!isPlayed &&
-                      <span
-                        className={style.text}
-                        onClick={this.playAudio(file)}
-                      >
-                        PLAY
-                      </span>
-                    }
-
-                    {isPlayed &&
-                      <span
-                        className={style.text}
-                        onClick={this.stopAudio(file)}
-                      >
-                        STOP
-                      </span>
-                    }
-                  </div>
-                </div>
+                <Audio onChange={this.onAudioStateChange} file={file} isPlayed={isPlayed} className={style.audio} />
               </div>
             );
           })}

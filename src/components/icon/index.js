@@ -31,6 +31,10 @@ import hashtagIcon from '@/assets/icons/hashtag.svg';
 import plusIcon from '@/assets/icons/plus.svg';
 import menuIcon from '@/assets/icons/menu.svg';
 import fourShapesIcon from '@/assets/icons/four-shapes.svg';
+import MicrophoneIcon from '@/assets/icons/microphone.svg';
+import StopIcon from '@/assets/icons/stop.svg';
+import SendIcon from '@/assets/icons/send.svg';
+import playIcon from '@/assets/icons/play.svg';
 
 const cx = classnames.bind(style);
 
@@ -153,6 +157,22 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'four-shapes' &&
     <ReactSvgInjector src={fourShapesIcon} />
+  }
+
+  {name === 'microphone' &&
+    <ReactSvgInjector src={MicrophoneIcon} />
+  }
+
+  {name === 'stop' &&
+    <ReactSvgInjector src={StopIcon} />
+  }
+
+  {name === 'send' &&
+    <ReactSvgInjector src={SendIcon} />
+  }
+
+  {name === 'play' &&
+    <ReactSvgInjector src={playIcon} />
   }
 </i>;
 

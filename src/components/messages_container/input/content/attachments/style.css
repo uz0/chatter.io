@@ -160,10 +160,6 @@
   background-color: #fff;
 }
 
-.record_button.stop > i {
-  --icon-size: var(--input-min-height);
-}
-
 .record_button:not(:hover) {
   --icon-color: var(--caption-color);
 }
@@ -173,5 +169,5 @@
 }
 
 .record_button > i {
-  --icon-size: 24px;
+  --icon-size: 30px;
 }

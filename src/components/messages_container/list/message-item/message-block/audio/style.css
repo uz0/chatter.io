@@ -3,12 +3,20 @@
 }
 
 .audio > .button {
+  --size: 32px;
   flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--audio-cirlce-color);
 }
 
 .audio > .button > i {
   --icon-color: var(--audio-icon-color);
-  --icon-size: 32px;
+  --icon-size: 20px;
 }
 
 .audio > .audio_content {

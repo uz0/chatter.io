@@ -179,10 +179,12 @@
 }
 
 .message_block.current-user > .file > .audio {
-  --audio-icon-color: #fff;
+  --audio-cirlce-color: #fff;
+  --audio-icon-color: var(--text-color);
 }
 .message_block.opponent-user > .file > .audio {
-  --audio-icon-color: var(--text-color);
+  --audio-cirlce-color: var(--text-color);
+  --audio-icon-color: #fff;
 }
 
 .message_block.current-user > .edited {

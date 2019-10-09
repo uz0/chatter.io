@@ -31,10 +31,6 @@ class Attachments extends Component {
       attachments,
       upload_id,
     });
-
-    if (data.length === 1 && data[0].content_type.startsWith('audio/')) {
-      this.props.sendMessage({ subscription_id: this.props.subscription_id });
-    }
   };
 
   render() {
@@ -139,7 +135,6 @@ export default compose(
     }),
 
     {
-      sendMessage: actions.sendMessage,
       setAttachments: actions.setAttachments,
     },
   ),

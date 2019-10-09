@@ -9,7 +9,7 @@ import 'normalize.css';
 import './style/index.css';
 import './i18n';
 
-window.version = 15;
+window.version = 16;
 
 const md = new mobileDetect(window.navigator.userAgent);
 const isMobile = !!md.mobile();

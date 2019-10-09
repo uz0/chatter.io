@@ -72,7 +72,7 @@ class ForgotPassword extends Component {
 
   componentWillMount() {
     if (this.props.currentUser) {
-      this.props.pushUrl('/chat');
+      this.props.pushUrl('/chat', null);
       return;
     }
   }

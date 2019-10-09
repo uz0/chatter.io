@@ -26,7 +26,21 @@ class Sidebar extends Component {
     isLoading: false,
   };
 
-  openAddChat = () => this.props.toggleModal({ id: 'new-dialogue-modal' });
+  openAddChat = () => {
+    if (!this.props.organization) {
+      this.props.toggleModal({ id: 'new-dialogue-modal' });
+      return;
+    }
+
+    this.props.toggleModal({
+      id: 'new-company-dialog-modal',
+
+      options: {
+        organization_id: this.props.organization.id,
+      },
+    });
+  };
+
   openEditProfileModal = () => this.props.toggleModal({ id: 'edit-profile-modal' });
   onSearchInput = event => this.props.filterSubscription({ text: event.target.value });
   filterSubscriptionsByTag = tag => () => this.props.filterSubscription({ tag });

@@ -17,6 +17,7 @@ const bytesSize = 1048576;
 
 export const recordStatuses = {
   IDDLE: 'iddle',
+  TRANSCRIPT: 'transcript',
   RECORD: 'record',
 };
 
@@ -95,6 +96,7 @@ class Attach extends Component {
       requestData.append('encoding', 'OGG_OPUS');
       requestData.append('rate_hertz', 24000);
       requestData.append('audio_channels', 1);
+      this.setState({ recordStatus: recordStatuses.TRANSCRIPT });
 
       let jobIdRes = await fetch('https://chat.mainnetwork.io/speech-to-text', {
         method: 'POST',
@@ -120,13 +122,12 @@ class Attach extends Component {
       };
 
       this.loadFileByChunks(dataBlob, attachment.uid);
-      this.setState({ attachments: [attachment] });
+      this.setState({ attachments: [attachment], recordStatus: recordStatuses.IDDLE });
       console.log('this.recorder.blob', attachment);
     };
   };
 
   stopRecord = async () => {
-    this.setState({ recordStatus: recordStatuses.IDDLE });
     this.recorder.stop();
   };
 

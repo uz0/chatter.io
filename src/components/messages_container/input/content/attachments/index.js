@@ -9,10 +9,7 @@ import Attach, {recordStatuses} from '@/components/attach';
 import { getProgressText } from '@/helpers';
 import { attachInputId } from '../../';
 import actions from '../../actions';
-import classnames from 'classnames/bind';
 import style from './style.css';
-
-const cx = classnames.bind(style);
 
 class Attachments extends Component {
   onAttachmentsChange = async data => {
@@ -49,7 +46,10 @@ class Attachments extends Component {
       {({ files, images, removeAttachment, startRecord, stopRecord, recordStatus }) => {
         const isImagesExist = images.length > 0;
         const isFilesExist = files.length > 0;
-        const isRecordStarted = recordStatus === recordStatuses.RECORD;
+        const isTranscripting = recordStatus === recordStatuses.TRANSCRIPT;
+        const isRecording = recordStatus === recordStatuses.RECORD;
+        const isStartRecordButtonShown = !isTranscripting && !isRecording && !this.props.hasText;
+        const isStopRecordButtonShown = isRecording && !this.props.hasText;
 
         return <Fragment>
           {isImagesExist &&
@@ -108,16 +108,20 @@ class Attachments extends Component {
             </div>
           }
 
-          {!isRecordStarted && !this.props.hasText &&
+          {isStartRecordButtonShown &&
             <button className={style.record_button} onClick={startRecord} >
               <Icon name="microphone" />
             </button>
           }
 
-          {isRecordStarted && !this.props.hasText &&
-            <button className={cx('record_button', 'stop')} onClick={stopRecord} >
+          {isStopRecordButtonShown &&
+            <button className={style.record_button} onClick={stopRecord} >
               <Icon name="stop" />
             </button>
+          }
+
+          {isTranscripting &&
+            <Loading className={style.audio_loading} isShown />
           }
         </Fragment>;
       }}

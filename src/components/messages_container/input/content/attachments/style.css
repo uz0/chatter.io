@@ -171,3 +171,15 @@
 .record_button > i {
   --icon-size: 30px;
 }
+
+.audio_loading {
+  --left: auto;
+  --right: var(--layout-padding);
+  --top: auto;
+  --bottom: 0;
+  --spinner-size: 30px !important;
+  --spinner-border-color: var(--caption-color);
+  width: var(--input-min-height);
+  height: var(--input-min-height);
+  transform: translateY(-50%);
+}

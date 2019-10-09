@@ -6,10 +6,11 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import filter from 'lodash/filter';
 import CRC32 from 'crc-32';
-import RecordRTC, { StereoAudioRecorder } from 'recordrtc';
+import Recorder from 'opus-recorder';
 import { uid } from '@/helpers';
 import { api } from '@';
 import { actions as notificationActions } from '@/components/notification';
+import inputActions from '@/components/messages_container/input/actions';
 import style from './style.css';
 
 const bytesSize = 1048576;
@@ -24,6 +25,7 @@ const RECORD_NAME = '__record';
 function captureMicrophone() {
   return navigator.mediaDevices
     .getUserMedia({ audio: true })
+
     .catch(error => {
       alert('Unable to access your microphone.');
       console.error(error);
@@ -36,16 +38,80 @@ class Attach extends Component {
     recordStatus: recordStatuses.IDDLE,
   };
 
-  stopRecord = async () => {
-    this.setState({ recordStatus: recordStatuses.IDDLE });
-    
-    this.recorder.stopRecording(() => {
-      const blob = this.recorder.getBlob();
-      blob.name = RECORD_NAME;
+  getTranscript = async job_id => {
+    let response = await fetch(`https://chat.mainnetwork.io/speech-to-text/${job_id}`);
+    const {result: {status, transcript}} = await response.json();
+    const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
+
+    if (status === 'completed') {
+      return transcript;
+    }
+
+    if (status === 'failed') {
+      return null;
+    }
+
+    await wait(500);
+    return this.getTranscript(job_id);
+  };
+
+  startRecord = async () => {
+    if (!Recorder.isRecordingSupported()) {
+      console.log('Recording is not support');
+      return;
+    }
+
+    const microphone = await captureMicrophone();
+    console.log('microphone', microphone);
+
+    const config = {
+      monitorGain: 0,
+      recordingGain: 1,
+      numberOfChannels: 1,
+      encoderSampleRate: 24000,
+      originalSampleRateOverride: 16000,
+      encoderPath: 'assets/encoderWorker.min.js',
+    };
+
+    this.recorder = new Recorder(config);
+    this.recorder.start();
+    this.microphone = microphone;
+    this.setState({ recordStatus: recordStatuses.RECORD });
+
+    this.recorder.onstart = () => {
+      console.log('start record');
+    };
+
+    this.recorder.onstop = () => {
+      console.log('stop record');
+    };
+
+    this.recorder.ondataavailable = async typedArray => {
+      const dataBlob = new Blob([typedArray], { type: 'audio/ogg' });
+      dataBlob.name = RECORD_NAME;
+
+      const requestData = new FormData();
+      requestData.append('file', dataBlob);
+      requestData.append('encoding', 'OGG_OPUS');
+      requestData.append('rate_hertz', 24000);
+      requestData.append('audio_channels', 1);
+
+      let jobIdRes = await fetch('https://chat.mainnetwork.io/speech-to-text', {
+        method: 'POST',
+        body: requestData,
+      });
+
+      jobIdRes = await jobIdRes.json();
+      const transcript = await this.getTranscript(jobIdRes.result.delayed_job_id);
+
+      if (transcript) {
+        this.props.setText(transcript);
+      }
+
       const attachment = {
         uid: uid(),
-        byte_size: blob.size,
-        content_type: blob.type,
+        byte_size: dataBlob.size,
+        content_type: dataBlob.type,
         file_name: RECORD_NAME,
         preview: '',
         url: '',
@@ -53,34 +119,16 @@ class Attach extends Component {
         isLoading: true,
       };
 
-      setTimeout(() => this.loadFileByChunks(blob, attachment.uid));
-
+      this.loadFileByChunks(dataBlob, attachment.uid);
       this.setState({ attachments: [attachment] });
       console.log('this.recorder.blob', attachment);
-    });
+    };
+  };
 
-    this.microphone.stop();
-    console.log('stop Record');
-  }
-
-  startRecord = async () => {
-    const microphone = await captureMicrophone();
-    console.log('microphone', microphone);
-
-    this.recorder = RecordRTC(microphone, {
-      type: 'audio',
-      recorderType: StereoAudioRecorder,
-      desiredSampRate: 16000,
-    });
-
-    console.log('recorder', this.recorder);
-
-    this.recorder.startRecording();
-    this.microphone = microphone;
-
-    this.setState({ recordStatus: recordStatuses.RECORD });
-    console.log('start Record');
-  }
+  stopRecord = async () => {
+    this.setState({ recordStatus: recordStatuses.IDDLE });
+    this.recorder.stop();
+  };
 
   resetAttachment = () => {
     const input = document.getElementById(this.props.uniqueId);
@@ -240,6 +288,7 @@ class Attach extends Component {
       file_size: file.size,
       file_checksum: checksum,
       file_name: file.name,
+      content_type: file.type,
     });
 
     this.updateAttachmentState(uid, {
@@ -391,6 +440,7 @@ export default compose(
     null,
 
     {
+      setText: inputActions.setText,
       showNotification: notificationActions.showNotification,
     },
   ),

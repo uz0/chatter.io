@@ -34,6 +34,14 @@ class NewCompany extends Component {
     try {
       const { organization } = await api.createOrganization(org);
       this.props.addOrganization(organization);
+
+      if (this.props.members.value.length > 0) {
+        for (let i = 0; i < this.props.members.value.length; i++) {
+          const { organizations_user } = await api.organizationInvite({organization_id: organization.id, user_id: this.props.members.value[i]});
+          this.props.addOrganizationUser(organizations_user);
+        }
+      }
+
       this.props.pushUrl(`/${organization.id}/chat`);
     } catch (error) {
       console.error(error);
@@ -136,6 +144,7 @@ export default compose(
 
     {
       addOrganization: organizationsActions.addOrganization,
+      addOrganizationUser: organizationsActions.addOrganizationUser,
       showNotification: notificationActions.showNotification,
     },
   ),

@@ -42,10 +42,11 @@ class Attachments extends Component {
       {({ files, images, removeAttachment, startRecord, stopRecord, recordStatus }) => {
         const isImagesExist = images.length > 0;
         const isFilesExist = files.length > 0;
+        const isDisabled = recordStatus === recordStatuses.DISABLED;
         const isTranscripting = recordStatus === recordStatuses.TRANSCRIPT;
         const isRecording = recordStatus === recordStatuses.RECORD;
-        const isStartRecordButtonShown = !isTranscripting && !isRecording && !this.props.hasText;
-        const isStopRecordButtonShown = isRecording && !this.props.hasText;
+        const isStartRecordButtonShown = !isTranscripting && !isRecording && !this.props.hasText && !isDisabled;
+        const isStopRecordButtonShown = isRecording && !this.props.hasText && !isDisabled;
 
         return <Fragment>
           {isImagesExist &&

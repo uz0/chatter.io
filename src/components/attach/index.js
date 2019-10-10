@@ -19,18 +19,15 @@ export const recordStatuses = {
   IDDLE: 'iddle',
   TRANSCRIPT: 'transcript',
   RECORD: 'record',
+  DISABLED: 'disabled',
 };
 
 const RECORD_NAME = '__record';
 
-function captureMicrophone() {
+function captureMicrophone(errorCallback) {
   return navigator.mediaDevices
     .getUserMedia({ audio: true })
-
-    .catch(error => {
-      alert('Unable to access your microphone.');
-      console.error(error);
-    });
+    .catch(errorCallback);
 }
 
 class Attach extends Component {
@@ -62,7 +59,19 @@ class Attach extends Component {
       return;
     }
 
-    const microphone = await captureMicrophone();
+    const microphone = await captureMicrophone(() => {
+      this.setState({ recordStatus: recordStatuses.DISABLED });
+
+      this.props.showNotification({
+        type: 'error',
+        text: 'Unable to access your microphone',
+      });
+    });
+
+    if (!microphone) {
+      return;
+    }
+
     console.log('microphone', microphone);
 
     const config = {
@@ -78,6 +87,12 @@ class Attach extends Component {
     this.recorder.start();
     this.microphone = microphone;
     this.setState({ recordStatus: recordStatuses.RECORD });
+
+    this.timeout = setTimeout(() => {
+      if (this.state.recordStatus === recordStatuses.RECORD) {
+        this.stopRecord();
+      }
+    }, 60000);
 
     this.recorder.onstart = () => {
       console.log('start record');
@@ -129,6 +144,10 @@ class Attach extends Component {
 
   stopRecord = async () => {
     this.recorder.stop();
+
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
   };
 
   resetAttachment = () => {
@@ -407,6 +426,12 @@ class Attach extends Component {
 
     this.setState({ attachments });
   };
+
+  async componentWillMount() {
+    await captureMicrophone(() => {
+      this.setState({ recordStatus: recordStatuses.DISABLED });
+    });
+  }
 
   render() {
     const images = this.state.attachments && filter(this.state.attachments, attachment => attachment.content_type.match('image/')) || [];

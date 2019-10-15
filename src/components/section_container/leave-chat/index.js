@@ -7,6 +7,7 @@ import { api } from '@';
 import { getOpponentUser } from '@/helpers';
 import { withRouter } from '@/hoc';
 import { actions as notificationActions } from '@/components/notification';
+import { actions as subscriptionsActions } from '@/store/subscriptions';
 import style from './style.css';
 
 class LeaveChat extends Component {
@@ -22,7 +23,8 @@ class LeaveChat extends Component {
       return;
     }
 
-    api.deleteContact({user_id: user.id}).then(() => {
+    api.removePrivateSubscription({user_id: user.id}).then(() => {
+      this.props.removeSubscription(this.props.details.id);
       this.props.close();
       this.props.pushUrl('/chat');
     }).catch(error => this.props.showNotification({
@@ -70,6 +72,7 @@ export default compose(
     }),
 
     {
+      removeSubscription: subscriptionsActions.removeSubscription,
       showNotification: notificationActions.showNotification,
     },
   ),

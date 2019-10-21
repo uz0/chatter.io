@@ -35,6 +35,7 @@ import MicrophoneIcon from '@/assets/icons/microphone.svg';
 import StopIcon from '@/assets/icons/stop.svg';
 import SendIcon from '@/assets/icons/send.svg';
 import playIcon from '@/assets/icons/play.svg';
+import personIcon from '@/assets/icons/person.svg';
 
 const cx = classnames.bind(style);
 
@@ -173,6 +174,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'play' &&
     <ReactSvgInjector src={playIcon} />
+  }
+
+  {name === 'person' &&
+    <ReactSvgInjector src={personIcon} />
   }
 </i>;
 

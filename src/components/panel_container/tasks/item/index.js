@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import SubscriptionAvatar from '@/components/subscription-avatar';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
@@ -12,7 +13,9 @@ class Task extends Component {
       <div className={style.circle} />
       <p className={style.text}>{this.props.task.title}</p>
 
-      {/* <SubscriptionAvatar className={style.avatar} userId={55} /> */}
+      {this.props.task.executor_id &&
+        <SubscriptionAvatar className={style.avatar} userId={this.props.task.executor_id} />
+      }
     </div>;
   }
 }

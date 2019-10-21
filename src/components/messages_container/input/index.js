@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Icon from '@/components/icon';
 import Button from '@/components/button';
+import Dropdown from '@/components/dropdown';
 import config from '@/config';
 import Content from './content';
 import Mentions from './mentions';
 import actions from './actions';
+import { actions as modalActions } from '@/components/modal_container';
 import style from './style.css';
 
 export { default as actions } from './actions';
@@ -44,6 +46,14 @@ class MessageInput extends Component {
     input.click();
   };
 
+  createTodo = () => this.props.toggleModal({
+    id: 'classic-new-task-modal',
+
+    options: {
+      subscription_id: this.props.subscription_id,
+    },
+  });
+
   send = () => this.props.sendMessage({ subscription_id: this.props.subscription_id });
 
   componentDidMount() {
@@ -55,10 +65,22 @@ class MessageInput extends Component {
   }
 
   render() {
+    const items = [
+      {text: 'Files', onClick: this.attach},
+      {text: 'To-Do', onClick: this.createTodo},
+    ];
+
     return <div className={style.input}>
       <Mentions subscription_id={this.props.subscription_id} className={style.mentions} />
       <Content subscription_id={this.props.subscription_id} className={style.content} />
-      <Button appearance="_fab-divider" icon="plus" className={style.icon_button} onClick={this.attach} />
+
+      <Dropdown
+        uniqueId="input-attach-dropdown"
+        items={items}
+        className={style.dropdown}
+      >
+        <Button appearance="_fab-divider" icon="plus" className={style.icon_button} />
+      </Dropdown>
 
       {false &&
         <Button appearance="_fab-primary" icon="four-shapes" className={style.icon_button} />
@@ -81,6 +103,7 @@ export default compose(
     {
       sendMessage: actions.sendMessage,
       reset: actions.reset,
+      toggleModal: modalActions.toggleModal,
     },
   ),
 )(MessageInput);

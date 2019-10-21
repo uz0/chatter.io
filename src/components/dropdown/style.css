@@ -5,6 +5,7 @@
 .dropdown > button {}
 
 .list {
+  z-index: 1;
   position: fixed;
   padding-top: 6px;
   padding-bottom: 6px;

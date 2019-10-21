@@ -29,11 +29,16 @@
   min-width: 0;
 }
 
-.modal > .section > .header > .person {
+.modal > .section > .header > .dropdown {
   flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  background-color: var(--divider-color);
-  border-radius: calc(38px / 2);
-  margin-left: 10px;
+}
+
+.modal > .section > .header > .dropdown > .person {
+  --height: 38px;
+  border-radius: calc(var(--height) / 2);
+}
+
+.modal > .section > .header > .avatar {
+  --size: 38px;
+  flex-shrink: 0;
 }

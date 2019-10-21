@@ -89,5 +89,5 @@
 
 .loading {
   --top: 26px;
-  --spinner-size: 24px;
+  --spinner-size: 24px !important;
 }

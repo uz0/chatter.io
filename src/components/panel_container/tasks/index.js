@@ -6,7 +6,6 @@ import Loading from '@/components/loading';
 import Item from './item';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as tasksActions } from '@/store/tasks';
-// import { getOpponentUser } from '@/helpers';
 import { api } from '@';
 import classnames from 'classnames/bind';
 import style from './style.css';
@@ -15,26 +14,27 @@ const cx = classnames.bind(style);
 
 class Tasks extends Component {
   state = {
-    isLoading: false,
+    isLoading: true,
   };
 
-  openNewTaskModal = () => {
-    let options = {
-      group_id: this.props.details.group_id,
-    };
+  openNewTaskModal = () => this.props.toggleModal({
+    id: 'classic-new-task-modal',
 
-    // if (this.props.details.group.type === 'private_chat') {
-    //   const user = getOpponentUser(this.props.details);
-    //   options['executor_id'] = user.id;
-    // } else if (this.props.details.group.type === 'organization_public_room') {
-    //   const { organization_id } = this.props.details.group;
-    //   options['organization_id'] = organization_id;
-    // }
+    options: {
+      subscription_id: this.props.details.id,
+    },
+  });
 
-    this.props.toggleModal({
-      id: 'classic-new-task-modal',
-      options,
-    });
+  async componentWillReceiveProps(nextProps) {
+    if (this.props.details_id !== nextProps.details_id && !nextProps.is_loaded) {
+      this.setState({ isLoading: true });
+      const { tasks } = await api.groupTasks({subscription_id: nextProps.details.id});
+      this.setState({ isLoading: false });
+
+      if (tasks) {
+        this.props.loadTasks(tasks);
+      }
+    }
   }
 
   async componentWillMount() {

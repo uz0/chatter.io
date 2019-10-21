@@ -443,6 +443,7 @@
 }
 
 .panel > .scroll > .collapse > .collapse_list {
+  position: relative;
   display: var(--list-display);
   padding-bottom: 26px;
 }

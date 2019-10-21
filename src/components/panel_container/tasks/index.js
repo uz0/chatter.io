@@ -1,27 +1,35 @@
 import React, { Component, Fragment } from 'react';
+import get from 'lodash/get';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import SubscriptionAvatar from '@/components/subscription-avatar';
+import Loading from '@/components/loading';
+import Item from './item';
 import { actions as modalActions } from '@/components/modal_container';
-import { getOpponentUser } from '@/helpers';
+import { actions as tasksActions } from '@/store/tasks';
+// import { getOpponentUser } from '@/helpers';
+import { api } from '@';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
 class Tasks extends Component {
+  state = {
+    isLoading: false,
+  };
+
   openNewTaskModal = () => {
     let options = {
       group_id: this.props.details.group_id,
     };
 
-    if (this.props.details.group.type === 'private_chat') {
-      const user = getOpponentUser(this.props.details);
-      options['executor_id'] = user.id;
-    } else if (this.props.details.group.type === 'organization_public_room') {
-      const { organization_id } = this.props.details.group;
-      options['organization_id'] = organization_id;
-    }
+    // if (this.props.details.group.type === 'private_chat') {
+    //   const user = getOpponentUser(this.props.details);
+    //   options['executor_id'] = user.id;
+    // } else if (this.props.details.group.type === 'organization_public_room') {
+    //   const { organization_id } = this.props.details.group;
+    //   options['organization_id'] = organization_id;
+    // }
 
     this.props.toggleModal({
       id: 'classic-new-task-modal',
@@ -29,7 +37,21 @@ class Tasks extends Component {
     });
   }
 
+  async componentWillMount() {
+    if (!this.props.is_loaded) {
+      this.setState({ isLoading: true });
+      const { tasks } = await api.groupTasks({subscription_id: this.props.details.id});
+      this.setState({ isLoading: false });
+
+      if (tasks) {
+        this.props.loadTasks(tasks);
+      }
+    }
+  }
+
   render() {
+    const isTasksExist = this.props.tasks_ids.length > 0;
+
     return <Fragment>
       <div className={style.navigation}>
         <button type="button" className={cx('tab', {'_is-active': true})}>All</button>
@@ -38,23 +60,21 @@ class Tasks extends Component {
         <button type="button" className={style.new} onClick={this.openNewTaskModal}>New</button>
       </div>
 
-      <div className={style.item}>
-        <div className={style.circle} />
-        <p className={style.text}>Fix header on iPhoneX</p>
-      </div>
+      {isTasksExist &&
+        this.props.tasks_ids.map(id => <Item key={id} id={id} className={style.item} />)
+      }
 
-      <div className={style.item}>
-        <div className={style.circle} />
-        <p className={style.text}>Create new UX for the search</p>
-      </div>
+      {!isTasksExist &&
+        <p className={style.empty}>There is no tasks</p>
+      }
 
-      <div className={style.item}>
-        <div className={style.circle} />
-        <p className={style.text}>Template for images</p>
-        <SubscriptionAvatar className={style.avatar} userId={55} />
-      </div>
+      {false &&
+        <button type="button" className={style.all}>Show all (21)</button>
+      }
 
-      <button type="button" className={style.all}>Show all (21)</button>
+      {this.state.isLoading &&
+        <Loading isShown className={style.loading} />
+      }
     </Fragment>;
   }
 }
@@ -66,6 +86,19 @@ export default compose(
     }),
 
     {
+      loadTasks: tasksActions.loadTasks,
+      toggleModal: modalActions.toggleModal,
+    },
+  ),
+
+  connect(
+    (state, props) => ({
+      tasks_ids: get(state.tasks, `groups.${props.details.group_id}.list`, []),
+      is_loaded: get(state.tasks, `groups.${props.details.group_id}.isLoaded`, false),
+    }),
+
+    {
+      loadTasks: tasksActions.loadTasks,
       toggleModal: modalActions.toggleModal,
     },
   ),

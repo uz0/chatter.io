@@ -6,6 +6,7 @@ import Modal from '@/components/modal';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
 import { api } from '@';
+import { actions as tasksActions } from '@/store/tasks';
 import style from './style.css';
 
 class NewTask extends Component {
@@ -15,7 +16,8 @@ class NewTask extends Component {
     }
 
     const { task } = await api.createTask({title: this.props.title.value, ...this.props.options});
-    console.log(task);
+    this.props.addTask(task);
+    this.props.close();
   };
 
   render() {
@@ -50,5 +52,9 @@ export default compose(
     state => ({
       title: get(state.forms, 'new_task.title', {}),
     }),
+
+    {
+      addTask: tasksActions.addTask,
+    },
   ),
 )(NewTask);

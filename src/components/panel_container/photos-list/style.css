@@ -19,8 +19,7 @@
 .list .empty {
   grid-column: 1 / -1;
   line-height: 1.5;
-  font-size: 15px;
+  font-size: 13px;
   text-align: center;
   color: var(--caption-color);
-  font-weight: var(--font-weight-light);
 }

@@ -9,6 +9,7 @@ import { reducers as subscriptionsReducers } from '@/store/subscriptions';
 import { reducers as usersReducers } from '@/store/users';
 import { reducers as messagesReducers } from '@/store/messages';
 import { reducers as organizationsReducers } from '@/store/organizations';
+import { reducers as tasksReducers } from '@/store/tasks';
 
 import actions from './actions';
 
@@ -50,4 +51,5 @@ export default combineReducers({
   gallery: galleryReducers,
   device: deviceReducer,
   error: errorReducer,
+  tasks: tasksReducers,
 });

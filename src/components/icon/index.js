@@ -36,6 +36,8 @@ import StopIcon from '@/assets/icons/stop.svg';
 import SendIcon from '@/assets/icons/send.svg';
 import playIcon from '@/assets/icons/play.svg';
 import personIcon from '@/assets/icons/person.svg';
+import imageIcon from '@/assets/icons/image.svg';
+import dotsListIcon from '@/assets/icons/dots-list.svg';
 
 const cx = classnames.bind(style);
 
@@ -178,6 +180,14 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'person' &&
     <ReactSvgInjector src={personIcon} />
+  }
+
+  {name === 'image' &&
+    <ReactSvgInjector src={imageIcon} />
+  }
+
+  {name === 'dots-list' &&
+    <ReactSvgInjector src={dotsListIcon} />
   }
 </i>;
 

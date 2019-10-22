@@ -1,0 +1,109 @@
+.container {
+  
+}
+
+.container[appearance^="_none"] {
+  --input-box-shadow: none;
+  --input-border-radius: 5px;
+}
+.container[appearance^="_border"] {
+  --input-box-shadow: 0 0 0 1px var(--input-box-shadow-color) inset;
+  --input-border-radius: 5px;
+}
+.container[appearance^="_underline"] {
+  --input-box-shadow: 0 -1px var(--input-box-shadow-color) inset;
+  --input-border-radius: 0;
+}
+
+.container[appearance$="transparent"] {
+  --input-bg-color: transparent;
+  --input-box-shadow-color: var(--divider-color);
+  --input-placeholder-text-color: var(--caption-color);
+  --input-icon-color: var(--caption-color);
+}
+.container[appearance$="divider"] {
+  --input-bg-color: var(--divider-color);
+  --input-box-shadow-color: var(--caption-color);
+  --input-placeholder-text-color: var(--caption-color);
+  --input-icon-color: var(--caption-color);
+}
+.container[appearance$="classic"] {
+  --input-bg-color: #fff;
+  --input-bg-color: var(--divider-color);
+  --input-placeholder-text-color: var(--caption-color);
+  --input-icon-color: var(--text-color);
+}
+
+.container > .title {
+  --height: 16px;
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.container > .title + .section {
+  margin-top: 4px;
+}
+
+.container > .section {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--input-bg-color);
+  border-radius: var(--input-border-radius);
+  box-shadow: var(--input-box-shadow);
+}
+
+.container > .section > i {
+  --icon-size: var(--input-icon-size, 16px);
+  --icon-color: var(--input-icon-color);
+  flex-shrink: 0;
+}
+
+.container > .section > i + .textarea {
+  margin-left: 10px;
+}
+
+.container > .section > .textarea {
+  flex-grow: 1;
+  min-width: 0;
+  padding: 0;
+  line-height: 1.33;
+  border: none;
+  outline: none;
+  color: var(--input-text-color);
+  font-size: 15px;
+  background-color: var(--input-bg-color);
+  resize: none;
+}
+
+.container > .section > .textarea::placeholder {
+  color: var(--input-placeholder-text-color);
+}
+
+/*.container .section .textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 calc(var(--input-height) / 2) var(--input-bg-color) inset;
+}*/
+
+.container .section .textarea::-webkit-credentials-auto-fill-button {
+  background-color: var(--input-bg-color);
+}
+
+.container > .error {
+  --height: 14px;
+  overflow: hidden;
+  display: block;
+  height: var(--height);
+  margin-top: 4px;
+  line-height: var(--height);
+  font-size: 12px;
+  color: var(--error-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

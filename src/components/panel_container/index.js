@@ -25,7 +25,7 @@ const cx = classnames.bind(style);
 
 class Panel extends Component {
   state = {
-    collapseActive: 'people',
+    collapseActive: 'tasks',
     chatNamePopupShown: false,
   };
 

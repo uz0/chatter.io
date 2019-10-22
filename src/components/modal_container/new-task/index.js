@@ -8,6 +8,7 @@ import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Form from '@/components/form/form';
 import Input from '@/components/form/input';
+import Textarea from '@/components/form/textarea';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
 import { actions as tasksActions } from '@/store/tasks';
@@ -26,6 +27,10 @@ class NewTask extends Component {
 
     if (this.props.details.group.type !== 'private_chat' && this.props.executor.value) {
       options['executor_id'] = this.props.executor.value;
+    }
+
+    if (this.props.description.value) {
+      options['description'] = this.props.description.value;
     }
 
     const { task } = await api.createTask({
@@ -97,11 +102,65 @@ class NewTask extends Component {
       actions={actions}
       close={this.props.close}
       className={style.modal}
+      wrapClassName={style.wrapper}
     >
-      <div className={style.circle} />
+      <Form model="new_task" className={style.form}>
+        <div className={style.circle} />
 
-      <Form model="new_task" className={style.section}>
-        <div className={style.header}>
+        <Input
+          appearance="_none-transparent"
+          model="new_task.title"
+          placeholder="New To-Do"
+          className={style.title}
+        />
+
+        <div className={style.actions}>
+          {isDropdownShown &&
+            <Dropdown
+              uniqueId="new-task-executor-dropdown"
+              items={executorDropdownItems}
+              className={style.dropdown}
+            >
+              <Button appearance="_icon-divider" icon="person" type="button" className={style.person} />
+            </Dropdown>
+          }
+
+          {this.props.executor.value &&
+            <SubscriptionAvatar className={style.avatar} userId={this.props.executor.value} />
+          }
+
+          <Dropdown
+            uniqueId="new-task-settings-dropdown"
+            items={[]}
+            className={style.dropdown}
+          >
+            <Button appearance="_icon-transparent" icon="dots" type="button" className={style.settings} />
+          </Dropdown>
+        </div>
+
+        <Textarea
+          appearance="_none-transparent"
+          model="new_task.description"
+          placeholder="Notes"
+          className={style.description}
+        />
+
+        <div className={style.images}>
+          <div className={style.preview} style={{'--image': 'url(/assets/default-image.jpg)'}} />
+          <div className={style.preview} style={{'--image': 'url(/assets/default-image.jpg)'}} />
+          <div className={style.preview} style={{'--image': 'url(/assets/default-image.jpg)'}} />
+        </div>
+
+        <p className={style.updated}>Updated by Mark Trubnikov, 10m ago</p>
+
+        <div className={style.attach_actions}>
+          <Button appearance="_icon-transparent" icon="dots-list" type="button" className={style.attach} />
+          <Button appearance="_icon-transparent" icon="image" type="button" className={style.attach} />
+        </div>
+
+
+        {/*
+          <div className={style.header}>
           <Input
             appearance="_none-transparent"
             model="new_task.title"
@@ -123,6 +182,7 @@ class NewTask extends Component {
             <SubscriptionAvatar className={style.avatar} userId={this.props.executor.value} />
           }
         </div>
+      */}
       </Form>
     </Modal>;
   }
@@ -133,6 +193,7 @@ export default compose(
     (state, props) => ({
       currentUserId: state.currentUser.id,
       title: get(state.forms, 'new_task.title', {}),
+      description: get(state.forms, 'new_task.description', {}),
       executor: get(state.forms, 'new_task.executor', {}),
       details: state.subscriptions.list[props.options.subscription_id],
     }),

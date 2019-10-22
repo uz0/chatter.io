@@ -1,4 +1,129 @@
+.wrapper {
+  --width: 580px;
+}
+
 .modal {
+
+}
+
+.modal > .form {
+  display: grid;
+  grid-template-columns: [circle-start] auto [circle-end] 12px [title-start description-start images-start updated-start] 1fr [updated-end images-end description-end title-end] 12px [actions-start attach-start] auto [attach-end actions-end];
+  grid-template-rows: [circle-start title-start actions-start] auto [actions-end title-end circle-end] 12px [description-start] auto [description-end] 18px [images-start] auto [images-end] 30px [updated-start attach-start] auto [attach-end images-end];
+}
+
+.modal > .form > .circle {
+  --size: 18px;
+  grid-area: circle;
+  align-self: center;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--primary-color) inset;
+}
+
+.modal > .form > .title {
+  --input-height: 38px;
+  grid-area: title;
+  align-self: center;
+  margin-left: -10px;
+}
+
+.modal > .form > .title input {
+  font-weight: var(--font-weight-medium);
+}
+
+.modal > .form > .actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: center;
+}
+
+.modal > .form > .actions > .dropdown {
+  flex-shrink: 0;
+}
+
+.modal > .form > .actions > .avatar + .dropdown,
+.modal > .form > .actions > .dropdown + .dropdown {
+  margin-left: 8px;
+}
+
+.modal > .form > .actions > .dropdown > .person {
+  --height: 38px;
+  border-radius: calc(var(--height) / 2);
+}
+
+.modal > .form > .actions > .dropdown > .settings {
+  --icon-size: 18px;
+}
+
+.modal > .form > .actions > .avatar {
+  --size: 38px;
+  flex-shrink: 0;
+}
+
+.modal > .form > .description {
+  grid-area: description;
+  margin-left: -10px;
+}
+
+.modal > .form > .description textarea {
+  height: 20px;
+}
+
+.modal > .form > .images {
+  grid-area: images;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 75px);
+  grid-auto-rows: 75px;
+  grid-gap: 5px;
+}
+
+.modal > .form > .images > .preview {
+  border-radius: 11px;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.modal > .form > .updated {
+  --height: 16px;
+  overflow: hidden;
+  grid-area: updated;
+  align-self: center;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: #c4c8d2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .form > .attach_actions {
+  grid-area: attach;
+  display: flex;
+  align-items: center;
+  padding-right: 46px;
+}
+
+.modal > .form > .attach_actions > .attach {
+  --icon-size: 18px;
+}
+
+.modal > .form > .attach_actions > .attach[appearance$="transparent"]:not(:hover) {
+  --color: #c4c8d2;
+}
+
+.modal > .form > .attach_actions > .attach + .attach {
+  margin-left: 8px;
+}
+
+
+/*.modal {
   display: flex;
 }
 
@@ -42,3 +167,4 @@
   --size: 38px;
   flex-shrink: 0;
 }
+*/

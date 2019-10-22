@@ -83,12 +83,69 @@
 }
 
 .modal > .form > .images > .preview {
+  position: relative;
   border-radius: 11px;
   background-image: var(--image);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
+
+.modal > .form > .images > .preview > .close {
+  --size: 20px;
+  z-index: 3;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: rgba(0, 0, 0, 0.81);
+}
+
+.modal > .form > .images > .preview > .close i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+}
+
+.modal > .form > .images > .preview > .progress {
+  --height: 20px;
+  z-index: 3;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 9px;
+  color: #fff;
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .form > .images > .preview > .file_loading {
+  --loading-background-color: #f3f4f7;
+  --spinner-size: 22px;
+  --spinner-section-color: transparent;
+  --spinner-border-color: #c4c8d2;
+
+  /* WORKAROUND */
+  --left: -1px;
+  --right: -1px;
+  --top: -1px;
+  --bottom: -1px;
+}
+
+
+
+
+
 
 .modal > .form > .updated {
   --height: 16px;

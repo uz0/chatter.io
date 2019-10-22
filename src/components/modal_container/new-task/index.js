@@ -157,32 +157,6 @@ class NewTask extends Component {
           <Button appearance="_icon-transparent" icon="dots-list" type="button" className={style.attach} />
           <Button appearance="_icon-transparent" icon="image" type="button" className={style.attach} />
         </div>
-
-
-        {/*
-          <div className={style.header}>
-          <Input
-            appearance="_none-transparent"
-            model="new_task.title"
-            placeholder="New To-Do"
-            className={style.title}
-          />
-
-          {isDropdownShown &&
-            <Dropdown
-              uniqueId="new-task-executor-dropdown"
-              items={executorDropdownItems}
-              className={style.dropdown}
-            >
-              <Button appearance="_icon-divider" icon="person" type="button" className={style.person} />
-            </Dropdown>
-          }
-
-          {this.props.executor.value &&
-            <SubscriptionAvatar className={style.avatar} userId={this.props.executor.value} />
-          }
-        </div>
-      */}
       </Form>
     </Modal>;
   }

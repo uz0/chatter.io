@@ -1,0 +1,227 @@
+.wrapper {
+  --width: 580px;
+}
+
+.modal {
+  position: relative;
+  padding: var(--layout-padding) 0 0 !important;
+}
+
+.modal > .modal_loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.modal > .form {
+  display: grid;
+  grid-template-columns: [input-start] var(--layout-padding) [circle-start] auto [circle-end] 12px [title-start description-start images-start updated-start] 1fr [updated-end images-end description-end title-end] 12px [actions-start attach-start] auto [attach-end actions-end] var(--layout-padding) [input-end];
+  grid-template-rows: [circle-start title-start actions-start] auto [actions-end title-end circle-end] 12px [description-start] auto [description-end] 18px [images-start] auto [images-end] 12px [updated-start attach-start] auto [attach-end updated-end images-end] 12px [input-start] auto [input-end];
+}
+
+.modal > .form > .circle {
+  --size: 18px;
+  grid-area: circle;
+  align-self: center;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--primary-color) inset;
+}
+
+.modal > .form > .title {
+  --input-height: 38px;
+  grid-area: title;
+  align-self: center;
+  margin-left: -10px;
+}
+
+.modal > .form > .title input {
+  font-weight: var(--font-weight-medium);
+}
+
+.modal > .form > .actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: center;
+}
+
+.modal > .form > .actions > .dropdown {
+  flex-shrink: 0;
+}
+
+.modal > .form > .actions > .avatar + .dropdown,
+.modal > .form > .actions > .dropdown + .dropdown {
+  margin-left: 8px;
+}
+
+.modal > .form > .actions > .dropdown > .person {
+  --height: 38px;
+  border-radius: calc(var(--height) / 2);
+}
+
+.modal > .form > .actions > .dropdown > .settings {
+  --icon-size: 18px;
+}
+
+.modal > .form > .actions > .avatar {
+  --size: 38px;
+  flex-shrink: 0;
+}
+
+.modal > .form > .description {
+  grid-area: description;
+  margin-left: -10px;
+}
+
+.modal > .form > .description textarea {
+  height: 20px;
+  max-height: 130px;
+}
+
+.modal > .form > .images {
+  grid-area: images;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 75px);
+  grid-auto-rows: 75px;
+  grid-gap: 5px;
+}
+
+.modal > .form > .images > .preview {
+  position: relative;
+  border-radius: 11px;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.modal > .form > .images > .preview > .close {
+  --size: 20px;
+  z-index: 3;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: rgba(0, 0, 0, 0.81);
+}
+
+.modal > .form > .images > .preview > .close i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+}
+
+.modal > .form > .images > .preview > .progress {
+  --height: 20px;
+  z-index: 3;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 9px;
+  color: #fff;
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .form > .images > .preview > .file_loading {
+  --loading-background-color: #f3f4f7;
+  --spinner-size: 22px;
+  --spinner-section-color: transparent;
+  --spinner-border-color: #c4c8d2;
+
+  /* WORKAROUND */
+  --left: -1px;
+  --right: -1px;
+  --top: -1px;
+  --bottom: -1px;
+}
+
+.modal > .form > .updated {
+  --height: 16px;
+  overflow: hidden;
+  grid-area: updated;
+  align-self: center;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: #c4c8d2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal > .form > .attach_actions {
+  grid-area: attach;
+  display: flex;
+  align-items: center;
+  padding-right: 46px;
+}
+
+.modal > .form > .attach_actions > .attach {
+  --icon-size: 18px;
+}
+
+.modal > .form > .attach_actions > .attach[appearance$="transparent"]:not(:hover) {
+  --color: #c4c8d2;
+}
+
+.modal > .form > .attach_actions > .attach + .attach {
+  margin-left: 8px;
+}
+
+.modal > .form > .input_container {
+  grid-area: input;
+  display: flex;
+  align-items: center;
+  height: 62px;
+  box-shadow: 0 1px var(--divider-color) inset;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.modal > .form > .input_container > .input {
+  flex-grow: 1;
+  min-width: 0;
+  height: 40px;
+  border: none;
+}
+
+.modal > .form > .input_container > .input::placeholder {
+  color: #9ca0b0;
+}
+
+.modal > .form > .input_container > .send {
+  --height: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  margin-left: 12px;
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.modal > .form > .input_container > .send:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.modal > .form > .input_container > .send:hover {
+  --color: var(--primary-color-hover);
+}

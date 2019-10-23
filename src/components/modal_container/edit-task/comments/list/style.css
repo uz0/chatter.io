@@ -1,0 +1,31 @@
+.list {
+  padding-bottom: 28px;
+}
+
+.list > .show {
+  --height: 20px;
+  overflow: hidden;
+  display: block;
+  max-width: 300px;
+  height: var(--height);
+  margin-left: auto;
+  margin-right: auto;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--color);
+  transition-property: color;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.list > .show:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.list > .show:hover {
+  --color: var(--primary-color-hover);
+}
+
+.list > .show + * {
+  margin-top: 12px;
+}

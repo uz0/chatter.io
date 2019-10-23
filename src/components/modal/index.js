@@ -13,18 +13,22 @@ const Modal = ({
   wrapClassName,
   className,
   close,
-}) => <div className={style.wrapper} onClick={close}>
-  <div className={cx('modal', wrapClassName)} onClick={modalClick}>
-    <div className={cx('content', className)}>
-      {children}
-    </div>
+}) => {
+  const isActionsExist = actions && actions.length > 0;
 
-    {actions &&
-      <div className={style.footer}>
-        {actions.map(action => <Button key={action.text} className={style.button} {...action} />)}
+  return <div className={style.wrapper} onClick={close}>
+    <div className={cx('modal', wrapClassName)} onClick={modalClick}>
+      <div className={cx('content', className)}>
+        {children}
       </div>
-    }
-  </div>
-</div>;
+
+      {isActionsExist &&
+        <div className={style.footer}>
+          {actions.map(action => <Button key={action.text} className={style.button} {...action} />)}
+        </div>
+      }
+    </div>
+  </div>;
+};
 
 export default Modal;

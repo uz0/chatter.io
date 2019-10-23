@@ -1,0 +1,68 @@
+.message {
+  display: flex;
+  width: 100%;
+  max-width: 80%;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.message[data-user="opponent"] {
+  --section-background-color: #f3f4f7;
+  --message-text-color: var(--text-color);;
+}
+
+.message[data-user="current"] {
+  --section-background-color: var(--text-color);
+  --message-text-color: #fff;
+  margin-left: auto;
+}
+
+.message[data-user="opponent"] + .message[data-user="current"],
+.message[data-user="current"] + .message[data-user="opponent"] {
+  margin-top: 28px;
+}
+
+.message[data-user="current"] + .message[data-user="current"],
+.message[data-user="opponent"] + .message[data-user="opponent"] {
+  margin-top: 10px;
+}
+
+.message > .avatar {
+  --size: 32px;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.message > .avatar + .section {
+  margin-left: 8px;
+}
+
+.message > .section {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.message > .section > .name {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.message > .section > .name + .text {
+  margin-top: 4px;
+}
+
+.message > .section > .text {
+  padding: 8px;
+  line-height: 1.33;
+  font-size: 15px;
+  color: var(--message-text-color);
+  border-radius: 11px;
+  background-color: var(--section-background-color);
+}

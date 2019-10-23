@@ -43,6 +43,10 @@ class Input extends Component {
       isBlured: true,
       error,
     });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
   };
 
   onChange = () => {};

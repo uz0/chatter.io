@@ -1,0 +1,205 @@
+.content {
+  position: relative;
+}
+
+.content > .modal_loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.content > .header {
+  display: flex;
+  padding-top: 16px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.content > .header > .circle {
+  --size: 18px;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  margin-top: calc(38px / 2);
+  border-radius: 7px;
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 1px var(--primary-color) inset;
+}
+
+.content > .header > .section {
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 12px;
+}
+
+.content > .header > .section > .title {
+  --input-height: 38px;
+  margin-left: -10px;
+}
+
+.content > .header > .section > .title input {
+  font-weight: var(--font-weight-medium);
+}
+
+.content > .header > .section > .description {
+  margin-left: -10px;
+  margin-top: 10px;
+}
+
+.content > .header > .section > .description textarea {
+  height: 20px;
+  max-height: 130px;
+}
+
+.content > .header > .avatar + .dropdown,
+.content > .header > .dropdown + .dropdown {
+  margin-left: 8px;
+}
+
+.content > .header > .avatar {
+  --size: 38px;
+  flex-shrink: 0;
+}
+
+.content > .header > .dropdown {
+  flex-shrink: 0;
+}
+
+.content > .header > .dropdown:last-child {
+  margin-bottom: auto;
+  margin-top: calc(38px / 2);
+  transform: translateY(-50%);
+}
+
+.content > .header > .dropdown > .person {
+  --height: 38px;
+  border-radius: calc(var(--height) / 2);
+}
+
+.content > .header > .dropdown > .settings {
+  --icon-size: 18px;
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}
+
+.content > .images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 75px);
+  grid-auto-rows: 75px;
+  grid-gap: 5px;
+  margin-top: 12px;
+  padding-left: calc(var(--layout-padding) + 18px + 12px);
+  padding-right: var(--layout-padding);
+}
+
+.content > .images > .preview {
+  position: relative;
+  border-radius: 11px;
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.content > .images > .preview > .close {
+  --size: 20px;
+  z-index: 3;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: rgba(0, 0, 0, 0.81);
+}
+
+.content > .images > .preview > .close i {
+  --icon-size: 8px;
+  --icon-color: #fff;
+}
+
+.content > .images > .preview > .progress {
+  --height: 20px;
+  z-index: 3;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 9px;
+  color: #fff;
+  font-weight: var(--font-weight-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.content > .images > .preview > .file_loading {
+  --loading-background-color: #f3f4f7;
+  --spinner-size: 22px;
+  --spinner-section-color: transparent;
+  --spinner-border-color: #c4c8d2;
+
+  /* WORKAROUND */
+  --left: -1px;
+  --right: -1px;
+  --top: -1px;
+  --bottom: -1px;
+}
+
+.content > .footer {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  padding-left: calc(var(--layout-padding) + 18px + 12px);
+  padding-right: 60px;
+  padding-bottom: 12px;
+}
+
+.content > .footer > .updated {
+  --height: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: #c4c8d2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.content > .footer > .updated + .attach {
+  margin-left: 12px;
+}
+
+.content > .footer > .attach {
+  --icon-size: 18px;
+  flex-shrink: 0;
+}
+
+.content > .footer > .attach[appearance$="transparent"]:not(:hover) {
+  --color: #c4c8d2;
+}
+
+.content > .footer > .attach + .attach {
+  margin-left: 8px;
+}
+
+.content > .actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  padding-bottom: 12px;
+}
+
+.content > .actions > .submit {
+  --height: 38px;
+  flex-shrink: 0;
+}

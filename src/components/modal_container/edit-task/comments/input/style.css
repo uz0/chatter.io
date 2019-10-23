@@ -1,0 +1,42 @@
+.input_container {
+  display: flex;
+  align-items: center;
+  height: 62px;
+  box-shadow: 0 1px var(--divider-color) inset;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.input_container > .input {
+  flex-grow: 1;
+  min-width: 0;
+  height: 40px;
+  border: none;
+}
+
+.input_container > .input::placeholder {
+  color: #9ca0b0;
+}
+
+.input_container > .send {
+  --height: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  margin-left: 12px;
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.input_container > .send:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.input_container > .send:hover {
+  --color: var(--primary-color-hover);
+}

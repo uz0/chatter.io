@@ -72,6 +72,7 @@
 
 .modal > .form > .description textarea {
   height: 20px;
+  max-height: 130px;
 }
 
 .modal > .form > .images {

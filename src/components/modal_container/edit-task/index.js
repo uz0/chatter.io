@@ -82,6 +82,17 @@ class EditTask extends Component {
     this.props.deleteTask(this.props.options.task_id);
   };
 
+  calcTextareaHeight = () => {
+    const textarea = document.querySelector('#task-modal-textarea');
+
+    if (!textarea) {
+      return;
+    }
+
+    textarea.style.height = '20px';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
+
   getExecutors = () => {
     if (this.props.details.group.type === 'private_chat') {
       return [];
@@ -189,6 +200,16 @@ class EditTask extends Component {
       isBlured: false,
       isRequired: false,
     });
+
+    if (this.props.task && this.props.task.description) {
+      setTimeout(() => this.calcTextareaHeight());
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.description.value !== nextProps.description.value) {
+      this.calcTextareaHeight();
+    }
   }
 
   render() {
@@ -249,6 +270,7 @@ class EditTask extends Component {
         </div>
 
         <Textarea
+          id="task-modal-textarea"
           appearance="_none-transparent"
           model="edit_task.description"
           placeholder="Notes"

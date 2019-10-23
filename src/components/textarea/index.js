@@ -7,6 +7,7 @@ const cx = classnames.bind(style);
 
 const Textarea = ({
   appearance = '_none-transparent',
+  id,
   icon,
   title,
   onChange,
@@ -28,6 +29,7 @@ const Textarea = ({
     }
 
     <textarea
+      id={id}
       className={style.textarea}
       onChange={onChange}
       onBlur={onBlur}

@@ -67,6 +67,7 @@ class Input extends Component {
     const error = this.props.modelError || this.props.error;
 
     return <TextareaField
+      id={this.props.id}
       appearance={this.props.appearance}
       icon={this.props.icon}
       title={this.props.title}

@@ -32,7 +32,7 @@ function captureMicrophone(errorCallback) {
 
 class Attach extends Component {
   state = {
-    attachments: [],
+    attachments: this.props.defaultValue ? this.props.defaultValue : [],
     recordStatus: recordStatuses.IDDLE,
   };
 

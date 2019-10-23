@@ -18,7 +18,7 @@ class Tasks extends Component {
   };
 
   openNewTaskModal = () => this.props.toggleModal({
-    id: 'classic-new-task-modal',
+    id: 'classic-edit-task-modal',
 
     options: {
       subscription_id: this.props.details.id,

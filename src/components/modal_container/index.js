@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import NewTask from './new-task';
+import EditTask from './edit-task';
 import modalActions from './actions';
 
 export { default as actions } from './actions';
@@ -14,7 +14,7 @@ class ModalContainer extends Component {
   render() {
     return <Portal>
       {this.props.ids.map(id => <Fragment key={id}>
-        {id === 'classic-new-task-modal' && <NewTask options={this.props.list[id]} close={this.closeModal(id)} />}
+        {id === 'classic-edit-task-modal' && <EditTask options={this.props.list[id]} close={this.closeModal(id)} />}
       </Fragment>)}
     </Portal>;
   }

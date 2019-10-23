@@ -47,7 +47,7 @@ class MessageInput extends Component {
   };
 
   createTodo = () => this.props.toggleModal({
-    id: 'classic-new-task-modal',
+    id: 'classic-edit-task-modal',
 
     options: {
       subscription_id: this.props.subscription_id,

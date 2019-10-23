@@ -63,6 +63,11 @@
   margin-top: 2px;
 }
 
+.item {
+  width: 100%;
+  width: -webkit-fill-available;
+}
+
 .empty {
   margin-top: 12px;
   line-height: 1.5;

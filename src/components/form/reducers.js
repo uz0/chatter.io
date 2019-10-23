@@ -9,7 +9,7 @@ const initialState = {
   profile: {},
   new_company: {},
   edit_company: {},
-  new_task: {},
+  edit_task: {},
 };
 
 export default createReducer(initialState, {

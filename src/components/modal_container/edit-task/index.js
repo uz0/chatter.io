@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import get from 'lodash/get';
 import map from 'lodash/map';
+import find from 'lodash/find';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Modal from '@/components/modal';
@@ -14,18 +15,19 @@ import Form from '@/components/form/form';
 import Input from '@/components/form/input';
 import Textarea from '@/components/form/textarea';
 import { api } from '@';
-import { getOpponentUser } from '@/helpers';
+import { getOpponentUser, uid } from '@/helpers';
 import { actions as tasksActions } from '@/store/tasks';
 import { actions as formActions } from '@/components/form';
 import style from './style.css';
 
-class NewTask extends Component {
-  attach = async () => {
+class EditTask extends Component {
+  create = async () => {
     if (!this.props.title.value) {
       return;
     }
 
     let options = {
+      title: this.props.title.value,
       group_id: this.props.details.group_id,
     };
 
@@ -41,13 +43,43 @@ class NewTask extends Component {
       options['uploads_id'] = this.props.uploads_id.value;
     }
 
-    const { task } = await api.createTask({
-      title: this.props.title.value,
-      ...options,
-    });
-
+    const { task } = await api.createTask({ ...options });
     this.props.addTask(task);
     this.props.close();
+  };
+
+  update = async () => {
+    if (!this.props.title.value) {
+      return;
+    }
+
+    let options = {
+      task_id: this.props.options.task_id,
+    };
+
+    if (this.props.task.title !== this.props.title.value) {
+      options['title'] = this.props.title.value;
+    }
+
+    if (this.props.task.description !== this.props.description.value) {
+      options['description'] = this.props.description.value;
+    }
+
+    if (this.props.task.executor_id !== this.props.executor.value) {
+      options['executor_id'] = this.props.executor.value;
+    }
+
+    // тут должно быть добавление uploads_id
+
+    const { task } = await api.updateTask({ ...options });
+    this.props.updateTask(task);
+    this.props.close();
+  };
+
+  delete = async () => {
+    await api.destroyTask({ task_id: this.props.options.task_id });
+    this.props.close();
+    this.props.deleteTask(this.props.options.task_id);
   };
 
   getExecutors = () => {
@@ -66,14 +98,14 @@ class NewTask extends Component {
     return items;
   };
 
-  setExecutor = id => this.props.formChange('new_task.executor', {
+  setExecutor = id => this.props.formChange('edit_task.executor', {
     value: id,
     isTouched: true,
     isBlured: true,
   });
 
   attachImages = () => {
-    const input = document.querySelector('#new-task-attach');
+    const input = document.querySelector('#edit-task-attach');
 
     if (!input) {
       return;
@@ -89,11 +121,38 @@ class NewTask extends Component {
       return;
     }
 
-    this.props.formChange('new_task.uploads_id', {
+    this.props.formChange('edit_task.uploads_id', {
       value: uploads_id,
       isTouched: true,
       isBlured: true,
     });
+  };
+    
+  getDefaultAttachments = () => {
+    if (!this.props.task) {
+      return [];
+    }
+
+    if (!this.props.task.attachments || this.props.task.attachments.length === 0) {
+      return [];
+    }
+
+    let attachments = [];
+
+    this.props.task.attachments.forEach(item => {
+      attachments.push({
+        uid: uid(),
+        byte_size: item.byte_size,
+        content_type: item.content_type,
+        file_name: item.filename,
+        preview: item.url,
+        url: item.url,
+        upload_id: null,
+        isLoading: false,
+      });
+    });
+
+    return attachments;
   };
 
   componentDidMount() {
@@ -104,7 +163,7 @@ class NewTask extends Component {
         return;
       }
 
-      this.props.formChange('new_task.executor', {
+      this.props.formChange('edit_task.executor', {
         error: '',
         value: user.id,
         isTouched: true,
@@ -114,16 +173,16 @@ class NewTask extends Component {
     }
 
     if (this.props.details.group.type !== 'private_chat') {
-      this.props.formChange('new_task.executor', {
+      this.props.formChange('edit_task.executor', {
         error: '',
-        value: null,
+        value: this.props.task ? this.props.task.executor_id : null,
         isTouched: false,
         isBlured: false,
         isRequired: true,
       });
     }
 
-    this.props.formChange('new_task.uploads_id', {
+    this.props.formChange('edit_task.uploads_id', {
       error: '',
       value: null,
       isTouched: false,
@@ -133,10 +192,20 @@ class NewTask extends Component {
   }
 
   render() {
-    const actions = [{appearance: '_basic-primary', text: 'Attach', onClick: this.attach}];
+    let actions = [];
+    let taskDropdownItems = [];
+
+    if (this.props.options.task_id) {
+      actions.push({appearance: '_basic-primary', text: 'Update', onClick: this.update});
+      taskDropdownItems.push({text: 'Delete', onClick: this.delete});
+    } else {
+      actions.push({appearance: '_basic-primary', text: 'Attach', onClick: this.create});
+    }
+
     const isPrivate = this.props.details.group.type === 'private_chat';
     const isDropdownShown = !isPrivate && !this.props.executor.value;
     const executorDropdownItems = this.getExecutors();
+    const defaultAttachments = this.getDefaultAttachments();
 
     return <Modal
       actions={actions}
@@ -144,14 +213,15 @@ class NewTask extends Component {
       className={style.modal}
       wrapClassName={style.wrapper}
     >
-      <Form model="new_task" className={style.form}>
+      <Form model="edit_task" className={style.form}>
         <div className={style.circle} />
 
         <Input
           appearance="_none-transparent"
-          model="new_task.title"
+          model="edit_task.title"
           placeholder="New To-Do"
           className={style.title}
+          {...this.props.task ? { defaultValue: this.props.task.title } : {}}
         />
 
         <div className={style.actions}>
@@ -171,7 +241,7 @@ class NewTask extends Component {
 
           <Dropdown
             uniqueId="new-task-settings-dropdown"
-            items={[]}
+            items={taskDropdownItems}
             className={style.dropdown}
           >
             <Button appearance="_icon-transparent" icon="dots" type="button" className={style.settings} />
@@ -180,14 +250,16 @@ class NewTask extends Component {
 
         <Textarea
           appearance="_none-transparent"
-          model="new_task.description"
+          model="edit_task.description"
           placeholder="Notes"
           className={style.description}
+          {...this.props.task ? { defaultValue: this.props.task.description } : {}}
         />
 
         <Attach
-          uniqueId="new-task-attach"
+          uniqueId="edit-task-attach"
           onChange={this.onAttachmentsChange}
+          {...this.props.task ? { defaultValue: defaultAttachments } : {}}
         >
           {({ images, removeAttachment }) => {
             const isImagesExist = images.length > 0;
@@ -239,16 +311,40 @@ export default compose(
   connect(
     (state, props) => ({
       currentUserId: state.currentUser.id,
-      title: get(state.forms, 'new_task.title', {}),
-      description: get(state.forms, 'new_task.description', {}),
-      executor: get(state.forms, 'new_task.executor', {}),
-      uploads_id: get(state.forms, 'new_task.uploads_id', null),
+      title: get(state.forms, 'edit_task.title', {}),
+      description: get(state.forms, 'edit_task.description', {}),
+      executor: get(state.forms, 'edit_task.executor', {}),
+      uploads_id: get(state.forms, 'edit_task.uploads_id', null),
       details: state.subscriptions.list[props.options.subscription_id],
     }),
 
     {
       addTask: tasksActions.addTask,
+      updateTask: tasksActions.updateTask,
+      deleteTask: tasksActions.deleteTask,
       formChange: formActions.formChange,
     },
   ),
-)(NewTask);
+
+  connect(
+    (state, props) => ({
+      task: props.options.task_id ? state.tasks.list[props.options.task_id] : undefined,
+    }),
+  ),
+
+  connect(
+    (state, props) => {
+      let details;
+
+      if (props.options.subscription_id) {
+        details = state.subscriptions.list[props.options.subscription_id];
+      }
+
+      if (!details && props.task) {
+        details = find(state.subscriptions.list, { group_id: props.task.group_id });
+      }
+
+      return { details };
+    },
+  ),
+)(EditTask);

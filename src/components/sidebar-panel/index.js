@@ -43,28 +43,6 @@ class SidebarPanel extends Component {
         <Icon name="plus" />
       </Link>
     </div>;
-
-    // return <div className={cx('panel', this.props.className)}>
-    //   <Link to="/chat" className={style.wrapper} activeClassName="_is-active">
-    //     <div className={style.button} />
-    //   </Link>
-
-    //   <div className={style.divider} />
-
-    //   {isOrganizationsExist &&
-    //     this.props.ids.map(id => {
-    //       const org = this.props.list[id];
-
-    //       return <Link key={org.id} to={`/${org.id}/chat`} activeClassName="_is-active" className={style.wrapper}>
-    //         <OrganizationIcon id={org.id} className={style.company} />
-    //       </Link>;
-    //     })
-    //   }
-
-    //   <Link to="/new-company" className={style.wrapper} activeClassName="_is-active">
-    //     <Icon name="plus" />
-    //   </Link>
-    // </div>;
   }
 }
 

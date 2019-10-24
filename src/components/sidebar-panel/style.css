@@ -6,12 +6,22 @@ html {
   --panel-buttons-size: 50px;
   --panel-buttons-border-radius: 16px;
   --panel-buttons-font-size: 24px;
+
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   overflow-y: auto;
   width: var(--sidebar-panel-width);
+  padding-top: 4px;
+  padding-bottom: 4px;
   background-color: #fcfcfd;
   box-shadow: -1px 0 var(--divider-color) inset;
+}
+
+.panel > .divider {
+  width: 32px;
+  height: 1px;
+  background-color: #edeef1;
+  margin: 8px auto;
 }
 
 .panel > .wrapper {
@@ -19,17 +29,9 @@ html {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: var(--sidebar-panel-width);
+  height: 60px;
   background-color: var(--background-color);
   transition-property: background-color;
-}
-
-.panel > .wrapper:not(:global(._is-active)) {
-  --background-color: transparent;
-}
-
-.panel > .wrapper:global(._is-active) {
-  --background-color: var(--divider-color);
 }
 
 .panel > .wrapper > .button {
@@ -37,15 +39,7 @@ html {
   height: var(--panel-buttons-size);
   background-color: #fff;
   border-radius: var(--panel-buttons-border-radius);
-  box-shadow: 0 0 0 1px var(--divider-color) inset;
-}
-
-.panel > .divider {
-  width: 32px;
-  height: 1px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: var(--divider-color);
+  box-shadow: 0 0 0 1px #f3f4f7 inset;
 }
 
 .panel > .wrapper > .company {
@@ -56,12 +50,26 @@ html {
 
 .panel > .wrapper > i {
   --icon-size: 14px;
-  --icon-color: var(--caption-color);
 }
 
 .panel > .wrapper > i polygon {
-  fill: var(--icon-color);
+  fill: var(--plus-icon-color);
   transition-property: fill;
+}
+
+.panel > .wrapper:not(:global(._is-active)):not(:hover) {
+  --background-color: transparent;
+  --plus-icon-color: var(--caption-color);
+}
+
+.panel > .wrapper:not(:global(._is-active)):hover {
+  --background-color: transparent;
+  --plus-icon-color: var(--text-color);
+}
+
+.panel > .wrapper:global(._is-active) {
+  --background-color: #f3f4f7;
+  --plus-icon-color: var(--text-color);
 }
 
 @media (max-width: 800px) {
@@ -70,102 +78,12 @@ html {
   }
 
   .panel {
-    --panel-buttons-size: 40px;
+    --panel-buttons-size: 42px;
     --panel-buttons-border-radius: 10px;
     --panel-buttons-font-size: 18px;
   }
-}
 
-/*html {
-  --sidebar-panel-width: 65px;
-}
-
-.panel {
-  --panel-buttons-size: 50px;
-  --panel-buttons-border-radius: 16px;
-  --panel-buttons-font-size: 24px;
-  -webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: var(--sidebar-panel-width);
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #fcfcfd;
-  box-shadow: -1px 0 var(--divider-color) inset;
-}
-
-.panel > .button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--panel-buttons-size);
-  height: var(--panel-buttons-size);
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #fff;
-  border-radius: var(--panel-buttons-border-radius);
-  box-shadow: 0 0 0 1px var(--divider-color) inset;
-}
-
-.panel > .company + .button,
-.panel > .button + .company,
-.panel > .company + .company,
-.panel > .button + .button {
-  margin-top: 16px;
-}
-
-.panel > .button > img {
-  max-width: 70%;
-  max-height: 70%;
-}
-
-.panel > .divider {
-  width: 32px;
-  height: 1px;
-  margin: 12px auto;
-  background-color: var(--divider-color);
-}
-
-.panel > .company {
-  --logo-size: var(--panel-buttons-size);
-  --logo-border-radius: var(--panel-buttons-border-radius);
-  --logo-font-size: var(--panel-buttons-font-size);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.panel > .company + .new,
-.panel > .button + .new {
-  margin-top: 8px;
-}
-
-.panel > .new {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: var(--sidebar-panel-width);
-  background-color: var(--divider-color);
-}
-
-.panel > .new > i {
-  --icon-size: 14px;
-  --icon-color: var(--caption-color);
-}
-
-.panel > .new > i polygon {
-  fill: var(--icon-color);
-  transition-property: fill;
-}
-
-@media (max-width: 800px) {
-  html {
-    --sidebar-panel-width: 55px;
+  .panel > .wrapper {
+    height: 52px;
   }
-
-  .panel {
-    --panel-buttons-size: 40px;
-    --panel-buttons-border-radius: 10px;
-    --panel-buttons-font-size: 18px;
-  }
-}*/
+}

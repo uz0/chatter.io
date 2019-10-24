@@ -20,7 +20,7 @@ const EditTask = ({
     />
 
     {options.task_id &&
-      <Comments />
+      <Comments task_id={options.task_id} />
     }
   </Modal>;
 };

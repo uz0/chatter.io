@@ -1,5 +1,10 @@
 .wrapper {
   --width: 580px;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 80%;
 }
 
 .modal {

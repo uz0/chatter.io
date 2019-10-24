@@ -28,11 +28,13 @@ export default createReducer(initialState, {
         list: [action.payload.id],
         isLoaded: false,
       };
-    } else {
+    } else if (state.groups[action.payload.group_id].list.indexOf(action.payload.id) === -1) {
       state.groups[action.payload.group_id].list.push(action.payload.id);
     }
 
-    state.list[action.payload.id] = action.payload;
+    if (!state.list[action.payload.id]) {
+      state.list[action.payload.id] = action.payload;
+    }
   },
 
   [actions.types.updateTask]: (state, action) => {

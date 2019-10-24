@@ -7,6 +7,7 @@ import { actions as messagesActions } from '@/store/messages';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as usersActions } from '@/store/users';
 import { actions as organizationsActions } from '@/store/organizations';
+import { actions as tasksActions } from '@/store/tasks';
 import config from '@/config';
 import { getChatName, scrollMessagesBottom } from '@/helpers';
 
@@ -211,6 +212,26 @@ const onOrganization = notification => (dispatch, getState) => {
   }
 };
 
+const onTask = notification => (dispatch, getState) => {
+  const state = getState();
+
+  if (notification.event === 'new') {
+    if (!state.tasks.list[notification.object.id]) {
+      dispatch(tasksActions.addTask(notification.object));
+    }
+  }
+
+  if (notification.event === 'changed') {
+    dispatch(tasksActions.updateTask(notification.object));
+  }
+
+  if (notification.event === 'deleted') {
+    if (state.tasks.list[notification.object]) {
+      dispatch(tasksActions.deleteTask(notification.object));
+    }
+  }
+};
+
 const onMessage = notification => (dispatch, getState) => {
   const state = getState();
   const messageSubscription = find(state.subscriptions.list, { group_id: notification.object.group_id });
@@ -312,6 +333,10 @@ const notificationReceived = notification => (dispatch, getState) => {
 
   if (notification.object_name === 'organization') {
     onOrganization(notification)(dispatch, getState);
+  }
+
+  if (notification.object_name === 'task') {
+    onTask(notification)(dispatch, getState);
   }
 
   if (notification.object_type === 'user') {

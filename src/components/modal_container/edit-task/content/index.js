@@ -15,7 +15,6 @@ import Input from '@/components/form/input';
 import Textarea from '@/components/form/textarea';
 import { api } from '@';
 import { getOpponentUser, uid } from '@/helpers';
-import { actions as tasksActions } from '@/store/tasks';
 import { actions as formActions } from '@/components/form';
 import style from './style.css';
 
@@ -46,15 +45,13 @@ class Content extends Component {
       options['uploads_id'] = this.props.uploads_id.value;
     }
 
-    const { task } = await api.createTask({ ...options });
-    this.props.addTask(task);
+    await api.createTask({ ...options });
     this.props.close();
   };
 
   delete = async () => {
     await api.destroyTask({ task_id: this.props.task_id });
     this.props.close();
-    this.props.deleteTask(this.props.task_id);
   };
 
   calcTextareaHeight = () => {
@@ -82,9 +79,8 @@ class Content extends Component {
     }
 
     this.setState({ isLoading: true });
-    const { task } = await api.updateTask({ task_id: this.props.task_id, title: this.props.title.value });
+    await api.updateTask({ task_id: this.props.task_id, title: this.props.title.value });
     this.setState({ isLoading: false });
-    this.props.updateTask(task);
   };
 
   onDescriptionBlur = async () => {
@@ -101,13 +97,12 @@ class Content extends Component {
     }
 
     this.setState({ isLoading: true });
-    const { task } = await api.updateTask({ task_id: this.props.task_id, description: this.props.description.value });
+    await api.updateTask({ task_id: this.props.task_id, description: this.props.description.value });
     this.setState({ isLoading: false });
-    this.props.updateTask(task);
   };
 
   getExecutors = () => {
-    if (this.props.details.group.type === 'private_chat') {
+    if (!this.props.details || this.props.details.group.type === 'private_chat') {
       return [];
     }
 
@@ -180,7 +175,7 @@ class Content extends Component {
   };
 
   componentDidMount() {
-    if (this.props.details.group.type === 'private_chat') {
+    if (this.props.details && this.props.details.group.type === 'private_chat') {
       const user = getOpponentUser(this.props.details);
 
       if (!user) {
@@ -231,7 +226,7 @@ class Content extends Component {
     if (this.props.task_id) {
       taskDropdownItems.push({text: 'Delete', onClick: this.delete});
     }
-    const isPrivate = this.props.details.group.type === 'private_chat';
+    const isPrivate = this.props.details && this.props.details.group.type === 'private_chat';
     const isDropdownShown = !isPrivate && !this.props.executor.value;
     const executorDropdownItems = this.getExecutors();
     const defaultAttachments = this.getDefaultAttachments();
@@ -336,7 +331,7 @@ class Content extends Component {
 
       {!this.props.task_id &&
         <div className={style.actions}>
-          <Button appearance="_basic-primary" text="Attach" className={style.submit} onClick={this.create} />
+          <Button type="button" appearance="_basic-primary" text="Attach" className={style.submit} onClick={this.create} />
         </div>
       }
     </Form>;
@@ -355,9 +350,6 @@ export default compose(
     }),
 
     {
-      addTask: tasksActions.addTask,
-      updateTask: tasksActions.updateTask,
-      deleteTask: tasksActions.deleteTask,
       formChange: formActions.formChange,
     },
   ),

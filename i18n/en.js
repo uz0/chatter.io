@@ -109,6 +109,7 @@ export default {translation: {
   profile_updated: 'Profile successfully updated',
   personal: 'Personal',
   read_only: 'Read Only',
+  repeat_password: 'Repeat password',
   read_write: 'Read/Write',
   registered_success: 'You registered success',
   remove: 'Remove',

@@ -8,6 +8,7 @@ const cx = classnames.bind(style);
 const Input = ({
   appearance = '_none-transparent',
   type = 'text',
+  id,
   icon,
   title,
   onChange,
@@ -18,7 +19,7 @@ const Input = ({
   disabled,
   error,
   className,
-}) => <div className={cx('container', className)} appearance={appearance}>
+}) => <div className={cx('container', className, {'_is-error': error})} appearance={appearance}>
   {title &&
     <p className={style.title}>{title}</p>
   }
@@ -29,6 +30,7 @@ const Input = ({
     }
 
     <input
+      id={id}
       type={type}
       className={style.input}
       onChange={onChange}
@@ -39,10 +41,6 @@ const Input = ({
       {...disabled ? { disabled: true } : {}}
     />
   </div>
-
-  {error &&
-    <p className={style.error}>{error}</p>
-  }
 </div>;
 
 export default Input;

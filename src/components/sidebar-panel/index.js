@@ -26,7 +26,7 @@ class SidebarPanel extends Component {
       <Link to="/chat" className={style.wrapper} activeClassName="_is-active">
         <div className={style.button} />
       </Link>
-
+    
       <div className={style.divider} />
 
       {isOrganizationsExist &&

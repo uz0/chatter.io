@@ -1,0 +1,153 @@
+.auth {
+  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.auth > .loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.auth > .header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.auth > .header > .title {
+  --height: 30px;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 30px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.auth > .header > .link {
+  --height: 24px;
+  flex-shrink: 0;
+  height: var(--height);
+  line-height: var(--height);
+  margin-left: 12px;
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color);
+  transition-property: color;
+}
+
+.auth > .header > .link:not(:hover) {
+  --color: var(--primary-color);
+}
+
+.auth > .header > .link:hover {
+  --color: var(--primary-color-hover);
+}
+
+.auth > .content {
+  flex-grow: 1;
+  min-height: 0;
+  padding-top: 160px;
+}
+
+.auth > .content > .subtitle {
+  --height: 24px;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  line-height: var(--height);
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.auth > .content > .form {
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  padding-left:  var(--layout-padding);
+  padding-right:  var(--layout-padding);
+}
+
+.auth > .content > .form > .actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.auth > .content > .form > .actions > .submit {
+  --height: 38px;
+  --button-padding: 30px;
+  flex-shrink: 0;
+}
+
+.auth > .content > .form > .actions > .forgot {
+  --height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
+}
+
+.auth > .content > .form > .actions > .forgot:not(:hover) {
+  --color: #9ca0b0;
+}
+
+.auth > .content > .form > .actions > .forgot:hover {
+  --color: var(--primary-color);
+}
+
+.auth > .copyrights {
+  --height: 80px;
+  flex-shrink: 0;
+  height: var(--height);
+  text-align: center;
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--caption-color);
+}
+
+@media (max-width: 700px) {
+  .auth > .header {
+    padding-left: var(--layout-padding);
+    padding-right: var(--layout-padding);
+  }
+
+  .auth > .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--layout-padding);
+  }
+
+  .auth > .content > .form {
+    width: 100%;
+  }
+}

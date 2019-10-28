@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 
 import IndexRedirect from '@/components/index-redirect';
 import Layout from '@/components/layout';
-import SignIn from '@/components/sign-in_container';
-import SignUp from '@/components/sign-up_container';
-import ForgotPassword from '@/components/forgot-password_container';
+import SignIn from '@/components/auth/sign-in_container';
+import SignUp from '@/components/auth/sign-up_container';
+import ForgotPassword from '@/components/auth/forgot-password_container';
 import Chat from '@/components/chat_container';
 import Invite from '@/components/invite';
 import NewCompany from '@/components/new-company';

@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import { Portal } from 'react-portal';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
-import Button from '@/components/button';
 import actions from './actions';
 import style from './style.css';
 
@@ -62,54 +61,16 @@ class Notification extends Component {
 
   render() {
     const isSuccess = this.props.type === 'success';
-    const isInfo = this.props.type === 'info';
-    const isError = this.props.type === 'error';
-
-    let title = '';
-    let icon = '';
-
-    if (isSuccess) {
-      title = this.props.t('success');
-      icon = 'mark';
-    }
-
-    if (isInfo) {
-      title = this.props.t('info');
-      icon = 'info';
-    }
-
-    if (isError) {
-      title = this.props.t('error');
-      icon = 'exclamation';
-    }
 
     return this.state.isInDom && <Portal>
-      <div className={style.wrapper}>
-        <div
-          className={cx('notification', {
-            '_is-shown': this.state.isShown,
-            '_is-success': isSuccess,
-            '_is-info': isInfo,
-            '_is-error': isError,
-          })}
-        >
-          <div className={style.icon}>
-            <Icon name={icon} />
-          </div>
+      <button type="button" onClick={this.close} className={cx('notification', {'_is-shown': this.state.isShown})}>
+        {isSuccess &&
+          <Icon name="mark" className={style.mark} />
+        }
 
-          <div className={style.section}>
-            <h3 className={style.title}>{title}</h3>
-            <p className={style.text}>{this.props.text}</p>
-          </div>
-
-          <Button
-            appearance="_icon-transparent"
-            icon="close"
-            onClick={this.close}
-            className={style.close}
-          />
-        </div>
-      </div>
+        <p className={style.text}>{this.props.text}</p>
+        <Icon name="close" className={style.close} />
+      </button>
     </Portal>;
   }
 }

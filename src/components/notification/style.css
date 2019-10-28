@@ -1,35 +1,32 @@
-.wrapper {
-  z-index: 2;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none !important;
-}
-
-.wrapper > .notification {
+.notification {
   position: absolute;
-  top: var(--layout-padding);
-  right: var(--layout-padding);
+  left: var(--layout-padding);
+  bottom: var(--layout-padding);
   display: flex;
   align-items: center;
-  padding: 12px var(--layout-padding);
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 1px 1px 1px 0px #a9a9a9, 0 0 0 1px var(--divider-color) inset;
-  pointer-events: auto;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  height: 38px;
+  border-radius: 19px;
+  background-color: rgba(0, 0, 0, 0.81);
 }
 
-.wrapper > .notification:not(._is-shown) {
+.notification:not(:hover) {
+  --close-opacity: 0.55;
+}
+
+.notification:hover {
+  --close-opacity: 1;
+}
+
+.notification:not(._is-shown) {
   transform: scaleX(0);
   animation-name: hide;
   animation-duration: 0.1s;
   animation-timing-function: ease-in-out;
 }
 
-.wrapper > .notification._is-shown {
+.notification._is-shown {
   transform: scaleX(1);
   animation-name: show;
   animation-duration: 0.3s;
@@ -48,73 +45,45 @@
   100% {transform: scaleX(0);}
 }
 
-.wrapper > .notification._is-success {
-  --notification-color: #00c851;
+.notification > .mark {
+  --icon-size: 12px;
+  --icon-color: var(--accent-color);
 }
 
-.wrapper > .notification._is-info {
-  --notification-color: var(--primary-color);
+.notification > .mark + .text {
+  margin-left: 8px;
 }
 
-.wrapper > .notification._is-error {
-  --notification-color: var(--error-color);
-}
-
-.wrapper > .notification > .icon {
-  --size: 30px;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--size);
-  height: var(--size);
-  border-radius: calc(var(--size) / 2);
-  border: 2px solid var(--notification-color);
-}
-
-.wrapper > .notification > .icon > i {
-  --icon-size: 16px;
-  --icon-color: var(--notification-color);
-}
-
-.wrapper > .notification > .section {
+.notification > .text {
+  --height: 16px;
   flex-grow: 1;
-  width: 320px;
-  min-width: 0;
-  margin-left: 16px;
-}
-
-.wrapper > .notification > .section > .title {
-  --height: 20px;
   overflow: hidden;
+  min-width: 0;
   height: var(--height);
   line-height: var(--height);
-  font-size: 14px;
-  color: var(--text-color);
-  font-weight: var(--font-weight-medium);
+  font-size: 15px;
+  color: #fff;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.wrapper > .notification > .section > .text {
-  margin-top: 2px;
-  line-height: 1.2;
-  font-size: 12px;
-  color: var(--text-color);
+.notification > .text + .close {
+  margin-left: 24px;
 }
 
-.wrapper > .notification > .close {
-  --icon-size: 12px;
-  flex-shrink: 0;
-  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+.notification > .close {
+  --icon-size: 10px;
+  --icon-color: #fff;
+  opacity: var(--close-opacity);
+  transition-property: opacity;
 }
 
 @media (max-width: 800px) {
-  .wrapper > .notification {
-    top: 0;
-    right: 0;
+  .notification {
+    left: 0;
+    bottom: 0;
     width: 100%;
+    height: 50px;
     border-radius: 0;
-    box-shadow: 0 2px var(--divider-color);
   }
 }

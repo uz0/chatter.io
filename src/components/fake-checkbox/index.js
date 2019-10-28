@@ -10,21 +10,41 @@ const FakeCheckbox = ({
   label,
   className,
   onChange,
-}) => <div className={cx('container', className)}>
-  <label className={style.checkbox_wrapper}>
-    <input
-      type="checkbox"
-      onChange={onChange}
-      {...value ? { checked: true } : {}}
-      {...disabled ? { disabled: true } : {}}
-    />
+}) => <label className={cx('container', className)}>
+  <input
+    type="checkbox"
+    onChange={onChange}
+    {...value ? { checked: true } : {}}
+    {...disabled ? { disabled: true } : {}}
+  />
 
-    <div className={cx('switch', {'_is-checked': value})}>
-      <div className={style.circle} />
-    </div>
-  </label>
+  <div className={cx('switch', {'_is-checked': value})}>
+    <span className={style.title}>{label}</span>
+    <div className={style.circle} />
+  </div>
+</label>;
 
-  <p className={style.label}>{label}</p>
-</div>;
+// const FakeCheckbox = ({
+//   disabled,
+//   value,
+//   label,
+//   className,
+//   onChange,
+// }) => <div className={cx('container', className)}>
+//   <label className={style.checkbox_wrapper}>
+//     <input
+//       type="checkbox"
+//       onChange={onChange}
+//       {...value ? { checked: true } : {}}
+//       {...disabled ? { disabled: true } : {}}
+//     />
+
+//     <div className={cx('switch', {'_is-checked': value})}>
+//       <div className={style.circle} />
+//     </div>
+//   </label>
+
+//   <p className={style.label}>{label}</p>
+// </div>;
 
 export default FakeCheckbox;

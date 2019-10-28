@@ -44,6 +44,44 @@ export default createReducer(initialState, {
     };
   },
 
+  [actions.types.loadTaskComments]: (state, action) => {
+    if (!state.list[action.payload.id]) {
+      return;
+    }
+
+    state.list[action.payload.id]['comments'] = {
+      ids: [],
+      list: [],
+      isLoaded: true,
+    };
+
+    action.payload.comments.forEach(comment => {
+      if (!comment || !comment.id) {
+        return;
+      }
+
+      state.list[action.payload.id].comments.ids.push(comment.id);
+      state.list[action.payload.id].comments.list[comment.id] = comment;
+    });
+  },
+
+  [actions.types.addTaskComment]: (state, action) => {
+    if (!state.list[action.payload.id]) {
+      return;
+    }
+
+    if (!state.list[action.payload.id].comments) {
+      state.list[action.payload.id]['comments'] = {
+        ids: [],
+        list: [],
+        isLoaded: false,
+      };
+    }
+
+    state.list[action.payload.id].comments.ids.push(action.payload.comment.id);
+    state.list[action.payload.id].comments.list[action.payload.comment.id] = action.payload.comment;
+  },
+
   [actions.types.deleteTask]: (state, action) => {
     Object.keys(state.groups).forEach(key => {
       const index = state.groups[key].list.indexOf(action.payload);

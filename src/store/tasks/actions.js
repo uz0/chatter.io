@@ -5,4 +5,7 @@ export default actionsCreator([
   'addTask',
   'updateTask',
   'deleteTask',
+
+  'loadTaskComments',
+  'addTaskComment',
 ]);

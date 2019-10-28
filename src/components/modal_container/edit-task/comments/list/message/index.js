@@ -1,7 +1,6 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import find from 'lodash/find';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import style from './style.css';
 
@@ -11,6 +10,7 @@ const Message = ({
 }) => {
   const author = comment.user_id === currentUserId ? 'current' : 'opponent';
   const isOpponentMessage = author === 'opponent';
+  const name = comment.user.nick || 'no nick';
 
   return <div className={style.message} data-user={author}>
     {isOpponentMessage &&
@@ -19,7 +19,7 @@ const Message = ({
 
     <div className={style.section}>
       {isOpponentMessage &&
-        <p className={style.name}>Mark Trubnikov</p>
+        <p className={style.name}>{name}</p>
       }
 
       <p className={style.text}>{comment.text}</p>
@@ -31,7 +31,7 @@ export default compose(
   connect(
     (state, props) => ({
       currentUserId: state.currentUser.id,
-      comment: find(state.tasks.list[props.task_id].comments, { id: props.id }),
+      comment: state.tasks.list[props.task_id].comments.list[props.id],
     }),
   ),
 )(Message);

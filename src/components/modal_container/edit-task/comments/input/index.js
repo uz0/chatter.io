@@ -11,12 +11,21 @@ class Input extends Component {
   onChange = () => {};
 
   send = async () => {
-    const qwe = await api.create_task_comment({
+    console.log({
       task_id: this.props.task_id,
       text: this.state.value,
     });
 
-    console.log(qwe);
+    try {
+      await api.createTaskComment({
+        task_id: this.props.task_id,
+        text: this.state.value,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.setState({ value: '' });
   };
 
   render() {

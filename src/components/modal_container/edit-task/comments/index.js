@@ -7,7 +7,7 @@ const Comments = ({
   task_id,
 }) => {
   return <div className={style.comments}>
-    <List />
+    <List task_id={task_id} />
     <Input task_id={task_id} />
   </div>;
 };

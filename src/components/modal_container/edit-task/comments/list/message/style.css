@@ -14,6 +14,7 @@
 .message[data-user="current"] {
   --section-background-color: var(--text-color);
   --message-text-color: #fff;
+  justify-content: flex-end;
   margin-left: auto;
 }
 
@@ -22,7 +23,10 @@
   margin-top: 28px;
 }
 
-.message[data-user="current"] + .message[data-user="current"],
+.message[data-user="current"] + .message[data-user="current"] {
+  margin-top: 4px;
+}
+
 .message[data-user="opponent"] + .message[data-user="opponent"] {
   margin-top: 10px;
 }
@@ -38,8 +42,6 @@
 }
 
 .message > .section {
-  flex-grow: 1;
-  min-width: 0;
 }
 
 .message > .section > .name {

@@ -14,7 +14,7 @@ import Form from '@/components/form/form';
 import Input from '@/components/form/input';
 import Textarea from '@/components/form/textarea';
 import { api } from '@';
-import { getOpponentUser, uid } from '@/helpers';
+import { getOpponentUser } from '@/helpers';
 import { actions as formActions } from '@/components/form';
 import style from './style.css';
 
@@ -133,20 +133,32 @@ class Content extends Component {
     input.click();
   };
 
-  onAttachmentsChange = data => {
+  onAttachmentsChange = async data => {
     const uploads_id = map(data, 'upload_id');
 
     if (!uploads_id || uploads_id.length === 0) {
       return;
     }
 
-    this.props.formChange('edit_task.uploads_id', {
-      value: uploads_id,
-      isTouched: true,
-      isBlured: true,
-    });
+    if (!this.props.task_id) {
+      this.props.formChange('edit_task.uploads_id', {
+        value: uploads_id,
+        isTouched: true,
+        isBlured: true,
+      });
+
+      return;
+    }
+
+    this.setState({ isLoading: true });
+    await api.updateTask({ task_id: this.props.task_id, uploads_id });
+    this.setState({ isLoading: false });
   };
-    
+
+  destroyAttachment = async id => {
+    await api.destroyTaskAttachment({task_id: this.props.task_id, signed_id: id});
+  };
+
   getDefaultAttachments = () => {
     if (!this.props.task) {
       return [];
@@ -160,7 +172,7 @@ class Content extends Component {
 
     this.props.task.attachments.forEach(item => {
       attachments.push({
-        uid: uid(),
+        uid: item.signed_id,
         byte_size: item.byte_size,
         content_type: item.content_type,
         file_name: item.filename,
@@ -299,6 +311,16 @@ class Content extends Component {
                     return;
                   }
 
+                  let close;
+
+                  if (this.props.task_id) {
+                    close = () => {
+                      this.destroyAttachment(image.uid);
+                    };
+                  } else {
+                    close = event => removeAttachment(image.uid)(event);
+                  }
+
                   const inline = { '--image': `url(${image.preview})` };
 
                   return <div
@@ -306,7 +328,7 @@ class Content extends Component {
                     style={inline}
                     className={style.preview}
                   >
-                    <button className={style.close} onClick={removeAttachment(image.uid)}>
+                    <button type="button" className={style.close} onClick={close}>
                       <Icon name="close" />
                     </button>
 

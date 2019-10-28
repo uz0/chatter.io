@@ -323,6 +323,8 @@ const onMessage = notification => (dispatch, getState) => {
 };
 
 const notificationReceived = notification => (dispatch, getState) => {
+  console.log(notification);
+
   if (notification.object_type === 'message') {
     onMessage(notification)(dispatch, getState);
   }

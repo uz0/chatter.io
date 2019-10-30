@@ -15,6 +15,10 @@ const cx = classnames.bind(style);
 export const attachInputId = 'feed-input-attach';
 
 class Input extends Component {
+  state = {
+    isTextareaFocused: false,
+  };
+
   desktopDocumentKeyDown = event => {
     const textarea = document.querySelector('#feed-input');
 
@@ -33,6 +37,9 @@ class Input extends Component {
     }
   };
 
+  onTextareaFocus = () => this.setState({ isTextareaFocused: true });
+  onTextareaBlur = () => this.setState({ isTextareaFocused: false });
+
   attach = () => {
     const input = document.querySelector(`#${attachInputId}`);
 
@@ -45,6 +52,17 @@ class Input extends Component {
 
   send = () => this.props.sendMessage({subscription_id: this.props.details_id});
 
+  cancel = () => {
+    const textarea = document.querySelector('#feed-input');
+
+    if (!textarea) {
+      return;
+    }
+
+    textarea.blur();
+    this.props.reset();
+  };
+
   componentDidMount() {
     window.addEventListener('keydown', this.handleDocumentKeyDown);
   }
@@ -54,19 +72,35 @@ class Input extends Component {
   }
 
   render() {
+    const isFooterShown = this.state.isTextareaFocused || this.props.isHasValue;
+
     return <div className={cx('input_container', this.props.className)}>
       <div className={style.section}>
         <SubscriptionAvatar userId={this.props.currentUser.id} className={style.avatar} />
-        <Textarea className={style.input} />
-        <Button appearance="_icon-transparent" icon="attach" className={style.attach} onClick={this.attach} />
-        <Button appearance="_fab-divider" icon="plus" className={style.action} onClick={this.send} />
+
+        <div className={style.content}>
+          <Textarea
+            onFocus={this.onTextareaFocus}
+            onBlur={this.onTextareaBlur}
+            className={style.input}
+          />
+
+          <Attachments
+            uniqueId={attachInputId}
+            onChange={this.onAttachmentsChange}
+            details_id={this.props.details_id}
+          />
+        </div>
+
+        <Button appearance="_icon-transparent" icon="image" onClick={this.attach} className={style.attach} />
       </div>
 
-      <Attachments
-        uniqueId={attachInputId}
-        onChange={this.onAttachmentsChange}
-        details_id={this.props.details_id}
-      />
+      {isFooterShown &&
+        <div className={style.footer}>
+          <Button appearance="_basic-divider" text="Cancel" onClick={this.cancel} className={style.cancel} />
+          <Button appearance="_basic-primary" text="Post" onClick={this.send} className={style.post} />
+        </div>
+      }
     </div>;
   }
 }
@@ -76,10 +110,12 @@ export default compose(
     state => ({
       currentUser: state.currentUser,
       isMobile: state.device === 'touch',
+      isHasValue: state.input.value.length > 0 || (!!state.input.attachments && state.input.attachments.length > 0),
     }),
 
     {
       sendMessage: inputActions.sendMessage,
+      reset: inputActions.reset,
       showNotification: notificationActions.showNotification,
     },
   ),

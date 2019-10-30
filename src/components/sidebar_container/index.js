@@ -94,19 +94,17 @@ class Sidebar extends Component {
 
     const photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
     const userImageInline = { '--bg-image': `url(${photo})` };
-
     const isFiltersShown = this.props.subscriptions_filter_text;
     const isSubscriptionsShown = !this.props.subscriptions_filter_text;
-
-    const isAllFilterActive = this.props.subscriptions_filter_tag === 'all';
-    const isPersonalFilterActive = this.props.subscriptions_filter_tag === 'personal';
-    const isWorkFilterActive = this.props.subscriptions_filter_tag === 'work';
-
     const title = this.props.organization ? this.props.organization.name : 'Unichat';
 
     return <div className={cx('sidebar', this.props.className)}>
       <div className={style.header}>
-        <h1>{title}</h1>
+        <div className={style.logo}>
+          <div className={style.circle} />
+          <div className={style.circle} />
+          <div className={style.circle} />
+        </div>
 
         <Dropdown
           uniqueId="sidebar-user-dropdown"
@@ -123,22 +121,7 @@ class Sidebar extends Component {
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
       </div>
 
-      <div className={style.navigation}>
-        <button
-          className={cx({ '_is-active': isAllFilterActive })}
-          onClick={this.filterSubscriptionsByTag('all')}
-        >{this.props.t('all')}</button>
-
-        <button
-          className={cx({ '_is-active': isWorkFilterActive })}
-          onClick={this.filterSubscriptionsByTag('work')}
-        >{this.props.t('work')}</button>
-
-        <button
-          className={cx({ '_is-active': isPersonalFilterActive })}
-          onClick={this.filterSubscriptionsByTag('personal')}
-        >{this.props.t('personal')}</button>
-      </div>
+      <h1 className={style.title}>{title}</h1>
 
       <Input
         appearance="_border-transparent"
@@ -168,7 +151,6 @@ export default compose(
   connect(
     state => ({
       currentUser: state.currentUser,
-      subscriptions_filter_tag: state.subscriptions.filter_tag,
       subscriptions_filter_text: state.subscriptions.filter_text,
       hasSubscriptions: state.subscriptions.ids.length > 0,
     }),

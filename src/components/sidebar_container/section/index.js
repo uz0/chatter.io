@@ -29,7 +29,7 @@ const Section = ({ items, isLoading, action, title, emptyMessage, renderItem, cl
     }
 
     {!isItemsExist &&
-      <p className={style.empty}>{emptyMessage}</p>
+      emptyMessage()
     }
   </div>;
 };

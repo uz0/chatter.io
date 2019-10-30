@@ -1,5 +1,5 @@
 .section:nth-of-type(n+2) {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .section > .title {
@@ -15,9 +15,9 @@
   overflow: hidden;
   min-width: 0;
   height: var(--title-height);
+  margin-right: auto;
   line-height: var(--title-height);
-  font-size: 14px;
-  font-weight: var(--font-weight-light);
+  font-size: 13px;
   color: var(--caption-color);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -42,6 +42,7 @@
   line-height: var(--title-height);
   font-size: 13px;
   color: var(--color);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   text-overflow: ellipsis;
   transition-property: color;

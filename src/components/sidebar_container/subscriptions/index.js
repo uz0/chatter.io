@@ -134,6 +134,20 @@ class Filters extends Component {
     return !!find(this.props.subscriptions_list, subscription => subscription && subscription.group.organization_id === id && !subscription.group.is_space && !subscription.is_add_data_loaded) || false;
   };
 
+  renderEmptyFeed = () => {
+    return <button className={style.subscription_empty}>
+      <Icon name="plus" />
+      <span className={style.text}>Create first public space</span>
+    </button>;
+  };
+
+  renderEmptySubscription = () => {
+    return <button className={style.subscription_empty}>
+      <Icon name="plus" />
+      <span className={style.text}>Say Hello to colleagues</span>
+    </button>;
+  };
+
   componentDidMount() {
     window.addEventListener('keydown', this.handleDocumentKeyDown);
   }
@@ -145,6 +159,7 @@ class Filters extends Component {
   render() {
     const isHasSubscriptionsWithNotLoadedAddData = this.isSubscriptionsLoaded();
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
+    const isFeedExist = this.props.feeds.length > 0;
     let chatIds = this.props.chats_ids;
 
     if (this.props.isNewDialogueModalShown) {
@@ -152,20 +167,19 @@ class Filters extends Component {
     }
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
-      {this.props.feeds.length > 0 &&
-        <Section
-          items={this.props.feeds}
-          title="Feeds"
-          emptyMessage="There is no feeds yet"
-          renderItem={this.renderFeed}
-          className={style.section}
-        />
-      }
+      <Section
+        items={this.props.feeds}
+        title="Feeds"
+        emptyMessage={this.renderEmptyFeed}
+        renderItem={this.renderFeed}
+        className={style.section}
+        {...isFeedExist ? {action: {text: 'New', onClick: () => {}}} : {}}
+      />
 
       <Section
         items={chatIds}
         title="Messages"
-        emptyMessage="There is no subscriptions yet"
+        emptyMessage={this.renderEmptySubscription}
         renderItem={this.renderSubscription}
         className={style.section}
       />

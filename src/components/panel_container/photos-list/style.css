@@ -8,7 +8,6 @@
 
 .list .photo {
   padding-top: 100%;
-  background-image: var(--image);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

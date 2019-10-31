@@ -94,7 +94,6 @@
 .content > .images > .preview {
   position: relative;
   border-radius: 11px;
-  background-image: var(--image);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

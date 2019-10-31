@@ -8,7 +8,7 @@ const Avatar = ({ className, letter, photo }) => {
   let inline = {};
 
   if (photo) {
-    inline['--photo'] = `url(${photo})`;
+    inline['background-image'] = `url(${photo})`;
   }
 
   return <div

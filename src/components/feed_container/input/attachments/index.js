@@ -49,7 +49,7 @@ class Attachments extends Component {
                   return;
                 }
 
-                const styleObject = { '--image': `url(${image.preview})` };
+                const styleObject = { 'background-image': `url(${image.preview})` };
                 const progress = getProgressText(image);
 
                 return <div

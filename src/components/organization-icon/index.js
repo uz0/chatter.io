@@ -23,9 +23,9 @@ const OrganizationIcon = ({
   let inline = {};
 
   if (typeof orgicon === 'string') {
-    inline['--image'] = `url(${orgicon})`;
+    inline['background-image'] = `url(${orgicon})`;
   } else {
-    inline['--image'] = `url(${get(orgicon, 'small', '')})`;
+    inline['background-image'] = `url(${get(orgicon, 'small', '')})`;
   }
 
   const iconText = orgname ? orgname[0].toUpperCase() : 'C';

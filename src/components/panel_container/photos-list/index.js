@@ -36,7 +36,7 @@ class Photos extends Component {
             key={uid()}
             to={`${href}/${message.id || message.uid}`}
             className={style.photo}
-            style={{ '--image': `url(${attachment.url})` }}
+            style={{'background-image': `url(${attachment.url})`}}
           />;
         }))
       }

@@ -80,7 +80,7 @@ class RefMessage extends Component {
           {this.props.message.attachment &&
             <div
               className={cx('file', {'_is-image': isAttachmentImage})}
-              {...isAttachmentImage ? {style: {'--image': `url(${this.props.message.attachment.preview})`}} : {}}
+              {...isAttachmentImage ? {style: {'background-image': `url(${this.props.message.attachment.preview})`}} : {}}
               {...isAttachmentImage ? {onClick: this.openGallery} : {}}
             >
               {!isAttachmentImage &&

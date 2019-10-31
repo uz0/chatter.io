@@ -56,7 +56,7 @@ class Attachments extends Component {
                   return;
                 }
 
-                const inline = { '--image': `url(${image.preview})` };
+                const inline = { 'background-image': `url(${image.preview})` };
                 const progress = getProgressText(image);
 
                 return <div

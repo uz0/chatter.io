@@ -63,7 +63,7 @@ class Attachments extends Component {
               />;
             }
 
-            const inlineStyle = {'--image': `url(${image.url})`};
+            const inlineStyle = {'background-image': `url(${image.url})`};
 
             return <div
               key={image.url}

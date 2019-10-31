@@ -321,7 +321,7 @@ class Content extends Component {
                     close = event => removeAttachment(image.uid)(event);
                   }
 
-                  const inline = { '--image': `url(${image.preview})` };
+                  const inline = { 'background-image': `url(${image.preview})` };
 
                   return <div
                     key={image.uid}

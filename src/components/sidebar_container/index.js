@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
 import Filters from './filters';
+import Tasks from './tasks';
 import Subscriptions from './subscriptions';
 import Button from '@/components/button';
 import Input from '@/components/input';
@@ -119,6 +120,10 @@ class Sidebar extends Component {
         }
 
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
+
+        {false &&
+          <Tasks />
+        }
       </div>
 
       <h1 className={style.title}>{title}</h1>

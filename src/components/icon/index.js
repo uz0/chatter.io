@@ -38,6 +38,7 @@ import playIcon from '@/assets/icons/play.svg';
 import personIcon from '@/assets/icons/person.svg';
 import imageIcon from '@/assets/icons/image.svg';
 import dotsListIcon from '@/assets/icons/dots-list.svg';
+import fullScreenHalfIcon from '@/assets/icons/full-screen-half.svg';
 
 const cx = classnames.bind(style);
 
@@ -188,6 +189,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'dots-list' &&
     <ReactSvgInjector src={dotsListIcon} />
+  }
+
+  {name === 'full-screen-half' &&
+    <ReactSvgInjector src={fullScreenHalfIcon} />
   }
 </i>;
 

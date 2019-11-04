@@ -22,10 +22,12 @@ const OrganizationIcon = ({
 
   let inline = {};
 
-  if (typeof orgicon === 'string') {
-    inline['background-image'] = `url(${orgicon})`;
-  } else {
-    inline['background-image'] = `url(${get(orgicon, 'small', '')})`;
+  if (orgicon && typeof orgicon === 'string') {
+    inline['background'] = `center / cover no-repeat url(${orgicon})`;
+  }
+
+  if (orgicon && typeof orgicon !== 'string') {
+    inline['background'] = `center / cover no-repeat url(${get(orgicon, 'small', '')})`;
   }
 
   const iconText = orgname ? orgname[0].toUpperCase() : 'C';

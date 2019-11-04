@@ -4,6 +4,101 @@
   height: var(--info-height);
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
+  background: linear-gradient(to bottom, #ffffff 34%, rgba(255, 255, 255, 0.52) 294%);
+}
+
+.header > .back {
+  --icon-size: 20px;
+  --size: 38px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: calc(((var(--size) - var(--icon-size)) / 2) * -1);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.header > .back:not(:hover) {
+  --icon-color: var(--primary-color);
+}
+
+.header > .back:hover {
+  --icon-color: var(--primary-color-hover);
+}
+
+.header > .back > i {
+}
+
+.header > .section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.header > .section > .caption {
+  --height: 24px;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: var(--height);
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.header > .section > .subcaption {
+  --height: 16px;
+  overflow: hidden;
+  max-width: 100%;
+  height: var(--height);
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: var(--height);
+  font-size: 11px;
+  color: #c4c8d2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.header > .open {
+  --size: 38px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
+  background-color: #f3f4f7;
+}
+
+.header > .open > i {
+  --icon-size: 16px;
+  --icon-color: var(--text-color);
+}
+
+@media (max-width: 1024px) {
+  .header > .back {
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+/*.header {
+  display: flex;
+  align-items: center;
+  height: var(--info-height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
   box-shadow: 0 -1px var(--divider-color) inset;
 }
 
@@ -31,7 +126,7 @@
   flex-shrink: 0;
   display: none;
 
-  /* в десктопе аватар скроется и не придется ставить margin на section лишний раз */
+  /* в десктопе аватар скроется и не придется ставить margin на section лишний раз *//*
   margin-right: 8px;
 }
 
@@ -126,3 +221,4 @@
     display: block;
   }
 }
+*/

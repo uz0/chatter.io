@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import classnames from 'classnames/bind';
-import SubscriptionAvatar from '@/components/subscription-avatar';
 import Icon from '@/components/icon';
 import modalActions from '@/components/modal_container/actions';
 import { withRouter } from '@/hoc';
@@ -49,34 +48,57 @@ class Header extends Component {
     const count = this.props.details.group.participants.length;
     const isChatPrivate = this.props.details.group.type === 'private_chat';
     const lastActive = this.getLastActive(this.props.details);
-    const { tagname } = this.props.match.params;
 
     return <div className={cx('header', this.props.className)}>
       <button className={style.back} onClick={this.closeChat}>
         <Icon name="arrow-left" />
       </button>
 
-      <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
-
       <div className={style.section}>
-        <button className={style.chatname} onClick={this.showPanelContainer}>{name}</button>
+        <button className={style.caption} onClick={this.showPanelContainer}>{name}</button>
 
         {!isChatPrivate &&
-          <p className={style.count}>{count} people</p>
+          <p className={style.subcaption}>{count} people</p>
         }
 
         {isChatPrivate &&
-          <p className={style.count}>{lastActive}</p>
-        }
-
-        {tagname &&
-          <div className={style.filters}>
-            <p className={style.name}>Filtered by <span>#{tagname}</span></p>
-            <button className={style.reset} onClick={this.resetFilters}>Reset</button>
-          </div>
+          <p className={style.subcaption}>{lastActive}</p>
         }
       </div>
+
+      <button className={style.open}>
+        <Icon name="full-screen-half" />
+      </button>
     </div>;
+
+    // const { tagname } = this.props.match.params;
+
+    // return <div className={cx('header', this.props.className)}>
+    //   <button className={style.back} onClick={this.closeChat}>
+    //     <Icon name="arrow-left" />
+    //   </button>
+
+    //   <SubscriptionAvatar subscription={this.props.details} className={style.avatar} />
+
+    //   <div className={style.section}>
+    //     <button className={style.chatname} onClick={this.showPanelContainer}>{name}</button>
+
+    //     {!isChatPrivate &&
+    //       <p className={style.count}>{count} people</p>
+    //     }
+
+    //     {isChatPrivate &&
+    //       <p className={style.count}>{lastActive}</p>
+    //     }
+
+    //     {tagname &&
+    //       <div className={style.filters}>
+    //         <p className={style.name}>Filtered by <span>#{tagname}</span></p>
+    //         <button className={style.reset} onClick={this.resetFilters}>Reset</button>
+    //       </div>
+    //     }
+    //   </div>
+    // </div>;
   }
 }
 

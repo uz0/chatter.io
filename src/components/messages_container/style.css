@@ -1,5 +1,6 @@
 .messages {
   -webkit-overflow-scrolling: touch;
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -8,7 +9,11 @@
 
 .messages .header {
   flex-shrink: 0;
-  box-shadow: 0 -1px var(--divider-color) inset;
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
 
 .messages .list {

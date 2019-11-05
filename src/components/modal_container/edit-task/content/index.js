@@ -33,6 +33,10 @@ class Content extends Component {
       group_id: this.props.details.group_id,
     };
 
+    if (this.props.details.group.organization_id) {
+      options['organization_id'] = this.props.details.group.organization_id;
+    }
+
     if (this.props.details.group.type !== 'private_chat' && this.props.executor.value) {
       options['executor_id'] = this.props.executor.value;
     }

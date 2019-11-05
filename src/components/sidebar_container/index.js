@@ -8,6 +8,7 @@ import Filters from './filters';
 import Tasks from './tasks';
 import Subscriptions from './subscriptions';
 import Button from '@/components/button';
+import Icon from '@/components/icon';
 import Input from '@/components/input';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
@@ -25,7 +26,16 @@ const cx = classnames.bind(style);
 class Sidebar extends Component {
   state = {
     isLoading: false,
+    isTasksPopupShown: false,
   };
+
+  openTasksPopup = () => {
+    if (!this.state.isTasksPopupShown) {
+      setTimeout(() => this.setState({ isTasksPopupShown: true }));
+    }
+  };
+
+  closeTasksPopup = () => this.setState({ isTasksPopupShown: false });
 
   openAddChat = () => {
     if (!this.props.organization) {
@@ -116,14 +126,26 @@ class Sidebar extends Component {
         </Dropdown>
 
         {this.props.organization &&
-          <Button appearance="_fab-divider" icon="menu" onClick={this.goToSettings} className={style.button} />
+          <Button appearance="_fab-divider" icon="settings" onClick={this.goToSettings} className={style.button} />
+        }
+
+        {this.props.organization &&
+          <button
+            className={cx('button', 'task', {'_is-active': this.state.isTasksPopupShown})}
+            onClick={this.openTasksPopup}
+          >
+            <Icon name="menu" />
+          </button>
+        }
+
+        {this.props.organization && this.state.isTasksPopupShown &&
+          <Tasks
+            organization_id={this.props.organization.id}
+            close={this.closeTasksPopup}
+          />
         }
 
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
-
-        {false &&
-          <Tasks />
-        }
       </div>
 
       <h1 className={style.title}>{title}</h1>

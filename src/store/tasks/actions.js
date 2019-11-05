@@ -6,6 +6,8 @@ export default actionsCreator([
   'updateTask',
   'deleteTask',
 
+  'loadOrganizationTasks',
+
   'loadTaskComments',
   'addTaskComment',
 ]);

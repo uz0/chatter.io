@@ -3,11 +3,16 @@ import { createReducer } from 'redux-starter-kit';
 
 const initialState = {
   groups: {},
+  organizations: {},
   list: {},
 };
 
 export default createReducer(initialState, {
   [actions.types.loadTasks]: (state, action) => {
+    if (action.payload.length === 0) {
+      return;
+    }
+
     action.payload.forEach(task => {
       if (!state.groups[task.group_id]) {
         state.groups[task.group_id] = {
@@ -15,6 +20,10 @@ export default createReducer(initialState, {
           isLoaded: true,
         };
       } else {
+        if (!state.groups[task.group_id].isLoaded) {
+          state.groups[task.group_id].isLoaded = true;
+        }
+
         state.groups[task.group_id].list.push(task.id);
       }
 
@@ -42,6 +51,39 @@ export default createReducer(initialState, {
       ...state.list[action.payload.id],
       ...action.payload,
     };
+  },
+
+  [actions.types.loadOrganizationTasks]: (state, action) => {
+    if (action.payload.length === 0) {
+      return;
+    }
+
+    action.payload.forEach(task => {
+      if (!state.groups[task.group_id]) {
+        state.groups[task.group_id] = {
+          list: [task.id],
+          isLoaded: true,
+        };
+      } else {
+        if (!state.groups[task.group_id].isLoaded) {
+          state.groups[task.group_id].isLoaded = true;
+        }
+
+        state.groups[task.group_id].list.push(task.id);
+      }
+
+      state.list[task.id] = task;
+    });
+
+    if (!state.organizations[action.payload[0].organization_id]) {
+      state.organizations[action.payload[0].organization_id] = {
+        isLoaded: true,
+      };
+    }
+
+    if (!state.organizations[action.payload[0].organization_id].isLoaded) {
+      state.organizations[action.payload[0].organization_id].isLoaded = true;
+    }
   },
 
   [actions.types.loadTaskComments]: (state, action) => {

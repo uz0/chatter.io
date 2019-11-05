@@ -69,6 +69,33 @@
   margin-left: 10px;
 }
 
+.sidebar .header .button.task {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--height);
+  height: var(--height);
+  border-radius: calc(var(--height) / 2);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.sidebar .header .button.task > i circle {
+  fill: var(--icon-color);
+  transition-property: fill;
+}
+
+.sidebar .header .button.task:not(._is-active) {
+  --background-color: #f3f4f7;
+  --icon-color: var(--text-color);
+}
+
+.sidebar .header .button.task._is-active {
+  --background-color: var(--text-color);
+  --icon-color: #fff;
+}
+
 .sidebar .title {
   --height: 24px;
   overflow: hidden;

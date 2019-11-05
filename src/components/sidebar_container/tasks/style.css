@@ -1,8 +1,8 @@
 .popup {
   z-index: 3;
   position: absolute;
-  left: 70%;
-  top: 50px;
+  top: 52px;
+  left: calc(100% - var(--sidebar-padding) - 10px - 38px - 38px);
   width: 435px;
   border-radius: 5px;
   background-color: #fff;
@@ -79,6 +79,7 @@
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   overflow-x: hidden;
+  max-height: 525px;
   padding-top: 20px;
 }
 
@@ -107,6 +108,21 @@
 
 .popup > .list > .new + .section {
   margin-top: 20px;
+}
+
+.popup > .list > .empty {
+  --height: 100px;
+  overflow: hidden;
+  height: var(--height);
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+  line-height: var(--height);
+  font-size: 15px;
+  text-align: center;
+  color: var(--caption-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition-property: color;
 }
 
 .popup > .list > .section {

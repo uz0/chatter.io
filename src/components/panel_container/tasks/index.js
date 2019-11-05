@@ -14,7 +14,7 @@ const cx = classnames.bind(style);
 
 class Tasks extends Component {
   state = {
-    isLoading: true,
+    isLoading: false,
   };
 
   openNewTaskModal = () => this.props.toggleModal({

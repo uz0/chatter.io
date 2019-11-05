@@ -10,6 +10,7 @@ import classnames from 'classnames/bind';
 import DateDelimiter from './date-delimiter';
 import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
+import Header from './header';
 import MessageItem from './message-item';
 import Button from '@/components/button';
 import { withRouter } from '@/hoc';
@@ -276,6 +277,11 @@ class List extends Component {
       data-chat-id={this.props.details_id}
       className={cx('list', {'_is-gallery-open': this.props.isGalleryOpen}, this.props.className)}
     >
+      <Header
+        chatId={this.props.details_id}
+        className={style.header}
+      />
+
       {isHasMoreShown &&
         <Button
           appearance="_basic-primary"

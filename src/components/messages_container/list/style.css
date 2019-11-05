@@ -6,7 +6,6 @@
   flex-direction: column;
   padding-left: var(--layout-padding);
   padding-right: var(--layout-padding);
-  padding-top: 20px;
 }
 
 .list:not(._is-gallery-open) {
@@ -17,18 +16,31 @@
   overflow-y: hidden;
 }
 
+.list > .header {
+  flex-shrink: 0;
+  z-index: 1;
+  position: sticky;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
 .list > .load_more {
   flex-shrink: 0;
   margin-left: auto;
   margin-right: auto;
 }
 
-.list > .load_more + * {
-  margin-top: 20px;
+.list > .header + .item {
+  margin-top: auto;
 }
 
-.list > .item:first-child {
+.list > .load_more + .item {
   margin-top: auto;
+}
+
+.list > .load_more + * {
+  margin-top: 20px;
 }
 
 .list .empty {

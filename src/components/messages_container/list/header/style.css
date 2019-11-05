@@ -2,8 +2,6 @@
   display: flex;
   align-items: center;
   height: var(--info-height);
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
   background: linear-gradient(to bottom, #ffffff 34%, rgba(255, 255, 255, 0.52) 294%);
 }
 

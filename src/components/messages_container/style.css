@@ -7,15 +7,6 @@
   overflow-y: auto;
 }
 
-.messages .header {
-  flex-shrink: 0;
-  z-index: 1;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-}
-
 .messages .list {
   flex-grow: 1;
   min-height: 0;

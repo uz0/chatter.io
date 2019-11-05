@@ -3,7 +3,6 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import classnames from 'classnames/bind';
 import { withDetails } from '@/hoc';
-import Header from './header';
 import MessageInput from './input';
 import List from './list';
 import Typings from './typings';
@@ -39,11 +38,6 @@ class Messages extends Component {
 
   render() {
     return <div className={cx('messages', this.props.className)}>
-      <Header
-        chatId={this.props.details.id}
-        className={style.header}
-      />
-
       <List
         details_id={this.props.details.id}
         className={style.list}

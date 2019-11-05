@@ -15,6 +15,12 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Tasks extends Component {
+  state = {
+    filter: 'all',
+  };
+
+  setTab = filter => () => this.setState({ filter });
+
   async componentWillMount() {
     if (!this.props.isLoaded) {
       const { tasks } = await api.organizationTasks({ organization_id: this.props.organization_id });
@@ -31,25 +37,42 @@ class Tasks extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     const isOrganizationChanged = this.props.organization_id !== nextProps.organization_id;
     const isCountTasksFromMeChanged = this.props.tasks.length !== nextProps.tasks.length;
     const ifIsLoadedChanged = this.props.isLoaded !== nextProps.isLoaded;
+    const isFilterChanged = this.state.filter !== nextState.filter;
 
     return isOrganizationChanged ||
       ifIsLoadedChanged ||
+      isFilterChanged ||
       isCountTasksFromMeChanged;
   }
 
   render() {
-    const groupedTasks = groupBy(this.props.tasks, 'creator_id');
+    let tasks = this.props.tasks;
+
+    if (this.state.filter === 'my') {
+      tasks = filter(tasks, {executor_id: this.props.currentUserId});
+    }
+
+    const groupedTasks = groupBy(tasks, 'creator_id');
     const isTasksExist = Object.keys(groupedTasks).length > 0;
 
     return <ClickOutside outsideCall={this.props.close}>
       <div className={cx('popup', this.props.className)}>
         <div className={style.navigation}>
-          <button type="button" className={cx('tab', {'_is-active': true})}>All tasks</button>
-          <button type="button" className={cx('tab')}>My tasks</button>
+          <button
+            type="button"
+            className={cx('tab', {'_is-active': this.state.filter === 'all'})}
+            onClick={this.setTab('all')}
+          >All tasks</button>
+
+          <button
+            type="button"
+            className={cx('tab', {'_is-active': this.state.filter === 'my'})}
+            onClick={this.setTab('my')}
+          >My tasks</button>
 
           <button className={style.open}>
             <Icon name="full-screen-half" />

@@ -24,10 +24,14 @@ export default createReducer(initialState, {
           state.groups[task.group_id].isLoaded = true;
         }
 
-        state.groups[task.group_id].list.push(task.id);
+        if (state.groups[task.group_id].list.indexOf(task.id) === -1) {
+          state.groups[task.group_id].list.push(task.id);
+        }
       }
 
-      state.list[task.id] = task;
+      if (!state.list[task.id]) {
+        state.list[task.id] = task;
+      }
     });
   },
 
@@ -69,10 +73,14 @@ export default createReducer(initialState, {
           state.groups[task.group_id].isLoaded = true;
         }
 
-        state.groups[task.group_id].list.push(task.id);
+        if (state.groups[task.group_id].list.indexOf(task.id) === -1) {
+          state.groups[task.group_id].list.push(task.id);
+        }
       }
 
-      state.list[task.id] = task;
+      if (!state.list[task.id]) {
+        state.list[task.id] = task;
+      }
     });
 
     if (!state.organizations[action.payload[0].organization_id]) {

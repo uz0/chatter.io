@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import get from 'lodash/get';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Loading from '@/components/loading';
@@ -14,8 +16,11 @@ const cx = classnames.bind(style);
 
 class Tasks extends Component {
   state = {
+    filter: 'all',
     isLoading: false,
   };
+
+  setFilter = filter => () => this.setState({ filter });
 
   openNewTaskModal = () => this.props.toggleModal({
     id: 'classic-edit-task-modal',
@@ -50,18 +55,39 @@ class Tasks extends Component {
   }
 
   render() {
-    const isTasksExist = this.props.tasks_ids.length > 0;
+    let tasks = this.props.tasks;
+
+    if (this.state.filter === 'my') {
+      tasks = filter(tasks, {executor_id: this.props.currentUserId});
+    }
+
+    const isTasksExist = tasks.length > 0;
 
     return <Fragment>
       <div className={style.navigation}>
-        <button type="button" className={cx('tab', {'_is-active': true})}>All</button>
-        <button type="button" className={style.tab}>My tasks</button>
-        <button type="button" className={style.tab}>Archived</button>
+        <button
+          type="button"
+          className={cx('tab', {'_is-active': this.state.filter === 'all'})}
+          onClick={this.setFilter('all')}
+        >All</button>
+
+        <button
+          type="button"
+          className={cx('tab', {'_is-active': this.state.filter === 'my'})}
+          onClick={this.setFilter('my')}
+        >My tasks</button>
+
+        <button
+          type="button"
+          className={cx('tab', {'_is-active': this.state.filter === 'archived'})}
+          onClick={this.setFilter('archived')}
+        >Archived</button>
+
         <button type="button" className={style.new} onClick={this.openNewTaskModal}>New</button>
       </div>
 
       {isTasksExist &&
-        this.props.tasks_ids.map(id => <Item key={id} id={id} className={style.item} />)
+        tasks.map(task => <Item key={task.id} id={task.id} className={style.item} />)
       }
 
       {!isTasksExist &&
@@ -82,6 +108,7 @@ class Tasks extends Component {
 export default compose(
   connect(
     (state, props) => ({
+      currentUserId: state.currentUser.id,
       details: state.subscriptions.list[props.details_id],
     }),
 
@@ -93,7 +120,7 @@ export default compose(
 
   connect(
     (state, props) => ({
-      tasks_ids: get(state.tasks, `groups.${props.details.group_id}.list`, []),
+      tasks: map(get(state.tasks, `groups.${props.details.group_id}.list`, []), id => state.tasks.list[id]),
       is_loaded: get(state.tasks, `groups.${props.details.group_id}.isLoaded`, false),
     }),
 

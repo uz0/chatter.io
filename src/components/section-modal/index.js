@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import Button from '@/components/button';
+import Loading from '@/components/loading';
 import OrganizationIcon from '@/components/organization-icon';
 import style from './style.css';
 
@@ -15,11 +16,16 @@ const Modal = ({
   wrapClassName,
   className,
   orgIcon,
+  isLoading,
 }) => {
   const isActionsExist = actions && actions.length > 0;
 
   return <div className={cx('modal', wrapClassName)}>
     <div className={style.header}>
+      {isLoading &&
+        <Loading className={style.loading} type="line" isShown />
+      }
+
       <div className={style.section}>
         <div className={style.title_wrapper}>
           {orgIcon &&

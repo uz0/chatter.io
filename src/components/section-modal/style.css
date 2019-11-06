@@ -14,6 +14,12 @@
   padding-right: var(--layout-padding);
 }
 
+.modal > .header > .loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 .modal > .header > .section {
   flex-grow: 1;
   min-width: 0;

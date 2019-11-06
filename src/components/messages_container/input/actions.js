@@ -14,6 +14,65 @@ const actions = actionsCreator([
 
 const tagreg = /\B\#\w\w+\b/gim;
 
+const deleteMessages = () => (dispatch, getState) => {
+  const state = getState();
+
+  if (state.messages.checked_ids.length === 0) {
+    return;
+  }
+
+  state.messages.checked_ids.forEach(id => {
+    api.deleteMessage({ message_id: id });
+  });
+
+  dispatch(messagesActions.resetCheckedMessages());
+};
+
+const forward = ({ subscription_id, callback, isMultiply = false }) => async (dispatch, getState) => {
+  const state = getState();
+
+  let ids;
+
+  if (isMultiply) {
+    ids = state.messages.checked_ids;
+  } else {
+    ids = [state.messages.forward_message_id];
+  }
+
+  if (!ids || ids.length === 0) {
+    return;
+  }
+
+  ids = [...ids].sort((prev, next) => next - prev);
+
+  for (let i = 0; i < ids.length; i++) {
+    const { message } = await api.post({
+      uid: uid(),
+      subscription_id,
+      text: '',
+      forwarded_message_id: ids[i],
+    });
+
+    if (i === ids.length - 1) {
+      await api.updateSubscription({
+        subscription_id,
+        last_read_message_id: message.id,
+        draft: '',
+      });
+    }
+  }
+
+  if (isMultiply) {
+    dispatch(messagesActions.resetCheckedMessages());
+  } else {
+    dispatch(messagesActions.clearForwardMessage());
+  }
+
+  if (callback) {
+    callback();
+  }
+};
+
 const updateDraft = params => (dispatch, getState) => {
   const state = getState();
   const subscription = state.subscriptions.list[params.id];
@@ -211,4 +270,12 @@ const resendMessage = params => (dispatch, getState) => {
   });
 };
 
-export default { ...actions, updateDraft, sendMessage, updateMessage, resendMessage };
+export default {
+  ...actions,
+  updateDraft,
+  sendMessage,
+  updateMessage,
+  resendMessage,
+  deleteMessages,
+  forward,
+};

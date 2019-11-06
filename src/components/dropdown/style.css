@@ -7,8 +7,6 @@
 .list {
   z-index: 1;
   position: fixed;
-  padding-top: 6px;
-  padding-bottom: 6px;
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.07);
@@ -17,10 +15,10 @@
 .list > button {
   display: flex;
   align-items: center;
-  min-width: 120px;
-  height: 26px;
-  padding-left: 10px;
-  padding-right: 10px;
+  min-width: 140px;
+  height: 48px;
+  padding-left: 15px;
+  padding-right: 15px;
   background-color: var(--background-color);
   transition-property: background-color;
 }
@@ -41,14 +39,24 @@
   --background-color: var(--divider-color);
 }
 
+.list > button:first-of-type {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.list > button:last-of-type {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
 .list > button > i {
   --icon-color: var(--color);
-  --icon-size: 14px;
+  --icon-size: 16px;
   flex-shrink: 0;
 }
 
 .list > button > i + span {
-  margin-left: 8px;
+  margin-left: 12px;
 }
 
 .list > button > span {
@@ -58,7 +66,7 @@
   min-width: 0;
   height: var(--height);
   line-height: var(--height);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--color);
   white-space: nowrap;
   text-overflow: ellipsis;

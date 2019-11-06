@@ -20,6 +20,10 @@
   flex-shrink: 0;
 }
 
+.messages .multiply {
+  flex-shrink: 0;
+}
+
 .list_loading {
   --bottom: auto;
   height: 200px;

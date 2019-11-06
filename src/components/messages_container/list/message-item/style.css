@@ -34,12 +34,46 @@
   justify-content: flex-start;
 }
 
-.message-item.current-user > .actions {
-
+.message-item > .check {
+  --size: 22px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-top: calc((var(--message-min-height) - var(--size)) / 2);
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--background-color);
+  box-shadow: 0 0 0 1px var(--primary-color) inset;
+  transition-property: background-color;
 }
 
-.message-item.opponent-user > .actions {
-  margin-left: 8px;
+.message-item > .check:not(._is-active) {
+  --icon-color: transparent;
+  --background-color: transparent;
+}
+
+.message-item > .check._is-active {
+  --icon-color: #fff;
+  --background-color: var(--primary-color);
+}
+
+.message-item > .check > i {
+  --icon-size: 12px;
+}
+
+.message-item.current-user > .check {
+  margin-right: auto;
+}
+.message-item.current-user > .check ~ .actions {
+  margin-left: 12px;
+}
+
+.message-item.opponent-user > .check {
+}
+.message-item.opponent-user > .check ~ .info {
+  margin-left: 12px;
 }
 
 .message-item > .actions {
@@ -49,6 +83,14 @@
   margin-bottom: auto;
   opacity: var(--actions-opacity);
   transition-property: opacity;
+}
+
+.message-item.current-user > .actions {
+
+}
+
+.message-item.opponent-user > .actions {
+  margin-left: 8px;
 }
 
 .message-item.current-user > .actions > .dropdown {

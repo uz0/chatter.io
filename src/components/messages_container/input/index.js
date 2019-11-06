@@ -65,6 +65,10 @@ class MessageInput extends Component {
   }
 
   render() {
+    if (this.props.isCheckShown) {
+      return null;
+    }
+
     const items = [
       {text: 'Files', onClick: this.attach},
       {text: 'To-Do', onClick: this.createTodo},
@@ -98,6 +102,7 @@ export default compose(
     state => ({
       isMobile: state.device === 'touch',
       isSuggestionShown: get(state.dropdown, 'suggestion-dropdown.isShown', false),
+      isCheckShown: state.messages.checked_ids.length > 0,
     }),
 
     {

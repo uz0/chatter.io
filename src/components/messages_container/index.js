@@ -6,6 +6,7 @@ import { withDetails } from '@/hoc';
 import MessageInput from './input';
 import List from './list';
 import Typings from './typings';
+import MultiplyActions from './multiply-actions';
 import inputActions from './input/actions';
 import style from './style.css';
 
@@ -54,6 +55,11 @@ class Messages extends Component {
           className={style.input}
         />
       }
+
+      <MultiplyActions
+        subscription_id={this.props.details.id}
+        className={style.multiply}
+      />
     </div>;
   }
 }

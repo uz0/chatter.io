@@ -8,6 +8,7 @@ const initialState = {
   edit_message_id: null,
   forward_message_id: null,
   reply_message_id: null,
+  checked_ids: [],
 };
 
 export default createReducer(initialState, {
@@ -138,11 +139,26 @@ export default createReducer(initialState, {
     state.forward_message_id = null;
   },
 
+  [actions.types.toggleCheckMessage]: (state, action) => {
+    const index = state.checked_ids.indexOf(action.payload);
+
+    if (index === -1) {
+      state.checked_ids.push(action.payload);
+    } else {
+      state.checked_ids.splice(index, 1);
+    }
+  },
+
+  [actions.types.resetCheckedMessages]: (state) => {
+    state.checked_ids = [];
+  },
+
   [actions.types.clearMessages]: state => {
     state.chatIds = {},
     state.list = {};
     state.edit_message_id = null;
     state.forward_message_id = null;
     state.reply_message_id = null;
+    state.checked_ids = [];
   },
 });

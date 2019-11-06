@@ -16,6 +16,9 @@ let actions = actionsCreator([
 
   'addForwardMessage',
   'clearForwardMessage',
+
+  'toggleCheckMessage',
+  'resetCheckedMessages',
 ]);
 
 const wrapSetValue = func => id => (dispatch, getState) => {

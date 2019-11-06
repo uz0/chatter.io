@@ -78,6 +78,7 @@ export default {translation: {
   login: 'Login',
   mb: 'Mb',
   message: 'Message',
+  more: 'More',
   message_plural: 'Messages',
   message_editing: 'Message editing',
   message_has_been_deleted: 'Message has been deleted',

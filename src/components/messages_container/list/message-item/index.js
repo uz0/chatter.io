@@ -91,6 +91,14 @@ class MessageItem extends Component {
     return isReadedChanged;
   };
 
+  toggleCheckMessage = () => {
+    if (!this.props.message.id) {
+      return;
+    }
+
+    this.props.toggleCheckMessage(this.props.message.id);
+  };
+
   isReaded = () => {
     if (!this.props.message.id) {
       return false;
@@ -123,11 +131,15 @@ class MessageItem extends Component {
     const isDropdownToggled = this.props.isDropdownShown !== nextProps.isDropdownShown;
     const isRefMessageDeletedChanged = this.props.isRefMessageDeleted !== nextProps.isRefMessageDeleted;
     const isParticipantsReadedChanged = this.isParticipantsReadedChanged(nextProps);
+    const isCheckedChanged = this.props.isChecked !== nextProps.isChecked;
+    const isCheckShownChanged = this.props.isCheckShown !== nextProps.isCheckShown;
 
     return isCurrentUserChanged ||
       isMessageChanged ||
       isDropdownToggled ||
       isParticipantsReadedChanged ||
+      isCheckedChanged ||
+      isCheckShownChanged ||
       isRefMessageDeletedChanged;
   }
 
@@ -164,6 +176,7 @@ class MessageItem extends Component {
     const isReaded = this.isReaded();
     const isCurrentUserAdmin = this.props.details.role === 'admin';
     const imagesUrls = map(images, image => image.url);
+    const isCheckShown = !isMessageDeleted && this.props.isCheckShown;
 
     let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
 
@@ -173,6 +186,10 @@ class MessageItem extends Component {
 
     if (isMessageCurrentUser && isMessageInCurrentHour && !this.props.message.forwarded_message_id) {
       actionsItems.unshift({ icon: 'edit', text: this.props.t('edit'), onClick: this.openUpdateMessage });
+    }
+
+    if (!this.props.isCheckShown) {
+      actionsItems.push({ icon: 'dots', text: this.props.t('more'), onClick: this.toggleCheckMessage });
     }
 
     if ((isMessageCurrentUser && isMessageInCurrentHour) || isCurrentUserAdmin) {
@@ -208,6 +225,16 @@ class MessageItem extends Component {
         },
       )}
     >
+      {isCheckShown &&
+        <button
+          type="button"
+          className={cx('check', {'_is-active': this.props.isChecked})}
+          onClick={this.toggleCheckMessage}
+        >
+          <Icon name="mark" />
+        </button>
+      }
+
       {isActionsShown &&
         <div className={style.actions}>
           <Dropdown
@@ -353,12 +380,14 @@ export default compose(
       currentUser: state.currentUser,
       message: find(state.messages.list, { uid: props.uid }),
       isMobile: state.device === 'touch',
+      isCheckShown: state.messages.checked_ids.length > 0,
     }),
 
     {
       addEditMessage: messagesActions.addEditMessage,
       addReplyMessage: messagesActions.addReplyMessage,
       addForwardMessage: messagesActions.addForwardMessage,
+      toggleCheckMessage: messagesActions.toggleCheckMessage,
       resendMessage: inputActions.resendMessage,
       toggleModal: modalActions.toggleModal,
       openGallery: galleryActions.openGallery,
@@ -370,6 +399,7 @@ export default compose(
     (state, props) => ({
       isDropdownShown: get(state, `dropdown.message-dropdown-${props.message.uid || props.message.id}.isShown`, false),
       details: find(state.subscriptions.list, { group_id: props.message.group_id }),
+      isChecked: props.isCheckShown ? state.messages.checked_ids.indexOf(props.message.id) !== -1 : false,
     }),
   ),
 

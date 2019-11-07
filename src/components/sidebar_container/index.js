@@ -127,7 +127,9 @@ class Sidebar extends Component {
           items={actions}
         >
           <button className={style.image} style={userImageInline}>
-            <Counter value={unreadMessagesCount} className={style.counter} />
+            {unreadMessagesCount &&
+              <Counter value={unreadMessagesCount} className={style.counter} />
+            }
           </button>
         </Dropdown>
 

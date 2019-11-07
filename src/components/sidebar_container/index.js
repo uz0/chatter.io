@@ -9,6 +9,7 @@ import Tasks from './tasks';
 import Subscriptions from './subscriptions';
 import Button from '@/components/button';
 import Icon from '@/components/icon';
+import Counter from '@/components/counter';
 import Input from '@/components/input';
 import Dropdown from '@/components/dropdown';
 import { api } from '@';
@@ -117,12 +118,15 @@ class Sidebar extends Component {
           <div className={style.circle} />
         </div>
 
+
         <Dropdown
           uniqueId="sidebar-user-dropdown"
           className={style.dropdown}
           items={actions}
         >
-          <button className={style.image} style={userImageInline} />
+          <button className={style.image} style={userImageInline}>
+            <Counter className={style.counter} />
+          </button>
         </Dropdown>
 
         {this.props.organization &&

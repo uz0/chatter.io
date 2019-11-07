@@ -53,6 +53,7 @@
 }
 
 .sidebar .header .dropdown > button {
+  position: relative;
   width: var(--size);
   height: var(--size);
   background-image: var(--bg-image);
@@ -60,6 +61,12 @@
   background-size: cover;
   background-position: center;
   border-radius: calc(var(--size) / 2);
+}
+
+.sidebar .header .dropdown > button .counter {
+  position: absolute;
+  top: 0px;
+  right: -8px;
 }
 
 .sidebar .header .button {

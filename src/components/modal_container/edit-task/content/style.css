@@ -18,12 +18,27 @@
 .content > .header > .circle {
   --size: 18px;
   flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: var(--size);
   height: var(--size);
   margin-top: calc(38px / 2);
   border-radius: 7px;
   transform: translateY(-50%);
   box-shadow: 0 0 0 1px var(--primary-color) inset;
+}
+
+.content > .header > .circle:not(._is-checked) {
+  --icon-color: transparent;
+}
+
+.content > .header > .circle._is-checked {
+  --icon-color: var(--primary-color);
+}
+
+.content > .header > .circle > i {
+  --icon-size: 10px;
 }
 
 .content > .header > .section {

@@ -16,7 +16,10 @@ import Textarea from '@/components/form/textarea';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
 import { actions as formActions } from '@/components/form';
+import classnames from 'classnames/bind';
 import style from './style.css';
+
+const cx = classnames.bind(style);
 
 class Content extends Component {
   state = {
@@ -121,6 +124,45 @@ class Content extends Component {
     return items;
   };
 
+
+
+
+  onTitleBlur = async () => {
+    if (!this.props.task) {
+      return;
+    }
+
+    if (!this.props.title.value) {
+      return;
+    }
+
+    if (this.props.title.value === this.props.task.title) {
+      return;
+    }
+
+    this.setState({ isLoading: true });
+    await api.updateTask({ task_id: this.props.task_id, title: this.props.title.value });
+    this.setState({ isLoading: false });
+  };
+
+  toggleDone = async () => {
+    const done = !this.props.done.value;
+
+    this.props.formChange('edit_task.done', {
+      value: done,
+      isTouched: true,
+      isBlured: true,
+    });
+
+    if (!this.props.task) {
+      return;
+    }
+
+    this.setState({ isLoading: true });
+    await api.updateTask({ task_id: this.props.task_id, done });
+    this.setState({ isLoading: false });
+  };
+
   setExecutor = id => this.props.formChange('edit_task.executor', {
     value: id,
     isTouched: true,
@@ -217,6 +259,14 @@ class Content extends Component {
       });
     }
 
+    this.props.formChange('edit_task.done', {
+      error: '',
+      value: this.props.task ? this.props.task.done : false,
+      isTouched: false,
+      isBlured: false,
+      isRequired: false,
+    });
+
     this.props.formChange('edit_task.uploads_id', {
       error: '',
       value: null,
@@ -242,6 +292,7 @@ class Content extends Component {
     if (this.props.task_id) {
       taskDropdownItems.push({text: 'Delete', onClick: this.delete});
     }
+
     const isPrivate = this.props.details && this.props.details.group.type === 'private_chat';
     const isDropdownShown = !isPrivate && !this.props.executor.value;
     const executorDropdownItems = this.getExecutors();
@@ -253,7 +304,9 @@ class Content extends Component {
       }
 
       <div className={style.header}>
-        <div className={style.circle} />
+        <button type="button" className={cx('circle', {'_is-checked': this.props.done.value})} onClick={this.toggleDone}>
+          <Icon name="mark" />
+        </button>
 
         <div className={style.section}>
           <Input
@@ -368,6 +421,7 @@ export default compose(
   connect(
     (state, props) => ({
       currentUserId: state.currentUser.id,
+      done: get(state.forms, 'edit_task.done', {}),
       title: get(state.forms, 'edit_task.title', {}),
       description: get(state.forms, 'edit_task.description', {}),
       executor: get(state.forms, 'edit_task.executor', {}),

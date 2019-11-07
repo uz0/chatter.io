@@ -5,6 +5,7 @@ import groupBy from 'lodash/groupBy';
 import filter from 'lodash/filter';
 import { connect } from 'react-redux';
 import Icon from '@/components/icon';
+import Task from '@/components/task';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import { ClickOutside } from 'reactjs-click-outside';
 import { api } from '@';
@@ -95,14 +96,11 @@ class Tasks extends Component {
               </div>
 
               {group.map(task => {
-                return <div key={task.id} className={style.task}>
-                  <div className={style.circle} />
-                  <p className={style.title}>{task.title}</p>
-
-                  {task.executor_id &&
-                    <SubscriptionAvatar className={style.avatar} userId={task.executor_id} />
-                  }
-                </div>;
+                return <Task
+                  key={task.id}
+                  id={task.id}
+                  className={style.task}
+                />;
               })}
             </Fragment>;
           })}

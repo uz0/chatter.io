@@ -5,7 +5,7 @@ import filter from 'lodash/filter';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Loading from '@/components/loading';
-import Item from './item';
+import Task from '@/components/task';
 import { actions as modalActions } from '@/components/modal_container';
 import { actions as tasksActions } from '@/store/tasks';
 import { api } from '@';
@@ -27,6 +27,14 @@ class Tasks extends Component {
 
     options: {
       subscription_id: this.props.details.id,
+    },
+  });
+
+  editTask = id => () => this.props.toggleModal({
+    id: 'classic-edit-task-modal',
+
+    options: {
+      task_id: id,
     },
   });
 
@@ -87,7 +95,12 @@ class Tasks extends Component {
       </div>
 
       {isTasksExist &&
-        tasks.map(task => <Item key={task.id} id={task.id} className={style.item} />)
+        tasks.map(task => <Task
+          key={task.id}
+          id={task.id}
+          onClick={this.editTask(task.id)}
+          className={style.item}
+        />)
       }
 
       {!isTasksExist &&

@@ -66,6 +66,12 @@
 .item {
   width: 100%;
   width: -webkit-fill-available;
+  margin-left: var(--layout-padding);
+  margin-right: var(--layout-padding);
+}
+
+.item + .item {
+  box-shadow: 0 1px var(--divider-color) inset;
 }
 
 .empty {

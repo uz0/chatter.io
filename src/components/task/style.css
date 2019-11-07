@@ -1,22 +1,31 @@
 .task {
   display: flex;
-  margin-left: var(--layout-padding);
-  margin-right: var(--layout-padding);
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.task + .task {
-  box-shadow: 0 1px var(--divider-color) inset;
+  align-items: center;
+  height: var(--task-height, 40px);
 }
 
 .task > .circle {
   --size: 18px;
   flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: var(--size);
   height: var(--size);
   border-radius: 7px;
   box-shadow: 0 0 0 1px var(--primary-color) inset;
+}
+
+.task > .circle:not(._is-checked) {
+  --icon-color: transparent;
+}
+
+.task > .circle._is-checked {
+  --icon-color: var(--primary-color);
+}
+
+.task > .circle > i {
+  --icon-size: 10px;
 }
 
 .task > .text {
@@ -29,6 +38,7 @@
 
 .task > .avatar {
   --size: 19px;
+  --font-size: 14px;
   flex-shrink: 0;
   margin-left: 12px;
 }

@@ -1,14 +1,12 @@
 .counter {
-  --counter-size: 16px;
-  --counter-color: var(--error-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--counter-size);
+  height: 16px;
   min-width: 20px;
   padding-left: 4px;
   padding-right: 4px;
-  background-color: var(--counter-color);
+  background-color: var(--error-color);
   box-shadow: 0 0 4px 0 rgba(255, 0, 59, 0.34); 
   border-radius: 8px;
   font-size: 10px;

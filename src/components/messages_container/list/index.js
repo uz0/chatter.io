@@ -11,6 +11,7 @@ import DateDelimiter from './date-delimiter';
 import XtagDelimiter from './xtag-delimiter';
 import UnreadDelimiter from './unread-delimiter';
 import Header from './header';
+import PinnedMessage from './pinned-message';
 import MessageItem from './message-item';
 import Button from '@/components/button';
 import { withRouter } from '@/hoc';
@@ -280,6 +281,11 @@ class List extends Component {
       <Header
         chatId={this.props.details_id}
         className={style.header}
+      />
+
+      <PinnedMessage
+        details_id={this.props.details_id}
+        className={style.pin}
       />
 
       {isHasMoreShown &&

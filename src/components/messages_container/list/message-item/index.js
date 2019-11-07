@@ -45,7 +45,11 @@ class MessageItem extends Component {
 
     this.props.addForwardMessage(this.props.message.forwarded_message_id || this.props.message.id);
     this.props.toggleModal(modalObj);
-  }
+  };
+
+  pinMessage = () => {
+    api.updateGroup({ subscription_id: this.props.details.id, pinned_message_id: this.props.message.id });
+  };
 
   resendMessage = () => this.props.resendMessage({
     uid: this.props.message.uid,
@@ -178,7 +182,10 @@ class MessageItem extends Component {
     const imagesUrls = map(images, image => image.url);
     const isCheckShown = !isMessageDeleted && this.props.isCheckShown;
 
-    let actionsItems = [{ icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal }];
+    let actionsItems = [
+      { icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal },
+      { icon: 'pin', text: this.props.t('pin'), onClick: this.pinMessage },
+    ];
 
     if (this.props.isMobile) {
       actionsItems.unshift({ icon: 'reply', text: this.props.t('reply'), onClick: this.openReplyMessage });

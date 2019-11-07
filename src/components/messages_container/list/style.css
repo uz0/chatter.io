@@ -31,7 +31,8 @@
   margin-right: auto;
 }
 
-.list > .header + .item {
+.list > .header + .item,
+.list > .pin + .item {
   margin-top: auto;
 }
 

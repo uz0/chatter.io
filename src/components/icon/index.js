@@ -40,6 +40,7 @@ import imageIcon from '@/assets/icons/image.svg';
 import dotsListIcon from '@/assets/icons/dots-list.svg';
 import fullScreenHalfIcon from '@/assets/icons/full-screen-half.svg';
 import settingsIcon from '@/assets/icons/settings.svg';
+import pinIcon from '@/assets/icons/pin.svg';
 
 const cx = classnames.bind(style);
 
@@ -198,6 +199,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'settings' &&
     <ReactSvgInjector src={settingsIcon} />
+  }
+
+  {name === 'pin' &&
+    <ReactSvgInjector src={pinIcon} />
   }
 </i>;
 

@@ -1,0 +1,56 @@
+.pin {
+  z-index: 1;
+  position: sticky;
+  left: 0;
+  top: var(--info-height);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-left: 12px;
+  background-color: #fff;
+}
+
+.pin::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: var(--primary-color);
+}
+
+.pin > .section {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.pin > .section > .title {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pin > .section > .text {
+  --height: 16px;
+  overflow: hidden;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 13px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pin > .close {
+  --icon-size: 12px;
+  flex-shrink: 0;
+  margin-left: 12px;
+  margin-right: calc(((var(--height) - var(--icon-size)) / 2) * -1);
+}

@@ -107,6 +107,7 @@ export default {translation: {
   photo: 'Photo',
   invalid_character: 'Invalid character',
   photo_plural: 'Photos',
+  pin: 'Pin',
   profile_updated: 'Profile successfully updated',
   personal: 'Personal',
   read_only: 'Read Only',

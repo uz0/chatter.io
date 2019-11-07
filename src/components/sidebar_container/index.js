@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import get from 'lodash/get';
 import classnames from 'classnames/bind';
-import { getUnreadMessagesCount } from '@/helpers';
 import Filters from './filters';
 import Tasks from './tasks';
 import Subscriptions from './subscriptions';
@@ -110,7 +109,6 @@ class Sidebar extends Component {
     const isFiltersShown = this.props.subscriptions_filter_text;
     const isSubscriptionsShown = !this.props.subscriptions_filter_text;
     const title = this.props.organization ? this.props.organization.name : 'Unichat';
-    const unreadMessagesCount = getUnreadMessagesCount(this.props.subscriptions, this.props.messages);
 
     return <div className={cx('sidebar', this.props.className)}>
       <div className={style.header}>
@@ -127,9 +125,7 @@ class Sidebar extends Component {
           items={actions}
         >
           <button className={style.image} style={userImageInline}>
-            {unreadMessagesCount &&
-              <Counter value={unreadMessagesCount} className={style.counter} />
-            }
+            <Counter className={style.counter} />
           </button>
         </Dropdown>
 
@@ -186,8 +182,6 @@ export default compose(
   connect(
     state => ({
       currentUser: state.currentUser,
-      subscriptions: state.subscriptions,
-      messages: state.messages,
       subscriptions_filter_text: state.subscriptions.filter_text,
       hasSubscriptions: state.subscriptions.ids.length > 0,
     }),

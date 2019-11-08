@@ -8,6 +8,7 @@ const initialState = {
   forgot: {},
   profile: {},
   new_company: {},
+  new_space: {},
   edit_company: {},
   edit_task: {},
 };

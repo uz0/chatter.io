@@ -20,6 +20,7 @@ import deleteIcon from '@/assets/icons/delete.svg';
 import forwardIcon from '@/assets/icons/forward.svg';
 import markIcon from '@/assets/icons/mark.svg';
 import leaveIcon from '@/assets/icons/leave.svg';
+import lockIcon from '@/assets/icons/lock.svg';
 import fullScreenIcon from '@/assets/icons/full-screen.svg';
 import thinArrowLeftIcon from '@/assets/icons/thin-arrow-left.svg';
 import thinArrowRightIcon from '@/assets/icons/thin-arrow-right.svg';
@@ -103,6 +104,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'dots' &&
     <ReactSvgInjector src={dotsIcon} />
+  }
+
+  {name === 'lock' &&
+    <ReactSvgInjector src={lockIcon} />
   }
 
   {name === 'warning' &&

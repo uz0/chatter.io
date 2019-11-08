@@ -1,0 +1,165 @@
+.members {
+  --content-width: 500px;
+  flex-grow: 1;
+  position: relative;
+  display: var(--display);
+  align-items: center;
+  flex-direction: column;
+  min-height: 0;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
+}
+
+.members:not(._is-shown) {
+  --display: none;
+}
+
+.members._is-shown {
+  --display: flex;
+}
+
+.members > .loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.members > .settings {
+  width: 100%;
+  margin-top: 90px;
+  flex-shrink: 0;
+  max-width: var(--content-width);
+}
+
+.members > .settings > .title {
+  --height: 15px;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .settings > .privacy {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.members > .settings > .privacy > .caption {
+  --height: 15px;
+  overflow: hidden;
+  width: 100%;
+  margin-left: 12px;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .search {
+  flex-shrink: 0;
+  margin-top: 32px;
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+.members > .list {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-grow: 1;
+  width: 100%;
+  max-width: var(--content-width);
+  min-height: 0;
+  margin-top: 12px;
+}
+
+.members > .list > .title {
+  --height: 50px;
+  overflow: hidden;
+  width: 100%;
+  height: var(--height);
+  line-height: var(--height);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .list > .item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 62px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 5px;
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.members > .list > .item:not(:hover) {
+  --background-color: transparent;
+}
+
+.members > .list > .item:hover {
+  --background-color: #f3f4f7;
+}
+
+.members > .list > .item > .avatar {
+  --size: 46px;
+}
+
+.members > .list > .item > .name {
+  --height: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.members > .list > .item > .checkbox {
+  --size: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 12px;
+  border-radius: calc(var(--size) / 2);
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+  transition-property: background-color, border;
+}
+
+.members > .list > .item > .checkbox:not(._is-checked) {
+  --background-color: transparent;
+  --border-color: #c4c8d2;
+  --icon-color: transparent;
+}
+
+.members > .list > .item > .checkbox._is-checked {
+  --background-color: var(--primary-color);
+  --border-color: var(--primary-color);
+  --icon-color: #fff;
+}
+
+.members > .list > .item > .checkbox > i {
+  --icon-size: 14px;
+}

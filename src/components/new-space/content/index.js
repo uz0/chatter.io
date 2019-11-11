@@ -5,12 +5,13 @@ import get from 'lodash/get';
 import Modal from '@/components/section-modal';
 import Form from '@/components/form/form';
 import Icon from '@/components/icon';
-// import { api } from '@';
+import { api } from '@';
 import Info from './info';
 import Members from './members';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from '@/hoc';
 import { actions as organizationsActions } from '@/store/organizations';
+import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
 import style from './style.css';
 
@@ -22,39 +23,37 @@ class NewCompany extends Component {
   prevStep = () => this.setState({ step: 0 });
   nextStep = () => this.setState({ step: 1 });
 
-  // create = async () => {
-  //   let org = {
-  //     name: this.props.name.value,
-  //     brand_color: this.props.color.value,
-  //   };
+  create = async () => {
+    try {
+      const { subscription } = await api.createRoom({ name: this.props.name.value, user_ids: this.props.members.value });
 
-  //   if (this.props.logo.value) {
-  //     org['icon'] = this.props.logo.value;
-  //   }
+      this.props.addSubscription({
+        ...subscription,
+      });
 
-  //   try {
-  //     const { organization } = await api.createOrganization(org);
-  //     this.props.addOrganization(organization);
+      const { group } = await api.updateGroup({ subscription_id: subscription.id, is_space: true });
 
-  //     if (this.props.members.value.length > 0) {
-  //       for (let i = 0; i < this.props.members.value.length; i++) {
-  //         const { organizations_user } = await api.organizationInvite({organization_id: organization.id, user_id: this.props.members.value[i]});
-  //         this.props.addOrganizationUser(organizations_user);
-  //       }
-  //     }
+      this.props.updateSubscription({
+        id: subscription.id,
 
-  //     this.props.pushUrl(`/${organization.id}/chat`);
-  //   } catch (error) {
-  //     console.error(error);
+        group: {
+          ...group,
+          type: this.props.isPrivate.value ? 'private_chat' : 'room',
+        },
+      });
 
-  //     this.props.showNotification({
-  //       type: 'error',
-  //       text: error.text,
-  //     });
-  //   }
-  // };
+      this.props.pushUrl(`chat/${subscription.id}`);
+    } catch (error) {
+      console.error(error);
 
-  close = () => this.props.history.goBack();
+      this.props.showNotification({
+        type: 'error',
+        text: error.text,
+      });
+    }
+  };
+
+  close = () => this.props.history.push('/');
 
   render() {
     const isInfoShown = this.state.step === 0;
@@ -133,6 +132,8 @@ export default compose(
     }),
 
     {
+      addSubscription: subscriptionsActions.addSubscription,
+      updateSubscription: subscriptionsActions.updateSubscription,
       addOrganization: organizationsActions.addOrganization,
       addOrganizationUser: organizationsActions.addOrganizationUser,
       showNotification: notificationActions.showNotification,

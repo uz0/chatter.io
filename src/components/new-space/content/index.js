@@ -72,8 +72,8 @@ class NewCompany extends Component {
 
     if (isMembersShown) {
       title = <span className={style.space_title}>
-        {!this.props.isPrivate.value && "#"}
-        {this.props.isPrivate.value && <Icon name="lock" />}
+        {!this.props.isPrivate.value ? "#" : <Icon className={style.icon} name="lock" />}
+
         {this.props.name.value}
       </span>;
       actions.push({appearance: '_basic-divider', text: 'Back', onClick: this.prevStep});

@@ -36,10 +36,13 @@ class Attach extends Component {
     recordStatus: recordStatuses.IDDLE,
   };
 
-  getTranscript = async job_id => {
-    let response = await fetch(`https://chat.mainnetwork.io/speech-to-text/${job_id}`);
-    const {result: {status, transcript}} = await response.json();
+  getTranscript = async upload_id => {
     const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
+    const {result} = await api.voiceRecognitionResult({ upload_id });
+    console.log(result);
+
+    const status = result.status;
+    const transcript = result.transcript;
 
     if (status === 'completed') {
       return transcript;
@@ -50,7 +53,7 @@ class Attach extends Component {
     }
 
     await wait(500);
-    return this.getTranscript(job_id);
+    return this.getTranscript(upload_id);
   };
 
   startRecord = async () => {
@@ -111,19 +114,6 @@ class Attach extends Component {
       requestData.append('encoding', 'OGG_OPUS');
       requestData.append('rate_hertz', 24000);
       requestData.append('audio_channels', 1);
-      this.setState({ recordStatus: recordStatuses.TRANSCRIPT });
-
-      let jobIdRes = await fetch('https://chat.mainnetwork.io/speech-to-text', {
-        method: 'POST',
-        body: requestData,
-      });
-
-      jobIdRes = await jobIdRes.json();
-      const transcript = await this.getTranscript(jobIdRes.result.delayed_job_id);
-
-      if (transcript) {
-        this.props.setText(transcript);
-      }
 
       const attachment = {
         uid: uid(),
@@ -137,7 +127,7 @@ class Attach extends Component {
       };
 
       this.loadFileByChunks(dataBlob, attachment.uid);
-      this.setState({ attachments: [attachment], recordStatus: recordStatuses.IDDLE });
+      this.setState({ attachments: [attachment] });
       console.log('this.recorder.blob', attachment);
     };
   };
@@ -300,6 +290,22 @@ class Attach extends Component {
     const chunk = await this.getBlobBase(file);
     const checksum = await this.getFileChecksum(file);
 
+    let object = {
+      chunk_id: 0,
+      async: true,
+      file_chunk: chunk,
+      upload_id: null,
+      file_size: file.size,
+      file_checksum: checksum,
+      file_name: file.name,
+      content_type: file.type,
+    };
+    
+    if (file.type === 'audio/ogg') {
+      object.voice_recognition = true;
+      object.subscription_id = this.props.subscription_id;
+    }
+
     const response = await api.attachmentByChunks({
       chunk_id: 0,
       async: true,
@@ -310,6 +316,17 @@ class Attach extends Component {
       file_name: file.name,
       content_type: file.type,
     });
+
+    if (file.type === 'audio/ogg') {
+      this.setState({ recordStatus: recordStatuses.TRANSCRIPT });
+      await api.voiceRecognition({ upload_id: response.upload_id });
+      const transcript = await this.getTranscript(response.upload_id);
+      this.setState({recordStatus: recordStatuses.IDDLE});
+
+      if (transcript) {
+        this.props.setText(transcript);
+      }
+    }
 
     this.updateAttachmentState(uid, {
       currentChunk: file.size,

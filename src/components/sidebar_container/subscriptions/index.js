@@ -11,6 +11,7 @@ import Icon from '@/components/icon';
 import Section from '@/components/sidebar_container/section';
 import SubscriptionItem from '@/components/subscription-item';
 import FeedItem from './feed-item';
+import FeedItemAction from './feed-item-action';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
 import { getChatUrl } from '@/helpers';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -98,6 +99,14 @@ class Filters extends Component {
   };
 
   renderFeed = ({ item }) => {
+    if (item === 'new-space-mock'){
+      return <FeedItemAction key={0} icon={"plus"} text={"New space"} isActive={true} />;
+    }
+    
+    if (item === 'all-spaces'){
+      return <FeedItemAction key={1} icon={"plus"} text={"All spaces"} onClick={() => {}} />;
+    }
+
     return <FeedItem key={item} id={item} className={style.feed} />;
   };
 
@@ -159,8 +168,10 @@ class Filters extends Component {
   render() {
     const isHasSubscriptionsWithNotLoadedAddData = this.isSubscriptionsLoaded();
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
+    const isNewSpaceModalShown = this.props.location.pathname === '/new-space';
     const isFeedExist = this.props.feeds.length > 0;
     let chatIds = this.props.chats_ids;
+    let feeds = isNewSpaceModalShown ? ['new-space-mock', ...this.props.feeds] : this.props.feeds;
 
     if (this.props.isNewDialogueModalShown) {
       chatIds = ['new-message', ...chatIds];
@@ -168,12 +179,12 @@ class Filters extends Component {
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
       <Section
-        items={this.props.feeds}
+        items={feeds}
         title="Feeds"
         emptyMessage={this.renderEmptyFeed}
         renderItem={this.renderFeed}
         className={style.section}
-        {...isFeedExist ? {action: {text: 'New', onClick: () => {}}} : {}}
+        {...isFeedExist ? {action: {text: 'New', onClick: () => this.props.pushUrl('/new-space')}} : {}}
       />
 
       <Section

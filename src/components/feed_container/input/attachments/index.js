@@ -35,6 +35,7 @@ class Attachments extends Component {
     return <Attach
       key={this.props.lastMessageUid}
       uniqueId={this.props.uniqueId}
+      messageInputId="feed-input"
       onChange={this.onAttachmentsChange}
     >
       {({ files, images, removeAttachment }) => {

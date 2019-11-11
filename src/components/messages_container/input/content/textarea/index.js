@@ -3,8 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import throttle from 'lodash/throttle';
 import config from '@/config';
-import { pasteFromClipboard, calcTextareaHeight } from '@/helpers';
-import { attachInputId } from '@/components/messages_container/input';
+import { calcTextareaHeight } from '@/helpers';
 import actions from '@/components/messages_container/input/actions';
 import classnames from 'classnames/bind';
 import style from './style.css';
@@ -82,7 +81,6 @@ class Textarea extends Component {
 
   throttleUpdateDraft = throttle(this.updateDraft, 500);
   onInput = event => this.props.setText(event.target.value);
-  onPaste = event => pasteFromClipboard(event, attachInputId);
   onChange = () => {};
 
   componentWillReceiveProps(nextProps) {
@@ -112,7 +110,6 @@ class Textarea extends Component {
         placeholder="Message"
         value={this.props.value}
         onInput={this.onInput}
-        onPaste={this.onPaste}
         onChange={this.onChange}
         onKeyDown={this.onTextareaKeyDown}
         className={style.textarea}

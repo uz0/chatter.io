@@ -427,10 +427,35 @@ class Attach extends Component {
     this.setState({ attachments });
   };
 
+  onPaste = event => {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    let list = new DataTransfer();
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') === 0) {
+        list.items.add(items[i].getAsFile());
+      }
+    }
+
+    if (list.files.length === 0) {
+      return;
+    }
+
+    this.attachFiles(list.files);
+  };
+
   async componentWillMount() {
     await captureMicrophone(() => {
       this.setState({ recordStatus: recordStatuses.DISABLED });
     });
+  }
+
+  componentDidMount() {
+    const textarea = document.querySelector(`#${this.props.messageInputId}`);
+
+    if (textarea) {
+      textarea.onpaste = this.onPaste;
+    }
   }
 
   render() {

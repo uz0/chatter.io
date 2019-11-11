@@ -37,6 +37,7 @@ class Attachments extends Component {
     return <Attach
       key={this.props.lastMessageUid}
       uniqueId={attachInputId}
+      messageInputId="textarea"
       onChange={this.onAttachmentsChange}
     >
       {({ files, images, removeAttachment, startRecord, stopRecord, recordStatus }) => {

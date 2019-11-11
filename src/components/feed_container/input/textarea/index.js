@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { actions as inputActions } from '@/components/messages_container/input';
-import { attachInputId } from '../';
-import { pasteFromClipboard } from '@/helpers';
 import config from '@/config';
 import classnames from 'classnames/bind';
 import style from './style.css';
@@ -29,7 +27,6 @@ class Textarea extends Component {
   };
 
   onInput = event => this.props.setText(event.target.value);
-  onPaste = event => pasteFromClipboard(event, attachInputId);
   onChange = () => {};
 
   componentWillReceiveProps(nextProps) {
@@ -43,7 +40,6 @@ class Textarea extends Component {
       id="feed-input"
       placeholder="Post to #design"
       onInput={this.onInput}
-      onPaste={this.onPaste}
       value={this.props.value}
       onChange={this.onChange}
       onKeyDown={this.onTextareaKeyDown}

@@ -9,6 +9,5 @@ export { default as scrollMessagesBottom } from './scroll-messages-bottom';
 export { default as getLastActive } from './get-last-active';
 export { default as getProgressText } from './get-progress-text';
 export { default as getFilteredMessage } from './get-filtered-message';
-export { default as pasteFromClipboard } from './paste-from-clipboard';
 export { default as parseMentions } from './parse-mentions';
 export { default as calcTextareaHeight } from './calc-textarea-height';

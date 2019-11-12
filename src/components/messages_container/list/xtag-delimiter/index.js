@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import find from 'lodash/find';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

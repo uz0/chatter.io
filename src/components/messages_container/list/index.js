@@ -309,7 +309,7 @@ class List extends Component {
         if (message.type === 'xtagDelimiter') {
           return <XtagDelimiter
             key={message.message_uid}
-            id={message.message_uid}
+            uid={message.message_uid}
             className={style.item}
           />;
         }

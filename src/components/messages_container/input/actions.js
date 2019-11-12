@@ -172,9 +172,9 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => (dispatch, getState)
   if (tags && !reply_message_id && !isForceToFeed) {
     uniq(tags).forEach((tag, index) => {
       const tagname = tag.substr(1);
-      const subscription = find(state.subscriptions.list, chat => chat.group.is_space && chat.group.name === tagname);
+      const taggedSubscription = find(state.subscriptions.list, chat => chat.group.is_space && chat.group.name === tagname);
 
-      if (!subscription) {
+      if (!taggedSubscription) {
         return;
       }
 
@@ -182,7 +182,7 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => (dispatch, getState)
         id: `crosspost-modal-${index}`,
 
         options: {
-          subscription_id: subscription.id,
+          subscription_id: taggedSubscription.id,
           tag: tagname,
         },
       }));

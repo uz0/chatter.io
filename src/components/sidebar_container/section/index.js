@@ -7,6 +7,7 @@ const cx = classnames.bind(style);
 
 const Section = ({ items, isLoading, action, title, emptyMessage, renderItem, className }) => {
   const isItemsExist = items && items.length > 0;
+  const isEmptyMessageShown = !isItemsExist && emptyMessage;
 
   return <div className={cx('section', className)}>
     {title &&
@@ -28,7 +29,7 @@ const Section = ({ items, isLoading, action, title, emptyMessage, renderItem, cl
       items.map(item => renderItem({ item }))
     }
 
-    {!isItemsExist &&
+    {isEmptyMessageShown &&
       emptyMessage()
     }
   </div>;

@@ -137,6 +137,10 @@ class Filters extends Component {
     />;
   };
 
+  renderEmptyMessage = () => {
+    return <p className={style.empty}>{this.props.t('no_results')}</p>;
+  };
+
   render() {
     const filteredMessages = this.getFilteredMessages(this.props.sorted_subscriptions_ids);
     const stopSearchAction = { text: this.props.t('stop_loading'), onClick: this.stopSearchingMessages};
@@ -144,14 +148,14 @@ class Filters extends Component {
     return <Fragment>
       <Section
         title={this.props.t('contact_plural')}
-        emptyMessage={this.props.t('no_results')}
+        emptyMessage={this.renderEmptyMessage}
         items={this.props.subscriptions_filtered_contacts_ids}
         renderItem={this.renderContact}
       />
 
       <Section
         title={this.props.t('global_search')}
-        emptyMessage={this.props.t('no_results')}
+        emptyMessage={this.renderEmptyMessage}
         items={this.props.subscriptions_filtered_global_users}
         renderItem={this.renderGlobalContact}
       />
@@ -159,7 +163,7 @@ class Filters extends Component {
       <Section
         title={this.props.t('message_plural')}
         isLoading={this.props.is_searching_old_messages}
-        emptyMessage={this.props.t('no_results')}
+        emptyMessage={this.renderEmptyMessage}
         items={filteredMessages}
         renderItem={this.renderSubscription}
         {...this.props.is_searching_old_messages ? {action: stopSearchAction} : {}}

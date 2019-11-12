@@ -8,7 +8,7 @@ const cx = classnames.bind(style);
 
 const Button = ({
   ref,
-  type,
+  type = 'button',
   icon,
   text,
   isLoading,

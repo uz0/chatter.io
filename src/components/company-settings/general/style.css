@@ -20,7 +20,7 @@
 }
 
 .modal > .navigation + .logo {
-  margin-top: 130px;
+  margin-top: 90px;
 }
 
 .modal > .logo {
@@ -28,13 +28,16 @@
   flex-shrink: 0;
   position: relative;
   width: var(--logo-size);
-  height: var(--logo-size);
 }
 
 .modal > .logo > .preview {
   --logo-border-radius: 26px;
   --logo-font-size: 33px;
   position: relative;
+}
+
+.modal > .logo > .delete_logo {
+  --icon-size: 8px;
 }
 
 .modal > .logo .upload_button {

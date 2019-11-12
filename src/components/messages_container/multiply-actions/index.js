@@ -34,13 +34,15 @@ class MultiplyActions extends Component {
   componentWillReceiveProps(nextProps) {
     const isChatChanged = this.props.subscription_id !== nextProps.subscription_id;
 
-    if (isChatChanged) {
+    if (this.props.checked_messages.length > 0 && isChatChanged) {
       this.props.resetCheckedMessages();
     }
   }
 
   componentWillUnmount() {
-    this.props.resetCheckedMessages();
+    if (this.props.checked_messages.length > 0) {
+      this.props.resetCheckedMessages();
+    }
   }
 
   render() {

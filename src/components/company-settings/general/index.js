@@ -40,7 +40,7 @@ class General extends Component {
       org['brand_color'] = this.props.color.value;
     }
 
-    if (this.props.logo.value && typeof this.props.logo.value === 'string') {
+    if (this.props.logo.isTouched || (this.props.logo.value && typeof this.props.logo.value === 'string')) {
       org['icon'] = this.props.logo.value;
     }
 
@@ -64,6 +64,11 @@ class General extends Component {
     api.destroyOrganization({organization_id: this.props.organization.id});
     this.close();
   };
+
+  deleteLogo = () => this.props.formChange('edit_company.logo', {
+    value: '',
+    isTouched: true,
+  });
 
   close = () => {
     const id = parseInt(this.props.match.params.orgId, 10);
@@ -95,7 +100,6 @@ class General extends Component {
     const links = [
       {text: 'General', to: `/${id}/company-settings/general`},
       {text: 'Users', to: `/${id}/company-settings/users`},
-      {text: 'Conversations', to: `/${id}/company-settings/conversations`},
     ];
 
     return <Modal
@@ -114,6 +118,16 @@ class General extends Component {
           name={this.props.name.value}
           className={style.preview}
         />
+
+        {this.props.logo.value &&
+          <Button
+            appearance="_basic-transparent"
+            text="Delete"
+            icon="close"
+            className={style.delete_logo}
+            onClick={this.deleteLogo}
+          />
+        }
 
         <File
           model="edit_company.logo"
@@ -146,12 +160,14 @@ class General extends Component {
         </File>
       </div>
 
-      <div className={style.colors}>
-        <button type="button" className={style.circle} data-color="none" onClick={this.setColor('')} />
-        <button type="button" className={style.circle} data-color="blue" onClick={this.setColor('blue')} />
-        <button type="button" className={style.circle} data-color="green" onClick={this.setColor('green')} />
-        <button type="button" className={style.circle} data-color="pink" onClick={this.setColor('pink')} />
-      </div>
+      {!this.props.logo.value &&
+        <div className={style.colors}>
+          <button type="button" className={style.circle} data-color="none" onClick={this.setColor('')} />
+          <button type="button" className={style.circle} data-color="blue" onClick={this.setColor('blue')} />
+          <button type="button" className={style.circle} data-color="green" onClick={this.setColor('green')} />
+          <button type="button" className={style.circle} data-color="pink" onClick={this.setColor('pink')} />
+        </div>
+      }
 
       <Input
         appearance="_border-transparent"

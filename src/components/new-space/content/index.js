@@ -27,9 +27,7 @@ class NewCompany extends Component {
     try {
       const { subscription } = await api.createRoom({ name: this.props.name.value, user_ids: this.props.members.value });
 
-      this.props.addSubscription({
-        ...subscription,
-      });
+      this.props.addSubscription(subscription);
 
       const { group } = await api.updateGroup({ subscription_id: subscription.id, is_space: true });
 

@@ -11,7 +11,6 @@ import Icon from '@/components/icon';
 import Section from '@/components/sidebar_container/section';
 import SubscriptionItem from '@/components/subscription-item';
 import FeedItem from './feed-item';
-import FeedItemAction from './feed-item-action';
 import { withSortedSubscriptions, withRouter } from '@/hoc';
 import { getChatUrl } from '@/helpers';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
@@ -98,13 +97,21 @@ class Filters extends Component {
     }
   };
 
+  openNewSpace = () => this.props.pushUrl('/new-space');
+
   renderFeed = ({ item }) => {
     if (item === 'new-space-mock'){
-      return <FeedItemAction key={0} icon={"plus"} text={"New space"} isActive={true} />;
+      return <div key={'new-space-mock'} className={cx('feed_item', 'feed_item_active')}>
+        <Icon name="plus" />
+        <p className={style.caption}>New space</p>
+      </div>;
     }
     
     if (item === 'all-spaces'){
-      return <FeedItemAction key={1} icon={"plus"} text={"All spaces"} onClick={() => {}} />;
+      return <button key={'all-spaces'} className={cx('feed_item')} onClick={() => {}}>
+        <Icon name="plus" />
+        <p className={style.caption}>All spaces</p>
+      </button>;
     }
 
     return <FeedItem key={item} id={item} className={style.feed} />;
@@ -184,7 +191,7 @@ class Filters extends Component {
         emptyMessage={this.renderEmptyFeed}
         renderItem={this.renderFeed}
         className={style.section}
-        {...isFeedExist ? {action: {text: 'New', onClick: () => this.props.pushUrl('/new-space')}} : {}}
+        {...isFeedExist ? {action: {text: 'New', onClick: this.openNewSpace}} : {}}
       />
 
       <Section

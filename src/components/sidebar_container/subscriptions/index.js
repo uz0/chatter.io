@@ -97,7 +97,23 @@ class Filters extends Component {
     }
   };
 
+  openNewSpace = () => this.props.pushUrl('/new-space');
+
   renderFeed = ({ item }) => {
+    if (item === 'new-space-mock'){
+      return <div key={'new-space-mock'} className={cx('feed_item', 'feed_item_active')}>
+        <Icon name="plus" />
+        <p className={style.caption}>New space</p>
+      </div>;
+    }
+    
+    if (item === 'all-spaces'){
+      return <button key={'all-spaces'} className={cx('feed_item')} onClick={() => {}}>
+        <Icon name="plus" />
+        <p className={style.caption}>All spaces</p>
+      </button>;
+    }
+
     return <FeedItem key={item} id={item} className={style.feed} />;
   };
 
@@ -159,8 +175,10 @@ class Filters extends Component {
   render() {
     const isHasSubscriptionsWithNotLoadedAddData = this.isSubscriptionsLoaded();
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
+    const isNewSpaceModalShown = this.props.location.pathname === '/new-space';
     const isFeedExist = this.props.feeds.length > 0;
     let chatIds = this.props.chats_ids;
+    let feeds = isNewSpaceModalShown ? ['new-space-mock', ...this.props.feeds] : this.props.feeds;
 
     if (this.props.isNewDialogueModalShown) {
       chatIds = ['new-message', ...chatIds];
@@ -168,12 +186,12 @@ class Filters extends Component {
 
     return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
       <Section
-        items={this.props.feeds}
+        items={feeds}
         title="Feeds"
         emptyMessage={this.renderEmptyFeed}
         renderItem={this.renderFeed}
         className={style.section}
-        {...isFeedExist ? {action: {text: 'New', onClick: () => {}}} : {}}
+        {...isFeedExist ? {action: {text: 'New', onClick: this.openNewSpace}} : {}}
       />
 
       <Section

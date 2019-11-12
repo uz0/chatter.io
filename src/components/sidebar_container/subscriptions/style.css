@@ -88,6 +88,44 @@
   text-overflow: ellipsis;
 }
 
+.wrapper > .section > .feed_item {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding-left: var(--sidebar-padding);
+  padding-right: var(--sidebar-padding);
+  background-color: var(--background-color);
+  transition-property: background-color;
+}
+
+.wrapper > .section > .feed_item-active {
+  --background-color: var(--divider-color);
+}
+
+.wrapper > .section > .feed_item > i {
+  --icon-size: 16px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.wrapper > .section > .feed_item > i svg polygon {
+  fill: var(--icon-color);
+}
+
+.wrapper > .section > .feed_item > .caption {
+  --height: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
+  height: var(--height);
+  margin-left: 12px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .wrapper > .section > .new_message {
   display: flex;
   align-items: center;

@@ -1,0 +1,29 @@
+.new {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  min-height: 0;
+}
+
+.new > .panel {
+  flex-shrink: 0;
+}
+
+.new > .sidebar {
+  --info-height: 62px;
+  --sidebar-width: 25%;
+  --panel-width: 20%;
+  flex-shrink: 0;
+  width: var(--sidebar-width);
+  box-shadow: -1px 0 var(--divider-color) inset;
+}
+
+.new > .content {
+  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  min-height: 0;
+}

@@ -1,0 +1,22 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal .form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.space_title {
+  --icon-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.space_title .icon {
+  margin-right: 4px;
+}

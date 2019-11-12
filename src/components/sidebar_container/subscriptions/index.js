@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
+import withState from 'recompose/withState';
 import find from 'lodash/find';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
@@ -97,20 +98,53 @@ class Filters extends Component {
     }
   };
 
+  getFeeds = () => {
+    let { feeds } = this.props;
+    const isNewSpaceModalShown = this.props.location.pathname === '/new-space';
+    const isLoadMoreFeedButtonShown = feeds.length > 5;
+
+    if (feeds.length > 5 && !this.props.isShowMoreSpacesActive) {
+      feeds = this.props.feeds.slice(0, 5);
+    }
+
+    if (isNewSpaceModalShown) {
+      if (isLoadMoreFeedButtonShown) {
+        return ['new-space-mock', 'all-spaces', ...feeds];
+      }
+      return ['new-space-mock', ...feeds];
+    }
+
+    if (isLoadMoreFeedButtonShown) {
+      return ['all-spaces', ...feeds, 'toggle-spaces'];
+    }
+
+    return feeds;
+  }
+
+  toggleSpaces = () => {
+    this.props.toggleSpaces(state => !state);
+  }
+
   openNewSpace = () => this.props.pushUrl('/new-space');
 
   renderFeed = ({ item }) => {
-    if (item === 'new-space-mock'){
+    if (item === 'new-space-mock') {
       return <div key={'new-space-mock'} className={cx('feed_item', 'feed_item_active')}>
         <Icon name="plus" />
         <p className={style.caption}>New space</p>
       </div>;
     }
-    
-    if (item === 'all-spaces'){
-      return <button key={'all-spaces'} className={cx('feed_item')} onClick={() => {}}>
-        <Icon name="plus" />
+
+    if (item === 'all-spaces') {
+      return <button key={'all-spaces'} className={style.feed_item} onClick={this.toggleSpaces}>
+        <Icon name="menu" />
         <p className={style.caption}>All spaces</p>
+      </button>;
+    }
+
+    if (item === 'toggle-spaces') {
+      return <button key={'toggle-spaces'} className={cx('feed_item', 'toggle_spaces')} onClick={this.toggleSpaces}>
+        All spaces {this.props.isShowMoreSpacesActive ? '' : `(${this.props.feeds.length - 5})`}
       </button>;
     }
 
@@ -175,23 +209,22 @@ class Filters extends Component {
   render() {
     const isHasSubscriptionsWithNotLoadedAddData = this.isSubscriptionsLoaded();
     const isSubscriptionsLoading = this.props.isLoading || isHasSubscriptionsWithNotLoadedAddData || false;
-    const isNewSpaceModalShown = this.props.location.pathname === '/new-space';
     const isFeedExist = this.props.feeds.length > 0;
     let chatIds = this.props.chats_ids;
-    let feeds = isNewSpaceModalShown ? ['new-space-mock', ...this.props.feeds] : this.props.feeds;
+    let feeds = this.getFeeds();
 
     if (this.props.isNewDialogueModalShown) {
       chatIds = ['new-message', ...chatIds];
     }
 
-    return <div className={cx('wrapper', {'_is-loading': isSubscriptionsLoading})}>
+    return <div className={cx('wrapper', { '_is-loading': isSubscriptionsLoading })}>
       <Section
         items={feeds}
         title="Feeds"
         emptyMessage={this.renderEmptyFeed}
         renderItem={this.renderFeed}
         className={style.section}
-        {...isFeedExist ? {action: {text: 'New', onClick: this.openNewSpace}} : {}}
+        {...isFeedExist ? { action: { text: 'New', onClick: this.openNewSpace } } : {}}
       />
 
       <Section
@@ -251,4 +284,6 @@ export default compose(
       chats_ids: map(chats, chat => chat.id),
     };
   }),
+
+  withState('isShowMoreSpacesActive', 'toggleSpaces', false),
 )(Filters);

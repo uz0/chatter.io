@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
-import withState from 'recompose/withState';
 import find from 'lodash/find';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
@@ -21,6 +20,10 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class Filters extends Component {
+  state = {
+    isShowMoreSpacesActive: false,
+  }
+
   isSubscriptionInViewPort = element => {
     const parent = document.querySelector('#sidebar-scroll');
     const elementRect = element.getBoundingClientRect();
@@ -103,7 +106,7 @@ class Filters extends Component {
     const isNewSpaceModalShown = this.props.location.pathname === '/new-space';
     const isLoadMoreFeedButtonShown = feeds.length > 5;
 
-    if (feeds.length > 5 && !this.props.isShowMoreSpacesActive) {
+    if (feeds.length > 5 && !this.state.isShowMoreSpacesActive) {
       feeds = this.props.feeds.slice(0, 5);
     }
 
@@ -122,7 +125,7 @@ class Filters extends Component {
   }
 
   toggleSpaces = () => {
-    this.props.toggleSpaces(state => !state);
+    this.setState({ isShowMoreSpacesActive: !this.state.isShowMoreSpacesActive });
   }
 
   openNewSpace = () => this.props.pushUrl('/new-space');
@@ -144,7 +147,7 @@ class Filters extends Component {
 
     if (item === 'toggle-spaces') {
       return <button key={'toggle-spaces'} className={cx('feed_item', 'toggle_spaces')} onClick={this.toggleSpaces}>
-        All spaces {this.props.isShowMoreSpacesActive ? '' : `(${this.props.feeds.length - 5})`}
+        All spaces {this.state.isShowMoreSpacesActive ? '' : `(${this.props.feeds.length - 5})`}
       </button>;
     }
 
@@ -284,6 +287,4 @@ export default compose(
       chats_ids: map(chats, chat => chat.id),
     };
   }),
-
-  withState('isShowMoreSpacesActive', 'toggleSpaces', false),
 )(Filters);

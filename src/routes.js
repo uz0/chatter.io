@@ -14,6 +14,7 @@ import NewSpace from '@/components/new-space';
 import CompanySettings from '@/components/company-settings';
 import GeneralSettings from '@/components/company-settings/general';
 import UsersSettings from '@/components/company-settings/users';
+import ConversationsSettings from '@/components/company-settings/conversations';
 
 import store from '@/store';
 
@@ -48,6 +49,7 @@ export default () => <Provider store={store}>
           <Switch>
             <Route component={GeneralSettings} path="/:orgId/company-settings/general" />
             <Route component={UsersSettings} path="/:orgId/company-settings/users" />
+            <Route component={ConversationsSettings} path="/:orgId/company-settings/conversations" />
           </Switch>
         </CompanySettings>
       </Switch>

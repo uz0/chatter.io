@@ -100,6 +100,7 @@ class General extends Component {
     const links = [
       {text: 'General', to: `/${id}/company-settings/general`},
       {text: 'Users', to: `/${id}/company-settings/users`},
+      {text: 'Conversations', to: `/${id}/company-settings/conversations`},
     ];
 
     return <Modal

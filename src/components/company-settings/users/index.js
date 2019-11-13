@@ -81,6 +81,7 @@ class Users extends Component {
     const links = [
       {text: 'General', to: `/${organization_id}/company-settings/general`},
       {text: 'Users', to: `/${organization_id}/company-settings/users`},
+      {text: 'Conversations', to: `/${organization_id}/company-settings/conversations`},
     ];
 
     return <Modal

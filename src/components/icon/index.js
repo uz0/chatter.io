@@ -31,6 +31,7 @@ import atIcon from '@/assets/icons/at.svg';
 import hashtagIcon from '@/assets/icons/hashtag.svg';
 import plusIcon from '@/assets/icons/plus.svg';
 import menuIcon from '@/assets/icons/menu.svg';
+import spacesIcon from '@/assets/icons/spaces.svg';
 import fourShapesIcon from '@/assets/icons/four-shapes.svg';
 import MicrophoneIcon from '@/assets/icons/microphone.svg';
 import StopIcon from '@/assets/icons/stop.svg';
@@ -164,6 +165,10 @@ const Icon = ({ name, className }) => <i className={cx('icon', className)}>
 
   {name === 'menu' &&
     <ReactSvgInjector src={menuIcon} />
+  }
+
+  {name === 'spaces' &&
+    <ReactSvgInjector src={spacesIcon} />
   }
 
   {name === 'four-shapes' &&

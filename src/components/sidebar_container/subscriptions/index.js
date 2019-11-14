@@ -140,7 +140,7 @@ class Filters extends Component {
 
     if (item === 'all-spaces') {
       return <button key={'all-spaces'} className={style.feed_item} onClick={this.toggleSpaces}>
-        <Icon name="menu" />
+        <Icon name="spaces" />
         <p className={style.caption}>All spaces</p>
       </button>;
     }

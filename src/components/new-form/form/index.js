@@ -89,14 +89,12 @@ class Form extends Component {
     this.props.showNotification({ text });
   };
 
-  getInputProps = name => {
-    return {
-      onChange: () => {},
-      onInput: this.onInput(name),
-      value: get(this.state.data, `${name}.value`),
-      error: get(this.state.data, `${name}.error`),
-    };
-  };
+  getInputProps = name => ({
+    onChange: () => {},
+    onInput: this.onInput(name),
+    value: get(this.state.data, `${name}.value`),
+    error: get(this.state.data, `${name}.error`),
+  });
 
   render() {
     const isDisabled = this.props.isLoading || this.state.isLoading;

@@ -51,7 +51,7 @@ class Feed extends Component {
     messages.forEach(message => {
       const nextPropsMessage = find(nextProps.messages_list, { uid: message.uid });
 
-      if (message.deleted_at !== nextPropsMessage.deleted_at) {
+      if (nextPropsMessage && message.deleted_at !== nextPropsMessage.deleted_at) {
         hasDeleted = true;
       }
     });

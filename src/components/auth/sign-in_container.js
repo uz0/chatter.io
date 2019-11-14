@@ -112,35 +112,33 @@ class SignIn extends Component {
           isLoading={this.state.isLoading}
           className={style.form}
         >
-          {({ getInputProps, submitProps }) => {
-            return <Fragment>
-              <Input
-                {...getInputProps('email')}
-                appearance="_none-classic"
-                className={style.input}
-                placeholder={this.props.t('email')}
+          {({ getInputProps, submitProps }) => <Fragment>
+            <Input
+              {...getInputProps('email')}
+              appearance="_none-classic"
+              className={style.input}
+              placeholder={this.props.t('email')}
+            />
+
+            <Input
+              {...getInputProps('password')}
+              type="password"
+              appearance="_none-classic"
+              className={style.input}
+              placeholder={this.props.t('password')}
+            />
+
+            <div className={style.actions}>
+              <Button
+                appearance="_basic-primary"
+                text="Log in"
+                className={style.submit}
+                {...submitProps}
               />
 
-              <Input
-                {...getInputProps('password')}
-                type="password"
-                appearance="_none-classic"
-                className={style.input}
-                placeholder={this.props.t('password')}
-              />
-
-              <div className={style.actions}>
-                <Button
-                  appearance="_basic-primary"
-                  text="Log in"
-                  className={style.submit}
-                  {...submitProps}
-                />
-
-                <Link to="/forgot-password" className={style.forgot}>Forgot password?</Link>
-              </div>
-            </Fragment>;
-          }}
+              <Link to="/forgot-password" className={style.forgot}>Forgot password?</Link>
+            </div>
+          </Fragment>}
         </Form>
       </div>
 

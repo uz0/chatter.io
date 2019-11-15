@@ -38,11 +38,7 @@ class Attach extends Component {
 
   getTranscript = async upload_id => {
     const wait = time => new Promise(resolve => setTimeout(() => resolve(), time));
-    const {result} = await api.voiceRecognitionResult({ upload_id });
-    console.log(result);
-
-    const status = result.status;
-    const transcript = result.transcript;
+    const {result: {status, transcript}} = await api.voiceRecognitionResult({ upload_id });
 
     if (status === 'completed') {
       return transcript;

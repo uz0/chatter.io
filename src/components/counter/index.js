@@ -14,9 +14,9 @@ const getUnreadMessagesCount = (subscriptions, messages) => {
   }
 
   let messagesCounter = 0;
-  
+
   // Пока что так, непонятно, какой значение должен иметь тип для чатов организаций
-  const subscriptionsList = pickBy(subscriptions.list, sub => sub.group.type);
+  const subscriptionsList = pickBy(subscriptions.list, sub => sub.group.type && !sub.group.is_space);
 
   for (const subscription of Object.values(subscriptionsList)) {
     if (!has(messages.chatIds, subscription.id)) {

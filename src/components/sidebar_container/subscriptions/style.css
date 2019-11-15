@@ -91,11 +91,20 @@
 .wrapper > .section > .feed_item {
   display: flex;
   align-items: center;
+  width: 100%;
   height: 38px;
   padding-left: var(--sidebar-padding);
   padding-right: var(--sidebar-padding);
   background-color: var(--background-color);
   transition-property: background-color;
+}
+
+.wrapper > .section > .feed_item:not(:hover) {
+  --background-color: transparent;
+}
+
+.wrapper > .section > .feed_item:hover {
+  --background-color: var(--divider-color);
 }
 
 .wrapper > .section > .feed_item-active {
@@ -124,6 +133,11 @@
   color: var(--text-color);
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.wrapper > .section > .feed_item.toggle_spaces {
+  font-size: 13px;
+  justify-content: center;
 }
 
 .wrapper > .section > .new_message {

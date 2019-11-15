@@ -39,6 +39,7 @@ class Attachments extends Component {
       uniqueId={attachInputId}
       messageInputId="textarea"
       onChange={this.onAttachmentsChange}
+      subscription_id={this.props.subscription_id}
     >
       {({ files, images, removeAttachment, startRecord, stopRecord, recordStatus }) => {
         const isImagesExist = images.length > 0;

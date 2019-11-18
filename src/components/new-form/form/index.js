@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import clone from 'lodash/clone';
+import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import find from 'lodash/find';
 import { actions as notificationActions } from '@/components/notification';
@@ -49,18 +51,23 @@ class Form extends Component {
       return;
     }
 
-    let data = {...this.state.data};
+    let data = clone(this.state.data);
 
-    Object.keys(this.props.fields).forEach(field => {
-      if (!this.props.fields[field].validations) {
+    forEach(this.props.fields, (field, key) => {
+      if (!field.validations) {
         return;
       }
 
       let error = '';
-      this.props.fields[field].validations.forEach(validator => error = validator.action(this.state.data[field].value) ? validator.text : error);
 
-      if (error !== data[field].error) {
-        data[field].error = error;
+      field.validations.forEach(validator => {
+        if (validator.action(data[key].value)) {
+          error = validator.text;
+        }
+      });
+
+      if (error !== data[key].error) {
+        data[key].error = error;
       }
     });
 
@@ -79,10 +86,10 @@ class Form extends Component {
   });
 
   onError = text => {
-    let data = {...this.state.data};
+    let data = clone(this.state.data);
 
-    Object.keys(data).forEach(key => {
-      data[key].error = text;
+    forEach(data, item => {
+      item.error = text;
     });
 
     this.setState({ data });
@@ -99,16 +106,20 @@ class Form extends Component {
   render() {
     const isDisabled = this.props.isLoading || this.state.isLoading;
 
-    return <form className={this.props.className}>
-      {this.props.children({
-        getInputProps: this.getInputProps,
+    return (
+      <form className={this.props.className}>
+        {
+          this.props.children({
+            getInputProps: this.getInputProps,
 
-        submitProps: {
-          onClick: this.submit,
-          disabled: isDisabled,
-        },
-      })}
-    </form>;
+            submitProps: {
+              onClick: this.submit,
+              disabled: isDisabled,
+            },
+          })
+        }
+      </form>
+    );
   }
 }
 

@@ -2,13 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import get from 'lodash/get';
+import { withTranslation } from 'react-i18next';
 import Link from '@/components/link';
 import Button from '@/components/button';
 import Loading from '@/components/loading';
 import Validators from '@/components/form/validators';
 import Form from '@/components/new-form/form';
 import Input from '@/components/input';
-import { withTranslation } from 'react-i18next';
 import { actions as notificationActions } from '@/components/notification';
 import { actions as formActions } from '@/components/form';
 import { actions as storeActions } from '@/store';
@@ -18,7 +18,6 @@ import style from './style.css';
 
 class SignIn extends Component {
   state = {
-    commonError: '',
     isLoading: false,
   };
 
@@ -46,7 +45,7 @@ class SignIn extends Component {
     } catch (error) {
       console.error(error);
       this.setState({ isLoading: false });
-      onError(error.text);
+      onError(this.props.t(error.code));
     }
   };
 
@@ -112,33 +111,35 @@ class SignIn extends Component {
           isLoading={this.state.isLoading}
           className={style.form}
         >
-          {({ getInputProps, submitProps }) => <Fragment>
-            <Input
-              {...getInputProps('email')}
-              appearance="_none-classic"
-              className={style.input}
-              placeholder={this.props.t('email')}
-            />
-
-            <Input
-              {...getInputProps('password')}
-              type="password"
-              appearance="_none-classic"
-              className={style.input}
-              placeholder={this.props.t('password')}
-            />
-
-            <div className={style.actions}>
-              <Button
-                appearance="_basic-primary"
-                text="Log in"
-                className={style.submit}
-                {...submitProps}
+          {
+            ({ getInputProps, submitProps }) => <Fragment>
+              <Input
+                {...getInputProps('email')}
+                appearance="_none-classic"
+                className={style.input}
+                placeholder={this.props.t('email')}
               />
 
-              <Link to="/forgot-password" className={style.forgot}>Forgot password?</Link>
-            </div>
-          </Fragment>}
+              <Input
+                {...getInputProps('password')}
+                type="password"
+                appearance="_none-classic"
+                className={style.input}
+                placeholder={this.props.t('password')}
+              />
+
+              <div className={style.actions}>
+                <Button
+                  appearance="_basic-primary"
+                  text="Log in"
+                  className={style.submit}
+                  {...submitProps}
+                />
+
+                <Link to="/forgot-password" className={style.forgot}>Forgot password?</Link>
+              </div>
+            </Fragment>
+          }
         </Form>
       </div>
 

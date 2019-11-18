@@ -53,9 +53,24 @@ class AudioItem extends Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     this.player = new Audio(this.props.file.url);
-    this.player.onloadedmetadata = () => this.forceUpdate();
-    this.player.ontimeupdate = () => this.forceUpdate();
+
+    this.player.onloadedmetadata = () => {
+      if (this._isMounted) {
+        this.forceUpdate();
+      }
+    };
+
+    this.player.ontimeupdate = () => {
+      if (this._isMounted) {
+        this.forceUpdate();
+      }
+    };
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

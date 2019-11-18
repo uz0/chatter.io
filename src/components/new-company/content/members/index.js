@@ -15,7 +15,7 @@ import Loading from '@/components/loading';
 import { actions as usersActions } from '@/store/users';
 import { actions as subscriptionsActions } from '@/store/subscriptions';
 import { actions as notificationActions } from '@/components/notification';
-import { actions as formActions } from '@/components/form';
+import { actions as formActions } from '@/components/old-form';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import SidebarPanel from '@/components/sidebar-panel';
-import Form from '@/components/form/form';
+import Form from '@/components/old-form/form';
 import ModalContainer from '@/components/section_container';
 import classnames from 'classnames/bind';
 import style from './style.css';

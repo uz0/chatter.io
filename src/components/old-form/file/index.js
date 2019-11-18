@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import find from 'lodash/find';
-import { actions as formActions } from '@/components/form';
-import Validators from '@/components/form/validators';
+import { actions as formActions } from '@/components/old-form';
+import Validators from '@/components/old-form/validators';
 import style from './style.css';
 
 class Input extends Component {

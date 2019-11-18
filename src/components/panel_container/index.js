@@ -5,7 +5,7 @@ import find from 'lodash/find';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
-import Validators from '@/components/form/validators';
+import Validators from '@/components/old-form/validators';
 import FakeCheckbox from '@/components/fake-checkbox';
 import FakeSelect from '@/components/fake-select';
 import Button from '@/components/button';
@@ -139,24 +139,6 @@ class Panel extends Component {
     const tags = tag === 'all' ? [null] : [tag];
 
     api.updateSubscription({ subscription_id: this.props.details.id, tags });
-  };
-
-  onIsSpaceChange = event => {
-    event.persist();
-
-    api.updateGroup({ subscription_id: this.props.details.id, is_space: !this.props.details.group.is_space }).then(data => {
-      this.props.updateSubscription({
-        id: this.props.details.id,
-
-        group: {
-          ...this.props.details.group,
-          is_space: data.group.is_space,
-        },
-      });
-    }).catch(error => this.props.showNotification({
-      type: 'error',
-      text: this.props.t(error.code),
-    }));
   };
 
   setAccess = (user_id, role) => api.setAccess({ subscription_id: this.props.details.id, user_id, role }).then(() => {
@@ -304,7 +286,6 @@ class Panel extends Component {
     const isInviteCodeBlockShown = isChatRoom && isCurrentUserAdmin && this.props.details.invite_code;
     const isEditNameShown = isChatRoom && isCurrentUserAdmin;
 
-    const spaceCheckBoxStatus = this.props.details.group.is_space ? 'Space' : 'Chat';
     const notificationsCheckBoxStatus = this.props.details.mute_until ? 'On' : 'Off';
     const invitationLink = `${location.origin}/invite/${this.props.details.invite_code}`;
     const membersLength = this.props.details.group.participants.length;
@@ -390,18 +371,6 @@ class Panel extends Component {
             }
           </p>
         </div>
-
-        {isChatRoom && isCurrentUserAdmin && <div className={style.section}>
-          <p className={style.label}>Space</p>
-
-          <FakeCheckbox
-            value={this.props.details.group.is_space}
-            label={spaceCheckBoxStatus}
-            onChange={this.onIsSpaceChange}
-            className={style.checkbox}
-          />
-        </div>
-        }
 
         <div className={style.section}>
           <p className={style.label}>Notifications</p>

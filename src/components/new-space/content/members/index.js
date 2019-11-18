@@ -10,12 +10,12 @@ import filter from 'lodash/filter';
 import Icon from '@/components/icon';
 import { api } from '@';
 import SubscriptionAvatar from '@/components/subscription-avatar';
-import Checkbox from '@/components/form/checkbox';
+import Checkbox from '@/components/old-form/checkbox';
 import Input from '@/components/input';
 import Loading from '@/components/loading';
 import { actions as usersActions } from '@/store/users';
 import { actions as notificationActions } from '@/components/notification';
-import { actions as formActions } from '@/components/form';
+import { actions as formActions } from '@/components/old-form';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

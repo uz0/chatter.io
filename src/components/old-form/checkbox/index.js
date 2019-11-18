@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import find from 'lodash/find';
-import { actions as formActions } from '@/components/form';
+import { actions as formActions } from '@/components/old-form';
 import FakeCheckbox from '@/components/fake-checkbox';
-import Validators from '@/components/form/validators';
+import Validators from '@/components/old-form/validators';
 
 class Checkbox extends Component {
   onChange = event => {

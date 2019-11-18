@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Modal from '@/components/section-modal';
-import Form from '@/components/form/form';
+import Form from '@/components/old-form/form';
 import { api } from '@';
 import Info from './info';
 import Members from './members';

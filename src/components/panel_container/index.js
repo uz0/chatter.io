@@ -5,7 +5,7 @@ import find from 'lodash/find';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import SubscriptionAvatar from '@/components/subscription-avatar';
-import Validators from '@/components/form/validators';
+import Validators from '@/components/old-form/validators';
 import FakeCheckbox from '@/components/fake-checkbox';
 import FakeSelect from '@/components/fake-select';
 import Button from '@/components/button';

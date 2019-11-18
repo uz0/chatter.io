@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Button from '@/components/button';
 import OrganizationIcon from '@/components/organization-icon';
-import Validators from '@/components/form/validators';
-import File from '@/components/form/file';
-import Input from '@/components/form/input';
+import Validators from '@/components/old-form/validators';
+import File from '@/components/old-form/file';
+import Input from '@/components/old-form/input';
 import { withTranslation } from 'react-i18next';
-import { actions as formActions } from '@/components/form';
+import { actions as formActions } from '@/components/old-form';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

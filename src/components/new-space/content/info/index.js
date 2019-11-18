@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import Validators from '@/components/form/validators';
-import Input from '@/components/form/input';
+import Validators from '@/components/old-form/validators';
+import Input from '@/components/old-form/input';
 import { withTranslation } from 'react-i18next';
-import { actions as formActions } from '@/components/form';
+import { actions as formActions } from '@/components/old-form';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

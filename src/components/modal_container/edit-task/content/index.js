@@ -10,12 +10,12 @@ import Button from '@/components/button';
 import Dropdown from '@/components/dropdown';
 import Loading from '@/components/loading';
 import Icon from '@/components/icon';
-import Form from '@/components/form/form';
-import Input from '@/components/form/input';
-import Textarea from '@/components/form/textarea';
+import Form from '@/components/old-form/form';
+import Input from '@/components/old-form/input';
+import Textarea from '@/components/old-form/textarea';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
-import { actions as formActions } from '@/components/form';
+import { actions as formActions } from '@/components/old-form';
 import classnames from 'classnames/bind';
 import style from './style.css';
 

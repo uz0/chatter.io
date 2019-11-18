@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducers as formReducers } from '@/components/form';
+import { reducers as formReducers } from '@/components/old-form';
 import { reducers as dropdownReducers } from '@/components/dropdown';
 import { reducers as notificationReducers } from '@/components/notification';
 import { reducers as galleryReducers } from '@/components/gallery_container';

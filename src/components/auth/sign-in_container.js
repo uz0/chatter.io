@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import get from 'lodash/get';
 import { withTranslation } from 'react-i18next';
 import Link from '@/components/link';
 import Button from '@/components/button';
@@ -10,7 +9,6 @@ import Validators from '@/components/form/validators';
 import Form from '@/components/new-form/form';
 import Input from '@/components/input';
 import { actions as notificationActions } from '@/components/notification';
-import { actions as formActions } from '@/components/form';
 import { actions as storeActions } from '@/store';
 import { api } from '@';
 import { withRouter } from '@/hoc';
@@ -31,7 +29,6 @@ class SignIn extends Component {
       });
 
       this.setState({ isLoading: false });
-      this.props.formReset('login');
       this.props.setCurrentUser(user);
       window.localStorage.setItem('authToken', user.auth_token);
       window.localStorage.setItem('currentUser', JSON.stringify(user));
@@ -155,12 +152,9 @@ export default compose(
   connect(
     state => ({
       currentUser: state.currentUser,
-      email: get(state.forms, 'login.email', {}),
-      password: get(state.forms, 'login.password', {}),
     }),
 
     {
-      formReset: formActions.formReset,
       showNotification: notificationActions.showNotification,
       setCurrentUser: storeActions.setCurrentUser,
     },

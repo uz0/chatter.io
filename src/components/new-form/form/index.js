@@ -11,7 +11,7 @@ class Form extends Component {
   getInitialData = () => {
     let data = {};
 
-    Object.keys(this.props.fields).forEach(key => {
+    forEach(this.props.fields, (field, key) => {
       data[key] = {
         value: '',
         error: '',
@@ -85,11 +85,18 @@ class Form extends Component {
     },
   });
 
-  onError = text => {
+  onError = (text, fields) => {
     let data = clone(this.state.data);
 
-    forEach(data, item => {
-      item.error = text;
+    forEach(data, (item, key) => {
+      if (!fields) {
+        item.error = text;
+        return;
+      }
+
+      if (fields.includes(key)) {
+        item.error = text;
+      }
     });
 
     this.setState({ data });

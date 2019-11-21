@@ -16,6 +16,7 @@ import Textarea from '@/components/old-form/textarea';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
 import { actions as formActions } from '@/components/old-form';
+import inputActions from '@/components/messages_container/input/actions';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
@@ -52,7 +53,12 @@ class Content extends Component {
       options['uploads_id'] = this.props.uploads_id.value;
     }
 
-    await api.createTask({ ...options });
+    if (this.props.is_input) {
+      this.props.setTodo(options);
+    } else {
+      await api.createTask(options);
+    }
+
     this.props.close();
   };
 
@@ -123,9 +129,6 @@ class Content extends Component {
 
     return items;
   };
-
-
-
 
   onTitleBlur = async () => {
     if (!this.props.task) {
@@ -431,6 +434,7 @@ export default compose(
 
     {
       formChange: formActions.formChange,
+      setTodo: inputActions.setTodo,
     },
   ),
 

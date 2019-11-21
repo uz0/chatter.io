@@ -9,6 +9,7 @@ import { actionsCreator, uid, parseMentions } from '@/helpers';
 const actions = actionsCreator([
   'setText',
   'setAttachments',
+  'setTodo',
   'reset',
 ]);
 
@@ -79,27 +80,37 @@ const updateDraft = params => (dispatch, getState) => {
   api.updateSubscription({subscription_id: subscription.id, draft: params.value});
 };
 
-const updateMessage = ({ edit_message_id }) => (dispatch, getState) => {
+const updateMessage = ({ edit_message_id }) => async (dispatch, getState) => {
   const state = getState();
   const updatingMessage = state.messages.list[edit_message_id];
 
-  const { value, upload_id } = state.input;
+  const { value, upload_id, todo } = state.input;
 
+  const isTodoEqual = (!todo && !updatingMessage.task) || (todo && updatingMessage.task && todo.id === updatingMessage.task.id);
   const isTextEqual = value === updatingMessage.text;
   // refactore
   const isAttachmentsEqual = false;
 
-  if (isTextEqual && isAttachmentsEqual) {
+  let task_id;
+
+  if (isTextEqual && isAttachmentsEqual && isTodoEqual) {
     return;
   }
 
   dispatch(actions.reset());
   dispatch(messagesActions.clearEditMessage());
 
+  if (!isTodoEqual && !todo.id) {
+    const { task } = await api.createTask(todo);
+    task_id = task.id;
+    dispatch(actions.setTodo(null));
+  }
+
   api.editMessage({
     message_id: edit_message_id,
     text: value,
     upload_id,
+    ...task_id ? { task_id } : {},
   }).catch(error => {
     console.error(error);
 
@@ -110,7 +121,7 @@ const updateMessage = ({ edit_message_id }) => (dispatch, getState) => {
   });
 };
 
-const sendMessage = ({ subscription_id, isForceToFeed }) => (dispatch, getState) => {
+const sendMessage = ({ subscription_id, isForceToFeed }) => async (dispatch, getState) => {
   const state = getState();
 
   if (state.messages.edit_message_id) {
@@ -131,7 +142,7 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => (dispatch, getState)
     xtag: null,
   };
 
-  const { value, attachments, upload_id } = state.input;
+  const { value, attachments, upload_id, todo } = state.input;
   const { reply_message_id } = state.messages;
 
   const mentions = parseMentions(value, { ids: state.users.ids, list: state.users.list });
@@ -156,7 +167,13 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => (dispatch, getState)
     message.mentions = mentions;
   }
 
-  if (!value && !attachments && !upload_id) {
+  if (todo) {
+    const { task } = await api.createTask(todo);
+    message.task = task;
+    message.task_id = task.id;
+  }
+
+  if (!value && !attachments && !upload_id && !todo) {
     dispatch(notificationActions.showNotification({
       type: 'error',
       text: 'No data to send',
@@ -195,6 +212,10 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => (dispatch, getState)
     dispatch(messagesActions.clearReplyMessage());
   }
 
+  if (message.task) {
+    dispatch(actions.setTodo(null));
+  }
+
   const messagesScrollElement = document.querySelector('#messages-scroll');
 
   if (messagesScrollElement) {
@@ -205,6 +226,7 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => (dispatch, getState)
     uid: message.uid,
     subscription_id: subscription.id,
     text: message.text || ' ',
+    ...message.task_id ? {task_id: message.task_id} : {},
     ...message.upload_id ? {upload_id: message.upload_id} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
@@ -243,9 +265,10 @@ const resendMessage = params => (dispatch, getState) => {
   );
 
   api.post({
-    uid: params.uid,
+    uid: message.uid,
     subscription_id: params.subscription_id,
     text: message.text || ' ',
+    ...message.task_id ? {task_id: message.task_id} : {},
     ...message.upload_id ? {upload_id: message.upload_id} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},

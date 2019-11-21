@@ -51,6 +51,7 @@ class MessageInput extends Component {
 
     options: {
       subscription_id: this.props.subscription_id,
+      is_input: true,
     },
   });
 

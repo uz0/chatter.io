@@ -13,6 +13,7 @@ import { withTranslation } from 'react-i18next';
 import classnames from 'classnames/bind';
 import Icon from '@/components/icon';
 import Link from '@/components/link';
+import Task from '@/components/task';
 import Dropdown from '@/components/dropdown';
 import Button from '@/components/button';
 import MessageBlock from './message-block';
@@ -28,7 +29,13 @@ import style from './style.css';
 const cx = classnames.bind(style);
 
 class MessageItem extends Component {
-  updateMessage = () => this.props.addEditMessage(this.props.message.id);
+  updateMessage = () => {
+    this.props.addEditMessage(this.props.message.id);
+
+    if (this.props.message.task) {
+      this.props.setTodo(this.props.message.task);
+    }
+  };
   replyMessage = () => this.props.addReplyMessage(this.props.message.forwarded_message_id || this.props.message.id);
 
   openUpdateMessage = () => scrollMessagesBottom(this.updateMessage, 1);
@@ -94,6 +101,14 @@ class MessageItem extends Component {
 
     return isReadedChanged;
   };
+
+  editTask = id => () => this.props.toggleModal({
+    id: 'classic-edit-task-modal',
+
+    options: {
+      task_id: id,
+    },
+  });
 
   toggleCheckMessage = () => {
     if (!this.props.message.id) {
@@ -327,15 +342,13 @@ class MessageItem extends Component {
             </Dropdown>
           }
 
-          {false &&
+          {this.props.message.task &&
             <div className={style.todo}>
-              <button className={style.item}>
-                <div className={style.circle}>
-                  <Icon name="mark" />
-                </div>
-
-                <p className={style.title}>Fix header on iPhone X</p>
-              </button>
+              <Task
+                id={this.props.message.task.id}
+                onClick={this.editTask(this.props.message.task.id)}
+                className={style.item}
+              />
             </div>
           }
         </div>
@@ -396,6 +409,7 @@ export default compose(
       addForwardMessage: messagesActions.addForwardMessage,
       toggleCheckMessage: messagesActions.toggleCheckMessage,
       resendMessage: inputActions.resendMessage,
+      setTodo: inputActions.setTodo,
       toggleModal: modalActions.toggleModal,
       openGallery: galleryActions.openGallery,
       showNotification: notificationActions.showNotification,

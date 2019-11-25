@@ -1,62 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
-import pickBy from 'lodash/pickBy';
-import has from 'lodash/has';
+import get from 'lodash/get';
+import forEach from 'lodash/forEach';
 import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
 
-const getUnreadMessagesCount = (subscriptions, messages) => {
-  if (!subscriptions || !messages || isEmpty(messages.chatIds)) {
-    return 0;
-  }
+class Counter extends Component {
+  getUnreadMessagesCount = () => {
+    let count = 0;
 
-  let messagesCounter = 0;
+    forEach(this.props.subscriptions_list, subscription => {
+      const chatMessages = get(this.props.chatIds, `${subscription.id}.list`, []);
 
-  // Пока что так, непонятно, какой значение должен иметь тип для чатов организаций
-  const subscriptionsList = pickBy(subscriptions.list, sub => sub.group.type && !sub.group.is_space);
+      if (!subscription.last_read_message_id) {
+        return;
+      }
 
-  for (const subscription of Object.values(subscriptionsList)) {
-    if (!has(messages.chatIds, subscription.id)) {
-      continue;
+      if (!chatMessages[0]) {
+        return;
+      }
+
+      if (chatMessages[0] === subscription.last_read_message_id) {
+        return;
+      }
+
+      const lastReadMessageIndex = chatMessages.indexOf(subscription.last_read_message_id);
+
+      if (lastReadMessageIndex === -1) {
+        count += chatMessages.length;
+        return;
+      }
+
+      count += lastReadMessageIndex;
+    });
+
+    return count;
+  };
+
+  render() {
+    const count = this.getUnreadMessagesCount();
+
+    if (!count) {
+      return null;
     }
 
-    const chatMessagesListId = messages.chatIds[subscription.id].list[0];
-    const subscriptionChatMessages = messages.list[chatMessagesListId];
-
-    if (!chatMessagesListId || !subscriptionChatMessages || !subscription.last_read_message_id) {
-      continue;
-    }
-
-    const messagesDelta = subscriptionChatMessages.id - subscription.last_read_message_id;
-
-    if (messagesDelta === 0) {
-      continue;
-    }
-
-    messagesCounter += messagesDelta;
+    return <div className={cx('counter', this.props.className)}>
+      {count}
+    </div>;
   }
-
-  return messagesCounter;
-};
-
-const Counter = ({ subscriptions, messages, className }) => {
-  const value = getUnreadMessagesCount(subscriptions, messages);
-
-  if (!value) {
-    return null;
-  }
-
-  return <div className={cx('counter', className)}>
-    {value}
-  </div>;
-};
+}
 
 export default connect(
   state => ({
-    subscriptions: state.subscriptions,
-    messages: state.messages,
+    subscriptions_list: state.subscriptions.list,
+    chatIds: state.messages.chatIds,
   }),
 )(Counter);

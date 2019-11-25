@@ -91,7 +91,7 @@ class MessageInput extends Component {
         <Button appearance="_fab-primary" icon="four-shapes" className={style.icon_button} />
       }
 
-      <button className={style.send} onClick={this.send}>
+      <button id="send-button" className={style.send} onClick={this.send}>
         <Icon name="send" />
       </button>
     </div>;

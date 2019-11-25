@@ -112,6 +112,7 @@ class SignIn extends Component {
             ({ getInputProps, submitProps }) => <Fragment>
               <Input
                 {...getInputProps('email')}
+                type="email"
                 appearance="_none-classic"
                 className={style.input}
                 placeholder={this.props.t('email')}
@@ -127,6 +128,7 @@ class SignIn extends Component {
 
               <div className={style.actions}>
                 <Button
+                  type="submit"
                   appearance="_basic-primary"
                   text="Log in"
                   className={style.submit}

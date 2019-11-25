@@ -101,7 +101,7 @@ class Sidebar extends Component {
   render() {
     const actions = [
       { text: this.props.t('edit_profile'), onClick: this.openEditProfileModal },
-      { text: this.props.t('log_out'), onClick: this.logout },
+      { id: 'logout-button', text: this.props.t('log_out'), onClick: this.logout },
     ];
 
     const photo = get(this.props.currentUser, 'avatar.small', '/assets/default-user.jpg');
@@ -118,13 +118,12 @@ class Sidebar extends Component {
           <div className={style.circle} />
         </div>
 
-
         <Dropdown
           uniqueId="sidebar-user-dropdown"
           className={style.dropdown}
           items={actions}
         >
-          <button className={style.image} style={userImageInline}>
+          <button id="sidebar-user-dropdown-button" className={style.image} style={userImageInline}>
             <Counter className={style.counter} />
           </button>
         </Dropdown>
@@ -152,7 +151,7 @@ class Sidebar extends Component {
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
       </div>
 
-      <h1 className={style.title}>{title}</h1>
+      <h1 className={style.title} id="project-title">{title}</h1>
 
       <Input
         appearance="_border-transparent"

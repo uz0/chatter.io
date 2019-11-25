@@ -1,44 +1,63 @@
-// import {resolveBy, select} from 'reselector';
+import puppeteer from 'puppeteer';
 
-// const resolve = resolveBy(require.resolve);
-// const {SignIn: SignInSelector} = resolve('../components/sign-in_container');
+jest.setTimeout(30000);
 
-// const signInButton = select`${SignInSelector} a[href="/sign-in/"]`;
-// const signUpButton = select`${SignInSelector} a[href="/sign-up/"]`;
+const authorize = async (page, login, password) => {
+  await page.waitForSelector('input[type="email"]');
 
-// const url = 'https://demo-chat.universa.io';
-const url = 'http://localhost:8080/';
+  /* когда использую page.$eval('input[type="email"]', el => el.value = 'test@mail.ru') - onInput у инпута не срабатывает */
+  await page.focus('input[type="email"]');
+  await page.keyboard.type(login);
 
-jest.setTimeout(31000);
+  await page.focus('input[type="password"]');
+  await page.keyboard.type(password);
 
-describe('Google', () => {
-  beforeAll(async () => {
-    await page.goto('https://google.com');
-  });
+  await page.click('button[type="submit"]');
+  await page.waitForSelector('#project-title');
 
-  it('should display "google" text on page', async () => {
-    await expect(page).toMatch('google');
+  const title = await page.$eval('#project-title', el => el.innerHTML);
+  await expect(title).toBe('Unichat');
+};
+
+describe('Send message', () => {
+  it('should display sended message', async (done) => {
+    const browser = await puppeteer.launch({
+      // headless: false,
+      // slowMo: 250,
+      // args: ['--start-fullscreen'],
+    });
+
+    const page = await browser.newPage();
+
+    await page.setViewport({
+      width: 1920,
+      height: 900,
+      deviceScaleFactor: 1,
+    });
+
+    await page.goto('http://localhost:8080');
+    await authorize(page, 'test@mail.ru', '123456');
+    await page.goto('http://localhost:8080/chat/user/57');
+
+    await page.waitForSelector('#textarea');
+    const randomText = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+    await page.focus('#textarea');
+    await page.keyboard.type(''); // очищение от драфта
+    await page.keyboard.type(randomText);
+
+    await page.click('#send-button');
+    await page.click('#sidebar-user-dropdown-button');
+    await page.waitForSelector('#logout-button');
+    await page.click('#logout-button');
+
+    await authorize(page, 'test2@mail.ru', '123456');
+    await page.goto('http://localhost:8080/chat/user/56');
+    await page.waitForSelector('#messages-scroll > div[data-message-id]:last-child');
+    const message = await page.$eval('#messages-scroll > div[data-message-id]:last-child p', el => el.innerHTML);
+
+    await expect(message).toBe(randomText);
+    await browser.close();
+    done();
   });
 });
 
-describe('Index page', () => {
-  beforeAll(async () => {
-    await page.goto(url);
-    await page.waitForNavigation();
-  });
-
-  it('should display "Log In" button in viewport', async () => {
-    // await page.waitForSelector(signInButton, {visible: true});
-    // expect(button.isIntersectingViewport()).toEqual(true);
-    await expect(page).toMatch('Log in');
-  });
-
-  it('should display "Sign Up" button in viewport', async () => {
-    // await page.waitForSelector(signUpButton, {visible: true});
-    await expect(page).toMatch('Sign Up');
-  });
-
-  it('should not display "qweqwe." text on page', async () => {
-    await expect(page).not.toMatch('qweqwe.');
-  });
-});

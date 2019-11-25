@@ -87,13 +87,10 @@ class Message extends Component {
   };
 
   render() {
-    const author = this.props.users_list[this.props.message.user_id] || {};
-    const authorNick = author.id !== this.props.currentUser.id ? author.nick || 'no nick' : this.props.t('you');
 
     return <div className={cx('message', this.props.className)}>
       {!this.props.message.xtag &&
         <p className={style.text}>
-          {!this.props.message.deleted_at && `${authorNick}: `}
           {this.getMessageText()}
         </p>
       }

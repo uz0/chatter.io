@@ -26,7 +26,8 @@ class Form extends Component {
     isLoading: false,
   };
 
-  submit = async () => {
+  submit = async event => {
+    event.preventDefault();
     this.validate();
     const erroredField = find(this.state.data, 'error');
 

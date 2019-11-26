@@ -99,6 +99,7 @@ class Dropdown extends Component {
               }}
             >
               {this.props.items.map(item => <button
+                {...item.id ? { id: item.id } : {}}
                 key={uid()}
                 onClick={this.onItemClick(item.onClick)}
                 className={cx({'_is-danger': item.isDanger})}

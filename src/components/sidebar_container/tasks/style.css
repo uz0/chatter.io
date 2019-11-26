@@ -175,3 +175,15 @@
   width: 100%;
   box-shadow: 0 1px var(--divider-color) inset;
 }
+
+@media (max-width: 800px) {
+  .popup {
+    left: var(--layout-padding);
+    right: var(--layout-padding);
+    width: auto;
+  }
+
+  .popup > .list {
+    max-height: 350px;
+  }
+}

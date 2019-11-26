@@ -65,8 +65,19 @@ class Tasks extends Component {
   render() {
     let tasks = this.props.tasks;
 
+    if (this.state.filter === 'all') {
+      tasks = filter(tasks, {done: false});
+    }
+
     if (this.state.filter === 'my') {
-      tasks = filter(tasks, {executor_id: this.props.currentUserId});
+      tasks = filter(tasks, {
+        executor_id: this.props.currentUserId,
+        done: false,
+      });
+    }
+
+    if (this.state.filter === 'archived') {
+      tasks = filter(tasks, {done: true});
     }
 
     const isTasksExist = tasks.length > 0;

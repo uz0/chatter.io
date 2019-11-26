@@ -4,6 +4,8 @@ import map from 'lodash/map';
 import find from 'lodash/find';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import classnames from 'classnames/bind';
+import moment from 'moment';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import Attach from '@/components/attach';
 import Button from '@/components/button';
@@ -15,9 +17,10 @@ import Input from '@/components/old-form/input';
 import Textarea from '@/components/old-form/textarea';
 import { api } from '@';
 import { getOpponentUser } from '@/helpers';
+import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as formActions } from '@/components/old-form';
+import { actions as notificationActions } from '@/components/notification';
 import inputActions from '@/components/messages_container/input/actions';
-import classnames from 'classnames/bind';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -34,22 +37,25 @@ class Content extends Component {
 
     let options = {
       title: this.props.title.value,
-      group_id: this.props.details.group_id,
     };
 
-    if (this.props.details.group.organization_id) {
+    if (this.props.details) {
+      options['group_id'] = this.props.details.group_id;
+    }
+
+    if (this.props.details && this.props.details.group.organization_id) {
       options['organization_id'] = this.props.details.group.organization_id;
     }
 
-    if (this.props.details.group.type !== 'private_chat' && this.props.executor.value) {
+    if (this.props.details && this.props.details.group.type !== 'private_chat' && this.props.executor.value) {
       options['executor_id'] = this.props.executor.value;
     }
 
-    if (this.props.description.value) {
+    if (this.props.details && this.props.description.value) {
       options['description'] = this.props.description.value;
     }
 
-    if (this.props.uploads_id.value) {
+    if (this.props.details && this.props.uploads_id.value) {
       options['uploads_id'] = this.props.uploads_id.value;
     }
 
@@ -79,7 +85,7 @@ class Content extends Component {
   };
 
   onTitleBlur = async () => {
-    if (!this.props.task) {
+    if (!this.props.task_id) {
       return;
     }
 
@@ -87,7 +93,7 @@ class Content extends Component {
       return;
     }
 
-    if (this.props.title.value === this.props.task.title) {
+    if (this.props.title.value === this.props.task_title) {
       return;
     }
 
@@ -97,7 +103,7 @@ class Content extends Component {
   };
 
   onDescriptionBlur = async () => {
-    if (!this.props.task) {
+    if (!this.props.task_id) {
       return;
     }
 
@@ -105,7 +111,7 @@ class Content extends Component {
       return;
     }
 
-    if (this.props.description.value === this.props.task.description) {
+    if (this.props.description.value === this.props.task_description) {
       return;
     }
 
@@ -131,7 +137,7 @@ class Content extends Component {
   };
 
   onTitleBlur = async () => {
-    if (!this.props.task) {
+    if (!this.props.task_id) {
       return;
     }
 
@@ -139,7 +145,7 @@ class Content extends Component {
       return;
     }
 
-    if (this.props.title.value === this.props.task.title) {
+    if (this.props.title.value === this.props.task_title) {
       return;
     }
 
@@ -157,7 +163,7 @@ class Content extends Component {
       isBlured: true,
     });
 
-    if (!this.props.task) {
+    if (!this.props.task_id) {
       return;
     }
 
@@ -205,21 +211,42 @@ class Content extends Component {
   };
 
   destroyAttachment = async id => {
-    await api.destroyTaskAttachment({task_id: this.props.task_id, signed_id: id});
+    try {
+      await api.destroyTaskAttachment({task_id: this.props.task_id, signed_id: id});
+    } catch (error) {
+      console.error(error);
+      this.props.showNotification({ text: error.text });
+    }
+  };
+
+  getLastUpdatedTime = time => {
+    const diff = moment().diff(moment(time));
+    const diffInMinutes = moment.duration(diff).asMinutes();
+
+    if (diffInMinutes < 30) {
+      setTimeout(() => this.forceUpdate(), 60000);
+      return `${Math.ceil(diffInMinutes)}m ago`;
+    }
+
+    if (moment(time).isSame(moment(), 'day')) {
+      return `${moment(time).format('HH:mm')}`;
+    }
+
+    return `${moment(time).format('DD MMMM, HH:mm')}`;
   };
 
   getDefaultAttachments = () => {
-    if (!this.props.task) {
+    if (!this.props.task_id) {
       return [];
     }
 
-    if (!this.props.task.attachments || this.props.task.attachments.length === 0) {
+    if (!this.props.task_attachments || this.props.task_attachments.length === 0) {
       return [];
     }
 
     let attachments = [];
 
-    this.props.task.attachments.forEach(item => {
+    this.props.task_attachments.forEach(item => {
       attachments.push({
         uid: item.signed_id,
         byte_size: item.byte_size,
@@ -252,10 +279,10 @@ class Content extends Component {
       });
     }
 
-    if (this.props.details.group.type !== 'private_chat') {
+    if (this.props.details && this.props.details.group.type !== 'private_chat') {
       this.props.formChange('edit_task.executor', {
         error: '',
-        value: this.props.task ? this.props.task.executor_id : null,
+        value: this.props.task_id ? this.props.task_executor_id : null,
         isTouched: false,
         isBlured: false,
         isRequired: true,
@@ -264,7 +291,7 @@ class Content extends Component {
 
     this.props.formChange('edit_task.done', {
       error: '',
-      value: this.props.task ? this.props.task.done : false,
+      value: this.props.task_id ? this.props.task_done : false,
       isTouched: false,
       isBlured: false,
       isRequired: false,
@@ -278,7 +305,7 @@ class Content extends Component {
       isRequired: false,
     });
 
-    if (this.props.task && this.props.task.description) {
+    if (this.props.task_id && this.props.task_description) {
       setTimeout(() => this.calcTextareaHeight());
     }
   }
@@ -300,6 +327,8 @@ class Content extends Component {
     const isDropdownShown = !isPrivate && !this.props.executor.value;
     const executorDropdownItems = this.getExecutors();
     const defaultAttachments = this.getDefaultAttachments();
+    const lastUpdatedName = this.props.task_last_change_user && this.props.task_last_change_user.nick || 'no nick';
+    const lastUpdatedTime = this.getLastUpdatedTime(this.props.task_updated_at);
 
     return <Form model="edit_task" className={style.content}>
       {this.state.isLoading &&
@@ -318,7 +347,7 @@ class Content extends Component {
             placeholder="New To-Do"
             className={style.title}
             onBlur={this.onTitleBlur}
-            {...this.props.task ? { defaultValue: this.props.task.title } : {}}
+            {...this.props.task_id ? { defaultValue: this.props.task_title } : {}}
           />
 
           <Textarea
@@ -328,7 +357,7 @@ class Content extends Component {
             placeholder="Notes"
             className={style.description}
             onBlur={this.onDescriptionBlur}
-            {...this.props.task ? { defaultValue: this.props.task.description } : {}}
+            {...this.props.task_id ? { defaultValue: this.props.task_description } : {}}
           />
         </div>
 
@@ -361,12 +390,13 @@ class Content extends Component {
         {...this.props.task ? { defaultValue: defaultAttachments } : {}}
       >
         {({ images, removeAttachment }) => {
+          const imagesUrls = map(images, image => image.url);
           const isImagesExist = images.length > 0;
 
           return <Fragment>
             {isImagesExist &&
               <div className={style.images}>
-                {images.map(image => {
+                {images.map((image, index) => {
                   if (!image.preview) {
                     return;
                   }
@@ -374,18 +404,29 @@ class Content extends Component {
                   let close;
 
                   if (this.props.task_id) {
-                    close = () => {
+                    close = event => {
+                      event.stopPropagation();
                       this.destroyAttachment(image.uid);
                     };
                   } else {
-                    close = event => removeAttachment(image.uid)(event);
+                    close = event => {
+                      event.stopPropagation();
+                      removeAttachment(image.uid)(event);
+                    };
                   }
 
                   const inline = { 'background-image': `url(${image.preview})` };
 
-                  return <div
+                  const toggleGallery = () => this.props.openGallery({
+                    images: imagesUrls,
+                    index,
+                  });
+
+                  return <button
                     key={image.uid}
                     style={inline}
+                    type="button"
+                    onClick={toggleGallery}
                     className={style.preview}
                   >
                     <button type="button" className={style.close} onClick={close}>
@@ -397,7 +438,7 @@ class Content extends Component {
                         <Loading className={style.file_loading} isShown />
                       </Fragment>
                     }
-                  </div>;
+                  </button>;
                 })}
               </div>
             }
@@ -406,7 +447,10 @@ class Content extends Component {
       </Attach>
 
       <div className={style.footer}>
-        <p className={style.updated}>Updated by Mark Trubnikov, 10m ago</p>
+        {lastUpdatedTime &&
+          <p className={style.updated}>Updated by {lastUpdatedName}, {lastUpdatedTime}</p>
+        }
+
         <Button appearance="_icon-transparent" icon="dots-list" type="button" className={style.attach} />
         <Button appearance="_icon-transparent" icon="image" type="button" className={style.attach} onClick={this.attachImages} />
       </div>
@@ -422,26 +466,42 @@ class Content extends Component {
 
 export default compose(
   connect(
-    (state, props) => ({
+    state => ({
       currentUserId: state.currentUser.id,
       done: get(state.forms, 'edit_task.done', {}),
       title: get(state.forms, 'edit_task.title', {}),
       description: get(state.forms, 'edit_task.description', {}),
       executor: get(state.forms, 'edit_task.executor', {}),
       uploads_id: get(state.forms, 'edit_task.uploads_id', null),
-      details: state.subscriptions.list[props.subscription_id],
     }),
 
     {
       formChange: formActions.formChange,
+      openGallery: galleryActions.openGallery,
       setTodo: inputActions.setTodo,
+      showNotification: notificationActions.showNotification,
     },
   ),
 
   connect(
-    (state, props) => ({
-      task: props.task_id ? state.tasks.list[props.task_id] : undefined,
-    }),
+    (state, props) => {
+      const task = state.tasks && state.tasks.list[props.task_id];
+
+      if (!task) {
+        return { task: undefined };
+      }
+
+      return {
+        task_title: get(task, 'title', ''),
+        task_description: get(task, 'description', ''),
+        task_executor_id: get(task, 'executor_id'),
+        task_done: get(task, 'done', false),
+        task_group_id: get(task, 'group_id'),
+        task_last_change_user: get(task, 'last_change_user'),
+        task_updated_at: get(task, 'updated_at'),
+        task_attachments: get(task, 'attachments', []),
+      };
+    },
   ),
 
   connect(
@@ -452,8 +512,8 @@ export default compose(
         details = state.subscriptions.list[props.subscription_id];
       }
 
-      if (!details && props.task) {
-        details = find(state.subscriptions.list, { group_id: props.task.group_id });
+      if (!details && props.task_group_id) {
+        details = find(state.subscriptions.list, { group_id: props.task_group_id });
       }
 
       return { details };

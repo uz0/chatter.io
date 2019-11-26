@@ -12,8 +12,8 @@ class Layout extends Component {
     return <Fragment>
       { this.props.children }
       <Notification />
-      <Gallery />
       <ModalContainer />
+      <Gallery />
     </Fragment>;
   }
 

@@ -118,7 +118,6 @@ class Sidebar extends Component {
           <div className={style.circle} />
         </div>
 
-
         <Dropdown
           uniqueId="sidebar-user-dropdown"
           className={style.dropdown}

@@ -9,6 +9,7 @@ import Task from '@/components/task';
 import SubscriptionAvatar from '@/components/subscription-avatar';
 import { ClickOutside } from 'reactjs-click-outside';
 import { api } from '@';
+import { actions as modalActions } from '@/components/modal_container';
 import { actions as tasksActions } from '@/store/tasks';
 import classnames from 'classnames/bind';
 import style from './style.css';
@@ -21,6 +22,22 @@ class Tasks extends Component {
   };
 
   setTab = filter => () => this.setState({ filter });
+
+  newTodo = () => this.props.toggleModal({
+    id: 'classic-edit-task-modal',
+
+    options: {
+      organization_id: this.props.organization_id,
+    },
+  });
+
+  openTask = id => () => this.props.toggleModal({
+    id: 'classic-edit-task-modal',
+
+    options: {
+      task_id: id,
+    },
+  });
 
   async componentWillMount() {
     if (!this.props.isLoaded) {
@@ -81,7 +98,7 @@ class Tasks extends Component {
         </div>
 
         <div className={style.list}>
-          <button className={style.new}>+ New To-Do</button>
+          <button className={style.new} onClick={this.newTodo}>+ New To-Do</button>
 
           {Object.keys(groupedTasks).map(key => {
             const group = groupedTasks[key];
@@ -99,6 +116,7 @@ class Tasks extends Component {
                 return <Task
                   key={task.id}
                   id={task.id}
+                  onClick={this.openTask(task.id)}
                   className={style.task}
                 />;
               })}
@@ -124,6 +142,7 @@ export default compose(
 
     {
       loadOrganizationTasks: tasksActions.loadOrganizationTasks,
+      toggleModal: modalActions.toggleModal,
     },
   ),
 )(Tasks);

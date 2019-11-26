@@ -122,11 +122,11 @@ class Filters extends Component {
     }
 
     return feeds;
-  }
+  };
 
   toggleSpaces = () => {
     this.setState({ isShowMoreSpacesActive: !this.state.isShowMoreSpacesActive });
-  }
+  };
 
   openNewSpace = () => this.props.pushUrl('/new-space');
 
@@ -188,7 +188,7 @@ class Filters extends Component {
   };
 
   renderEmptyFeed = () => {
-    return <button className={style.subscription_empty}>
+    return <button className={style.subscription_empty} onClick={this.openNewSpace}>
       <Icon name="plus" />
       <span className={style.text}>Create first public space</span>
     </button>;

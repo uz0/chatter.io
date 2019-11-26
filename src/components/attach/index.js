@@ -3,6 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import find from 'lodash/find';
+import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import filter from 'lodash/filter';
 import CRC32 from 'crc-32';
@@ -461,6 +462,12 @@ class Attach extends Component {
     await captureMicrophone(() => {
       this.setState({ recordStatus: recordStatuses.DISABLED });
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (get(this.props, 'defaultValue.length', 0) !== get(nextProps, 'defaultValue.length', 0)) {
+      this.setState({ attachments: nextProps.defaultValue });
+    }
   }
 
   componentDidMount() {

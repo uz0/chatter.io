@@ -81,14 +81,14 @@
   overflow-x: hidden;
   max-height: 525px;
   padding-top: 20px;
+  padding-left: var(--layout-padding);
+  padding-right: var(--layout-padding);
 }
 
 .popup > .list > .new {
   --height: 20px;
   overflow: hidden;
   height: var(--height);
-  margin-left: var(--layout-padding);
-  margin-right: var(--layout-padding);
   line-height: var(--height);
   font-size: 15px;
   font-weight: var(--font-weight-medium);
@@ -128,8 +128,6 @@
 .popup > .list > .section {
   display: flex;
   align-items: center;
-  padding-left: var(--layout-padding);
-  padding-right: var(--layout-padding);
 }
 
 .popup > .list > .section > .avatar {
@@ -174,7 +172,6 @@
 
 .popup > .list > .task {
   --task-height: 48px;
-  margin-left: var(--layout-padding);
-  margin-right: var(--layout-padding);
+  width: 100%;
   box-shadow: 0 1px var(--divider-color) inset;
 }

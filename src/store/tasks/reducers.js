@@ -51,10 +51,16 @@ export default createReducer(initialState, {
   },
 
   [actions.types.updateTask]: (state, action) => {
-    state.list[action.payload.id] = {
+    let task = {
       ...state.list[action.payload.id],
       ...action.payload,
     };
+
+    if (task.attachments && !action.payload.attachments) {
+      delete task.attachments;
+    }
+
+    state.list[action.payload.id] = task;
   },
 
   [actions.types.loadOrganizationTasks]: (state, action) => {

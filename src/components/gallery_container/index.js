@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Portal } from 'react-portal';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Button from '@/components/button';
@@ -98,43 +99,45 @@ class Gallery extends Component {
     const isRightButtonShown = !!this.props.images[this.props.index + 1];
     const isLeftButtonShown = !!this.props.images[this.props.index - 1];
 
-    return this.props.images.length > 0 && <div className={style.gallery} onClick={this.close}>
-      {isLeftButtonShown &&
-        <Button
-          appearance="_icon-transparent"
-          icon="thin-arrow-left"
-          className={style.arrow_left}
-          onClick={this.left}
-        />
-      }
+    return this.props.images.length > 0 && <Portal>
+      <div className={style.gallery} onClick={this.close}>
+        {isLeftButtonShown &&
+          <Button
+            appearance="_icon-transparent"
+            icon="thin-arrow-left"
+            className={style.arrow_left}
+            onClick={this.left}
+          />
+        }
 
-      {isRightButtonShown &&
-        <Button
-          appearance="_icon-transparent"
-          icon="thin-arrow-right"
-          className={style.arrow_right}
-          onClick={this.right}
-        />
-      }
+        {isRightButtonShown &&
+          <Button
+            appearance="_icon-transparent"
+            icon="thin-arrow-right"
+            className={style.arrow_right}
+            onClick={this.right}
+          />
+        }
 
-      <div className={style.close_wrapper} onClick={this.preventClose}>
-        <Button
-          appearance="_icon-transparent"
-          icon="close"
-          className={style.close}
-          onClick={this.close}
-        />
+        <div className={style.close_wrapper} onClick={this.preventClose}>
+          <Button
+            appearance="_icon-transparent"
+            icon="close"
+            className={style.close}
+            onClick={this.close}
+          />
+        </div>
+
+        <div
+          className={style.content}
+          onClick={this.preventCloseMobile}
+          onTouchStart={this.onTouchStart}
+          onTouchEnd={this.onTouchEnd}
+        >
+          <img src={this.props.images[this.props.index]} onClick={this.preventClose} />
+        </div>
       </div>
-
-      <div
-        className={style.content}
-        onClick={this.preventCloseMobile}
-        onTouchStart={this.onTouchStart}
-        onTouchEnd={this.onTouchEnd}
-      >
-        <img src={this.props.images[this.props.index]} onClick={this.preventClose} />
-      </div>
-    </div>;
+    </Portal>;
   }
 }
 

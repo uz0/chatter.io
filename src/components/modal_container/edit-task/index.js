@@ -15,6 +15,7 @@ const EditTask = ({
   >
     <Content
       close={close}
+      {...options.organization_id ? { organization_id: options.organization_id } : {}}
       {...options.task_id ? { task_id: options.task_id } : {}}
       {...options.subscription_id ? { subscription_id: options.subscription_id } : {}}
       {...options.is_input ? { is_input: options.is_input } : {}}

@@ -27,6 +27,7 @@ const cx = classnames.bind(style);
 
 class Content extends Component {
   state = {
+    organization_users: [],
     isLoading: false,
   };
 
@@ -45,6 +46,10 @@ class Content extends Component {
 
     if (this.props.details && this.props.details.group.organization_id) {
       options['organization_id'] = this.props.details.group.organization_id;
+    }
+
+    if (this.props.organization_id) {
+      options['organization_id'] = this.props.organization_id;
     }
 
     if (this.props.details && this.props.details.group.type !== 'private_chat' && this.props.executor.value) {
@@ -121,13 +126,27 @@ class Content extends Component {
   };
 
   getExecutors = () => {
-    if (!this.props.details || this.props.details.group.type === 'private_chat') {
+    if (this.props.details && this.props.details.group.type === 'private_chat') {
+      return [];
+    }
+
+    let participants;
+
+    if (!this.props.details && this.props.organization_id && this.state.organization_users.length > 0) {
+      participants = this.state.organization_users;
+    }
+
+    if (this.props.details) {
+      participants = this.props.details.group.participants;
+    }
+
+    if (!participants) {
       return [];
     }
 
     let items = [];
 
-    this.props.details.group.participants.forEach(item => {
+    participants.forEach(item => {
       if (item.user_id !== this.props.currentUserId && item.user.nick) {
         items.push({text: item.user.nick, onClick: () => this.setExecutor(item.user_id)});
       }
@@ -262,7 +281,7 @@ class Content extends Component {
     return attachments;
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.details && this.props.details.group.type === 'private_chat') {
       const user = getOpponentUser(this.props.details);
 
@@ -287,6 +306,11 @@ class Content extends Component {
         isBlured: false,
         isRequired: true,
       });
+    }
+
+    if (!this.props.details && this.props.organization_id) {
+      const { organizations_users } = await api.getOrganizationUsers({organization_id: this.props.organization_id});
+      this.setState({ organization_users: organizations_users });
     }
 
     this.props.formChange('edit_task.done', {

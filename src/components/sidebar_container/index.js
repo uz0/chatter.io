@@ -129,10 +129,6 @@ class Sidebar extends Component {
         </Dropdown>
 
         {this.props.organization &&
-          <Button appearance="_fab-divider" icon="settings" onClick={this.goToSettings} className={style.button} />
-        }
-
-        {this.props.organization &&
           <button
             className={cx('button', 'task', {'_is-active': this.state.isTasksPopupShown})}
             onClick={this.openTasksPopup}
@@ -151,7 +147,13 @@ class Sidebar extends Component {
         <Button appearance="_fab-divider" icon="add-chat" onClick={this.openAddChat} className={style.button} />
       </div>
 
-      <h1 className={style.title}>{title}</h1>
+      <div className={style.section}>
+        <h1 className={style.title}>{title}</h1>
+
+        {this.props.organization &&
+          <Button appearance="_fab-transparent" icon="settings" onClick={this.goToSettings} className={style.button} />
+        }
+      </div>
 
       <Input
         appearance="_border-transparent"

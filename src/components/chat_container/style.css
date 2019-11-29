@@ -1,5 +1,5 @@
 .chat {
-  --info-height: 62px;
+  --info-height: 60px;
   --sidebar-width: 25%;
   --panel-width: 20%;
   flex-grow: 1;

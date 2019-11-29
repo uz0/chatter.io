@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import Button from '@/components/button';
 import classnames from 'classnames/bind';
-import { actions as inputActions } from '@/components/messages_container/input';
+import actions from './actions';
 import style from './style.css';
 
 const cx = classnames.bind(style);
@@ -21,7 +21,7 @@ class ReplyInput extends Component {
       return;
     }
 
-    this.props.sendMessage({
+    this.props.sendComment({
       text: this.state.value,
       reply_message_id: this.props.messageId,
       subscription_id: this.props.subscriptionId,
@@ -55,7 +55,7 @@ export default compose(
     null,
 
     {
-      sendMessage: inputActions.sendMessage,
+      sendComment: actions.sendComment,
     },
   ),
 )(ReplyInput);

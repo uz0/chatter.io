@@ -68,13 +68,13 @@ class Tasks extends Component {
   }
 
   render() {
-    let tasks = this.props.tasks;
+    let tasks = filter(this.props.tasks, task => !!task.group_id);
 
     if (this.state.filter === 'my') {
       tasks = filter(tasks, {executor_id: this.props.currentUserId});
     }
 
-    const groupedTasks = groupBy(tasks, 'creator_id');
+    const groupedTasks = groupBy(tasks, 'group_id');
     const isTasksExist = Object.keys(groupedTasks).length > 0;
 
     return <ClickOutside outsideCall={this.props.close}>
@@ -102,13 +102,12 @@ class Tasks extends Component {
 
           {Object.keys(groupedTasks).map(key => {
             const group = groupedTasks[key];
-            const creator = group[0].creator;
-            const name = creator.nick || 'no name';
+            const groupId = group[0].group_id;
 
             return <Fragment key={key}>
               <div className={style.section}>
-                <SubscriptionAvatar className={style.avatar} userId={creator.id} />
-                <p className={style.name}>{name}</p>
+                <SubscriptionAvatar className={style.avatar} groupId={groupId} />
+                <p className={style.name}>123</p>
                 <button className={style.all}>See all</button>
               </div>
 

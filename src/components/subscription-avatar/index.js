@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import find from 'lodash/find';
 import Avatar from '@/components/avatar';
 import { getChatName, getOpponentUser } from '@/helpers';
 
@@ -49,6 +50,7 @@ class SubscriptionAvatar extends Component {
 export default connect(
   (state, props) => ({
     ...props.userId ? { user: state.users.list[props.userId] } : null,
+    ...props.groupId ? { subscription: find(state.subscriptions.list, {group_id: props.groupId}) } : null,
     // что бы обновлялся компонент при обновлении users
     users: state.users,
     users_list: state.users.list,

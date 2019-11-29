@@ -40,6 +40,8 @@ class NewCompanyDialog extends Component {
     try {
       await api.createOrganizationRoom(obj);
     } catch (error) {
+      console.error(error);
+
       this.props.showNotification({
         type: 'error',
         text: error.text,

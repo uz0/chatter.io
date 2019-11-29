@@ -132,6 +132,7 @@
 
 .popup > .list > .section > .avatar {
   --size: 32px;
+  --font-size: 14px;
   flex-shrink: 0;
 }
 

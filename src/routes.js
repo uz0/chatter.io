@@ -38,6 +38,7 @@ export default () => <Provider store={store}>
         <Route component={Chat} path="/:orgId/chat" />
         <Route component={Chat} path="/chat" />
         <Route component={NewCompany} path="/new-company" />
+        <Route component={NewSpace} path="/:orgId/new-space" />
         <Route component={NewSpace} path="/new-space" />
         <Route component={Invite} path="/invite/:code" />
         <Route component={Invite} path="/joinuser/:nick" />

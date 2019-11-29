@@ -22,7 +22,15 @@ class FeedItem extends Component {
       this.props.lastMessage.user_id !== this.props.currentUser.id &&
       this.props.details.last_read_message_id !== this.props.lastMessage.id;
 
-    return <Link className={cx('feed-item', this.props.className)} activeClassName="_is-active" to={`/chat/${this.props.id}`}>
+    let href;
+
+    if (this.props.details.group.organization_id) {
+      href = `/${this.props.details.group.organization_id}/chat/${this.props.id}`;
+    } else {
+      href = `/chat/${this.props.id}`;
+    }
+
+    return <Link className={cx('feed-item', this.props.className)} activeClassName="_is-active" to={href}>
       <Icon name="hashtag" />
       <p className={style.name}>{this.props.details.group.name}</p>
 

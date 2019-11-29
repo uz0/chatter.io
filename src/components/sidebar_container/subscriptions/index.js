@@ -22,7 +22,7 @@ const cx = classnames.bind(style);
 class Filters extends Component {
   state = {
     isShowMoreSpacesActive: false,
-  }
+  };
 
   isSubscriptionInViewPort = element => {
     const parent = document.querySelector('#sidebar-scroll');
@@ -128,7 +128,16 @@ class Filters extends Component {
     this.setState({ isShowMoreSpacesActive: !this.state.isShowMoreSpacesActive });
   };
 
-  openNewSpace = () => this.props.pushUrl('/new-space');
+  openNewSpace = () => {
+    const organization_id = parseInt(this.props.match.params.orgId, 10);
+
+    if (organization_id) {
+      this.props.pushUrl(`/${organization_id}/new-space`);
+      return;
+    }
+
+    this.props.pushUrl('/new-space');
+  };
 
   renderFeed = ({ item }) => {
     if (item === 'new-space-mock') {

@@ -23,24 +23,55 @@ class NewCompany extends Component {
   prevStep = () => this.setState({ step: 0 });
   nextStep = () => this.setState({ step: 1 });
 
+  createOrgRoom = async organization_id => {
+    const { subscription } = await api.createOrganizationRoom({
+      organization_id,
+      name: this.props.name.value,
+      user_ids: this.props.members.value,
+      type: this.props.isPublic.value ? 'public' : 'private',
+    });
+
+    return subscription;
+  };
+
+  createSimpleRoom = async () => {
+    const { subscription } = await api.createRoom({ name: this.props.name.value, user_ids: this.props.members.value });
+    return subscription;
+  };
+
   create = async () => {
+    const organization_id = parseInt(this.props.match.params.orgId, 10);
+
     try {
-      const { subscription } = await api.createRoom({ name: this.props.name.value, user_ids: this.props.members.value });
+      let object = {
+        name: this.props.name.value,
+        user_ids: this.props.members.value,
+        type: this.props.isPublic.value ? 'public' : 'private',
+      };
 
+      let createMethod;
+
+      if (organization_id) {
+        createMethod = api.createOrganizationRoom;
+        object['organization_id'] = organization_id;
+      } else {
+        createMethod = api.createRoom;
+      }
+
+      const { subscription } = await createMethod(object);
       this.props.addSubscription(subscription);
-
       const { group } = await api.updateGroup({ subscription_id: subscription.id, is_space: true });
 
       this.props.updateSubscription({
         id: subscription.id,
-
-        group: {
-          ...group,
-          type: this.props.isPrivate.value ? 'private_chat' : 'room',
-        },
+        group,
       });
 
-      this.props.pushUrl(`chat/${subscription.id}`);
+      if (organization_id) {
+        this.props.pushUrl(`/${organization_id}/chat/${subscription.id}`);
+      } else {
+        this.props.pushUrl(`/chat/${subscription.id}`);
+      }
     } catch (error) {
       console.error(error);
 
@@ -69,7 +100,7 @@ class NewCompany extends Component {
 
     if (isMembersShown) {
       title = <span className={style.space_title}>
-        {!this.props.isPrivate.value ? "#" : <Icon className={style.icon} name="lock" />}
+        {!this.props.isPublic.value ? "#" : <Icon className={style.icon} name="lock" />}
 
         {this.props.name.value}
       </span>;
@@ -112,7 +143,7 @@ export default compose(
         isRequired: true,
       }),
 
-      isPrivate: get(state.forms, 'new_space.isPrivate', {
+      isPublic: get(state.forms, 'new_space.isPublic', {
         error: '',
         value: false,
         isTouched: false,

@@ -537,16 +537,18 @@ class Panel extends Component {
           </div>
         </div>
 
-        <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'tasks' })}>
-          <button className={style.collapse_button} onClick={this.toggleCollapse('tasks')}>
-            <span className={style.title}>{this.props.t('task_plural')}</span>
-            <Icon name="arrow-down" />
-          </button>
+        {!this.props.details.group.is_space &&
+          <div className={cx('collapse', { '_is-open': this.state.collapseActive === 'tasks' })}>
+            <button className={style.collapse_button} onClick={this.toggleCollapse('tasks')}>
+              <span className={style.title}>{this.props.t('task_plural')}</span>
+              <Icon name="arrow-down" />
+            </button>
 
-          <div className={style.collapse_list}>
-            <Tasks details_id={this.props.details.id} />
+            <div className={style.collapse_list}>
+              <Tasks details_id={this.props.details.id} />
+            </div>
           </div>
-        </div>
+        }
       </div>
     </Fragment>;
   };

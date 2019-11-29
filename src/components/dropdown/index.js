@@ -108,6 +108,10 @@ class Dropdown extends Component {
                   <Icon name={item.icon} />
                 }
 
+                {item.customIcon &&
+                  item.customIcon
+                }
+
                 <span>{item.text}</span>
               </button>)}
             </div>

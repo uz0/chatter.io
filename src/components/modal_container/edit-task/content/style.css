@@ -217,3 +217,12 @@
   --height: 38px;
   flex-shrink: 0;
 }
+
+.dropdown_avatar {
+  --size: 32px;
+  flex-shrink: 0;
+}
+
+.dropdown_avatar + * {
+  margin-left: 14px;
+}

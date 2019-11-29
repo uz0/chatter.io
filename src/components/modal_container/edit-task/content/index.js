@@ -148,7 +148,11 @@ class Content extends Component {
 
     participants.forEach(item => {
       if (item.user_id !== this.props.currentUserId && item.user.nick) {
-        items.push({text: item.user.nick, onClick: () => this.setExecutor(item.user_id)});
+        items.push({
+          text: item.user.nick,
+          onClick: () => this.setExecutor(item.user_id),
+          customIcon: <SubscriptionAvatar className={style.dropdown_avatar} userId={item.user_id} />,
+        });
       }
     });
 

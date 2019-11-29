@@ -14,6 +14,10 @@ class Checkbox extends Component {
       isTouched: true,
       value: event.target.checked,
     });
+
+    if (this.props.onChange) {
+      this.props.onChange(event.target.checked);
+    }
   };
 
   componentWillMount() {

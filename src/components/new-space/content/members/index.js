@@ -79,6 +79,28 @@ class Members extends Component {
     });
   };
 
+  onPrivacyChange = isPublic => {
+    if (!isPublic) {
+      this.props.formChange('new_space.members', {
+        ...this.props.members,
+        value: [],
+      });
+
+      return;
+    }
+
+    const localContacts = this.getLocalContacts();
+    const globalContacts = this.getGlobalContacts(localContacts);
+    const ids = map([...localContacts, ...globalContacts], 'id');
+
+    this.props.formChange('new_space.members', {
+      ...this.props.members,
+      value: ids,
+    });
+
+    return;
+  };
+
   getLocalContacts = () => {
     let users = [...this.state.contacts];
 
@@ -119,7 +141,8 @@ class Members extends Component {
     const globalContacts = this.getGlobalContacts(localContacts);
     const isGlobalContactsExist = globalContacts.length > 0;
 
-    const captionText = this.props.isPrivate.value ? 'Only invited members will see this space' : 'All members of the company will see this space';
+    const captionText = this.props.isPublic.value ? 'All members of the company will see this space' : 'Only invited members will see this space';
+    const privacyLabel = this.props.isPublic.value ? 'Public' : 'Private';
 
     return <div className={cx('members', {'_is-shown': this.props.isShown})}>
       {this.state.isLoading &&
@@ -131,10 +154,10 @@ class Members extends Component {
 
         <div className={style.privacy}>
           <Checkbox
-            label={'Private'}
-            onChange={() => {}}
-            model="new_space.isPrivate"
-            defaultValue={false}
+            label={privacyLabel}
+            onChange={this.onPrivacyChange}
+            model="new_space.isPublic"
+            defaultValue={this.props.isPublic.value}
           />
 
           <p className={style.caption}>{captionText}</p>
@@ -222,7 +245,7 @@ export default compose(
         isRequired: true,
       }),
 
-      isPrivate: get(state.forms, 'new_space.isPrivate', {
+      isPublic: get(state.forms, 'new_space.isPublic', {
         error: '',
         value: false,
         isTouched: false,

@@ -16,7 +16,7 @@ import Form from '@/components/old-form/form';
 import Input from '@/components/old-form/input';
 import Textarea from '@/components/old-form/textarea';
 import { api } from '@';
-import { getOpponentUser } from '@/helpers';
+import { getOpponentUser, getProgressText } from '@/helpers';
 import { actions as galleryActions } from '@/components/gallery_container';
 import { actions as formActions } from '@/components/old-form';
 import { actions as notificationActions } from '@/components/notification';
@@ -235,7 +235,9 @@ class Content extends Component {
 
   destroyAttachment = async id => {
     try {
+      this.setState({ isLoading: true });
       await api.destroyTaskAttachment({task_id: this.props.task_id, signed_id: id});
+      this.setState({ isLoading: false });
     } catch (error) {
       console.error(error);
       this.props.showNotification({ text: error.text });
@@ -415,11 +417,12 @@ class Content extends Component {
       <Attach
         uniqueId="edit-task-attach"
         onChange={this.onAttachmentsChange}
-        {...this.props.task ? { defaultValue: defaultAttachments } : {}}
+        {...this.props.task_id ? { defaultValue: defaultAttachments } : {}}
       >
-        {({ images, removeAttachment }) => {
+        {({ files, images, removeAttachment }) => {
           const imagesUrls = map(images, image => image.url);
           const isImagesExist = images.length > 0;
+          const isFilesExist = files.length > 0;
 
           return <Fragment>
             {isImagesExist &&
@@ -467,6 +470,46 @@ class Content extends Component {
                       </Fragment>
                     }
                   </button>;
+                })}
+              </div>
+            }
+
+            {isFilesExist &&
+              <div className={style.files}>
+                {files.map(file => {
+                  const isLoading = file.currentChunk < file.byte_size;
+                  const progress = getProgressText(file);
+
+                  let close;
+
+                  if (this.props.task_id) {
+                    close = event => {
+                      event.stopPropagation();
+                      this.destroyAttachment(file.uid);
+                    };
+                  } else {
+                    close = event => {
+                      event.stopPropagation();
+                      removeAttachment(file.uid)(event);
+                    };
+                  }
+
+                  return <div key={file.file_name} className={style.file}>
+                    {isLoading &&
+                      <Loading className={style.file_loading} isShown />
+                    }
+
+                    {!isLoading &&
+                      <Icon name="file" />
+                    }
+
+                    <p className={style.name}>{file.file_name}</p>
+                    <span className={style.size}>{progress}</span>
+
+                    <button type="button" className={style.delete} onClick={close}>
+                      <Icon name="close" />
+                    </button>
+                  </div>;
                 })}
               </div>
             }

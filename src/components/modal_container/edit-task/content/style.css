@@ -165,6 +165,86 @@
   --bottom: -1px;
 }
 
+.content > .files {
+  margin-top: 12px;
+  padding-left: calc(var(--layout-padding) + 18px + 12px);
+  padding-right: var(--layout-padding);
+}
+
+.content > .files > .file {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.content > .files > .file > i {
+  --icon-size: 16px;
+  --icon-color: var(--caption-color);
+  flex-shrink: 0;
+}
+
+.content > .files > .file > .file_loading {
+  --loading-background-color: transparent;
+  --spinner-size: 16px;
+  --spinner-section-color: transparent;
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.content > .files > .file > .name {
+  --height: 20px;
+  overflow: hidden;
+  height: var(--height);
+  margin-left: 10px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.content > .files > .file > .size {
+  --height: 20px;
+  flex-shrink: 0;
+  height: var(--height);
+  margin-left: 4px;
+  line-height: var(--height);
+  font-size: 15px;
+  color: var(--caption-color);
+}
+
+.content > .files > .file > .delete {
+  --size: 18px;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size);
+  height: var(--size);
+  margin-left: 10px;
+  border-radius: calc(var(--size) / 2);
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.content > .files > .file > .delete {
+}
+
+.content > .files > .file > .delete:not(:hover) {
+  --icon-color: var(--caption-color);
+}
+
+.content > .files > .file > .delete:hover {
+  --icon-color: var(--text-color);
+}
+
+.content > .files > .file > .delete i {
+  --icon-size: 8px;
+  flex-shrink: 0;
+}
+
 .content > .footer {
   display: flex;
   align-items: center;

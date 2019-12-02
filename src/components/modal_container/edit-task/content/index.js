@@ -65,7 +65,7 @@ class Content extends Component {
     }
 
     if (this.props.is_input) {
-      this.props.setTodo(options);
+      this.props.setTodo([...this.props.todos, options]);
     } else {
       await api.createTask(options);
     }
@@ -544,6 +544,7 @@ export default compose(
       description: get(state.forms, 'edit_task.description', {}),
       executor: get(state.forms, 'edit_task.executor', {}),
       uploads_id: get(state.forms, 'edit_task.uploads_id', null),
+      todos: get(state.input, 'todo', []),
     }),
 
     {

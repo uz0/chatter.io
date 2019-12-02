@@ -5,7 +5,7 @@ const initialState = {
   value: '',
   upload_id: null,
   attachments: null,
-  todo: null,
+  todo: [],
 };
 
 export default createReducer(initialState, {
@@ -26,6 +26,6 @@ export default createReducer(initialState, {
     state.value = '';
     state.attachments = null;
     state.upload_id = null;
-    state.todo = null;
+    state.todo = [];
   },
 });

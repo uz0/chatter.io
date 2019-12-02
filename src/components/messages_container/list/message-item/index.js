@@ -32,8 +32,8 @@ class MessageItem extends Component {
   updateMessage = () => {
     this.props.addEditMessage(this.props.message.id);
 
-    if (this.props.message.task) {
-      this.props.setTodo(this.props.message.task);
+    if (this.props.message.tasks && this.props.message.tasks.length > 0) {
+      this.props.setTodo(this.props.message.tasks);
     }
   };
   replyMessage = () => this.props.addReplyMessage(this.props.message.forwarded_message_id || this.props.message.id);
@@ -196,6 +196,7 @@ class MessageItem extends Component {
     const isCurrentUserAdmin = this.props.details.role === 'admin';
     const imagesUrls = map(images, image => image.url);
     const isCheckShown = !isMessageDeleted && this.props.isCheckShown;
+    const isTasksExist = this.props.message.tasks && this.props.message.tasks.length > 0;
 
     let actionsItems = [
       { icon: 'forward', text: this.props.t('forward'), onClick: this.openForwardModal },
@@ -342,13 +343,14 @@ class MessageItem extends Component {
             </Dropdown>
           }
 
-          {this.props.message.task &&
+          {isTasksExist &&
             <div className={style.todo}>
-              <Task
-                id={this.props.message.task.id}
-                onClick={this.editTask(this.props.message.task.id)}
+              {this.props.message.tasks.map(task => <Task
+                key={task.id}
+                id={task.id}
+                onClick={this.editTask(task.id)}
                 className={style.item}
-              />
+              />)}
             </div>
           }
         </div>

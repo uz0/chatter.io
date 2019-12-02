@@ -15,6 +15,28 @@ const actions = actionsCreator([
 
 const tagreg = /\B\#\w\w+\b/gim;
 
+const isTasksEqual = (todo, messageTasks) => {
+  const isTasksHasBeenAlwaysEmpty = (!todo || todo.length === 0) && (!messageTasks || messageTasks.length === 0);
+
+  if (isTasksHasBeenAlwaysEmpty) {
+    return true;
+  }
+
+  if (todo.length !== messageTasks.length) {
+    return false;
+  }
+
+  let isEqual = true;
+
+  todo.forEach(item => {
+    if (!find(messageTasks, {id: item.id})) {
+      isEqual = false;
+    }
+  });
+
+  return isEqual;
+};
+
 const deleteMessages = () => (dispatch, getState) => {
   const state = getState();
 
@@ -86,12 +108,12 @@ const updateMessage = ({ edit_message_id }) => async (dispatch, getState) => {
 
   const { value, upload_id, todo } = state.input;
 
-  const isTodoEqual = (!todo && !updatingMessage.task) || (todo && updatingMessage.task && todo.id === updatingMessage.task.id);
+  const isTodoEqual = isTasksEqual(todo, updatingMessage.tasks);
   const isTextEqual = value === updatingMessage.text;
   // refactore
   const isAttachmentsEqual = false;
 
-  let task_id;
+  let task_ids = [];
 
   if (isTextEqual && isAttachmentsEqual && isTodoEqual) {
     return;
@@ -100,17 +122,25 @@ const updateMessage = ({ edit_message_id }) => async (dispatch, getState) => {
   dispatch(actions.reset());
   dispatch(messagesActions.clearEditMessage());
 
-  if (!isTodoEqual && !todo.id) {
-    const { task } = await api.createTask(todo);
-    task_id = task.id;
-    dispatch(actions.setTodo(null));
+  if (!isTodoEqual && todo.length > 0) {
+    for (let i = 0; i < todo.length; i++) {
+      if (todo[i].id) {
+        task_ids.push(todo[i].id);
+        continue;
+      }
+
+      const { task } = await api.createTask(todo[i]);
+      task_ids.push(task.id);
+    }
+
+    dispatch(actions.setTodo([]));
   }
 
   api.editMessage({
     message_id: edit_message_id,
     text: value,
     upload_id,
-    ...task_id ? { task_id } : {},
+    ...!isTodoEqual ? { task_ids } : {},
   }).catch(error => {
     console.error(error);
 
@@ -167,13 +197,20 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => async (dispatch, get
     message.mentions = mentions;
   }
 
-  if (todo) {
-    const { task } = await api.createTask(todo);
-    message.task = task;
-    message.task_id = task.id;
+  if (todo && todo.length > 0) {
+    for (let i = 0; i < todo.length; i++) {
+      const { task } = await api.createTask(todo[i]);
+      // message.task = task;
+
+      if (!message.task_ids) {
+        message.task_ids = [];
+      }
+
+      message.task_ids.push(task.id);
+    }
   }
 
-  if (!value && !attachments && !upload_id && !todo) {
+  if (!value && !attachments && !upload_id && (!todo || todo.length === 0)) {
     dispatch(notificationActions.showNotification({
       type: 'error',
       text: 'No data to send',
@@ -212,8 +249,8 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => async (dispatch, get
     dispatch(messagesActions.clearReplyMessage());
   }
 
-  if (message.task) {
-    dispatch(actions.setTodo(null));
+  if (message.task_ids) {
+    dispatch(actions.setTodo([]));
   }
 
   const messagesScrollElement = document.querySelector('#messages-scroll');
@@ -226,7 +263,7 @@ const sendMessage = ({ subscription_id, isForceToFeed }) => async (dispatch, get
     uid: message.uid,
     subscription_id: subscription.id,
     text: message.text || ' ',
-    ...message.task_id ? {task_id: message.task_id} : {},
+    ...message.task_ids ? {task_ids: message.task_ids} : {},
     ...message.upload_id ? {upload_id: message.upload_id} : {},
     ...message.mentions ? {mentions: message.mentions} : {},
     ...message.in_reply_to_message_id ? { in_reply_to_message_id: message.in_reply_to_message_id } : {},
